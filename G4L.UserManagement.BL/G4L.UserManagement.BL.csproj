@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\G4L.UserManagement.Shared\G4L.UserManagement.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Domain Services\" />
+    <Folder Include="Custom Exceptions\" />
+    <Folder Include="Specifications\" />
+  </ItemGroup>
+
+</Project>
