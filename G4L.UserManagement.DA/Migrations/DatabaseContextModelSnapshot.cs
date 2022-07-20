@@ -31,11 +31,11 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid?>("RoleId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("access")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -44,7 +44,7 @@ namespace G4L.UserManagement.DA.Migrations
                     b.ToTable("AccessLevels");
                 });
 
-            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Certificate", b =>
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,20 +53,14 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Duration")
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Reference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -75,7 +69,60 @@ namespace G4L.UserManagement.DA.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Certificates");
+                    b.ToTable("Documents");
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Questionnaire", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Question_1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question_10")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question_12")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question_13")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question_2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question_3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question_4")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question_5")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question_6")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question_7")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question_8")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question_9")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Questionnaires");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Role", b =>
@@ -109,16 +156,28 @@ namespace G4L.UserManagement.DA.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Career")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Career")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DateOfBirth")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Ethinicity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IdNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Initials")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
@@ -127,13 +186,33 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhysicalAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("QuestionnairesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("QuestionnairesId");
 
                     b.ToTable("Users");
                 });
@@ -145,10 +224,10 @@ namespace G4L.UserManagement.DA.Migrations
                         .HasForeignKey("RoleId");
                 });
 
-            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Certificate", b =>
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.User", null)
-                        .WithMany("Certifications")
+                        .WithMany("Documents")
                         .HasForeignKey("UserId");
                 });
 
@@ -159,6 +238,15 @@ namespace G4L.UserManagement.DA.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
+                {
+                    b.HasOne("G4L.UserManagement.BL.Entities.Questionnaire", "Questionnaires")
+                        .WithMany()
+                        .HasForeignKey("QuestionnairesId");
+
+                    b.Navigation("Questionnaires");
+                });
+
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Role", b =>
                 {
                     b.Navigation("AccessLevels");
@@ -166,7 +254,7 @@ namespace G4L.UserManagement.DA.Migrations
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
                 {
-                    b.Navigation("Certifications");
+                    b.Navigation("Documents");
 
                     b.Navigation("Roles");
                 });

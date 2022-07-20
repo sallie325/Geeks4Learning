@@ -22,7 +22,7 @@ namespace G4L.UserManagement.Infrustructure.Repositories
         {
             return await Task.Run(() => {
                 return _databaseContext.Set<User>()
-                    .Include("Certifications")
+                    .Include("Documents")
                     .Include("Roles")
                         //.ThenInclude("accessLevels")
                     .AsEnumerable();

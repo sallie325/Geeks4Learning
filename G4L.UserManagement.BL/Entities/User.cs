@@ -32,6 +32,7 @@ namespace G4L.UserManagement.BL.Entities
         public Status? Status { get; set; }
         public ICollection<Role> Roles { get; set; }
         // public ICollection<Certificate> Certifications { get; set; }
+        public Questionnaire Questionnaires { get; set; }
         public ICollection<Document> Documents { get; set; }
     }
 }

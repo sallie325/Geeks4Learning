@@ -11,7 +11,7 @@ namespace G4L.UserManagement.BL.Entities
     {
         
         public string FileName { get; set; }
-        public string FileType { get; set; }
+        public string FilePath { get; set; }
        
         
     }
