@@ -1,0 +1,36 @@
+
+<h1><i class="fa-solid fa-gauge-high"></i> {{heading}}</h1>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>DateOfBirth</th>
+            <th>IdNumber</th>
+            <th>Gender</th>
+            <th>Ethinicity</th>
+            <th>PhysicalAddress</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Career</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of userList$|async">
+                <td>{{item.id}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.surname}}</td>
+                <td>{{item.dateOfBirth}}</td>
+                <td>{{item.idNumber}}</td>
+                <td>{{item.gender}}</td>
+                <td>{{item.ethinicity}}</td>
+                <td>{{item.physicalAddress}}</td>
+                <td>{{item.email}}</td>
+                <td>{{item.phone}}</td>
+                <td>{{getCareer(item.career)}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -14,7 +14,6 @@ namespace G4L.UserManagement.BL.Entities
         public string Question_8 { get; set; }
         public string Question_9 { get; set; }
         public string Question_10 { get; set; }
-        public string Question_12 { get; set; }
-        public string Question_13 { get; set; }
+       
     }
 }

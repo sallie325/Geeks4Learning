@@ -1,0 +1,147 @@
+<!-- <h1><fa-icon [icon]="faUserPlus"></fa-icon>  {{heading}}</h1> -->
+<div class="toolbar" role="banner">
+    <img  width="292px" src="../../assets/download.png" alt="">
+    
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="text-center">
+                    <h1>Register</h1>
+                </div>
+            
+            <form [formGroup]="service.formModel" class="row g-3" autocomplete="off" (submit) = "onSubmit()">
+                <div class="col-md-6">
+                    <label for="inputState" class="form-label">Title</label>
+                    <select id="inputState" class="form-select" formControlName="Title">
+                      <option selected></option>
+                      <option>Mr</option>
+                      <option>Mrs</option>
+                      <option>Miss</option>
+                      <option>Ms</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="inputIntials" class="form-label">Initials</label>
+                    <input type="text" class="form-control" id="inputIntials" formControlName="Initials">
+                </div>
+                <div class="col-md-6" >
+                    <label for="inputName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="inputName" formControlName = "Name">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputSurname" class="form-label">Surname</label>
+                    <input type="text" class="form-control" id="inputSurname" formControlName = "Surname">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputDate" class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control" id="inputDate" formControlName = "DateOfBirth">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputId" class="form-label">ID Number</label>
+                    <input type="number" class="form-control" id="inputId" formControlName = "IdNumber">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputGender" class="form-label">Gender</label>
+                    <select id="inputGender" class="form-select" formControlName = "Gender">
+                      <option selected></option>
+                      <option>Male</option>
+                      <option>Female</option>
+                      <option>Other</option>
+                      <option>Prefer not to say</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="inputRace" class="form-label">Ethnicity</label>
+                    <select id="inputRace" class="form-select" formControlName = "Ethinicity">
+                      <option selected></option>
+                      <option>African</option>
+                      <option>White</option>
+                      <option>Coloured</option>
+                      <option>Indian</option>
+                      <option>Other</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="inputEmail4" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="inputEmail4" formControlName = "Email">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputEmail5" class="form-label">Confirm Email Address</label>
+                    <input type="email" class="form-control" id="inputEmail5">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputCell" class="form-label">Cell Number</label>
+                    <input type="text" class="form-control" id="inputCell" formControlName = "Phone">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputPhysical" class="form-label">Physical Address</label>
+                    <input type="text" class="form-control" id="inputPhysical" formControlName = "PhysicalAddress">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputPostal" class="form-label">Postal Address</label>
+                    <input type="text" class="form-control" id="inputPostal" formControlName = "PostalAddress">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputStream" class="form-label">Stream/Career</label>
+                    <select id="inputStream" class="form-select" formControlName = "Career">
+                      <option selected></option>
+                      <option>Business Analyst</option>
+                      <option>Software Testing</option>
+                      <option>Systems Support</option>
+                      <option>C# Full Stack Developer</option>
+                      <option>Java Full Stack Developer</option>
+                    </select>
+                </div>
+                <fieldset class="col-md-6">
+                    <legend class="col-form-label col-sm-4 pt-0">Disabilities</legend>
+                    <div class="col-sm-8">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                        <label class="form-check-label" for="gridRadios1">
+                          Yes
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                        <label class="form-check-label" for="gridRadios2">
+                          No
+                        </label>
+                      </div>
+                     </div> 
+                </fieldset>
+                <div class="col-md-6">
+                  <label for="inputSpecify" class="form-label">If yes, please specify</label>
+                  <input type="text" class="form-control" id="inputSpecify">
+              </div>
+              <div formGroupName = "Passwords">
+              <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Password</label>
+                <input type="password" class="form-control" id="inputPassword4" formControlName = "Password">
+              </div>
+             
+                <div class="col-md-6">
+                  <label for="inputPassword5" class="form-label">Confirm Password</label>
+                  <input type="password" class="form-control" id="inputPassword5" formControlName = "ConfirmPassword">
+                </div>
+              </div>
+                <div class="mb-3">
+                  <label for="formFileMultiple" class="form-label">Upload Documents</label>
+                  <input class="form-control" type="file" id="formFileMultiple" multiple aria-describedby="emailHelp">
+                  <div id="emailHelp" class="form-text"><i>*ID document, CV, Qualifications, Transcript, Matric Cerfificate.</i></div>
+                </div>
+              
+
+                <button  class="btn btn-primary" type="submit">Next <fa-icon [icon]="faAngle"></fa-icon></button>
+            </form>
+
+                <div class="checking">
+                    <p>Already have an account? <a  routerLink ="/login">Sign in</a></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

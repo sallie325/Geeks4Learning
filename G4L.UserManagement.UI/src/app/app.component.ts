@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'g4l-frontend';
+  title = 'Angular12JwtAuth';
+  
 }

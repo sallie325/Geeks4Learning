@@ -39,17 +39,26 @@ namespace G4L.UserManagement.API
             });
 
             //Enable Cors
+            /* services.AddCors(options =>
+             {
+                 options.AddPolicy(name: myAllowSpecifyOrigin,
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:44326")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+                    });
+             });*/
             services.AddCors(options =>
             {
-                options.AddPolicy(name: myAllowSpecifyOrigin,
-                   builder =>
-                   {
-                       builder.WithOrigins("https://localhost:44326")
-                      .AllowAnyMethod()
-                      .AllowAnyHeader();
-                   });
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:44326", "http://localhost:4200")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                    });
             });
-
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -69,9 +78,9 @@ namespace G4L.UserManagement.API
 
             app.UseHttpsRedirection();
 
-            app.UseCors(myAllowSpecifyOrigin);
-
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
