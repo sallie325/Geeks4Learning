@@ -1,0 +1,101 @@
+﻿@model IEnumerable<G4L.UserManagement.BL.Entities.Questionnaire>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Question_1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question_2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question_3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question_4)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question_5)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question_6)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question_7)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question_8)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question_9)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question_10)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question_1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question_2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question_3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question_4)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question_5)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question_6)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question_7)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question_8)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question_9)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question_10)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

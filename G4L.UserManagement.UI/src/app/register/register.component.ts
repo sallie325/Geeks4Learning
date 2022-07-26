@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { ApiService } from '../shared/api.service';
@@ -19,9 +20,13 @@ export class RegisterComponent implements OnInit {
   }
   onSubmit()
   {
-    this.service.register().subscribe( data => { 
-      console.log(data);
-    });
+    var data = this.service.register();
+    console.log(data);
+    this.service.addUser(data).subscribe({
+      next: (_) => console.log("Successful registration"),
+      error: (err) => console.log(err.error.errors)
+    }); 
+ 
     
   }
 

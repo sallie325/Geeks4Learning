@@ -54,7 +54,7 @@ namespace G4L.UserManagement.API
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("https://localhost:44326", "http://localhost:4200")
+                        builder.WithOrigins("http://localhost:4200")
                                             .AllowAnyHeader()
                                             .AllowAnyMethod();
                     });

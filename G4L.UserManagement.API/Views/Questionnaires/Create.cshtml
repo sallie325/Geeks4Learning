@@ -1,0 +1,88 @@
+﻿@model G4L.UserManagement.BL.Entities.Questionnaire
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Questionnaire</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Question_1" class="control-label"></label>
+                <input asp-for="Question_1" class="form-control" />
+                <span asp-validation-for="Question_1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question_2" class="control-label"></label>
+                <input asp-for="Question_2" class="form-control" />
+                <span asp-validation-for="Question_2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question_3" class="control-label"></label>
+                <input asp-for="Question_3" class="form-control" />
+                <span asp-validation-for="Question_3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question_4" class="control-label"></label>
+                <input asp-for="Question_4" class="form-control" />
+                <span asp-validation-for="Question_4" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question_5" class="control-label"></label>
+                <input asp-for="Question_5" class="form-control" />
+                <span asp-validation-for="Question_5" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question_6" class="control-label"></label>
+                <input asp-for="Question_6" class="form-control" />
+                <span asp-validation-for="Question_6" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question_7" class="control-label"></label>
+                <input asp-for="Question_7" class="form-control" />
+                <span asp-validation-for="Question_7" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question_8" class="control-label"></label>
+                <input asp-for="Question_8" class="form-control" />
+                <span asp-validation-for="Question_8" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question_9" class="control-label"></label>
+                <input asp-for="Question_9" class="form-control" />
+                <span asp-validation-for="Question_9" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question_10" class="control-label"></label>
+                <input asp-for="Question_10" class="form-control" />
+                <span asp-validation-for="Question_10" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModifiedDate" class="control-label"></label>
+                <input asp-for="ModifiedDate" class="form-control" />
+                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
