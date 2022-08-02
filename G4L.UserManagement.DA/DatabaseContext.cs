@@ -18,9 +18,9 @@ namespace G4L.UserManagement.DA
         // SQL Tables/Entity
         public DbSet<User> Users { get; set; }
         public DbSet<Document> Documents { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<Questionnaire> Questionnaires { get; set; }
-        public DbSet<AccessLevel> AccessLevels { get; set; }
+        public DbSet<Leave> Leaves { get; set; }
+      //  public DbSet<Questionnaire> Questionnaires { get; set; }
+       // public DbSet<AccessLevel> AccessLevels { get; set; }
     }
 
 
