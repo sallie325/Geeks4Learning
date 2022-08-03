@@ -18,8 +18,8 @@ namespace G4L.UserManagement.BL.Entities
     {
         public string Name { get; set; }
         public string Surname { get; set; }
-        public int IdNumber { get; set; }
-        public int Phone { get; set; }
+        public Int64 IdNumber { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
         public string Client { get; set; }
         public Career? Career { get; set; }
@@ -29,8 +29,6 @@ namespace G4L.UserManagement.BL.Entities
         public string Password { get; set; }
         
         public ICollection<Leave> Leaves { get; set; }
-        // public ICollection<Certificate> Certifications { get; set; }
-        //public Questionnaire Questionnaires { get; set; }
-        //public ICollection<Document> Documents { get; set; }
+
     }
 }

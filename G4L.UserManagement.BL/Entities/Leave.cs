@@ -13,8 +13,7 @@ namespace G4L.UserManagement.BL.Entities
         public int DaysUsed { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int DaysUsed { get; set; }
-
+        // public int DaysUsed { get; set; }
         public ICollection<Document> Document { get; set; }
     }
 }

@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace G4L.UserManagement.Infrustructure.Repositories
@@ -56,5 +55,10 @@ namespace G4L.UserManagement.Infrustructure.Repositories
                     .AsNoTracking().AsEnumerable();
             });
         }
+
+      /*  async Task<TEntity> IRepository<TEntity>.GetByEmailAsync(string email)
+        {
+            return await _databaseContext.Set<TEntity>().Find(email);
+        }*/
     }
 }

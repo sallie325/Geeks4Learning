@@ -27,6 +27,16 @@ namespace G4L.UserManagement.Infrustructure.Services
             return await _userRepository.ListAsync();
         }
 
+        async Task IUserService.DeleteUserAsync(Guid id)
+        {
+            await _userRepository.DeleteAsync(id);
+        }
+
+        /*Task<User> IUserService.GetUserByEmailAsync(User user)
+        {
+            throw new NotImplementedException();
+        }*/
+
         async Task<User> IUserService.GetUserByIdAsync(Guid id)
         {
             return await _userRepository.GetByIdAsync(id);

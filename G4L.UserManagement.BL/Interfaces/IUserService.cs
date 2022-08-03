@@ -12,9 +12,9 @@ namespace G4L.UserManagement.BL.Interfaces
         Task CreateNewUserAsync(User user);
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserByIdAsync(Guid id);
-        Task UpdateUserAsync(User entity);
+        Task UpdateUserAsync(User user);
         Task DeleteUserAsync(Guid id);
-        Task<User> GetUserByEmailAsync(string email, string passWord);
+        //Task<User> GetUserByEmailAsync(User user);
 
     }
 }
