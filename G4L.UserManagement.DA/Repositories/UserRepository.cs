@@ -18,12 +18,13 @@ namespace G4L.UserManagement.Infrustructure.Repositories
             _databaseContext = databaseContext;
         }
 
-        override public async Task<IEnumerable<User>> ListAsync()
+        public async Task<IEnumerable<User>> ListAsync()
         {
-            return await Task.Run(() => {
+            return await Task.Run(() =>
+            {
                 return _databaseContext.Set<User>()
-                    //.Include("Leaves")
-                   // .ThenInclude("Documents")
+                    .Include("Leaves")
+                    // .ThenInclude("Documents")
                     .AsEnumerable();
             });
         }
