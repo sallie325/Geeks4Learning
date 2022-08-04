@@ -39,7 +39,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    this.apiService.post('users', this.formModel.value).subscribe((response: any) => {
+    this.apiService.post('User', this.formModel.value).subscribe((response: any) => {
       console.log(response);
     });
 

@@ -12,9 +12,13 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
-  get(path: string): Observable<any> {
-    return this.httpClient.get(`${this.baseUri}/${path}`)
+  get(path: string, body: any): Observable<any> {
+    return this.httpClient.get(`${this.baseUri}/${path}`, body)
   }
+  getAllUsers(): Observable<any[]>{
+    return this.httpClient.get<any>(`${this.baseUri}/User`);
+  }
+
 
   post(path: string, body: any): Observable<any> {
     return this.httpClient.post(`${this.baseUri}/${path}`, body);

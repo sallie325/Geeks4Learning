@@ -27,17 +27,22 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync(User user)
+        public async Task<IActionResult> PostAsync([FromBody]User user)
         {
            
             try
             {
+                var dbUser = _userService.GetUserByIdAsync(user.Id);
+                if(dbUser !=null)
+                {
+                    return BadRequest("User already exists");
+                }
                 await _userService.CreateNewUserAsync(user);
                 return Ok("succussfuly Added");
             }  
-            catch(Exception)
+            catch(Exception ex)
             {
-                return BadRequest("New user not added succussfuly");
+                return BadRequest(ex.Message + "New user not added succussfuly");
             }
             
         }
@@ -50,6 +55,17 @@ namespace G4L.UserManagement.API.Controllers
                 return BadRequest("User Not Found");
             return Ok(user);
         }
+
+
+        [HttpGet("{email}{password}")]
+        public async Task<IActionResult> Get(string email, string password)
+        {
+            var user = await _userService.GetUserAsync(email,password);
+            if (user == null)
+                return BadRequest("User Not Found");
+            return Ok(user);
+        }
+
 
 
 

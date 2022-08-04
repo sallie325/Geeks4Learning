@@ -14,7 +14,7 @@ namespace G4L.UserManagement.BL.Interfaces
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(Guid id);
         Task<TEntity> GetByIdAsync(Guid id);
-        //Task<TEntity> GetByEmailAsync(string email);
+        Task<TEntity> GetByUserAsync(string email, string password);
         Task<IEnumerable<TEntity>> ListAsync();
         Task<IEnumerable<TEntity>> ListAsync(Expression<Func<TEntity, bool>> expression);
     }

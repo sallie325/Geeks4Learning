@@ -13,70 +13,16 @@
     [formGroup]="formModel"
     class="row g-3"
     autocomplete="off"
+    (submit) = "register(formModel)"
   >
-    <!-- <div class="col-md-3">
-      <label
-        for="inputState"
-        class="form-label"
-        [ngClass]="{
-          'validation-error-text': formModel.controls['Title'].invalid && formModel.controls['Title'].touched
-        }"
-        >Title</label
-      >
-      <select
-        id="inputState"
-        class="form-select"
-        formControlName="Title"
-        [ngClass]="{ 'red-border': formModel.controls['Title'].invalid && formModel.controls['Title'].touched }"
-      >
-        <option selected>Select a suitable title</option>
-        <option>Mr</option>
-        <option>Mrs</option>
-        <option>Miss</option>
-        <option>Ms</option>
-      </select>
-      <div
-        class="validation-error-text"
-        *ngIf="formModel.controls['Title'].invalid && formModel.controls['Title'].touched"
-      >
-        <div *ngIf="formModel.controls['Title'].errors.required">
-          Please select a suitable title
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <label
-        for="inputIntials"
-        class="form-label"
-        [ngClass]="{
-          'validation-error-text': formModel.controls['Initials'].invalid  && formModel.controls['Initials'].touched
-        }"
-        >Initials</label
-      > -->
-    <!-- <div>
-      <input
-        type="text"
-        class="form-control"
-        id="inputIntials"
-        formControlName="Initials"
-        [ngClass]="{ 'red-border': formModel.controls['Initials'].invalid && formModel.controls['Initials'].touched  }"
-      />
-      <div
-        class="validation-error-text"
-        *ngIf="formModel.controls['Initials'].invalid && formModel.controls['Initials'].touched"
-      >
-        <div *ngIf="formModel.controls['Initials'].errors.required">
-          Please enter your initials
-        </div>
-      </div>
-    </div> -->
+  <h2>Enroll Users</h2>
     <div class="col-md-6">
       <label
         for="inputName"
         class="form-label"
         [ngClass]="{
           'validation-error-text': formModel.controls['Name'].invalid &&
-          formModel.controls['Surname'].touched
+          formModel.controls['Name'].touched
         }"
         >Name <span class="validation-error-text">*</span></label
       >
@@ -90,7 +36,7 @@
       />
       <div
         class="validation-error-text"
-        *ngIf="formModel.controls['Name'].invalid"
+        *ngIf="formModel.controls['Name'].invalid && formModel.controls['Name'].touched "
       >
         <div *ngIf="formModel.controls['Name'].errors.required ">
           Please enter a name.
@@ -219,6 +165,38 @@
 
     <div class="col-md-6">
       <label
+        for="inputRole"
+        class="form-label"
+        [ngClass]="{
+          'validation-error-text': formModel.controls['Roles'].invalid &&
+          formModel.controls['Roles'].touched
+        }"
+        >Role<span class="validation-error-text">*</span></label
+      >
+      <select
+        id="inputRole"
+        class="form-select"
+        formControlName="Roles"
+        [ngClass]="{ 'red-border': formModel.controls['Roles'].invalid &&
+        formModel.controls['Roles'].touched }"
+      >
+        <option selected></option>
+        <option data-attritube="1">Admin</option>
+        <option data-attritube="2">Trainer</option>
+        <option data-attritube="3">Learner</option>
+      </select>
+      <div
+        class="validation-error-text"
+        *ngIf="formModel.controls['Roles'].invalid && formModel.controls['Roles'].touched"
+      >
+        <div *ngIf="formModel.controls['Roles'].errors.required">
+          Please select a Role
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label
         for="inputStream"
         class="form-label"
         [ngClass]="{
@@ -232,14 +210,14 @@
         class="form-select"
         formControlName="Career"
         [ngClass]="{ 'red-border': formModel.controls['Career'].invalid &&
-        formModel.controls['career'].touched }"
+        formModel.controls['Career'].touched }"
       >
         <option selected></option>
-        <option>Business Analyst</option>
-        <option>Software Testing</option>
-        <option>Systems Support</option>
-        <option>C# Full Stack Developer</option>
-        <option>Java Full Stack Developer</option>
+        <option data-attritube="0">Business Analyst</option>
+        <option data-attritube="1">Software Testing</option>
+        <option data-attritube="2">Systems Support</option>
+        <option data-attritube="3">C# Full Stack Developer</option>
+        <option data-attritube="4">Java Full Stack Developer</option>
       </select>
       <div
         class="validation-error-text"
@@ -252,6 +230,36 @@
         </div>
       </div>
     </div>
+
+    <div class="col-md-6">
+      <label
+        for="inputDate"
+        class="form-label"
+        [ngClass]="{
+          'validation-error-text': formModel.controls['LearnershipStartDate'].invalid &&
+          formModel.controls['LearnershipStartDate'].touched
+        }"
+        >Learnership Start Date <span class="validation-error-text">*</span></label
+      >
+      <input
+        type="date"
+        class="form-control"
+        id="inputDate"
+        formControlName="LearnershipStartDate"
+        [ngClass]="{ 'red-border': formModel.controls['LearnershipStartDate'].invalid &&
+        formModel.controls['LearnershipStartDate'].touched}"
+      />
+      <div
+        class="validation-error-text"
+        *ngIf="formModel.controls['LearnershipStartDate'].invalid &&
+        formModel.controls['LearnershipStartDate'].touched"
+      >
+        <div *ngIf="formModel.controls['LearnershipStartDate'].errors.required">
+          Please enter the Learnership Start Date.
+        </div>
+      </div>
+    </div>
+
     <div class="col-md-6">
       <label
         for="inputPassword4"
@@ -281,7 +289,7 @@
       </div>
     </div>
 
-    <button class="btn btn-primary" (click)="register(formModel)">
+    <button class="btn btn-primary" type="submit">
       Enroll User <fa-icon [icon]="faAngle"></fa-icon>
     </button>
   </form>

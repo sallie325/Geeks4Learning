@@ -1,48 +1,80 @@
 <div class="toolbar" role="banner">
     <img  width="292px" src="../../assets/download.png" alt="">
-    
 </div>
-
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
-
-
 <div class="container">
-            <form class="form-horizontal" role="form">
+            <form class="form-horizontal" role="form" [formGroup]="formModel" (submit) = "login(formModel)">
                 <h2>Log In</h2>
                 <div class="form-group">
-                    <label for="firstName" class="col-sm-3 control-label">Email</label>
-                    <div class="col-sm-9">
-                        <input type="text" id="firstName"  class="form-control" autofocus>
+                    <label
+                      for="inputEmail4"
+                      class="form-label"
+                      [ngClass]="{
+                        'validation-error-text': formModel.controls['Email'].invalid &&
+                        formModel.controls['Email'].touched
+                      }"
+                      >Email Address <span class="validation-error-text">*</span></label
+                    >
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="inputEmail4"
+                      formControlName="Email"
+                      [ngClass]="{ 'red-border': formModel.controls['Email'].invalid &&
+                      formModel.controls['Email'].touched }"
+                    />
+                    <div
+                      class="validation-error-text"
+                      *ngIf="formModel.controls['Email'].invalid &&
+                      formModel.controls['Email'].touched"
+                    >
+                      <div *ngIf="formModel.controls['Email'].errors.required">
+                        Please enter your email.
+                      </div>
                     </div>
                 </div>
-            
-                
+
+
                 <div class="form-group">
-                    <label for="password" class="col-sm-3 control-label">Password</label>
-                    <div class="col-sm-9">
-                        <input type="password" id="password"  class="form-control">
+                    <label
+                      for="inputPassword4"
+                      class="form-label"
+                      [ngClass]="{
+                        'validation-error-text': formModel.controls['Password'].invalid &&
+                        formModel.controls['Password'].touched
+                      }"
+                      >Password <span class="validation-error-text">*</span></label
+                    >
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="inputPassword4"
+                      formControlName="Password"
+                      [ngClass]="{ 'red-border': formModel.controls['Password'].invalid &&
+                      formModel.controls['Password'].touched}"
+                    />
+                    <div
+                      class="validation-error-text"
+                      *ngIf="formModel.controls['Password'].invalid &&
+                      formModel.controls['Password'].touched"
+                    >
+                      <div *ngIf="formModel.controls['Password'].errors.required">
+                        Please enter your password.
+                      </div>
+                  </div>
 
                         <div class="checking">
                             <a href="##">Forgot your password?</a>
-                            <p>Don't have an account? <a  routerLink ="/register">Sign up</a></p>
                         </div>
 
                     </div>
-                </div>
+
                 <button type="submit" class="btn btn-primary btn-block">Log in</button>
-            </form> 
-            
+            </form>
+
             <footer>
-                <p class = "text-center">geeks4learning © 2022 Powered by geeks4learning Technologies 
-                <br><i>Terms and conditions | Privacy policy</i> </p> 
-                
+                <p class = "text-center">geeks4learning © 2022 Powered by geeks4learning Technologies
+                <br><i>Terms and conditions | Privacy policy</i> </p>
+
             </footer>
-            
+</div>
 

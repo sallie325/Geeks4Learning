@@ -56,9 +56,24 @@ namespace G4L.UserManagement.Infrustructure.Repositories
             });
         }
 
-      /*  async Task<TEntity> IRepository<TEntity>.GetByEmailAsync(string email)
+        public  Task<TEntity> GetByUserAsync(string email, string password)
         {
-            return await _databaseContext.Set<TEntity>().Find(email);
-        }*/
+            return _databaseContext.Users.Where(u => u.Email == email && u.Password == password).Select( u => new
+            {
+                u.Name,
+                u.Surname,
+                u.Email,
+                u.Password,
+                u.Roles,
+                u.Career,
+           
+
+            }).FirstOrDefault() as Task<TEntity>;
+        }
+
+        /*  async Task<TEntity> IRepository<TEntity>.GetByEmailAsync(string email)
+          {
+              return await _databaseContext.Set<TEntity>().Find(email);
+          }*/
     }
 }
