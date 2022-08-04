@@ -1,3 +1,37 @@
-h1{
-    color: rgb(255, 238, 0);
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+*{
+    box-sizing: border-box; 
+    background: #F5F5F5;
+    border: 4px solid #FFFBFB;
+    border-radius: 23px;
 }
+
+body{
+    background: #f5f6fa;
+}
+
+.wrapper .sidebar{
+    background: #5D89C3;
+    position: fixed;
+    top: 104;
+    left: 0;
+    width: 309px;
+    height: 1300px;
+    padding: 20px 0;
+    transition: all 0.5s ease;
+}
+
+#main { 
+    position: fixed; 
+    top: 40%; 
+    right: 200px; 
+ 
+}
+
+
+
+
+
+ 
+

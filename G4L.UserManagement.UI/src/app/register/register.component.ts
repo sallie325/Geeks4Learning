@@ -1,33 +1,50 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { ApiService } from './../shared/api.service';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { ApiService } from '../shared/api.service';
-
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
+  heading = 'register works!';
+  faAngle = faAngleRight;
+  formModel: any;
 
-  heading = "register works!"; 
-  faAngle= faAngleRight;
-  
-  constructor(public service: ApiService) { }
+  constructor(private fb: FormBuilder, private apiService: ApiService) {}
 
   ngOnInit(): void {
+    this.formModel = this.fb.group({
+      Name: ['', Validators.required],
+      Surname: ['', Validators.required],
+      IdNumber: ['', Validators.required],
+      Phone: ['', Validators.required],
+      Email: ['', Validators.required],
+      Client: ['', Validators.required],
+      Career: ['', Validators.required],
+      Roles: ['', Validators.required],
+      LearnershipStartDate: ['', Validators.required],
+      Password: ['', Validators.required],
+    });
   }
-  onSubmit()
-  {
-    var data = this.service.register();
-    console.log(data);
-    this.service.addUser(data).subscribe({
-      next: (_) => console.log("Successful registration"),
-      error: (err) => console.log(err.error.errors)
-    }); 
- 
-    
+
+  register(form: any) {
+    console.log(form.get('Name'));
+
+    this.formModel.markAllTouched();
+
+    if (this.formModel.invalid) {
+      return;
+    }
+
+    this.apiService.post('users', this.formModel.value).subscribe((response: any) => {
+      console.log(response);
+    });
+
+
   }
+
 
 }

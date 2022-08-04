@@ -2,75 +2,93 @@
     <img  width="292px" src="../../assets/download.png" alt="">
     
 </div>
+
+
+<div class="toolbar" role="banner">
+    <img  width="524px" height="1900" src="../../assets/1.png" alt="">
+    
+</div>  
+
+<div class=" text-right text-muted mt-5 mb-0">
+    <p><i>Already have an account?</i> <a href="#">Sign in</a>.</p>
+  </div>
+
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+
 <div class="container">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="text-center">
-                    <h1>Questionnaire</h1>
-                </div>
-            
-            <form action="" class="row g-3">
-                <div class="form-group">
-                    <label for="question1">1. Why are you interested in completing a learnership with Geeks4Learning?</label>
-                    <input type="text" class="form-control" id="question1" formControlName = "Question1" >
-                </div>
-                <div class="form-group">
-                    <label for="question2">2. Why you want to pursue a career in IT?</label>
-                    <input type="text" class="form-control" id="question2" formControlName = "Question2">
-                </div>
-                <div class="form-group">
-                    <label for="question3">3. Do you have any academic qualifications in IT?</label>
-                    <input type="text" class="form-control" id="question3"  formControlName = "Question2">
-                </div>
-                <div class="form-group">
-                    <label for="question4">4. Have you undergone any training or internship in IT or completed any projects,
-                        please specify?</label>
-                    <input type="text" class="form-control" id="question4" >
-                </div>
-                <div class="form-group">
-                    <label for="question5">5. Do you have any work experience in IT?</label>
-                    <input type="text" class="form-control" id="question5" >
-                </div>
-                <div class="form-group">
-                    <label for="question6">6. How would you describe yourself as a person?</label>
-                    <input type="text" class="form-control" id="question6" >
-                </div>
-                <div class="form-group">
-                    <label for="question7">9. Do you have a mentor or guide to provide you with directions?</label>
-                    <input type="text" class="form-control" id="question7" >
-                </div>
-                <div class="form-group">
-                    <label for="question8">8. Do you know what area to pursue in IT, please specify?</label>
-                    <input type="text" class="form-control" id="question8" >
-                </div>
-                <div class="form-group">
-                    <label for="question9">9. Please describe your interests and hobbies.</label>
-                    <input type="text" class="form-control" id="question9" >
-                </div>
-                <div class="form-group">
-                    <label for="question10">10.Would you be willing to relocate? (e.g Johannesburg or Cape Town)</label>
-                    <input type="text" class="form-control" id="question10" >
-                </div>
-                <div class="submitBtn">
-                
-                        <button class="btn btn-primary" routerLink ="/register"><fa-icon [icon]="faAngleB"></fa-icon> Back</button>
+            <form class="form-horizontal" role="form">
+                <h2>questionnaire</h2>
+                <form action="" class="row g-3">
+                    <div class="form-group">
+                        <label for="question1">1. Why are you interested in completing a learnership with Geeks4Learning?</label>
+                        <input type="text" class="form-control" id="question1" >
+                    </div>
+                    <div class="form-group">
+                        <label for="question2">2. Why you want to pursue a career in IT?</label>
+                        <input type="text" class="form-control" id="question2" >
+                    </div>
+                    <div class="form-group">
+                        <label for="question3">3. Do you have any academic qualifications in IT?</label>
+                        <input type="text" class="form-control" id="question3" >
+                    </div>
+                    <div class="form-group">
+                        <label for="question4">4. Have you undergone any training or internship in IT or completed any projects,
+                            please specify?</label>
+                        <input type="text" class="form-control" id="question4" >
+                    </div>
+                    <div class="form-group">
+                        <label for="question5">5. Do you have any work experience in IT?</label>
+                        <input type="text" class="form-control" id="question5" >
+                    </div>
+                    <div class="form-group">
+                        <label for="question6">6. How would you describe yourself as a person?</label>
+                        <input type="text" class="form-control" id="question6" >
+                    </div>
+                    <div class="form-group">
+                        <label for="question7">9. Do you have a mentor or guide to provide you with directions?</label>
+                        <input type="text" class="form-control" id="question7" >
+                    </div>
+                    <div class="form-group">
+                        <label for="question8">8. Do you know what area to pursue in IT, please specify?</label>
+                        <input type="text" class="form-control" id="question8" >
+                    </div>
+                    <div class="form-group">
+                        <label for="question9">9. Please describe your interests and hobbies.</label>
+                        <input type="text" class="form-control" id="question9" >
+                    </div>
+                    <div class="form-group">
+                        <label for="question10">10.Would you be willing to relocate? (e.g Johannesburg or Cape Town)</label>
+                        <input type="text" class="form-control" id="question10" >
+                    </div>
+                    <div class="submitBtn">
                     
-                
-                        <button class="btn btn-primary" type="submit">Submit</button> 
-                
-                </div>
-                
-                
-                
-            </form>
+                            <button class="btn btn-primary" routerLink ="/register"><fa-icon [icon]="faAngleB"></fa-icon> Back</button>
+                        
+                    
+                            <button class="btn btn-primary" type="submit">Submit</button> 
+                    </div>
+                </form>
+    
+                    <div class="checking">
+                        <p>Already have an account? <a  routerLink ="/login">Sign in</a></p>
+                    </div>
+            
+    
+         
+    
+    
+            
 
-                <div class="checking">
-                    <p>Already have an account? <a  routerLink ="/login">Sign in</a></p>
-                </div>
-            </div>
 
-        </div>
-    </div>
-</div>
+           
+           
 
+            
+        
