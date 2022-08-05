@@ -20,11 +20,11 @@ export class RegisterComponent implements OnInit {
       Name: ['', Validators.required],
       Surname: ['', Validators.required],
       IdNumber: ['', Validators.required],
-      Phone: ['', Validators.required],
+      Phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(12)]],
       Email: ['', Validators.required],
       Client: ['', Validators.required],
-      Career: ['', Validators.required],
-      Roles: ['', Validators.required],
+      Career: [0, Validators.required],
+      Roles: [0, Validators.required],
       LearnershipStartDate: ['', Validators.required],
       Password: ['', Validators.required],
     });
@@ -33,7 +33,11 @@ export class RegisterComponent implements OnInit {
   register(form: any) {
     console.log(form.get('Name'));
 
-    this.formModel.markAllTouched();
+    this.formModel.markAllAsTouched();
+
+    // ack needs to be removed at some point. FIND BETTER WAY, US PIPE IF NEEDS BE!!!!
+    this.formModel.get('Career').patchValue(Number(this.formModel.get('Career').value));
+    this.formModel.get('Roles').patchValue(Number(this.formModel.get('Roles').value));
 
     if (this.formModel.invalid) {
       return;
@@ -46,5 +50,8 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  toNumber(number: any) {
+    return Number(number);
+  }
 
 }

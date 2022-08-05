@@ -157,8 +157,11 @@
         *ngIf="formModel.controls['Phone'].invalid &&
         formModel.controls['Phone'].touched"
       >
-        <div *ngIf="formModel.controls['Phone'].errors.required">
-          Please select your phone.
+        <div *ngIf="formModel.controls['Phone'].errors['required']">
+          Please enter your phone.
+        </div>
+        <div *ngIf="formModel.controls['Phone'].errors['minLength'] || formModel.controls['Phone'].errors['maxLength']">
+          Please enter a number with 10 or 11 digits.
         </div>
       </div>
     </div>
@@ -181,9 +184,9 @@
         formModel.controls['Roles'].touched }"
       >
         <option selected></option>
-        <option data-attritube="1">Admin</option>
-        <option data-attritube="2">Trainer</option>
-        <option data-attritube="3">Learner</option>
+        <option [value]="1">Admin</option>
+        <option [value]="2">Trainer</option>
+        <option [value]="3">Learner</option>
       </select>
       <div
         class="validation-error-text"
@@ -213,11 +216,11 @@
         formModel.controls['Career'].touched }"
       >
         <option selected></option>
-        <option data-attritube="0">Business Analyst</option>
-        <option data-attritube="1">Software Testing</option>
-        <option data-attritube="2">Systems Support</option>
-        <option data-attritube="3">C# Full Stack Developer</option>
-        <option data-attritube="4">Java Full Stack Developer</option>
+        <option [value]="0">Business Analyst</option>
+        <option [value]="1">Software Testing</option>
+        <option [value]="2">Systems Support</option>
+        <option [value]="3">C# Full Stack Developer</option>
+        <option [value]="4">Java Full Stack Developer</option>
       </select>
       <div
         class="validation-error-text"
@@ -227,6 +230,36 @@
       >
         <div *ngIf="formModel.controls['Career'].errors.required">
           Please select your prefered career.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label
+        for="client"
+        class="form-label"
+        [ngClass]="{
+          'validation-error-text': formModel.controls['Client'].invalid &&
+          formModel.controls['Client'].touched
+        }"
+        >Client <span class="validation-error-text">*</span></label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="client"
+        formControlName="Client"
+        [ngClass]="{ 'red-border': formModel.controls['Client'].invalid &&
+        formModel.controls['Client'].touched}"
+      />
+      <div
+        class="validation-error-text"
+        *ngIf="formModel.controls['Client'].invalid
+        &&
+            formModel.controls['Client'].touched"
+      >
+        <div *ngIf="formModel.controls['Client'].errors.required">
+          Please enter the client responsible for the trainee.
         </div>
       </div>
     </div>
