@@ -56,9 +56,9 @@ namespace G4L.UserManagement.Infrustructure.Repositories
             });
         }
 
-        public  Task<TEntity> GetByUserAsync(string email, string password)
+        public  async Task<TEntity> GetByUserAsync(string email, string password)
         {
-            return _databaseContext.Users.Where(u => u.Email == email && u.Password == password).Select( u => new
+            return await (_databaseContext.Users.Where(u => u.Email == email && u.Password == password).Select(u => new
             {
                 u.Name,
                 u.Surname,
@@ -66,9 +66,13 @@ namespace G4L.UserManagement.Infrustructure.Repositories
                 u.Password,
                 u.Roles,
                 u.Career,
-           
 
-            }).FirstOrDefault() as Task<TEntity>;
+
+            }).FirstOrDefault() as Task<TEntity>);
+
+            //return await _databaseContext.Set<TEntity>().Where(u => u.GetType().Equals(email, StringComparison.OrdinalIgnoreCase);
+
+
         }
 
         /*  async Task<TEntity> IRepository<TEntity>.GetByEmailAsync(string email)

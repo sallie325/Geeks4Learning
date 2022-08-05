@@ -24,7 +24,6 @@ namespace G4L.UserManagement.BL.Entities
         public string Client { get; set; }
         public Career? Career { get; set; }
         public Roles? Roles { get; set; }
-
         public DateTime LearnershipStartDate { get; set; }
         public string Password { get; set; }
         

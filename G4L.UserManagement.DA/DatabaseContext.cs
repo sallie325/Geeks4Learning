@@ -21,7 +21,7 @@ namespace G4L.UserManagement.DA
         public DbSet<Document> Documents { get; set; }
         public DbSet<Leave> Leaves { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+/*        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .Entity<User>()
@@ -36,7 +36,7 @@ namespace G4L.UserManagement.DA
                .HasConversion(
                    v => v.ToString(),
                    v => (Roles)Enum.Parse(typeof(Roles), v));
-        }
+        }*/
 
 
     }

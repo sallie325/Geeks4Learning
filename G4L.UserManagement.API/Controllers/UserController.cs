@@ -1,8 +1,10 @@
 ﻿using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Interfaces;
+using G4L.UserManagement.DA;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace G4L.UserManagement.API.Controllers
@@ -13,11 +15,13 @@ namespace G4L.UserManagement.API.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
+        private readonly DatabaseContext _databaseContext;
 
-        public UserController(ILogger<UserController> logger, IUserService userService)
+        public UserController(ILogger<UserController> logger, IUserService userService, DatabaseContext databaseContext)
         {
             _logger = logger;
             _userService = userService;
+            _databaseContext = databaseContext;
         }
 
         [HttpGet]
@@ -27,42 +31,55 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]User user)
+        public async Task<IActionResult> PostAsync([FromBody] User user)
         {
-           
+
             try
             {
-                var dbUser = _userService.GetUserByIdAsync(user.Id);
-                if(dbUser !=null)
+               
+                var dbUser = await _userService.GetUserByIdAsync(user.Id);
+                if (dbUser != null)
                 {
                     return BadRequest("User already exists");
                 }
                 await _userService.CreateNewUserAsync(user);
                 return Ok("succussfuly Added");
-            }  
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message + "New user not added succussfuly");
             }
-            
+
         }
 
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-             var user =  await _userService.GetUserByIdAsync(id);
-            if(user == null)
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
                 return BadRequest("User Not Found");
             return Ok(user);
         }
 
 
-        [HttpGet("{email}{password}")]
-        public async Task<IActionResult> Get(string email, string password)
+
+        [HttpPost ("login")]
+        public async Task<IActionResult> LoginUser(string email, string password)
         {
-            var user = await _userService.GetUserAsync(email,password);
+            var user =  _databaseContext.Users.Where(u => u.Email == email && u.Password == password).Select(u => new
+            {
+                u.Name,
+                u.Surname,
+                u.Email,
+                u.Password,
+                u.Roles,
+                u.Career,
+
+
+            }).FirstOrDefault();
             if (user == null)
                 return BadRequest("User Not Found");
+
             return Ok(user);
         }
 
