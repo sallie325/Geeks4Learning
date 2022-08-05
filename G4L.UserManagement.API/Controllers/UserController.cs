@@ -66,17 +66,7 @@ namespace G4L.UserManagement.API.Controllers
         [HttpPost ("login")]
         public async Task<IActionResult> LoginUser(string email, string password)
         {
-            var user =  _databaseContext.Users.Where(u => u.Email == email && u.Password == password).Select(u => new
-            {
-                u.Name,
-                u.Surname,
-                u.Email,
-                u.Password,
-                u.Roles,
-                u.Career,
-
-
-            }).FirstOrDefault();
+            var user = await _userService.GetUserAsync(email, password);
             if (user == null)
                 return BadRequest("User Not Found");
 

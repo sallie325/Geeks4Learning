@@ -18,6 +18,13 @@ namespace G4L.UserManagement.Infrustructure.Repositories
             _databaseContext = databaseContext;
         }
 
+        public async Task<User> GetByUserAsync(string email, string password)
+        {
+            return await Task.Run(() => { 
+                return _databaseContext.Set<User>().Where(x => x.Email == email && x.Password == password).FirstOrDefaultAsync();
+            });
+        }
+
         public async Task<IEnumerable<User>> ListAsync()
         {
             return await Task.Run(() =>

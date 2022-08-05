@@ -9,6 +9,6 @@ namespace G4L.UserManagement.BL.Interfaces
 {
     public interface IUserRepository : IRepository<User>
     {
-
+        Task<User> GetByUserAsync(string email, string password);
     }
 }
