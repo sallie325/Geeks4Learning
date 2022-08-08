@@ -1,4 +1,4 @@
-name: Build and deploy .NET Core application to windows webapp G4LUserManagementAPI with API Management Service G4L-APi
+name: CI and CD pipelines for .net core 5
 on:
   push:
     branches:
