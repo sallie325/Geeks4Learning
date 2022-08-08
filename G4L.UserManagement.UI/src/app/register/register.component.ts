@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
 
     this.formModel.markAllAsTouched();
 
-    // ack needs to be removed at some point. FIND BETTER WAY, US PIPE IF NEEDS BE!!!!
+    // Hack needs to be removed at some point. FIND BETTER WAY, US PIPE IF NEEDS BE!!!!
     this.formModel.get('Career').patchValue(Number(this.formModel.get('Career').value));
     this.formModel.get('Roles').patchValue(Number(this.formModel.get('Roles').value));
 
@@ -48,10 +48,6 @@ export class RegisterComponent implements OnInit {
     });
 
 
-  }
-
-  toNumber(number: any) {
-    return Number(number);
   }
 
 }
