@@ -1,19 +1,19 @@
-name: Build and deploy .NET Core application to linux webapp Geeks4Learning with API Management Service G4LUserManagementAPI
+name: Build and deploy .NET Core application to windows webapp G4LUserManagementAPI with API Management Service G4L-APi
 on:
   push:
     branches:
     - New_system
 env:
-  AZURE_WEBAPP_NAME: Geeks4Learning
+  AZURE_WEBAPP_NAME: G4LUserManagementAPI
   DOTNET_CORE_VERSION: 5.0.x
   WORKING_DIRECTORY: G4L.UserManagement.API
   CONFIGURATION: Release
   AZURE_WEBAPP_PACKAGE_PATH: G4L.UserManagement.API/publish
   AZURE_APIM_RESOURCE_PATH: /
   AZURE_APIM_RESOURCEGROUP: geeks4learning-rg
-  AZURE_APIM_SERVICENAME: G4LUserManagementAPI
+  AZURE_APIM_SERVICENAME: G4L-APi
   AZURE_APIM_API_ID: G4LUserManagementAPI
-  AZURE_APIM_APPSERVICEURL: https://geeks4learning.azurewebsites.net:80/
+  AZURE_APIM_APPSERVICEURL: https://g4lusermanagementapi.azurewebsites.net
   SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 5.6.3
   SWASHBUCKLE_DOTNET_CORE_VERSION: 3.1.x
   API_IMPORT_SPECIFICATION_PATH: G4L.UserManagement.API/publish/swagger.json
@@ -21,7 +21,7 @@ env:
   API_IMPORT_VERSION: v1
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -52,7 +52,7 @@ jobs:
         name: webapp
         path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     steps:
     - name: Download artifact from build job
@@ -65,11 +65,11 @@ jobs:
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        publish-profile: ${{ secrets.Geeks4Learning_18f9 }}
+        publish-profile: ${{ secrets.G4LUserManagementAPI_21be }}
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.G4LUserManagementAPI_spn }}
+        creds: ${{ secrets.G4L_APi_spn }}
     - name: Import API into Azure API Management
       run: az apim api import --path "${{ env.AZURE_APIM_RESOURCE_PATH }}" --resource-group "${{ env.AZURE_APIM_RESOURCEGROUP }}" --service-name "${{ env.AZURE_APIM_SERVICENAME }}" --api-id "${{ env.AZURE_APIM_API_ID }}" --service-url "${{ env.AZURE_APIM_APPSERVICEURL }}" --specification-path "${{ env.API_IMPORT_SPECIFICATION_PATH }}" --specification-format OpenApi --subscription-required false
     - name: logout
