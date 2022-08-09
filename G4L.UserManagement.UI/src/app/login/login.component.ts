@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.apiService.get('User', this.formModel.value).subscribe((response: any) => {
+    this.apiService.get('User').subscribe((response: any) => {
       console.log(response);
     });
 
