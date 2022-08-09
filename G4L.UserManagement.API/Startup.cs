@@ -54,7 +54,8 @@ namespace G4L.UserManagement.API
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200", "https://g4l.netlify.app")
+                        //builder.WithOrigins("http://localhost:4200", "https://g4l.netlify.app")
+                        builder.WithOrigins("*")
                                                 .AllowAnyHeader()
                                                 .AllowAnyMethod();
                     });
