@@ -26,7 +26,7 @@ namespace G4L.UserManagement.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
 
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
@@ -54,9 +54,9 @@ namespace G4L.UserManagement.API
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200")
-                                            .AllowAnyHeader()
-                                            .AllowAnyMethod();
+                        builder.WithOrigins("http://localhost:4200", "https://g4l.netlify.app")
+                                                .AllowAnyHeader()
+                                                .AllowAnyMethod();
                     });
             });
 
