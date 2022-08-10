@@ -1,4 +1,4 @@
-name: Build and deploy .NET Core app to Windows WebApp G4LUserManagementAPI
+name: Final CI/CD pipeline
 on:
   push:
     branches:
