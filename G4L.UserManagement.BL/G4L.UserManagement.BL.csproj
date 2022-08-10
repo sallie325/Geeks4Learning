@@ -9,13 +9,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain Services\" />
     <Folder Include="Custom Exceptions\" />
     <Folder Include="Specifications\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
   </ItemGroup>
 
 </Project>

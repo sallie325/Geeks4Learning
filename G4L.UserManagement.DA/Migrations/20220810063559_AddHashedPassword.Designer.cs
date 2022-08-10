@@ -4,14 +4,16 @@ using G4L.UserManagement.DA;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220810063559_AddHashedPassword")]
+    partial class AddHashedPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,7 +89,7 @@ namespace G4L.UserManagement.DA.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Career")
+                    b.Property<int?>("Career")
                         .HasColumnType("int");
 
                     b.Property<string>("Client")
@@ -99,8 +101,8 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IdNumber")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("IdNumber")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("LearnershipStartDate")
                         .HasColumnType("datetime2");
@@ -117,7 +119,7 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Role")
+                    b.Property<int?>("Roles")
                         .HasColumnType("int");
 
                     b.Property<string>("Surname")

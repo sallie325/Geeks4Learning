@@ -1,15 +1,17 @@
-﻿using G4L.UserManagement.BL.Entities;
+﻿using G4L.UserManagement.API.Authorization;
+using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
+using G4L.UserManagement.BL.Models;
 using G4L.UserManagement.DA;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace G4L.UserManagement.API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
@@ -30,26 +32,13 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(await _userService.GetAllUsersAsync());
         }
 
+        // Role specific
+        [Authorize(Role.Admin)]
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] User user)
+        public async Task<IActionResult> PostAsync([FromBody] RegisterRequest user)
         {
-
-            try
-            {
-               
-                var dbUser = await _userService.GetUserByIdAsync(user.Id);
-                if (dbUser != null)
-                {
-                    return BadRequest("User already exists");
-                }
-                await _userService.CreateNewUserAsync(user);
-                return Ok("succussfuly Added");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message + "New user not added succussfuly");
-            }
-
+            await _userService.RegisterUserAsync(user);
+            return Ok("succussfuly Added");
         }
 
         [HttpGet("{id}")]
@@ -62,11 +51,11 @@ namespace G4L.UserManagement.API.Controllers
         }
 
 
-
-        [HttpPost ("login")]
-        public async Task<IActionResult> LoginUser(string email, string password)
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUser(AuthenticateRequest model)
         {
-            var user = await _userService.GetUserAsync(email, password);
+            var user = await _userService.AuthenticateUserAsync(model);
             if (user == null)
                 return BadRequest("User Not Found");
 
