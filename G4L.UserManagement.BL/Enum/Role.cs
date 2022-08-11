@@ -8,6 +8,9 @@ namespace G4L.UserManagement.BL.Enum
 {
     public enum Role
     {
-        Super_Admin, Admin, Trainer, Learner
+        Super_Admin, 
+        Admin, 
+        Trainer, 
+        Trainee
     }
 }

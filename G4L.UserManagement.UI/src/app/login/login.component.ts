@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { faCircleNodes } from '@fortawesome/free-solid-svg-icons';
 import { ApiService } from '../shared/api.service';
+import { AuthenticationService } from './services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +15,7 @@ export class LoginComponent implements OnInit {
   faCicle = faCircleNodes ;
   title = "Geeks for learning "
   formModel!: any;
-  constructor(private fb: FormBuilder, private apiService: ApiService) {}
+  constructor(private fb: FormBuilder, private authenticationService: AuthenticationService, private router: Router) {}
 
   ngOnInit(): void {
     this.formModel = this.fb.group({
@@ -23,18 +25,15 @@ export class LoginComponent implements OnInit {
   }
 
   login(form: any) {
-    console.log(form.get('Email'));
 
-    this.formModel.markAllTouched();
+    this.formModel.markAllAsTouched();
 
     if (this.formModel.invalid) {
       return;
     }
 
-    this.apiService.get('User').subscribe((response: any) => {
-      console.log(response);
-    });
+    this.authenticationService.authenticate(this.formModel.value);
 
-
+    this.router.navigateByUrl('/dashboard'); 
   }
 }

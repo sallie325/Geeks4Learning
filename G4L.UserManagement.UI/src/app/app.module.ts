@@ -1,8 +1,6 @@
 import { AppRoutingModule } from './app-routing.module';
 import { NgModule } from '@angular/core';
 
-
-
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
@@ -22,7 +20,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import { ApiInterceptor } from './shared/api.interceptor';
+import { ApiInterceptor } from './shared/interceptor/api.interceptor';
+import { ErrorInterceptor } from './shared/interceptor/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -49,7 +48,8 @@ import { ApiInterceptor } from './shared/api.interceptor';
     MatDividerModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
