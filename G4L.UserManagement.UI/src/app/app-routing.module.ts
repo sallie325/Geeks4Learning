@@ -1,21 +1,29 @@
-import { QuestionnaireComponent } from './questionnaire/questionnaire.component';
-import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './usermanagement/login/login.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminDashboadComponent } from './admin-dashboad/admin-dashboad.component';
-import { LoginComponent } from './login/login.component';
-import { UserDashboadComponent } from './user-dashboad/user-dashboad.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { RegisterComponent } from './usermanagement/register/register.component';
+import { MasterLayoutComponent } from './master-layout/master-layout.component';
+import { LoginGuard } from './usermanagement/login/guards/login.guard';
 
 const routes: Routes = [
-    {path: 'login', component: LoginComponent},
-    {path: 'register', component: RegisterComponent},
-    {path: 'dashboard', component: UserDashboadComponent},
-    {path: 'admin-dashboard', component: AdminDashboadComponent},
-    {path: 'questionnaire', component: QuestionnaireComponent},
-    { path: '',   redirectTo: 'login', pathMatch: 'full' }, // redirect to `first-component`
-    { path: '**', component: PageNotFoundComponent },
-
+  {
+    path: 'register',
+    component: RegisterComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: '',
+    loadChildren: () => import('./master-layout/master-layout.module').then(m => m.MasterLayoutModule),
+    canActivate: [ LoginGuard ]
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({

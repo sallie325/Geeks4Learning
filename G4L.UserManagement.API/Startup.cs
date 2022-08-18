@@ -48,6 +48,7 @@ namespace G4L.UserManagement.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "G4L.UserManagement.API", Version = "v1" });
             });
 
+            // convert enum to string
             services.AddControllersWithViews()
                 .AddJsonOptions(options =>
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
