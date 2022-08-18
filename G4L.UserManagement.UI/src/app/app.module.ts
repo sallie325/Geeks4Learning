@@ -1,55 +1,29 @@
-import { AppRoutingModule } from './app-routing.module';
+import { TokenInterceptor } from './shared/interceptors/token.interceptor';
+import { LoaderInterceptor } from './shared/loader/interceptor/loader.interceptor';
+import { UsermanagementModule } from './usermanagement/usermanagement.module';
 import { NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
-import { UserDashboadComponent } from './user-dashboad/user-dashboad.component';
-import { AdminDashboadComponent } from './admin-dashboad/admin-dashboad.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { QuestionnaireComponent } from './questionnaire/questionnaire.component';
-
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
-import { ApiInterceptor } from './shared/interceptor/api.interceptor';
-import { ErrorInterceptor } from './shared/interceptor/error.interceptor';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { LoaderComponent } from './shared/loader/loader.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MasterLayoutModule } from './master-layout/master-layout.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent,
-    LoginComponent,
-    UserDashboadComponent,
-    AdminDashboadComponent,
-    PageNotFoundComponent,
-    QuestionnaireComponent
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FontAwesomeModule,
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDividerModule
+    UsermanagementModule,
+    MasterLayoutModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

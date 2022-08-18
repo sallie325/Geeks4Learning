@@ -26,6 +26,7 @@ namespace G4L.UserManagement.API.Controllers
             _databaseContext = databaseContext;
         }
 
+        [Authorize(Role.Admin)]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -33,7 +34,8 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         // Role specific
-        [Authorize(Role.Admin)]
+        //[Authorize(Role.Admin)]
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] RegisterRequest user)
         {
@@ -61,9 +63,5 @@ namespace G4L.UserManagement.API.Controllers
 
             return Ok(user);
         }
-
-
-
-
     }
 }
