@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { contants } from 'src/app/shared/global/global.contants';
 import { Router } from '@angular/router';
+import {faFacebook, faTwitter, faInstagram, faLinkedin  } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -11,9 +12,14 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({
-    email: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
+    Email: new FormControl('', Validators.required),
+    Password: new FormControl('', Validators.required),
   });
+
+  // faFacebook = faFacebook ;
+  // faTwitter = faTwitter ;
+  // faInstagram = faInstagram ;
+  // faLinkedin = faLinkedin ;
 
   constructor(private userService: UserService, private router: Router) {}
 
