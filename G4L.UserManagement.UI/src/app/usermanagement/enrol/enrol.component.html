@@ -3,7 +3,13 @@
     <div class="card-header">
       <div class="row align-items-center">
         <div class="col-8">
-          <h6 class="mb-0">Add new user</h6>
+          <div *ngIf="user; else showAdd">
+            <h6 class="mb-0">Update user information</h6>
+          </div>
+
+          <ng-template #showAdd>
+            <h6 class="mb-0">Add new user</h6>
+          </ng-template>
         </div>
         <div class="col-4 text-end">
           <a (click)="close()" class="cursor-pointer">
