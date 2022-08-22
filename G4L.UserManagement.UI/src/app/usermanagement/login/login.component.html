@@ -141,6 +141,16 @@
               Please enter your email.
             </div>
           </div>
+
+          <div
+            class="validation-error-text"
+            *ngIf="loginForm.controls['Email'].invalid &&
+            loginForm.controls['Email'].touched"
+          >
+            <div *ngIf="loginForm.controls['Email'].hasError('email')">
+              Email not valid.
+            </div>
+          </div>
       </div>
 
 

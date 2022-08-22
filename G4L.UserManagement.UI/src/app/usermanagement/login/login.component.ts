@@ -4,6 +4,8 @@ import { UserService } from '../services/user.service';
 import { contants } from 'src/app/shared/global/global.contants';
 import { Router } from '@angular/router';
 import {faFacebook, faTwitter, faInstagram, faLinkedin  } from '@fortawesome/free-brands-svg-icons';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,7 @@ import {faFacebook, faTwitter, faInstagram, faLinkedin  } from '@fortawesome/fre
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({
-    Email: new FormControl('', Validators.required),
+    Email: new FormControl('', [Validators.required, Validators.email]),
     Password: new FormControl('', Validators.required),
   });
 
@@ -21,7 +23,7 @@ export class LoginComponent implements OnInit {
   // faInstagram = faInstagram ;
   // faLinkedin = faLinkedin ;
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private toastr: ToastrService) {}
 
   ngOnInit(): void {}
 
@@ -37,14 +39,25 @@ export class LoginComponent implements OnInit {
     // making a backend call
     this.userService
       .authenticate(this.loginForm.value)
-      .subscribe((response: any | undefined) => {
+      .subscribe({
+       next: (response: any | undefined) => {
         // save the token
+        console.log(response);
+        this.toastr.success('Login Successful', 'Authentication successful');
         sessionStorage.setItem(contants.token, response?.token);
         sessionStorage.setItem(contants.username, `${response?.name} ${response?.surname}`);
         sessionStorage.setItem(contants.role, response?.role);
 
         // route to the master layout
         this.router.navigate(['/dashboard']);
+
+       },
+       error: (err: HttpErrorResponse) => {
+        console.log(err.message);
+        //this.showError = true;
+        this.toastr.error('Invaid email or password', 'Login fail')
+
+       }
       });
   }
 }
