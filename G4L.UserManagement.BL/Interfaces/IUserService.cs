@@ -12,7 +12,7 @@ namespace G4L.UserManagement.BL.Interfaces
         Task<AuthenticateResponse> AuthenticateUserAsync(AuthenticateRequest model);
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserByIdAsync(Guid id);
-        Task UpdateUserAsync(User user);
+        Task UpdateUserAsync(UpdateRequest user);
         Task DeleteUserAsync(Guid id);
         Task<User> GetUserAsync(string email);
     }

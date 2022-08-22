@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './services/user.service';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { EnrolComponent } from './enrol/enrol.component';
+import { contants } from '../shared/global/global.contants';
+import { Roles } from '../shared/global/roles';
 
 @Component({
   selector: 'app-usermanagement',
@@ -8,16 +12,54 @@ import { UserService } from './services/user.service';
 })
 export class UsermanagementComponent implements OnInit {
   users: any;
+  userRole: any;
+  modalDialog: MdbModalRef<EnrolComponent> | null = null;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private modalService: MdbModalService
+  ) {}
 
   ngOnInit(): void {
-    this.userService.getAllUsers()
-    .subscribe(
-      (response: any) => {
-        this.users = response;
-      }
-    );
+    this.getAllUsers();
+    this.userRole = sessionStorage.getItem(contants.role);
   }
 
+  getAllUsers() {
+    this.userService.getAllUsers().subscribe((response: any) => {
+      this.filterUserByRole(response);
+    });
+  }
+
+  filterUserByRole(response: any) {
+    switch (this.userRole) {
+      case Roles.Super_Admin:
+        this.users = response.filter((x: any) => x.role !== Roles.Super_Admin);
+        break;
+      case Roles.Admin:
+        this.users = response.filter(
+          (x: any) => x.role !== Roles.Super_Admin && x.role !== Roles.Admin
+        );
+        break;
+      default:
+        this.users = response;
+        break;
+    }
+  }
+
+  openDialog(user?: any) {
+    this.modalDialog = this.modalService.open(EnrolComponent, {
+      animation: true,
+      backdrop: true,
+      containerClass: 'right',
+      data: { user: user },
+      ignoreBackdropClick: false,
+      keyboard: true,
+      modalClass: 'modal-xl modal-dialog-centered',
+    });
+
+    this.modalDialog.onClose.subscribe((isUpdated: boolean) => {
+      if (isUpdated) this.getAllUsers();
+    });
+  }
 }

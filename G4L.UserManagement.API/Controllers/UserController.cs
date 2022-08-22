@@ -38,7 +38,15 @@ namespace G4L.UserManagement.API.Controllers
         public async Task<IActionResult> PostAsync([FromBody] RegisterRequest user)
         {
             await _userService.RegisterUserAsync(user);
-            return Ok("succussfuly Added");
+            return Ok();
+        }
+
+        [Authorize(Role.Super_Admin, Role.Admin)]
+        [HttpPut]
+        public async Task<IActionResult> PutAsync([FromBody] UpdateRequest user)
+        {
+            await _userService.UpdateUserAsync(user);
+            return Ok();
         }
 
         [HttpGet("{id}")]

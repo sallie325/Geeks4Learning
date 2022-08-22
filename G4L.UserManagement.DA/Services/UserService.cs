@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using G4L.UserManagement.BL.Custom_Exceptions;
 using G4L.UserManagement.BL.Entities;
+using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
 using System;
@@ -65,10 +66,25 @@ namespace G4L.UserManagement.Infrustructure.Services
             return await _userRepository.GetByIdAsync(id);
         }
 
-        public Task UpdateUserAsync(User entity)
+        public async Task UpdateUserAsync(UpdateRequest model)
         {
-            return _userRepository.UpdateAsync(entity);
+            var user = await _userRepository.GetByIdAsync(model.Id);
 
+            // validate
+            if (user == null)
+                throw new AppException("User information was not found");
+
+            // Update the following;
+            user.Name = model.Name;
+            user.Surname = model.Surname;
+            user.Career = (Career) model.Career;
+            user.Client = model.Client;
+            user.Email = model.Email;
+            user.LearnershipStartDate = model.LearnershipStartDate;
+            user.Phone = model.Phone;
+            user.Role = (Role) model.Role;
+
+            await _userRepository.UpdateAsync(user);
         }
     }
 }

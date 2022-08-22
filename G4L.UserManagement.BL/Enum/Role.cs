@@ -11,6 +11,6 @@ namespace G4L.UserManagement.BL.Enum
         Super_Admin, 
         Admin, 
         Trainer, 
-        Trainee
+        Learner
     }
 }

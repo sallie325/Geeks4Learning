@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 export class LoaderService {
 
   private loadCount: number = 0;
-  loadState: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  loadState: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   showLoader() {
     this.loadCount+=1;
