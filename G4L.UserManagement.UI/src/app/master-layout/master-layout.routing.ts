@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { DashboardModule } from '../dashboard/dashboard.module';
 import { UsermanagementComponent } from '../usermanagement/usermanagement.component';
+import { AdminGuard } from '../shared/guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
       },
       {
         path: 'user-management',
-        component: UsermanagementComponent
+        component: UsermanagementComponent,
+        canActivate: [AdminGuard]
       }
     ]
   },

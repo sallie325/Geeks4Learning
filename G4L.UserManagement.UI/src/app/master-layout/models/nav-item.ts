@@ -1,7 +1,7 @@
-import { IconDefinition } from "@fortawesome/fontawesome-common-types";
+// import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
 export interface NavItem {
   name: string,
   route: string,
-  faIcon: IconDefinition
+  // faIcon: IconDefinition
 }

@@ -18,8 +18,16 @@ export class UserService {
     return this.http.get(`${environment.apiUrl}/user`);
   }
 
+  getUserById(id: any): Observable<any>  {
+    return this.http.get(`${environment.apiUrl}/user/${id}`);
+  }
+
   addUser(path: string, body: any): Observable<any>  {
     return this.http.post(`${environment.apiUrl}/user`, body);
+  }
+
+  updateUser(path: string, body: any) {
+    return this.http.put(`${environment.apiUrl}/user`, body);
   }
 
 }

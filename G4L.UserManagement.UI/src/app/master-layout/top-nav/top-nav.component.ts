@@ -8,6 +8,7 @@ import { contants } from 'src/app/shared/global/global.contants';
   styleUrls: ['./top-nav.component.css'],
 })
 export class TopNavComponent implements OnInit {
+
   navItems: string[] = [];
   url: string | undefined;
   username: string | null = null;
