@@ -43,4 +43,9 @@ export class LoginComponent implements OnInit {
 
        });
   }
+
+  openSocialMediaOnNewTab(url: string){
+    window.open(url, "_blank");
+  }
+
 }

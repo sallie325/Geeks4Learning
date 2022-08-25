@@ -57,6 +57,9 @@
                   <div *ngIf="formModel.controls['Name'].errors.required">
                     Please enter your first name.
                   </div>
+                  <div *ngIf="formModel.controls['Name'].errors.invalidName">
+                    Please enter a valid first name.
+                  </div>
                 </div>
               </div>
             </div>
@@ -93,6 +96,9 @@
                 >
                   <div *ngIf="formModel.controls['Surname'].errors.required">
                     Please enter a last name.
+                  </div>
+                  <div *ngIf="formModel.controls['Surname'].errors.invalidName">
+                    Please enter a valid last name.
                   </div>
                 </div>
               </div>
@@ -180,6 +186,15 @@
                   <div *ngIf="formModel.controls['IdNumber'].errors.required">
                     Please enter an Id number.
                   </div>
+                  <div *ngIf="formModel.controls['IdNumber'].errors.invalidIdLength">
+                    Please enter an Id number with 13 digits.
+                  </div>
+                  <div *ngIf="formModel.controls['IdNumber'].errors.invalidIdDate">
+                    The first 6 digits of your Id number are invalid.
+                  </div>
+                  <div *ngIf="formModel.controls['IdNumber'].errors.invalidIdNumber">
+                    Please enter a valid Id number.
+                  </div>
                 </div>
               </div>
             </div>
@@ -224,6 +239,9 @@
                   <div *ngIf="formModel.controls['Email'].errors.required">
                     Please enter your email.
                   </div>
+                  <div *ngIf="formModel.controls['Email'].errors.invalidEmail">
+                    Please enter a valid email.
+                  </div>
                 </div>
               </div>
             </div>
@@ -258,8 +276,11 @@
                     formModel.controls['Phone'].touched
                   "
                 >
-                  <div *ngIf="formModel.controls['Phone'].errors['required']">
+                  <div *ngIf="formModel.controls['Phone'].errors.required">
                     Please enter your phone.
+                  </div>
+                  <div *ngIf="formModel.controls['Phone'].errors.invalidPhone">
+                    Please enter a valid phone number.
                   </div>
                   <div
                     *ngIf="

@@ -40,14 +40,16 @@
 
 .fa-brands, .fa
 {
-  color: #11489e;
+  color: #344767;
 }
+
 .icons{
   transform: translate(-50%, -50%);
   position: absolute;
   top: 90%;
   left: 50%;
 }
+
 .svg-inline--fa {
   height: 20px;
 }
@@ -61,6 +63,7 @@ fa-icon{
   color: grey;
   text-align: center;
 }
+
 .spacer {
   flex: 1;
 }
@@ -80,7 +83,6 @@ fa-icon{
 .toolbar img {
   margin: 16px;
   width: 225px;
-  /* margin-top: 70px; */
 }
 
 footer {
@@ -98,10 +100,12 @@ footer a {
   display: flex;
   align-items: center;
 }
+
 .text-center {
   text-align: center;
   margin: 0 auto;
 }
+
 .card {
   /* margin: 50%; */
   border: none;
@@ -115,9 +119,11 @@ footer a {
   background: #4579c8;
   background: linear-gradient(90deg, #f88888, #3c6aaf, 100%);
 }
+
 .checking {
   margin: 0 auto;
 }
+
 .checking a {
   color: rgb(12, 10, 138);
 }

@@ -93,35 +93,57 @@
     </div>
 
     <button
-      type="submit"
+      type="submit m-3"
       class="btn btn-primary btn-block btn btn-sm bg-2 gradient-primary mb-0 btn-dark"
     >
       Log in
     </button>
-      <a class="forgot" href="forgot-password.html"
-        >Forgot your email or password?</a
-      >
+    <a class="forgot" [hidden]="true" href="forgot-password.html"
+      >Forgot your email or password?</a
+    >
   </form>
 
   <div class="icons">
     <ul class="list-inline">
       <li class="list-inline-item">
-        <a class="social-icon text-center" target="_blank" href="#"
+        <a
+          class="social-icon text-center"
+          target="_blank"
+          (click)="
+            openSocialMediaOnNewTab('https://www.facebook.com/geeks4learning/')
+          "
           ><i class="fa-brands fa-facebook"></i
         ></a>
       </li>
       <li class="list-inline-item">
-        <a class="social-icon text-center" target="_blank" href="#"
+        <a
+          class="social-icon text-center"
+          target="_blank"
+          (click)="
+            openSocialMediaOnNewTab('https://twitter.com/geeks4learning')
+          "
           ><i class="fa-brands fa-twitter"></i
         ></a>
       </li>
       <li class="list-inline-item">
-        <a class="social-icon text-center" target="_blank" href="#"
+        <a
+          class="social-icon text-center"
+          target="_blank"
+          (click)="
+            openSocialMediaOnNewTab('https://www.instagram.com/geeks4learning/')
+          "
           ><i class="fa-brands fa-instagram"></i
         ></a>
       </li>
       <li class="list-inline-item">
-        <a class="social-icon text-center" target="_blank" href="#"
+        <a
+          class="social-icon text-center"
+          target="_blank"
+          (click)="
+            openSocialMediaOnNewTab(
+              'https://www.linkedin.com/company/geeks4learning'
+            )
+          "
           ><i class="fa-brands fa-linkedin"></i
         ></a>
       </li>

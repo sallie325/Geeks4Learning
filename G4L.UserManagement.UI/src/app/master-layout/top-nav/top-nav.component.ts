@@ -25,4 +25,9 @@ export class TopNavComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  logout() {
+    sessionStorage.clear();
+    window.location.reload();
+  }
 }

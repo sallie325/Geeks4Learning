@@ -72,6 +72,13 @@
               "outputHashing": "all"
             },
             "development": {
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                }
+              },
               "buildOptimizer": false,
               "vendorChunk": true,
               "extractLicenses": false,
