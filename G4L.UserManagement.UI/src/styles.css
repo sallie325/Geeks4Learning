@@ -1,15 +1,29 @@
+/* Set global colors */
+:root {
+  --red: #b00;
+  --blue: #00b;
+  --fullwidth: 100%;
+  --bg-white: #f8f9fa;
+  --g4l-dark-blue: #344767;
+}
+
+
 /* You can add global styles to this file, and also import other style files */
 .bg-gray-100 {
-  background-color: #f8f9fa !important;
+  background-color: var(--bg-white) !important;
 }
 
 /* Validation error styles */
 .red-text {
-  color: red;
+  color: var(--red);
 }
 
 .red-border {
-  border: 1px solid red !important;
+  border: 1px solid var(--red) !important;
+}
+
+.dark-blue {
+  background-color: var(--g4l-dark-blue);
 }
 
 /* main content */
