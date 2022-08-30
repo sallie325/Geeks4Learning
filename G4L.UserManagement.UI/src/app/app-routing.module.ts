@@ -6,10 +6,10 @@ import { MasterLayoutComponent } from './master-layout/master-layout.component';
 import { LoginGuard } from './usermanagement/login/guards/login.guard';
 
 const routes: Routes = [
-  {
-    path: 'register',
-    component: RegisterComponent
-  },
+  // {
+  //   path: 'register',
+  //   component: RegisterComponent
+  // },
   {
     path: 'login',
     component: LoginComponent

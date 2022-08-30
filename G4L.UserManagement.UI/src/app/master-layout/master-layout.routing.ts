@@ -6,6 +6,10 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 import { DashboardModule } from '../dashboard/dashboard.module';
 import { UsermanagementComponent } from '../usermanagement/usermanagement.component';
 import { AdminGuard } from '../shared/guards/admin.guard';
+import { LeaveManagementComponent } from '../leave-management/leave-management.component';
+import { LeaveManagementModule } from '../leave-management/leave-management.module';
+import { IkmManagementModule } from '../ikm-management/ikm-management.module';
+import { IkmManagementComponent } from '../ikm-management/ikm-management.component';
 
 const routes: Routes = [
   {
@@ -20,6 +24,16 @@ const routes: Routes = [
         path: 'user-management',
         component: UsermanagementComponent,
         canActivate: [AdminGuard]
+      },
+      {
+        path: 'leave-management',
+        component: LeaveManagementComponent,
+        canActivate: [AdminGuard]
+      },
+      {
+        path: 'ikm-management',
+        component: IkmManagementComponent,
+        canActivate: [AdminGuard]
       }
     ]
   },
@@ -31,7 +45,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   exports: [
-    RouterModule, DashboardModule, UsermanagementModule
+    RouterModule, DashboardModule, UsermanagementModule, LeaveManagementModule, IkmManagementModule
   ]
 })
 export class MasterLayoutRoutingModule {

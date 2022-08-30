@@ -1,6 +1,7 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { contants } from 'src/app/shared/global/global.contants';
+import { LoaderService } from 'src/app/shared/loader/services/loader.service';
 
 @Component({
   selector: 'app-top-nav',
@@ -8,21 +9,25 @@ import { contants } from 'src/app/shared/global/global.contants';
   styleUrls: ['./top-nav.component.css'],
 })
 export class TopNavComponent implements OnInit {
-
   navItems: string[] = [];
   url: string | undefined;
   username: string | null = null;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private loaderService: LoaderService) {
     this.username = sessionStorage.getItem(contants.username);
 
-    router.events.subscribe(
-      (event: any) => {
+    router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         this.url = this.router.url.replace('/', '').replace('-', ' ');
       }
     });
+
   }
 
   ngOnInit(): void {}
+
+  logout() {
+    sessionStorage.clear();
+    window.location.reload();
+  }
 }

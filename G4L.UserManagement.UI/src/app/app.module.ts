@@ -3,6 +3,7 @@ import { LoaderInterceptor } from './shared/loader/interceptor/loader.intercepto
 import { UsermanagementModule } from './usermanagement/usermanagement.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoaderComponent } from './shared/loader/loader.component';
@@ -26,6 +27,7 @@ import { ToastrModule } from 'ngx-toastr';
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
+      progressBar: true
     })
   ],
   providers: [

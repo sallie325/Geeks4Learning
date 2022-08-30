@@ -51,7 +51,7 @@ export class UsermanagementComponent implements OnInit {
     this.modalDialog = this.modalService.open(EnrolComponent, {
       animation: true,
       backdrop: true,
-      containerClass: 'right',
+      containerClass: 'modal top fade modal-backdrop',
       data: { user: user },
       ignoreBackdropClick: false,
       keyboard: true,

@@ -1,5 +1,5 @@
 <div class="container-fluid m-0 p-0">
-  <div class="card draggable m-0 p-0" draggable="true">
+  <div class="card m-0 p-0">
     <div class="card-header">
       <div class="row align-items-center">
         <div class="col-8">
@@ -57,6 +57,9 @@
                   <div *ngIf="formModel.controls['Name'].errors.required">
                     Please enter your first name.
                   </div>
+                  <div *ngIf="formModel.controls['Name'].errors.invalidName">
+                    Please enter a valid first name.
+                  </div>
                 </div>
               </div>
             </div>
@@ -94,6 +97,9 @@
                   <div *ngIf="formModel.controls['Surname'].errors.required">
                     Please enter a last name.
                   </div>
+                  <div *ngIf="formModel.controls['Surname'].errors.invalidName">
+                    Please enter a valid last name.
+                  </div>
                 </div>
               </div>
             </div>
@@ -122,13 +128,10 @@
                       formModel.controls['Role'].touched
                   }"
                 >
-                  <option [ngValue]="" disabled selected value="undefined">
-                    Please select a role
-                  </option>
                   <option
                     *ngFor="let role of keys(roles)"
                     [ngValue]="role"
-                    [disabled]="isAllowed(role)"
+                    [disabled]="isAllowed(role) || isDefault(role)"
                   >
                     {{ role | removeUnderscore }}
                   </option>
@@ -180,6 +183,15 @@
                   <div *ngIf="formModel.controls['IdNumber'].errors.required">
                     Please enter an Id number.
                   </div>
+                  <div *ngIf="formModel.controls['IdNumber'].errors.invalidIdLength">
+                    Please enter an Id number with 13 digits.
+                  </div>
+                  <div *ngIf="formModel.controls['IdNumber'].errors.invalidIdDate">
+                    The first 6 digits of your Id number are invalid.
+                  </div>
+                  <div *ngIf="formModel.controls['IdNumber'].errors.invalidIdNumber">
+                    Please enter a valid Id number.
+                  </div>
                 </div>
               </div>
             </div>
@@ -200,8 +212,8 @@
                       formModel.controls['Email'].invalid &&
                       formModel.controls['Email'].touched
                   }"
-                  >Email address<span class="red-text">*</span></label
-                >
+                  >Email address<span class="red-text">*</span>
+                </label>
                 <input
                   type="email"
                   id="input-email"
@@ -224,6 +236,9 @@
                   <div *ngIf="formModel.controls['Email'].errors.required">
                     Please enter your email.
                   </div>
+                  <div *ngIf="formModel.controls['Email'].errors.invalidEmail">
+                    Please enter a valid email.
+                  </div>
                 </div>
               </div>
             </div>
@@ -231,19 +246,19 @@
               <div class="form-group">
                 <label
                   class="form-control-label"
-                  for="input-career"
+                  for="input-phone"
                   [ngClass]="{
                     'red-text':
                       formModel.controls['Phone'].invalid &&
                       formModel.controls['Phone'].touched
                   }"
-                  >Phone Number<span class="red-text">*</span></label
-                >
+                  >Phone Number<span class="red-text">*</span>
+                </label>
                 <input
                   type="text"
-                  id="input-postal-code"
+                  id="input-phone"
                   class="form-control"
-                  placeholder="+27 000 000 000"
+                  placeholder="+27 00000000"
                   formControlName="Phone"
                   [ngClass]="{
                     'red-border':
@@ -258,8 +273,11 @@
                     formModel.controls['Phone'].touched
                   "
                 >
-                  <div *ngIf="formModel.controls['Phone'].errors['required']">
+                  <div *ngIf="formModel.controls['Phone'].errors.required">
                     Please enter your phone.
+                  </div>
+                  <div *ngIf="formModel.controls['Phone'].errors.invalidPhone">
+                    Please enter a valid phone number.
                   </div>
                   <div
                     *ngIf="
@@ -301,12 +319,10 @@
                       formModel.controls['Career'].touched
                   }"
                 >
-                  <option [ngValue]="" disabled selected value="undefined">
-                    Please select a stream
-                  </option>
                   <option
                     *ngFor="let stream of keys(streams)"
                     [ngValue]="stream"
+                    [disabled]="isDefault(stream)"
                   >
                     {{ stream | removeUnderscore }}
                   </option>
@@ -321,6 +337,9 @@
                   <div *ngIf="formModel.controls['Career'].errors.required">
                     Please select your prefered career.
                   </div>
+                  <div *ngIf="formModel.controls['Career'].errors.invalidStream">
+                    Please select a valid career/stream.
+                  </div>
                 </div>
               </div>
             </div>
@@ -328,7 +347,7 @@
               <div class="form-group">
                 <label
                   class="form-control-label"
-                  for="input-career"
+                  for="input-client"
                   [ngClass]="{
                     'red-text':
                       formModel.controls['Client'].invalid &&
@@ -338,9 +357,9 @@
                 >
                 <input
                   type="text"
-                  id="input-career"
+                  id="input-client"
                   class="form-control"
-                  placeholder="Career"
+                  placeholder="Client"
                   formControlName="Client"
                   [ngClass]="{
                     'red-border':
