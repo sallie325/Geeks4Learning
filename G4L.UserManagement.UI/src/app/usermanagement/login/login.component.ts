@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { contants } from 'src/app/shared/global/global.contants';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -11,11 +12,11 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({
-    email: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
+    Email: new FormControl('', [Validators.required, Validators.email]),
+    Password: new FormControl('', Validators.required),
   });
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private toastr: ToastrService) {}
 
   ngOnInit(): void {}
 
@@ -39,6 +40,12 @@ export class LoginComponent implements OnInit {
 
         // route to the master layout
         this.router.navigate(['/dashboard']);
-      });
+
+       });
   }
+
+  openSocialMediaOnNewTab(url: string){
+    window.open(url, "_blank");
+  }
+
 }
