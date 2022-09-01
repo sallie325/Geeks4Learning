@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ApplicationIndicator } from 'src/app/shared/global/application-indicator';
 
 @Component({
-  selector: 'app-trainer-dashboard',
-  templateUrl: './trainer-dashboard.component.html',
-  styleUrls: ['./trainer-dashboard.component.css', '../../dashboard.component.css']
+  selector: 'app-admin-dashboard',
+  templateUrl: './admin-dashboard.component.html',
+  styleUrls: ['./admin-dashboard.component.css', '../../dashboard.component.css']
 })
-export class TrainerDashboardComponent implements OnInit {
+export class AdminDashboardComponent implements OnInit {
 
   ikmList: any[] = [
     {

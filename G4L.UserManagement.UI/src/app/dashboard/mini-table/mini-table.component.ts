@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ApplicationIndicator } from 'src/app/shared/global/application-indicator';
 
 @Component({
   selector: 'app-mini-table',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mini-table.component.css']
 })
 export class MiniTableComponent implements OnInit {
+
+  @Input() ikmList: any[] = [];
 
   constructor() { }
 

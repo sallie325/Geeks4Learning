@@ -1,15 +1,59 @@
+/* Set global colors */
+:root {
+  --red: #b00;
+  --bg-white: #f8f9fa;
+  --g4l-green: #2d572b;
+  --g4l-greeny-blue: #2b5d6b;
+  --g4l-purple: #2d2b57;
+  --g4l-dark-blue: #002d44;
+  --g4l-blue: #007fa3;
+  --g4l-orange: #b76928;
+}
+
 /* You can add global styles to this file, and also import other style files */
+.bg-green {
+  background-color: var(--g4l-green) !important;
+}
+
+.bg-greeny-blue {
+  background-color: var(--g4l-greeny-blue) !important;
+}
+
+.bg-purple {
+  background-color: var(--g4l-purple) !important;
+}
+
+.bg-dark-blue {
+  background-color: var(--g4l-dark-blue) !important;
+}
+
+.bg-blue {
+  background-color: var(--g4l-blue) !important;
+}
+
+.bg-orange {
+  background-color: var(--g4l-orange) !important;
+}
+
+.grey-table {
+  color: #67748e !important;
+}
+
 .bg-gray-100 {
-  background-color: #f8f9fa !important;
+  background-color: var(--bg-white) !important;
 }
 
 /* Validation error styles */
 .red-text {
-  color: red;
+  color: var(--red);
 }
 
 .red-border {
-  border: 1px solid red !important;
+  border: 1px solid var(--red) !important;
+}
+
+.dark-blue {
+  background-color: var(--g4l-dark-blue);
 }
 
 /* main content */
@@ -343,10 +387,7 @@ a {
 
 .text-xs {
   line-height: 1.25;
-}
-
-.text-xs {
-  font-size: 0.75rem !important;
+  font-size: 0.85rem !important;
 }
 
 .text-center {
@@ -488,10 +529,6 @@ a {
 
 .sidenav .navbar-brand {
   padding: 1rem 3rem;
-}
-
-.sidenav-header {
-  height: 7.875rem;
 }
 
 .g-sidenav-show .sidenav .nav-link-text {
@@ -781,14 +818,6 @@ a {
   color: #000;
 }
 
-.text-xs {
-  line-height: 1.25;
-}
-
-.text-xs {
-  font-size: 0.75rem !important;
-}
-
 .text-center {
   text-align: center !important;
 }
@@ -878,7 +907,7 @@ a {
 }
 
 .sidenav-header {
-  height: 6.875rem;
+  height: 7.875rem;
 }
 
 .g-sidenav-show .sidenav .nav-link-text {
@@ -1037,4 +1066,21 @@ body {
 aside#sidenav-main {
   background-color: white;
   box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+
+.modal-backdrop {
+  --bs-backdrop-zindex: 1050;
+  --bs-backdrop-bg: #000;
+  --bs-backdrop-opacity: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--bs-backdrop-zindex);
+  width: 100vw;
+  height: 100vh;
+  background-color: #0000008d;
+}
+
+.modal-backdrop.show {
+  opacity: 100% !important;
 }
