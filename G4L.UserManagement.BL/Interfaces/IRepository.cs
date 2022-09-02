@@ -16,5 +16,7 @@ namespace G4L.UserManagement.BL.Interfaces
         Task<TEntity> GetByIdAsync(Guid id);
         Task<IEnumerable<TEntity>> ListAsync();
         Task<IEnumerable<TEntity>> ListAsync(Expression<Func<TEntity, bool>> expression);
+        Task<IList<TEntity>> GetPagedListAsync(int skip, int take);
+        Task<TEntity> QueryAsync(Expression<Func<TEntity, bool>> expression);
     }
 }

@@ -12,6 +12,7 @@ import { MasterLayoutModule } from './master-layout/master-layout.module';
 import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from 'ngx-toastr';
+import { AttendenceRegisterModule } from './attendence-register/attendence-register.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ToastrModule } from 'ngx-toastr';
     UsermanagementModule,
     MasterLayoutModule,
     BrowserAnimationsModule, // required animations module
+    AttendenceRegisterModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,

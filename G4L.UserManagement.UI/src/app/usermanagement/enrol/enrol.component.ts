@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { contants } from 'src/app/shared/global/global.contants';
 import { Roles } from 'src/app/shared/global/roles';
+import { ServerErrorCodes } from 'src/app/shared/global/server-error-codes';
 import { Streams } from 'src/app/shared/global/streams';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { environment } from 'src/environments/environment';
@@ -24,6 +25,7 @@ export class EnrolComponent implements OnInit {
   streams = Streams;
   user: any | null = null;
   userRole: string | null = null;
+  serverErrorMessage: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,7 +44,7 @@ export class EnrolComponent implements OnInit {
       Name: [user?.name, [Validators.required, CustomValidators.names]],
       Surname: [user?.surname, [Validators.required, CustomValidators.names]],
       IdNumber: [
-        user?.idNumber,
+        { value: user?.idNumber, disabled: user?.idNumber },
         [Validators.required, CustomValidators.IdNumber],
       ],
       Phone: [user?.phone, [Validators.required, CustomValidators.phone]],
@@ -68,9 +70,14 @@ export class EnrolComponent implements OnInit {
 
     this.removeDropDownDefaults();
 
-    this.userService.addUser('User', this.formModel.value).subscribe(() => {
-      this.modalRef.close(true);
-    });
+    this.userService.addUser('User', this.formModel.value).subscribe(
+      () => {
+        this.modalRef.close(true);
+      },
+      (error) => {
+        this.serverErrorHandling(error);
+      }
+    );
   }
 
   updateUser() {
@@ -82,15 +89,44 @@ export class EnrolComponent implements OnInit {
 
     this.removeDropDownDefaults();
 
-    console.log(this.formModel);
+    this.userService.updateUser('User', this.formModel.value).subscribe(
+      () => {
+        this.modalRef.close(true);
+      },
+      (error) => {
+        this.serverErrorHandling(error);
+      }
+    );
+  }
 
-    this.userService.updateUser('User', this.formModel.value).subscribe(() => {
-      this.modalRef.close(true);
-    });
+  serverErrorHandling(error: any) {
+    switch (error?.errorCode) {
+      case ServerErrorCodes.DuplicateEmail:
+        this.formModel.controls['Email'].setErrors({
+          duplicateEmailError: true,
+        });
+        this.serverErrorMessage = error?.message;
+        break;
+      case ServerErrorCodes.DuplicatePhoneNumber:
+        this.formModel.controls['Phone'].setErrors({
+          duplicatePhoneNumberError: true,
+        });
+        this.serverErrorMessage = error?.message;
+        break;
+      case ServerErrorCodes.DuplicateIdNumber:
+        this.formModel.controls['IdNumber'].setErrors({
+          duplicateIdNumberError: true,
+        });
+        this.serverErrorMessage = error?.message;
+        break;
+    }
+    this.formModel.updateValueAndValidity();
   }
 
   removeDropDownDefaults() {
-    if (this.formModel.controls['Career'].value === Streams.Please_select_a_stream) {
+    if (
+      this.formModel.controls['Career'].value === Streams.Please_select_a_stream
+    ) {
       this.formModel.controls['Career'].patchValue('None');
     }
   }
@@ -140,7 +176,9 @@ export class EnrolComponent implements OnInit {
   setG4LDefaults() {
     const today = Date.now();
 
-    this.formModel.controls['Career'].patchValue(Streams.Please_select_a_stream);
+    this.formModel.controls['Career'].patchValue(
+      Streams.Please_select_a_stream
+    );
     this.formModel.controls['Client'].patchValue('');
     this.formModel.controls['LearnershipStartDate'].patchValue(
       formatDate(new Date(new Date(today).toISOString()), 'yyyy-MM-dd', 'en')

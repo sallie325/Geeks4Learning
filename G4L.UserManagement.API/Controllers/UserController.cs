@@ -23,9 +23,9 @@ namespace G4L.UserManagement.API.Controllers
         }
         [Authorize(Role.Super_Admin, Role.Admin)]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int skip = 0, int take = 5)
         {
-            return Ok(await _userService.GetAllUsersAsync());
+            return Ok(await _userService.GetPagedUsersAsync(skip, take));
         }
         [Authorize(Role.Super_Admin, Role.Admin)]
         [HttpPost]

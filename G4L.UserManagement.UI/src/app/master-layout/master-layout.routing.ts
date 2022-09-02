@@ -10,6 +10,8 @@ import { LeaveManagementComponent } from '../leave-management/leave-management.c
 import { LeaveManagementModule } from '../leave-management/leave-management.module';
 import { IkmManagementModule } from '../ikm-management/ikm-management.module';
 import { IkmManagementComponent } from '../ikm-management/ikm-management.component';
+import { AttendenceRegisterComponent } from '../attendence-register/attendence-register.component';
+import { AttendenceRegisterModule } from '../attendence-register/attendence-register.module';
 
 const routes: Routes = [
   {
@@ -28,12 +30,14 @@ const routes: Routes = [
       {
         path: 'leave-management',
         component: LeaveManagementComponent,
-        canActivate: [AdminGuard]
       },
       {
         path: 'ikm-management',
         component: IkmManagementComponent,
-        canActivate: [AdminGuard]
+      },
+      {
+        path: 'attendence-register',
+        component: AttendenceRegisterComponent,
       }
     ]
   },
@@ -45,7 +49,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   exports: [
-    RouterModule, DashboardModule, UsermanagementModule, LeaveManagementModule, IkmManagementModule
+    RouterModule, DashboardModule, UsermanagementModule, LeaveManagementModule, IkmManagementModule, AttendenceRegisterModule
   ]
 })
 export class MasterLayoutRoutingModule {
