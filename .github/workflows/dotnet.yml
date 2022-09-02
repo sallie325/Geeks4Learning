@@ -1,25 +1,41 @@
-name: .NET
-
+name: Final CI/CD pipeline
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
+    branches:
+    - SIT_branch
+env:
+  AZURE_WEBAPP_NAME: G4LUserManagementAPI
+  AZURE_WEBAPP_PACKAGE_PATH: G4L.UserManagement.API/publish
+  AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.G4LUserManagementAPI_8220 }}
+  CONFIGURATION: Release
+  DOTNET_CORE_VERSION: 5.0.x
+  WORKING_DIRECTORY: G4L.UserManagement.API
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  build-and-deploy:
+    runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1.8.0
       with:
-        dotnet-version: 5.0.x
-    - name: Restore dependencies
-      run: dotnet restore
+        include-prerelease: True
+        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+    - name: Restore
+      run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
+    - name: Publish
+      run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+    - name: Deploy to Azure WebApp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        publish-profile: ${{ env.AZURE_WEBAPP_PUBLISH_PROFILE }}
+    - name: Publish Artifacts
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: webapp
+        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
