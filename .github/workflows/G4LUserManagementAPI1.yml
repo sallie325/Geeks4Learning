@@ -2,7 +2,7 @@ name: Final CI/CD pipeline
 on:
   push:
     branches:
-    - New_system
+    - SIT_branch
 env:
   AZURE_WEBAPP_NAME: G4LUserManagementAPI
   AZURE_WEBAPP_PACKAGE_PATH: G4L.UserManagement.API/publish
