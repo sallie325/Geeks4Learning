@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
     Password: new FormControl('', Validators.required),
   });
 
+  serverErrorMessage: any = null;
+
   constructor(private userService: UserService, private router: Router, private toastr: ToastrService) {}
 
   ngOnInit(): void {}
@@ -41,6 +43,12 @@ export class LoginComponent implements OnInit {
         // route to the master layout
         this.router.navigate(['/dashboard']);
 
+       },
+       error => {
+        this.loginForm.controls['Email'].setErrors({ isUserNameOrPasswordIncorrect: true });
+        this.loginForm.controls['Password'].setErrors({ isUserNameOrPasswordIncorrect: true });
+        this.loginForm.updateValueAndValidity();
+        this.serverErrorMessage = error?.message;
        });
   }
 

@@ -92,13 +92,27 @@
       </div>
     </div>
 
+    <div class="form-group m-3">
+      <div
+      class="validation-error-text mt-3 mb-3"
+      *ngIf="
+        loginForm.invalid
+      "
+    >
+      <div *ngIf="loginForm.controls['Email'].hasError('isUserNameOrPasswordIncorrect') || loginForm.controls['Password'].hasError('isUserNameOrPasswordIncorrect')"
+      >
+        {{ serverErrorMessage }}
+      </div>
+    </div>
+    </div>
+
     <button
       type="submit m-3"
       class="btn btn-primary btn-block btn btn-sm bg-2 gradient-primary mb-0 btn-dark"
     >
       Log in
     </button>
-    <a class="forgot" [hidden]="true" href="forgot-password.html"
+    <a class="forgot" href="forgot-password.html"
       >Forgot your email or password?</a
     >
   </form>

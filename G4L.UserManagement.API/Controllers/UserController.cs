@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-
 namespace G4L.UserManagement.API.Controllers
 {
     [ApiController]
@@ -17,22 +16,17 @@ namespace G4L.UserManagement.API.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
-        private readonly DatabaseContext _databaseContext;
-
-        public UserController(ILogger<UserController> logger, IUserService userService, DatabaseContext databaseContext)
+        public UserController(ILogger<UserController> logger, IUserService userService)
         {
             _logger = logger;
             _userService = userService;
-            _databaseContext = databaseContext;
         }
-
         [Authorize(Role.Super_Admin, Role.Admin)]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int skip = 0, int take = 5)
         {
-            return Ok(await _userService.GetAllUsersAsync());
+            return Ok(await _userService.GetPagedUsersAsync(skip, take));
         }
-
         [Authorize(Role.Super_Admin, Role.Admin)]
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] RegisterRequest user)
@@ -40,7 +34,6 @@ namespace G4L.UserManagement.API.Controllers
             await _userService.RegisterUserAsync(user);
             return Ok();
         }
-
         [Authorize(Role.Super_Admin, Role.Admin)]
         [HttpPut]
         public async Task<IActionResult> PutAsync([FromBody] UpdateRequest user)
@@ -48,7 +41,6 @@ namespace G4L.UserManagement.API.Controllers
             await _userService.UpdateUserAsync(user);
             return Ok();
         }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -57,8 +49,6 @@ namespace G4L.UserManagement.API.Controllers
                 return BadRequest("User Not Found");
             return Ok(user);
         }
-
-
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> LoginUser(AuthenticateRequest model)
@@ -66,7 +56,6 @@ namespace G4L.UserManagement.API.Controllers
             var user = await _userService.AuthenticateUserAsync(model);
             if (user == null)
                 return BadRequest("User Not Found");
-
             return Ok(user);
         }
     }

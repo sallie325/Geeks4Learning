@@ -30,4 +30,8 @@ export class UserService {
     return this.http.put(`${environment.apiUrl}/user`, body);
   }
 
+  getPagedUsers(skip: number, take: number) {
+    return this.http.get(`${environment.apiUrl}/user?skip=${skip}&take=${take}`);
+  }
+
 }

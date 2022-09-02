@@ -10,7 +10,7 @@
     ></i>
     <a
       class="navbar-brand m-0"
-      [routerLink]=""
+      href="https://geeks4learning.com/"
       target="_blank"
     >
       <img
@@ -29,14 +29,7 @@
           <div
             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
           >
-          <i class="fa-solid" [ngClass]="{
-            'fa-chart-line': navItem.route === '/dashboard',
-            'fa-user-graduate': navItem.route === '/ikm-management',
-            'fa-person-walking-dashed-line-arrow-right': navItem.route === '/leave-management',
-            'fa-users-gear': navItem.route === '/user-management'
-          }"></i>
-
-          <!-- <fa-icon [icon]="navItem.faIcon"></fa-icon> -->
+          <i class="fa-solid" [class]="navItem?.faIcon"></i>
           </div>
           <span class="nav-link-text ms-1">{{ navItem?.name }}</span>
         </a>

@@ -30,7 +30,7 @@
                   <th
                     class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
                   >
-                    Stream
+                    ID Number
                   </th>
                   <th
                     class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
@@ -40,7 +40,7 @@
                   <th
                     class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
                   >
-                    ID Number
+                    Stream
                   </th>
                   <th
                     class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2"
@@ -67,23 +67,34 @@
                         <h6 class="mb-0 text-xs">
                           {{ user?.name }} {{ user?.surname }}
                         </h6>
-                        <p class="text-secondary mb-0">
+                        <p class="text-secondary mb-0 text-xs">
                           {{ user?.email }} - {{ user?.phone }}
                         </p>
                       </div>
                     </div>
                   </td>
-                  <td class="text-xs ps-2">
-                    <p class="font-weight-bold mb-0">{{ user?.career | removeUnderscore }}</p>
-                    <p class="text-secondary mb-0">{{ user?.client }}</p>
-                  </td>
-                  <td class="text-xs ps-2">
-                    <p class="font-weight-bold mb-0">{{ user?.role | removeUnderscore }}</p>
-                  </td>
-                  <td class="text-xs ps-2">
+                  <td class="align-middle text-xs ps-2">
                     <p class="font-weight-bold mb-0">{{ user?.idNumber }}</p>
                   </td>
-                  <td class="text-xs ps-2">
+                  <td class="align-middle text-xs ps-2">
+                    <p class="font-weight-bold mb-0">
+                      {{ user?.role | removeUnderscore }}
+                    </p>
+                  </td>
+                  <td class="align-middle text-xs ps-2">
+                    <div *ngIf="user?.career === 'None'; else learner">
+                      <p class="font-weight-bold mb-0">
+                        Not applicable
+                      </p>
+                    </div>
+                    <ng-template #learner>
+                      <p class="font-weight-bold mb-0">
+                        {{ user?.career | removeUnderscore }}
+                      </p>
+                      <p class="text-secondary mb-0">{{ user?.client }}</p>
+                    </ng-template>
+                  </td>
+                  <td class="align-middle text-xs ps-2">
                     <p class="font-weight-bold mb-0">
                       {{ user?.learnershipStartDate | date: "dd/MM/YYYY" }}
                     </p>
@@ -107,8 +118,9 @@
                       aria-labelledby="dropdownMenuButton1"
                     >
                       <li>
-                        <a class="dropdown-item"(click)="openDialog(user)">
-                          <i class="fa-solid fa-user-pen text-xs"></i>&nbsp;&nbsp;Edit User</a
+                        <a class="dropdown-item" (click)="openDialog(user)">
+                          <i class="fa-solid fa-user-pen text-xs"></i
+                          >&nbsp;&nbsp;Edit User</a
                         >
                       </li>
                       <!-- <li>

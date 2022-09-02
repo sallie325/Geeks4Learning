@@ -21,8 +21,15 @@ export class UsermanagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllUsers();
+    // this.getAllUsers();
+    this.getPagedUsers(0, 10);
     this.userRole = sessionStorage.getItem(contants.role);
+  }
+
+  getPagedUsers(skip: number, take: number) {
+     this.userService.getPagedUsers(skip, take).subscribe((response: any) => {
+      this.filterUserByRole(response);
+    });
   }
 
   getAllUsers() {
@@ -51,7 +58,7 @@ export class UsermanagementComponent implements OnInit {
     this.modalDialog = this.modalService.open(EnrolComponent, {
       animation: true,
       backdrop: true,
-      containerClass: 'right',
+      containerClass: 'modal top fade modal-backdrop',
       data: { user: user },
       ignoreBackdropClick: false,
       keyboard: true,

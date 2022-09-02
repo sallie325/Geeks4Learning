@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
 import { WidgetComponent } from './widget/widget.component';
 import { MiniTableComponent } from './mini-table/mini-table.component';
+import { TrainerDashboardComponent } from './views/trainer-dashboard/trainer-dashboard.component';
+import { TraineeDashboardComponent } from './views/trainee-dashboard/trainee-dashboard.component';
+import { AdminDashboardComponent } from './views/admin-dashboard/admin-dashboard.component';
 
 
 
@@ -10,7 +13,10 @@ import { MiniTableComponent } from './mini-table/mini-table.component';
   declarations: [
     DashboardComponent,
     WidgetComponent,
-    MiniTableComponent
+    MiniTableComponent,
+    TrainerDashboardComponent,
+    TraineeDashboardComponent,
+    AdminDashboardComponent
   ],
   imports: [
     CommonModule
