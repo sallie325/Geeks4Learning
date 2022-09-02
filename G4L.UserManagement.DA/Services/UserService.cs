@@ -4,6 +4,7 @@ using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -36,7 +37,11 @@ namespace G4L.UserManagement.Infrustructure.Services
 
             // validate
             if (user == null || !BCryptNet.Verify(model.Password, user.PasswordHash))
-                throw new AppException("Username or password is incorrect");
+                throw new AppException(JsonConvert.SerializeObject(new ExceptionObject
+                {
+                    ErrorCode = ServerErrorCodes.UserNotFound.ToString(),
+                    Message = "Username or password is incorrect"
+                }));
 
             // authentication successful
             var response = _mapper.Map<AuthenticateResponse>(user);
@@ -72,19 +77,42 @@ namespace G4L.UserManagement.Infrustructure.Services
 
             // validate
             if (user == null)
-                throw new AppException("User information was not found");
+                throw new AppException(JsonConvert.SerializeObject(new ExceptionObject
+                {
+                    ErrorCode = ServerErrorCodes.UserNotFound.ToString(),
+                    Message = "User information was not found"
+                }));
+
+            if (await _userRepository.QueryAsync(x => x.Phone == model.Phone) != null)
+                throw new AppException(JsonConvert.SerializeObject(new ExceptionObject
+                {
+                    ErrorCode = ServerErrorCodes.DuplicatePhoneNumber.ToString(),
+                    Message = "Duplicate phone number found on the system"
+                }));
+
+            if (await _userRepository.QueryAsync(x => x.Email == model.Email) != null)
+                throw new AppException(JsonConvert.SerializeObject(new ExceptionObject
+                {
+                    ErrorCode = ServerErrorCodes.DuplicateEmail.ToString(),
+                    Message = "Duplicate email found on the system"
+                }));
 
             // Update the following;
             user.Name = model.Name;
             user.Surname = model.Surname;
-            user.Career = (Career) model.Career;
+            user.Career = (Career)model.Career;
             user.Client = model.Client;
             user.Email = model.Email;
             user.LearnershipStartDate = model.LearnershipStartDate;
             user.Phone = model.Phone;
-            user.Role = (Role) model.Role;
+            user.Role = (Role)model.Role;
 
             await _userRepository.UpdateAsync(user);
+        }
+
+        public async Task<IEnumerable<User>> GetPagedUsersAsync(int skip, int take)
+        {
+            return await _userRepository.GetPagedListAsync(skip, take);
         }
     }
 }

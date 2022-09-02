@@ -8,9 +8,11 @@ import {
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { ServerErrorCodes } from '../global/server-error-codes';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
+  exceptionObject: any | undefined = {};
 
   constructor(private toastr: ToastrService) {}
 
@@ -27,15 +29,26 @@ export class ErrorInterceptor implements HttpInterceptor {
           };
         }
         else {
+          this.exceptionObject = JSON.parse(error.error.message);
+
           errorObj = {
             title: 'Server side error',
-            message: `${error.error.message}`
+            errorCode: this.exceptionObject?.ErrorCode,
+            message: `${this.exceptionObject?.Message}`
           };
         }
 
-        this.toastr.error(errorObj?.message, errorObj?.title, {
-          timeOut: 10000,
-        });
+        switch (this.exceptionObject?.ErrorCode) {
+          case ServerErrorCodes.UserNotFound:
+          case ServerErrorCodes.DuplicateEmail:
+          case ServerErrorCodes.DuplicatePhoneNumber:
+          case ServerErrorCodes.DuplicateIdNumber:
+            break;
+          default:
+            this.toastr.error(errorObj?.message, errorObj?.title);
+            break;
+        }
+
         return throwError(errorObj);
       })
     )

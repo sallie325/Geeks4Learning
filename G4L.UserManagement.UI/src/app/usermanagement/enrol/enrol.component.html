@@ -57,7 +57,7 @@
                   <div *ngIf="formModel.controls['Name'].errors.required">
                     Please enter your first name.
                   </div>
-                  <div *ngIf="formModel.controls['Name'].errors.invalidName">
+                  <div *ngIf="formModel.controls['Name'].errors.invalidName && !formModel.controls['Name'].errors.required">
                     Please enter a valid first name.
                   </div>
                 </div>
@@ -97,7 +97,7 @@
                   <div *ngIf="formModel.controls['Surname'].errors.required">
                     Please enter a last name.
                   </div>
-                  <div *ngIf="formModel.controls['Surname'].errors.invalidName">
+                  <div *ngIf="formModel.controls['Surname'].errors.invalidName && !formModel.controls['Surname'].errors.required">
                     Please enter a valid last name.
                   </div>
                 </div>
@@ -183,14 +183,33 @@
                   <div *ngIf="formModel.controls['IdNumber'].errors.required">
                     Please enter an Id number.
                   </div>
-                  <div *ngIf="formModel.controls['IdNumber'].errors.invalidIdLength">
+                  <div
+                    *ngIf="
+                      formModel.controls['IdNumber'].errors.invalidIdLength
+                    "
+                  >
                     Please enter an Id number with 13 digits.
                   </div>
-                  <div *ngIf="formModel.controls['IdNumber'].errors.invalidIdDate">
+                  <div
+                    *ngIf="formModel.controls['IdNumber'].errors.invalidIdDate"
+                  >
                     The first 6 digits of your Id number are invalid.
                   </div>
-                  <div *ngIf="formModel.controls['IdNumber'].errors.invalidIdNumber">
+                  <div
+                    *ngIf="
+                      formModel.controls['IdNumber'].errors.invalidIdNumber
+                    "
+                  >
                     Please enter a valid Id number.
+                  </div>
+                  <div
+                    *ngIf="
+                      formModel.controls['IdNumber'].errors[
+                        'duplicateIdNumberError'
+                      ]
+                    "
+                  >
+                    {{ serverErrorMessage }}
                   </div>
                 </div>
               </div>
@@ -239,6 +258,13 @@
                   <div *ngIf="formModel.controls['Email'].errors.invalidEmail">
                     Please enter a valid email.
                   </div>
+                  <div
+                    *ngIf="
+                      formModel.controls['Email'].errors['duplicateEmailError']
+                    "
+                  >
+                    {{ serverErrorMessage }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -286,6 +312,15 @@
                     "
                   >
                     Please enter a number with 10 or 11 digits.
+                  </div>
+                  <div
+                    *ngIf="
+                      formModel.controls['Phone'].errors[
+                        'duplicatePhoneNumberError'
+                      ]
+                    "
+                  >
+                    {{ serverErrorMessage }}
                   </div>
                 </div>
               </div>
@@ -337,7 +372,9 @@
                   <div *ngIf="formModel.controls['Career'].errors.required">
                     Please select your prefered career.
                   </div>
-                  <div *ngIf="formModel.controls['Career'].errors.invalidStream">
+                  <div
+                    *ngIf="formModel.controls['Career'].errors.invalidStream"
+                  >
                     Please select a valid career/stream.
                   </div>
                 </div>

@@ -42,22 +42,22 @@ export class SideNavComponent implements OnInit {
           {
             name: 'Dashboard',
             route: '/dashboard',
-            // faIcon: faChartLine
+            faIcon: 'fa-chart-line'
           },
           {
             name: 'User management',
             route: '/user-management',
-            // faIcon: faUsersGear
+            faIcon: 'fa-users-gear'
           },
           {
             name: 'Leave management',
             route: '/leave-management',
-            // faIcon: faPersonWalkingArrowRight
+            faIcon: 'fa-person-walking-dashed-line-arrow-right'
           },
           {
             name: 'IKM management',
             route: '/ikm-management',
-            // faIcon: faUserGraduate
+            faIcon: 'fa-user-graduate'
           },
         ];
         break;
@@ -66,22 +66,22 @@ export class SideNavComponent implements OnInit {
           {
             name: 'Dashboard',
             route: '/dashboard',
-            // faIcon: faChartLine
+            faIcon: 'fa-chart-line'
           },
           {
             name: 'User management',
             route: '/user-management',
-            // faIcon: faUsersGear
+            faIcon: 'fa-users-gear'
           },
           {
             name: 'Leave management',
             route: '/leave-management',
-            // faIcon: faPersonWalkingArrowRight
+            faIcon: 'fa-person-walking-dashed-line-arrow-right'
           },
           {
             name: 'IKM management',
             route: '/ikm-management',
-            // faIcon: faUserGraduate
+            faIcon: 'fa-user-graduate'
           },
         ];
         break;
@@ -90,17 +90,17 @@ export class SideNavComponent implements OnInit {
           {
             name: 'Dashboard',
             route: '/dashboard',
-            // faIcon: faChartLine
+            faIcon: 'fa-chart-line'
           },
           {
             name: 'Leave management',
             route: '/leave-management',
-            // faIcon: faPersonWalkingArrowRight
+            faIcon: 'fa-person-walking-dashed-line-arrow-right'
           },
           {
             name: 'IKM management',
             route: '/ikm-management',
-            // faIcon: faUserGraduate
+            faIcon: 'fa-user-graduate'
           },
         ];
         break;
@@ -109,17 +109,22 @@ export class SideNavComponent implements OnInit {
           {
             name: 'Dashboard',
             route: '/dashboard',
-            // faIcon: faChartLine
+            faIcon: 'fa-chart-line'
+          },
+          {
+            name: 'Attendence Register',
+            route: '/attendence-register',
+            faIcon: 'fa-solid fa-clipboard-user'
           },
           {
             name: 'Leave',
             route: '/leave-management',
-            // faIcon: faPersonWalkingArrowRight
+            faIcon: 'fa-person-walking-dashed-line-arrow-right'
           },
           {
             name: 'IKM',
             route: '/ikm-management',
-            // faIcon: faUserGraduate
+            faIcon: 'fa-user-graduate'
           },
         ];
         break;

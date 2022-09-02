@@ -55,5 +55,21 @@ namespace G4L.UserManagement.Infrustructure.Repositories
                     .AsNoTracking().AsEnumerable();
             });
         }
+
+        public async Task<IList<TEntity>> GetPagedListAsync(int skip, int take)
+        {
+            return await _databaseContext
+                .Set<TEntity>()
+                .Skip(skip * take)
+                .Take(take)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<TEntity> QueryAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return await _databaseContext
+                .Set<TEntity>().Where(expression).AsNoTracking().FirstOrDefaultAsync();
+        }
     }
 }

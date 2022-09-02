@@ -15,5 +15,6 @@ namespace G4L.UserManagement.BL.Interfaces
         Task UpdateUserAsync(UpdateRequest user);
         Task DeleteUserAsync(Guid id);
         Task<User> GetUserAsync(string email);
+        Task<IEnumerable<User>> GetPagedUsersAsync(int skip, int take);
     }
 }
