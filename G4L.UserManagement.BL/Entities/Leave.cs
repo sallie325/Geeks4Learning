@@ -10,7 +10,6 @@ namespace G4L.UserManagement.BL.Entities
     public class Leave: BaseEntity
     {
         public string LeaveType { get; set; }
-        public int DaysUsed { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         // public int DaysUsed { get; set; }
