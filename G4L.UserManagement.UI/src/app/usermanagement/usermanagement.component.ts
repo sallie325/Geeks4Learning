@@ -59,7 +59,7 @@ export class UsermanagementComponent implements OnInit {
       animation: true,
       backdrop: true,
       containerClass: 'modal top fade modal-backdrop',
-      data: { user: user },
+      data: { user: user, editCrucialInfo: true },
       ignoreBackdropClick: false,
       keyboard: true,
       modalClass: 'modal-xl modal-dialog-centered',
