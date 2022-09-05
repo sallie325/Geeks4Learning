@@ -50,6 +50,11 @@ export class SideNavComponent implements OnInit {
             faIcon: 'fa-users-gear'
           },
           {
+            name: 'Attendence Register',
+            route: '/attendence-register',
+            faIcon: 'fa-solid fa-clipboard-user'
+          },
+          {
             name: 'Leave management',
             route: '/leave-management',
             faIcon: 'fa-person-walking-dashed-line-arrow-right'
@@ -74,6 +79,11 @@ export class SideNavComponent implements OnInit {
             faIcon: 'fa-users-gear'
           },
           {
+            name: 'Attendence Register',
+            route: '/attendence-register',
+            faIcon: 'fa-solid fa-clipboard-user'
+          },
+          {
             name: 'Leave management',
             route: '/leave-management',
             faIcon: 'fa-person-walking-dashed-line-arrow-right'
@@ -91,6 +101,11 @@ export class SideNavComponent implements OnInit {
             name: 'Dashboard',
             route: '/dashboard',
             faIcon: 'fa-chart-line'
+          },
+          {
+            name: 'Attendence Register',
+            route: '/attendence-register',
+            faIcon: 'fa-solid fa-clipboard-user'
           },
           {
             name: 'Leave management',
