@@ -140,7 +140,7 @@ export class SideNavComponent implements OnInit {
       animation: true,
       backdrop: true,
       containerClass: 'right',
-      data: { user: user },
+      data: { user: user, editCrucialInfo: false },
       ignoreBackdropClick: false,
       keyboard: true,
       modalClass: 'modal-xl modal-dialog-centered',

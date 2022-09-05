@@ -26,6 +26,7 @@ export class EnrolComponent implements OnInit {
   user: any | null = null;
   userRole: string | null = null;
   serverErrorMessage: any;
+  editCrucialInfo: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,13 +50,31 @@ export class EnrolComponent implements OnInit {
       ],
       Phone: [user?.phone, [Validators.required, CustomValidators.phone]],
       Email: [user?.email, [Validators.required, CustomValidators.email]],
-      Role: [user?.role || Roles.Please_select_a_role, Validators.required],
-      Career: [user?.career || Streams.Please_select_a_stream],
-      Client: [user?.client],
+      Role: [
+        {
+          value: user?.role || Roles.Please_select_a_role,
+          disabled: !this.editCrucialInfo,
+        },
+        Validators.required,
+      ],
+      Career: [
+        {
+          value: user?.career || Streams.Please_select_a_stream,
+          disabled: !this.editCrucialInfo,
+        },
+      ],
+      Client: [
+        {
+          value: user?.client,
+          disabled: !this.editCrucialInfo,
+        }],
       LearnershipStartDate: [
-        user?.learnershipStartDate
+        {
+          value: user?.learnershipStartDate
           ? formatDate(new Date(user?.learnershipStartDate), 'yyyy-MM-dd', 'en')
           : formatDate(new Date('0001-01-01'), 'yyyy-MM-dd', 'en'),
+          disabled: !this.editCrucialInfo,
+        },
       ],
       Password: [environment.defaultPassword, Validators.required],
     });
