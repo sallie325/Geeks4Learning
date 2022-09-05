@@ -83,14 +83,14 @@ namespace G4L.UserManagement.Infrustructure.Services
                     Message = "User information was not found"
                 }));
 
-            if (await _userRepository.QueryAsync(x => x.Phone == model.Phone) != null)
+            if (await _userRepository.QueryAsync(x => x.Phone == model.Phone && x.Id != model.Id) != null)
                 throw new AppException(JsonConvert.SerializeObject(new ExceptionObject
                 {
                     ErrorCode = ServerErrorCodes.DuplicatePhoneNumber.ToString(),
                     Message = "Duplicate phone number found on the system"
                 }));
 
-            if (await _userRepository.QueryAsync(x => x.Email == model.Email) != null)
+            if (await _userRepository.QueryAsync(x => x.Email == model.Email && x.Id != model.Id) != null)
                 throw new AppException(JsonConvert.SerializeObject(new ExceptionObject
                 {
                     ErrorCode = ServerErrorCodes.DuplicateEmail.ToString(),
