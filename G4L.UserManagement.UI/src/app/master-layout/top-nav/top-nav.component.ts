@@ -1,7 +1,6 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { contants } from 'src/app/shared/global/global.contants';
-import { LoaderService } from 'src/app/shared/loader/services/loader.service';
 
 @Component({
   selector: 'app-top-nav',
@@ -13,7 +12,7 @@ export class TopNavComponent implements OnInit {
   url: string | undefined;
   username: string | null = null;
 
-  constructor(private router: Router, private loaderService: LoaderService) {
+  constructor(private router: Router) {
     this.username = sessionStorage.getItem(contants.username);
 
     router.events.subscribe((event: any) => {
