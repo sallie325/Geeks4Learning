@@ -21,8 +21,8 @@ export class UsermanagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.getAllUsers();
-    this.getPagedUsers(0, 10);
+    this.getAllUsers();
+    // this.getPagedUsers(0, 10);
     this.userRole = sessionStorage.getItem(contants.role);
   }
 
