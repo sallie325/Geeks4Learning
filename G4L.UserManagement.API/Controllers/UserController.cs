@@ -21,12 +21,21 @@ namespace G4L.UserManagement.API.Controllers
             _logger = logger;
             _userService = userService;
         }
+        
         [Authorize(Role.Super_Admin, Role.Admin)]
         [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _userService.GetAllUsersAsync());
+        }
+
+        [Authorize(Role.Super_Admin, Role.Admin)]
+        [HttpGet("/paged")]
         public async Task<IActionResult> Get(int skip = 0, int take = 5)
         {
             return Ok(await _userService.GetPagedUsersAsync(skip, take));
         }
+
         [Authorize(Role.Super_Admin, Role.Admin)]
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] RegisterRequest user)
