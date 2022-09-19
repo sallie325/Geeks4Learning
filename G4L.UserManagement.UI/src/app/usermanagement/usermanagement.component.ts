@@ -4,6 +4,7 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { EnrolComponent } from './enrol/enrol.component';
 import { contants } from '../shared/global/global.contants';
 import { Roles } from '../shared/global/roles';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-usermanagement',
@@ -11,13 +12,15 @@ import { Roles } from '../shared/global/roles';
   styleUrls: ['./usermanagement.component.css'],
 })
 export class UsermanagementComponent implements OnInit {
+
   users: any;
   userRole: any;
   modalDialog: MdbModalRef<EnrolComponent> | null = null;
 
   constructor(
     private userService: UserService,
-    private modalService: MdbModalService
+    private modalService: MdbModalService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +70,13 @@ export class UsermanagementComponent implements OnInit {
 
     this.modalDialog.onClose.subscribe((isUpdated: boolean) => {
       if (isUpdated) this.getAllUsers();
+    });
+  }
+
+  deleteUser(id: any) {
+    this.userService.deleteUser(id).subscribe((response: any) => {
+      this.toastr.success(`The user was successfully deleted`);
+      this.getAllUsers();
     });
   }
 }
