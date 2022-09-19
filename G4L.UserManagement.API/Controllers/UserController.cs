@@ -50,6 +50,13 @@ namespace G4L.UserManagement.API.Controllers
             await _userService.UpdateUserAsync(user);
             return Ok();
         }
+        [Authorize(Role.Super_Admin, Role.Admin)]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAsync([FromBody] Guid id)
+        {
+            await _userService.DeleteUserAsync(id);
+            return Ok();
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
