@@ -43,6 +43,7 @@ namespace G4L.UserManagement.API.Controllers
             await _userService.RegisterUserAsync(user);
             return Ok();
         }
+
         [Authorize(Role.Super_Admin, Role.Admin)]
         [HttpPut]
         public async Task<IActionResult> PutAsync([FromBody] UpdateRequest user)
@@ -50,6 +51,7 @@ namespace G4L.UserManagement.API.Controllers
             await _userService.UpdateUserAsync(user);
             return Ok();
         }
+
         [Authorize(Role.Super_Admin, Role.Admin)]
         [HttpDelete]
         public async Task<IActionResult> DeleteAsync(Guid id)
@@ -57,6 +59,7 @@ namespace G4L.UserManagement.API.Controllers
             await _userService.DeleteUserAsync(id);
             return Ok();
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -65,6 +68,7 @@ namespace G4L.UserManagement.API.Controllers
                 return BadRequest("User Not Found");
             return Ok(user);
         }
+
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> LoginUser(AuthenticateRequest model)
