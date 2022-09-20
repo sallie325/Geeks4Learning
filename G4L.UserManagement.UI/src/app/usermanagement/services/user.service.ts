@@ -34,4 +34,8 @@ export class UserService {
     return this.http.get(`${environment.apiUrl}/user?skip=${skip}&take=${take}`);
   }
 
+  deleteUser(id: any) {
+    return this.http.delete(`${environment.apiUrl}/user?id=${id}`);
+  }
+
 }

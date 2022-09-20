@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { ToastrService } from 'ngx-toastr';
 import { contants } from 'src/app/shared/global/global.contants';
 import { Roles } from 'src/app/shared/global/roles';
 import { ServerErrorCodes } from 'src/app/shared/global/server-error-codes';
@@ -31,7 +32,8 @@ export class EnrolComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    public modalRef: MdbModalRef<EnrolComponent>
+    public modalRef: MdbModalRef<EnrolComponent>,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -91,6 +93,7 @@ export class EnrolComponent implements OnInit {
 
     this.userService.addUser('User', this.formModel.value).subscribe(
       () => {
+        this.toastr.success(`${this.formModel.value?.Name} ${this.formModel.value?.Surname} was successfully added.`);
         this.modalRef.close(true);
       },
       (error) => {
@@ -110,6 +113,7 @@ export class EnrolComponent implements OnInit {
 
     this.userService.updateUser('User', this.formModel.value).subscribe(
       () => {
+        this.toastr.success(`${this.formModel.value?.Name} ${this.formModel.value?.Surname} was successfully updated.`);
         this.modalRef.close(true);
       },
       (error) => {
