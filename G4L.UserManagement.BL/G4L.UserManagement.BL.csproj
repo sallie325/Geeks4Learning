@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Domain Services\" />
     <Folder Include="Custom Exceptions\" />
     <Folder Include="Specifications\" />
   </ItemGroup>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+
 namespace G4L.UserManagement.API.Controllers
 {
     [ApiController]
@@ -16,12 +17,13 @@ namespace G4L.UserManagement.API.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
+
         public UserController(ILogger<UserController> logger, IUserService userService)
         {
             _logger = logger;
             _userService = userService;
         }
-        
+
         [Authorize(Role.Super_Admin, Role.Admin)]
         [HttpGet]
         public async Task<IActionResult> Get()
