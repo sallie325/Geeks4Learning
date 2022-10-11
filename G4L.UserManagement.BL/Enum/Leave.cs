@@ -10,7 +10,7 @@ namespace G4L.UserManagement.BL.Enum
     {
         Unknown,
         Annual,
-        FamilyResponsibility,
+        Family_Responsibility,
         Sick
     }
 }
