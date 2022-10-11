@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220803081751_InitialCreate1")]
-    partial class InitialCreate1
+    [Migration("20221010114926_RemoveFKFromApproversTables")]
+    partial class RemoveFKFromApproversTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,39 @@ namespace G4L.UserManagement.DA.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Approver", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LeaveId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeaveId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Approvers");
+                });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
                 {
@@ -55,17 +88,17 @@ namespace G4L.UserManagement.DA.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("DaysUsed")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("LeaveType")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("LeaveType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -89,7 +122,7 @@ namespace G4L.UserManagement.DA.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("Career")
+                    b.Property<int>("Career")
                         .HasColumnType("int");
 
                     b.Property<string>("Client")
@@ -101,8 +134,8 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("IdNumber")
-                        .HasColumnType("bigint");
+                    b.Property<string>("IdNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LearnershipStartDate")
                         .HasColumnType("datetime2");
@@ -113,13 +146,13 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Roles")
+                    b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.Property<string>("Surname")
@@ -130,10 +163,23 @@ namespace G4L.UserManagement.DA.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Approver", b =>
+                {
+                    b.HasOne("G4L.UserManagement.BL.Entities.Leave", null)
+                        .WithMany("Approvers")
+                        .HasForeignKey("LeaveId");
+
+                    b.HasOne("G4L.UserManagement.BL.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.Leave", null)
-                        .WithMany("Document")
+                        .WithMany("Documents")
                         .HasForeignKey("LeaveId");
                 });
 
@@ -146,7 +192,9 @@ namespace G4L.UserManagement.DA.Migrations
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
                 {
-                    b.Navigation("Document");
+                    b.Navigation("Approvers");
+
+                    b.Navigation("Documents");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
