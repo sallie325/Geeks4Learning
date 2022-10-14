@@ -10,5 +10,7 @@ namespace G4L.UserManagement.BL.Interfaces
     public interface ILeaveService
     {
         Task LeaveRequestAsync(LeaveRequest leaveRequest);
+        //Itumeleng Koalane Added this here
+        Task HalfDayRequestAsync(HalfDayRequest halfDayRequest);
     }
 }

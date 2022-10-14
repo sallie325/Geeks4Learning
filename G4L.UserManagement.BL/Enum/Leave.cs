@@ -11,6 +11,7 @@ namespace G4L.UserManagement.BL.Enum
         Unknown,
         Annual,
         Family_Responsibility,
-        Sick
+        Sick,
+        Half_Day
     }
 }

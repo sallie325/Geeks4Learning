@@ -14,6 +14,8 @@ namespace G4L.UserManagement.BL.Models
         public LeaveType LeaveType { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public List<HalfDayRequest> HalfDayRequest { get; set; }
+        //Itumeleng added this
         public String Comments { get; set; }
         public ICollection<ApproverRequest> Approvers { get; set; }
         public ICollection<DocumentRequest> Documents { get; set; }  // TODO: think of a better way to save attachments
