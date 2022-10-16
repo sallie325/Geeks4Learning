@@ -10,6 +10,7 @@ namespace G4L.UserManagement.BL.Models
 {
     public class LeaveRequest
     {
+        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public LeaveType LeaveType { get; set; }
         public DateTime StartDate { get; set; }

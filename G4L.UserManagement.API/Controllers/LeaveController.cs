@@ -40,18 +40,18 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         [Authorize(Role.Learner)]
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync(Guid id)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetAsync(Guid userId)
         {
-            var leaveRequests = await _leaveService.GetLeaveRequestsAsync(id);
+            var leaveRequests = await _leaveService.GetLeaveRequestsAsync(userId);
             return Ok(leaveRequests);
         }
 
         [Authorize(Role.Learner)]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(Guid id, Status status)
+        public async Task<IActionResult> PutAsync([FromBody] LeaveRequest leaveRequest, Guid id)
         {
-            await _leaveService.UpdateLeaveStatusAsync(id, status);
+            await _leaveService.UpdateLeaveStatusAsync(id, leaveRequest.Status);
             return Ok();
         }
     }
