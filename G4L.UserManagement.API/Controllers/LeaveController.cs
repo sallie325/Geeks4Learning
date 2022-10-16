@@ -4,6 +4,7 @@ using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace G4L.UserManagement.API.Controllers
@@ -27,8 +28,31 @@ namespace G4L.UserManagement.API.Controllers
         public async Task<IActionResult> PostAsync([FromBody] LeaveRequest leaveRequest)
         {
             _logger.Log(LogLevel.Information, $"applying for leave {leaveRequest.LeaveType}");
-            await _leaveService.LeaveRequestAsync(leaveRequest);
+            await _leaveService.RequestLeaveAsync(leaveRequest);
             return Ok(leaveRequest);
+        }
+
+        [HttpGet("balances")]
+        public async Task<IActionResult> GetAsync()
+        {
+            var balances = await _leaveService.GetLeaveBalancesAsync();
+            return Ok();
+        }
+
+        [Authorize(Role.Learner)]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAsync(Guid id)
+        {
+            var leaveRequests = await _leaveService.GetLeaveRequestsAsync(id);
+            return Ok(leaveRequests);
+        }
+
+        [Authorize(Role.Learner)]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(Guid id, Status status)
+        {
+            await _leaveService.UpdateLeaveStatusAsync(id, status);
+            return Ok();
         }
     }
 }

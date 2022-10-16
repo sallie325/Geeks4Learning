@@ -16,6 +16,7 @@ namespace G4L.UserManagement.BL.Entities
         public LeaveType LeaveType { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public Status Status { get; set; }
         public String Comments { get; set; }
         public ICollection<Approver> Approvers { get; set; }
         public ICollection<Document> Documents { get; set; }
