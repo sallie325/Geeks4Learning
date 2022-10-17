@@ -7,12 +7,14 @@ using G4L.UserManagement.BL.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace G4L.UserManagement.Infrustructure.Services
 {
-    public class UserService : IUserService
+    public class UserService : IUserService 
     {
         private readonly IUserRepository _userRepository;
         private ITokenService _tokenService;
