@@ -12,6 +12,5 @@ namespace G4L.UserManagement.BL.Interfaces
     {
         Task<User> GetByUserByEmailAsync(string email);
         Task CreateUserAsync(RegisterRequest user);
-        Task<User> GetByIdAsync(object userId);
     }
 }

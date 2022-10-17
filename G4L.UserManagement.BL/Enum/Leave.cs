@@ -8,10 +8,10 @@ namespace G4L.UserManagement.BL.Enum
 {
     public enum LeaveType
     {
-        Unknown,
         Annual,
         Family_Responsibility,
         Sick,
-        Half_Day
+        Half_Day,
+        Un_Paid
     }
 }

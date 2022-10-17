@@ -58,11 +58,6 @@ namespace G4L.UserManagement.Infrustructure.Repositories
             await _databaseContext.SaveChangesAsync();
         }
 
-        public Task<User> GetByIdAsync(object userId)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<User> GetByUserByEmailAsync(string email)
         {
             return await Task.Run(() =>

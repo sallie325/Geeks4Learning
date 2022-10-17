@@ -10,7 +10,7 @@ namespace G4L.UserManagement.BL.Models
     {
         private string Morning_half { get; set; }
         private string Afternoon_half { get; set; }
-        public object UserId { get; set; }
+        public Guid UserId { get; set; }
 
         bool pickDay = false;
 
