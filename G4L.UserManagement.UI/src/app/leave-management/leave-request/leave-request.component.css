@@ -1,0 +1,36 @@
+.card-body {
+  padding: 1.5rem;
+}
+
+.leave-summary {
+  background-color: #e9ecef;
+  padding-top: 20px;
+  border-radius: 10px;
+}
+
+.row.date-range {
+  border: 1px solid #ced4da;
+  margin: 0 1px;
+  border-radius: 5px;
+}
+
+.date-control {
+  border: none;
+}
+
+
+.attachments {
+  border: 1px dashed lightgrey;
+  padding: 3rem;
+}
+
+/* Upload files */
+
+
+
+/* All day/half day */
+.leave-day-duration {
+  background-color: #e9ecef;
+  border: none;
+  color: #347EF5;
+}
