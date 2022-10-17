@@ -40,4 +40,9 @@ export class LeaveService {
     return this.http.get(`${environment.apiUrl}/leave/${userId}`);
   }
 
+  updateLeave(leave: any): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/leave/${leave?.id}`, leave);
+  }
+
+
 }

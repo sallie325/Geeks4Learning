@@ -28,7 +28,7 @@ namespace G4L.UserManagement.API.Controllers
         public async Task<IActionResult> PostAsync([FromBody] LeaveRequest leaveRequest)
         {
             _logger.Log(LogLevel.Information, $"applying for leave {leaveRequest.LeaveType}");
-            await _leaveService.LeaveRequestAsync(leaveRequest);
+            await _leaveService.RequestLeaveAsync(leaveRequest);
             return Ok(leaveRequest);
         }
 
