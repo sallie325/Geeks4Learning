@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
+import { LeaveStatus } from '../shared/global/leave-status';
+import { LeaveTypes } from '../shared/global/leave-types';
 import { TokenService } from '../usermanagement/login/services/token.service';
 import { LeaveRequestComponent } from './leave-request/leave-request.component';
 import { LeaveService } from './services/leave.service';
@@ -14,6 +16,7 @@ export class LeaveManagementComponent implements OnInit {
 
   modalDialog: MdbModalRef<LeaveRequestComponent> | null = null;
   leaveApplications: any[] = [];
+  user: any;
 
   constructor(
     private modalService: MdbModalService,
@@ -23,8 +26,8 @@ export class LeaveManagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let user: any = this.tokenService.getDecodeToken();
-    this.getLeaveApplication(user.id);
+    this.user = this.tokenService.getDecodeToken();
+    this.getLeaveApplication(this.user?.id);
   }
 
   getLeaveApplication(userId: any) {
@@ -52,8 +55,15 @@ export class LeaveManagementComponent implements OnInit {
     });
   }
 
-  cancelApplication(id: any) {
+  cancelApplication(leave: any) {
     // Cancl leave here
+    leave.status = LeaveStatus.Cancelled;
+
+    this.leaveService.updateLeave(leave)
+      .subscribe(_ =>
+        this.getLeaveApplication(this.user?.id)
+      );
+
   }
 
 }
