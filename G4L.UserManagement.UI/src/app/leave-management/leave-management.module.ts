@@ -7,9 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { MaterialModule } from '../shared/material/material.module';
+import { LearnerTableComponent } from './learner-table/learner-table.component';
+import { TotalPendingApprovalRejectionComponent } from './total-pending-approval-rejection/total-pending-approval-rejection.component';
 
 @NgModule({
-  declarations: [ LeaveManagementComponent, LeaveRequestComponent ],
+  declarations: [ LeaveManagementComponent, LeaveRequestComponent,LearnerTableComponent,TotalPendingApprovalRejectionComponent ],
   imports: [
     CommonModule,
     HttpClientModule,

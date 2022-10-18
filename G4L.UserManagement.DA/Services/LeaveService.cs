@@ -38,7 +38,7 @@ namespace G4L.UserManagement.DA.Services
         public async Task RequestLeaveAsync(LeaveRequest leaveRequest)
         {
             var leave = _mapper.Map<Leave>(leaveRequest);
-            leave.User = await _userRepository.GetByIdAsync(leaveRequest.UserId);
+            //leave.User = await _userRepository.GetByIdAsync(leaveRequest.UserId);
             await _leaveRepository.CreateAsync(leave);
         }
 
@@ -47,6 +47,10 @@ namespace G4L.UserManagement.DA.Services
             var leave = await _leaveRepository.GetByIdAsync(id);
             leave.Status = status;
             await _leaveRepository.UpdateAsync(leave);
+        }
+        public async Task<IEnumerable<Leave>> GetAllLeaveRequestsAsync()
+        {
+            return await _leaveRepository.ListAsync();
         }
     }
 }

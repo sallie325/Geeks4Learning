@@ -1084,3 +1084,7 @@ aside#sidenav-main {
 .modal-backdrop.show {
   opacity: 100% !important;
 }
+.cardStyling{
+  width:17.5vw;
+  margin-left: 12.5%;
+}
