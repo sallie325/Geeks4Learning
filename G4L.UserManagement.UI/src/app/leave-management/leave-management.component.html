@@ -8,8 +8,8 @@
   </div>
 
   <div class="row mb-3">
-    <div class="col">
-      <app-leave-balance-card *ngFor="let leaveBalance of leaveBalances">
+    <div class="col-4" *ngFor="let leaveBalance of leaveBalances">
+      <app-leave-balance-card>
         <ng-container title>{{ leaveBalance?.balanceType }}</ng-container>
           <ng-container total>{{ leaveBalance?.remaining }}</ng-container>
           <ng-container icon>

@@ -104,7 +104,6 @@ namespace G4L.UserManagement.DA.Services
         public async Task RequestLeaveAsync(LeaveRequest leaveRequest)
         {
             var leave = _mapper.Map<Leave>(leaveRequest);
-            leave.User = await _userRepository.GetByIdAsync(leaveRequest.UserId);
             await _leaveRepository.CreateAsync(leave);
         }
 

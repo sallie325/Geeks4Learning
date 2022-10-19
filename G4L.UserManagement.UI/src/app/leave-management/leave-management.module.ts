@@ -7,9 +7,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { MaterialModule } from '../shared/material/material.module';
-import { NgChartsModule } from "ng2-charts";
 import { LeaveBalanceCardComponent } from './leave-balance-card/leave-balance-card.component';
 import { ChartsModule } from '../shared/charts/charts.module';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [ LeaveManagementComponent, LeaveRequestComponent, LeaveBalanceCardComponent ],
