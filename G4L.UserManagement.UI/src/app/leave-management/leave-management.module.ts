@@ -9,9 +9,12 @@ import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { MaterialModule } from '../shared/material/material.module';
 import { LearnerTableComponent } from './learner-table/learner-table.component';
 import { TotalPendingApprovalRejectionComponent } from './total-pending-approval-rejection/total-pending-approval-rejection.component';
+import { LeaveBalanceCardComponent } from './leave-balance-card/leave-balance-card.component';
+import { ChartsModule } from '../shared/charts/charts.module';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
-  declarations: [ LeaveManagementComponent, LeaveRequestComponent,LearnerTableComponent,TotalPendingApprovalRejectionComponent ],
+  declarations: [ LeaveManagementComponent, LeaveRequestComponent, LeaveBalanceCardComponent,LearnerTableComponent,TotalPendingApprovalRejectionComponent ],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -19,7 +22,9 @@ import { TotalPendingApprovalRejectionComponent } from './total-pending-approval
     MdbModalModule,
     PipesModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    NgChartsModule,
+    ChartsModule
   ]
 })
 export class LeaveManagementModule { }

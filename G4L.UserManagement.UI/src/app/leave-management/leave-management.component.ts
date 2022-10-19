@@ -22,6 +22,8 @@ export class LeaveManagementComponent implements OnInit {
   modalDialog: MdbModalRef<LeaveRequestComponent> | null = null;
   leaveApplications: any[] = [];
   user: any;
+  leaveBalances: any[] = [];
+  dataSet: any;
 
   constructor(
     private modalService: MdbModalService,
@@ -35,6 +37,15 @@ export class LeaveManagementComponent implements OnInit {
     this.determinRole(role);
     this.user = this.tokenService.getDecodeToken();
     this.getLeaveApplication(this.user?.id);
+    this.getLeaveBalances(this.user?.id);
+  }
+
+  getLeaveBalances(userId: any) {
+    this.leaveService.getLeaveBalances(userId)
+      .subscribe((response: any) => {
+        console.log(response);
+        this.leaveBalances = response;
+      });
   }
 
   getLeaveApplication(userId: any) {
@@ -43,7 +54,6 @@ export class LeaveManagementComponent implements OnInit {
         console.log(arg);
         this.leaveApplications = arg;
       });
-    ;
   }
 
   openDialog() {
@@ -87,5 +97,24 @@ export class LeaveManagementComponent implements OnInit {
         break;
     }
   }
+
+  setData(used: number, remaining: number) {
+    this.dataSet = { used, remaining };
+  }
+
+  getPrimaryColor(balanceType: LeaveTypes) {
+    switch (balanceType) {
+      case LeaveTypes.Annual:
+        return '#2d572b';
+      case LeaveTypes.Sick:
+        return '#2d2b57';
+      case LeaveTypes.Family_Responsibility:
+        return '#2a5d6b';
+
+    }
+
+    return;
+  }
+
 
 }
