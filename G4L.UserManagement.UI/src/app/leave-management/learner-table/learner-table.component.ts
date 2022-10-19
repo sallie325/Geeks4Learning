@@ -11,6 +11,7 @@ import { LeaveService } from '../services/leave.service';
   styleUrls: ['./learner-table.component.css']
 })
 export class LearnerTableComponent implements OnInit {
+  filterTerm:any;
   modalDialog: MdbModalRef<LeaveComponent> | null = null;
   leaveApplications: any[] = [];
   users: any;
