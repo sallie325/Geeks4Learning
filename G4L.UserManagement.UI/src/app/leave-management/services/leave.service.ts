@@ -47,6 +47,7 @@ export class LeaveService {
   getAllLeaveApplications(){
     return this.http.get(`${environment.apiUrl}/leave`);
   }
+
   getLeaveBalances(userId: any) {
     return this.http.get(`${environment.apiUrl}/leave/balances/${userId}`);
   }
