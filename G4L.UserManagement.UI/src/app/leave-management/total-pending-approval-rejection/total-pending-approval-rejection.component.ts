@@ -23,23 +23,15 @@ export class TotalPendingApprovalRejectionComponent implements OnInit {
       this.allRequests.forEach((x: any) => {
         if (x.status == "Approved") {
           this.approved += 1;
-          if(this.pending > 0){
-            this.pending -=1;
-          }
           
+
         } else if (x.status == "Pending") {
           this.pending += 1;
         }
         else if (x.status == "Rejected") {
           this.rejected += 1;
-          if(this.pending > 0){
-            this.pending -=1;
-          }
         } else if (x.status == "Cancelled") {
           this.cancelled += 1;
-          if(this.pending > 0){
-            this.pending -=1;
-          }
         }
         console.log(this.allRequests);
       })

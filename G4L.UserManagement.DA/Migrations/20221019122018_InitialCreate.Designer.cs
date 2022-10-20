@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221018074657_initialCreate")]
-    partial class initialCreate
+    [Migration("20221019122018_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -106,6 +106,9 @@ namespace G4L.UserManagement.DA.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("UsedDays")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
