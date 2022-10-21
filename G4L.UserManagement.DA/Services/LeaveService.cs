@@ -101,15 +101,7 @@ namespace G4L.UserManagement.DA.Services
             return _mapper.Map<List<LeaveRequest>>(leaves);
         }
 
-        //Itumeleng Koalane added this
-        public async Task HalfDayRequestAsync(HalfDayRequest halfDayRequest)
-        {
-            var leaveHalfDay = _mapper.Map<Leave>(halfDayRequest);
-            leaveHalfDay.User = await _userRepository.GetByIdAsync(halfDayRequest.UserId);
-            await _leaveRepository.CreateAsync(leaveHalfDay);
-        }
-
-        public async Task LeaveRequestAsync(LeaveRequest leaveRequest)
+        public async Task RequestLeaveAsync(LeaveRequest leaveRequest)
         {
             var leave = _mapper.Map<Leave>(leaveRequest);
             await _leaveRepository.CreateAsync(leave);
