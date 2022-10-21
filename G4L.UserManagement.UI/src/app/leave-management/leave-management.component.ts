@@ -36,7 +36,6 @@ export class LeaveManagementComponent implements OnInit {
   getLeaveBalances(userId: any) {
     this.leaveService.getLeaveBalances(userId)
       .subscribe((response: any) => {
-        console.log(response);
         this.leaveBalances = response;
       });
   }
@@ -44,17 +43,16 @@ export class LeaveManagementComponent implements OnInit {
   getLeaveApplication(userId: any) {
     this.leaveService.getLeaveApplications(userId)
       .subscribe(arg => {
-        console.log(arg);
         this.leaveApplications = arg;
       });
   }
 
-  openDialog() {
+  openDialog(leaveBalances: any[]) {
     this.modalDialog = this.modalService.open(LeaveRequestComponent, {
       animation: true,
       backdrop: true,
       containerClass: 'modal top fade modal-backdrop',
-      data: {},
+      data: { leaveBalances: leaveBalances },
       ignoreBackdropClick: false,
       keyboard: true,
       modalClass: 'modal-xl modal-dialog-centered',
@@ -97,5 +95,21 @@ export class LeaveManagementComponent implements OnInit {
     return;
   }
 
+  getStatusIcon(status: any): any {
+    switch (status) {
+      case LeaveStatus.Pending:
+        return 'fa-circle-pause'
+      case LeaveStatus.Approved:
+        return 'fa-circle-check green-text'
+      case LeaveStatus.Partially_Approved:
+        return 'fa-circle-half-stroke g4l-green'
+      case LeaveStatus.Cancelled:
+        return 'fa-ban red-text'
+      case LeaveStatus.Rejected:
+        return 'fa-circle-xmark red-text'
+      default:
+        break;
+    }
+  }
 
 }

@@ -1,12 +1,13 @@
+import { LeaveTypes } from './../../shared/global/leave-types';
 import { LeaveDayType } from './../../shared/global/leave-day-type';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
-import { LeaveTypes } from 'src/app/shared/global/leave-types';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
 import { LeaveService } from '../services/leave.service';
 import { LeaveStatus } from 'src/app/shared/global/leave-status';
+import { HalfDaySchedule } from 'src/app/shared/global/half-day-schedule';
 
 @Component({
   selector: 'app-leave-request',
@@ -23,11 +24,13 @@ export class LeaveRequestComponent implements OnInit {
   keys = Object.keys;
 
   leaveTypes = LeaveTypes;
-  leaveBalance: { leaveType: LeaveTypes; days: number; }[] = [];
+  daysType = LeaveDayType;
+  halfDaySchedule = HalfDaySchedule;
+
   negativeDays: boolean = false;
 
-  daysType = LeaveDayType;
-  leaveSchedule: { date: Date; leaveDayType: LeaveDayType; }[] = [];
+  // leaveSchedule: { date: Date; leaveDayType: LeaveDayType.All_day; halfDaySchedule: HalfDaySchedule.None; }[] = []; // Might destroy this
+  leaveBalances: any[] = [];
 
   constructor(
     public modalRef: MdbModalRef<LeaveRequestComponent>,
@@ -41,22 +44,16 @@ export class LeaveRequestComponent implements OnInit {
     let user: any = this.tokenService.getDecodeToken();
     this.userId = user.id;
     this.buildForm();
-    this.getLeaveDays();
-  }
-
-  getLeaveDays() {
-    this.leaveService.getLeaveBalance().subscribe((response: any) => {
-      this.leaveBalance = response;
-      console.log(response);
-    });
   }
 
   buildForm() {
     this.formModel = this.formBuilder.group({
       userId: [this.userId],
-      leaveType: ['', Validators.required],
+      leaveType: [LeaveTypes.Please_Select_A_Leave , Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
+      leaveDayDuration: [ LeaveDayType.All_day ],
+      leaveSchedule: this.formBuilder.array([]),
       comments: [''],
       usedDays: ['', Validators.required ],
       status: [ LeaveStatus.Pending ],
@@ -73,6 +70,14 @@ export class LeaveRequestComponent implements OnInit {
         }
       ]), // How do we know who will approver
       documents: [[]]
+    });
+  }
+
+  leaveSchedule(data?: any) {
+    return this.formBuilder.group({
+      date: [data?.date, Validators.required],
+      leaveDayType: [LeaveDayType.Half_day],
+      halfDaySchedule: [HalfDaySchedule.None]
     });
   }
 
@@ -98,16 +103,12 @@ export class LeaveRequestComponent implements OnInit {
 
   calculateDaysRemaining(): number | undefined {
     this.negativeDays = false;
-
-    switch (this.formModel.get('leaveType').value) {
+    var leaveType = this.formModel.get('leaveType').value;
+    switch (leaveType) {
       case LeaveTypes.Annual:
-        this.daysAvailable = this.leaveBalance.find(x => x.leaveType === LeaveTypes.Annual)?.days;
-        break;
       case LeaveTypes.Family_Responsibility:
-        this.daysAvailable = this.leaveBalance.find(x => x.leaveType === LeaveTypes.Family_Responsibility)?.days;
-        break;
       case LeaveTypes.Sick:
-        this.daysAvailable = this.leaveBalance.find(x => x.leaveType === LeaveTypes.Sick)?.days;
+        this.daysAvailable = this.leaveBalances.find(x => x.balanceType === leaveType).remaining;
         break;
       default:
         return 0;
@@ -128,26 +129,78 @@ export class LeaveRequestComponent implements OnInit {
   }
 
   applyForLeave() {
-    this.leaveService.applyForLeave(this.formModel.value).subscribe(_ => {
-      this.toastr.success(`Your leave was successfully created.`);
-      this.modalRef.close(true);
-    });
+    console.log(this.formModel);
+
+    // this.leaveService.applyForLeave(this.formModel.value).subscribe(_ => {
+    //   this.toastr.success(`Your leave was successfully created.`);
+    //   this.modalRef.close(true);
+    // });
   }
 
-  onOptionsSelected(event: any) {
-    this.leaveSchedule = [];
+  onOptionsSelected(event?: any) {
     const startDate = new Date(this.formModel.get('startDate').value);
+    const newDate = new Date(startDate.setDate(startDate.getDate() - 1));
+
     switch (this.formModel.get('leaveDayDuration').value) {
       case LeaveDayType.Half_day:
         for (let index = 0; index < this.calculateDaysRequested(); index++) {
-          let newDate = startDate.setDate(startDate.getDate() + 1);
-          this.leaveSchedule.push({ date: new Date(newDate), leaveDayType: LeaveDayType.All_day });
+          this.formModel.get('leaveSchedule').push(this.leaveSchedule({
+            date: newDate.setDate(newDate.getDate() + 1)
+          }));
         }
-        console.log(this.leaveSchedule);
         break;
       default:
         break;
     }
+  }
+
+  isAllowed(leaveType: any) {
+    switch (leaveType) {
+      case LeaveTypes.Annual:
+      case LeaveTypes.Sick:
+      case LeaveTypes.Family_Responsibility:
+        if (this.leaveBalances.find(x => x.balanceType === leaveType).remaining === 0) {
+          return true;
+        }
+        return false;
+      case LeaveTypes.Unpaid:
+        return false;
+      default:
+        return true;
+    }
+  }
+
+  isDefault(leaveType: any) {
+    switch (leaveType) {
+      case LeaveTypes.Please_Select_A_Leave:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  handleFileInput(files: FileList) {
+    console.log(this.formModel);
+    console.log(files);
+    this.formModel.get('documents').value = files.item(0);
+  }
+
+  getFormControl(form: any, formControlName: string): any {
+    return form.controls[formControlName];
+  }
+
+  isAllDay() {
+    switch (this.formModel.get('leaveDayDuration').value) {
+      case LeaveDayType.All_day:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  dateRangeChange() {
+    this.formModel.get('leaveSchedule').controls = [];
+    this.formModel.get('leaveDayDuration').patchValue(LeaveDayType.All_day);
   }
 
   close() {
