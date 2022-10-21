@@ -54,5 +54,14 @@ namespace G4L.UserManagement.API.Controllers
             await _leaveService.UpdateLeaveStatusAsync(id, leaveRequest.Status);
             return Ok();
         }
+
+        //Itumeleng Koalane
+        [HttpPost]
+        public async Task<IActionResult> HalfDayAsync(HalfDayRequest halfDayRequest)
+        {
+            _logger.Log(LogLevel.Information, $"applying for half day leave {halfDayRequest}");
+            await _leaveService.HalfDayRequestAsync(halfDayRequest);
+            return Ok(halfDayRequest);
+        }
     }
 }

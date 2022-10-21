@@ -13,5 +13,7 @@ namespace G4L.UserManagement.BL.Interfaces
         Task<List<LeaveBalanceResponse>> GetLeaveBalancesAsync(Guid userId);
         Task<List<LeaveRequest>> GetLeaveRequestsAsync(Guid userId);
         Task UpdateLeaveStatusAsync(Guid id, Enum.Status status);
+        //Itumeleng Koalane Added this here
+        Task HalfDayRequestAsync(HalfDayRequest halfDayRequest);
     }
 }
