@@ -13,7 +13,7 @@
       <hr class="horizontal dark my-4" />
     </div>
     <div class="card-body pt-0">
-      <form [formGroup]="formModel" autocomplete="off" (submit)="applyForLeave()">
+      <form [formGroup]="formModel" autocomplete="off">
         <div class="row">
           <div class="col p-3">
             <!-- Leave type -->
@@ -57,9 +57,9 @@
                   formModel.controls['endDate'].touched
               }">Date range<span class="red-text">*</span></label>
               <mat-form-field appearance="fill" class="example-form-field">
-                <mat-date-range-input [rangePicker]="rangePicker">
-                  <input matStartDate placeholder="Start date" formControlName="startDate" #startDate>
-                  <input matEndDate placeholder="End date" formControlName="endDate" #endDate
+                <mat-date-range-input [rangePicker]="rangePicker" [dateFilter]="holidaysAndWeekendsDatesFilter">
+                  <input matStartDate placeholder="Start date" formControlName="startDate">
+                  <input matEndDate placeholder="End date" formControlName="endDate"
                   (dateChange)="dateRangeChange()">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
@@ -113,15 +113,14 @@
                       {{ getFormControl(item, 'date').value | date: 'd MMM' }}
                     </div>
                     <div class="col">
-                      <select formControlName="leaveDayType" class="leave-day-duration">
+                      <select formControlName="leaveDayType" class="leave-day-duration" (change)='updateUsedDays(i)'>
                         <option *ngFor="let item of keys(daysType)" [ngValue]="item">{{item |
                           removeUnderscore }}</option>
                       </select>
                     </div>
                     <div class="col">
                       <select formControlName="halfDaySchedule" class="leave-day-duration">
-                        <option *ngFor="let item of keys(halfDaySchedule)" [ngValue]="item">{{item |
-                          removeUnderscore }}</option>
+                        <option *ngFor="let item of keys(halfDaySchedule)" [ngValue]="item" [disabled]="isAllowed(item)">{{item | removeUnderscore }}</option>
                       </select>
                     </div>
                   </div>
