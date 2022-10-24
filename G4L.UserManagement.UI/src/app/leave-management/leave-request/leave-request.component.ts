@@ -132,10 +132,8 @@ export class LeaveRequestComponent implements OnInit {
       if (this.daysRemaining < 0) {
         this.negativeDays = true;
       }
-
       return this.daysRemaining;
     }
-
     return undefined;
   }
 

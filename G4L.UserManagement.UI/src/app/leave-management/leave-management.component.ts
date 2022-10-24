@@ -91,7 +91,6 @@ export class LeaveManagementComponent implements OnInit {
       case LeaveTypes.Family_Responsibility:
         return '#2a5d6b';
     }
-
     return;
   }
 
@@ -111,5 +110,4 @@ export class LeaveManagementComponent implements OnInit {
         break;
     }
   }
-
 }

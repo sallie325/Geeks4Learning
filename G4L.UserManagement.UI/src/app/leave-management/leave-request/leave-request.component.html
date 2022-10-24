@@ -120,7 +120,7 @@
                     </div>
                     <div class="col">
                       <select formControlName="halfDaySchedule" class="leave-day-duration">
-                        <option *ngFor="let item of keys(halfDaySchedule)" [ngValue]="item" [disabled]="isAllowed(item)">{{item | removeUnderscore }}</option>
+                        <option *ngFor="let item of keys(halfDaySchedule)" [ngValue]="item">{{item | removeUnderscore }}</option>
                       </select>
                     </div>
                   </div>
