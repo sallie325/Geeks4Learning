@@ -31,14 +31,14 @@ export class SideNavComponent implements OnInit {
   getUserDetails(userId: string | null) {
     this.userService.getUserById(userId).subscribe((response: any) => {
       this.user = response;
-      this.getNavItems(this.user);
+      this.navItems = this.getNavItems(this.user);
     });
   }
 
   getNavItems(user: any) {
     switch (user?.role) {
       case Roles.Super_Admin:
-        this.navItems = [
+        return [
           {
             name: 'Dashboard',
             route: '/dashboard',
@@ -65,9 +65,8 @@ export class SideNavComponent implements OnInit {
             faIcon: 'fa-user-graduate'
           },
         ];
-        break;
       case Roles.Admin:
-        this.navItems = [
+         return [
           {
             name: 'Dashboard',
             route: '/dashboard',
@@ -94,9 +93,8 @@ export class SideNavComponent implements OnInit {
             faIcon: 'fa-user-graduate'
           },
         ];
-        break;
       case Roles.Trainer:
-        this.navItems = [
+         return [
           {
             name: 'Dashboard',
             route: '/dashboard',
@@ -118,9 +116,8 @@ export class SideNavComponent implements OnInit {
             faIcon: 'fa-user-graduate'
           },
         ];
-        break;
       case Roles.Learner:
-        this.navItems = [
+         return [
           {
             name: 'Dashboard',
             route: '/dashboard',
@@ -142,7 +139,8 @@ export class SideNavComponent implements OnInit {
             faIcon: 'fa-user-graduate'
           },
         ];
-        break;
+      default:
+        return [];
     }
   }
 

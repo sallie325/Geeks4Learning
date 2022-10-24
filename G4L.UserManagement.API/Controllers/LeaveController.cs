@@ -46,6 +46,7 @@ namespace G4L.UserManagement.API.Controllers
             var leaveRequests = await _leaveService.GetLeaveRequestsAsync(userId);
             return Ok(leaveRequests);
         }
+      
 
         [Authorize(Role.Learner)]
         [HttpPut("{id}")]
@@ -54,5 +55,6 @@ namespace G4L.UserManagement.API.Controllers
             await _leaveService.UpdateLeaveStatusAsync(id, leaveRequest.Status);
             return Ok();
         }
+
     }
 }

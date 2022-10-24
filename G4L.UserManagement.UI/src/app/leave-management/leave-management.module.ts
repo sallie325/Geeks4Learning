@@ -10,9 +10,12 @@ import { MaterialModule } from '../shared/material/material.module';
 import { LeaveBalanceCardComponent } from './leave-balance-card/leave-balance-card.component';
 import { ChartsModule } from '../shared/charts/charts.module';
 import { NgChartsModule } from 'ng2-charts';
+import { TrainerComponent } from './views/trainer/trainer.component';
+import { AdminComponent } from './views/admin/admin.component';
+import { TraineeComponent } from './views/trainee/trainee.component';
 
 @NgModule({
-  declarations: [ LeaveManagementComponent, LeaveRequestComponent, LeaveBalanceCardComponent ],
+  declarations: [ LeaveManagementComponent, LeaveRequestComponent, LeaveBalanceCardComponent, TrainerComponent, AdminComponent, TraineeComponent ],
   imports: [
     CommonModule,
     HttpClientModule,
