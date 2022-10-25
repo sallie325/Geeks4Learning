@@ -1,11 +1,12 @@
-<ng-container *ngIf="isAdmin;else trainer">
+<ng-container *ngIf="isLearner;">
+  <app-trainee></app-trainee>
+</ng-container>
+<ng-container *ngIf="isAdmin;">
   <app-admin></app-admin>
 </ng-container>
 <ng-template #trainer>
-    <ng-container *ngIf="isTrainer;else learner">
+    <ng-container *ngIf="isTrainer">
       <app-trainer></app-trainer>
     </ng-container>
 </ng-template>
-<ng-template #learner>
-  <app-trainee></app-trainee>
-</ng-template>
+

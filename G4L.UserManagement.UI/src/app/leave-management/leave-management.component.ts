@@ -8,7 +8,6 @@ import { Roles } from '../shared/global/roles';
   styleUrls: ['./leave-management.component.css']
 })
 export class LeaveManagementComponent implements OnInit {
-
   isAdmin: boolean | undefined;
   isTrainer: boolean | undefined;
   isLearner: boolean | undefined;
