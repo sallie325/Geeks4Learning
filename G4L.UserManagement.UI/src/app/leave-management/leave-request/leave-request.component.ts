@@ -8,6 +8,8 @@ import { TokenService } from 'src/app/usermanagement/login/services/token.servic
 import { LeaveService } from '../services/leave.service';
 import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { HalfDaySchedule } from 'src/app/shared/global/half-day-schedule';
+import { UploadService } from '../services/upload.service';
+import { FileUpload } from '../models/file-upload';
 
 @Component({
   selector: 'app-leave-request',
@@ -36,7 +38,8 @@ export class LeaveRequestComponent implements OnInit {
     private formBuilder: FormBuilder,
     private leaveService: LeaveService,
     private toastr: ToastrService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private uploadService: UploadService
   ) { }
 
   ngOnInit(): void {
@@ -68,7 +71,7 @@ export class LeaveRequestComponent implements OnInit {
           "comments": ""
         }
       ]), // How do we know who will approver
-      documents: [[]]
+      documents: this.formBuilder.array([])
     });
   }
 
@@ -81,8 +84,16 @@ export class LeaveRequestComponent implements OnInit {
     });
   }
 
+  document(fileUpload: FileUpload | null) {
+    console.log(fileUpload);
+
+    return this.formBuilder.group({
+      fileName: [ fileUpload?.name, Validators.required ],
+      filePath: [ fileUpload?.url, Validators.required ]
+    });
+  }
+
   calculateDaysRequested() {
-    debugger;
     let days = 0;
 
     switch (this.formModel.get('leaveDayDuration').value) {
@@ -190,10 +201,16 @@ export class LeaveRequestComponent implements OnInit {
     }
   }
 
-  handleFileInput(files: FileList) {
-    console.log(this.formModel);
-    console.log(files);
-    this.formModel.get('documents').value = files.item(0);
+  handleFileInput(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const files = target.files as FileList;
+
+    Array.from(files).forEach((file: File) => {
+      var fileUpload: FileUpload | null = new FileUpload(file);
+      this.uploadService.uploadToStorage(fileUpload)?.then((response) => {
+        this.formModel.get('documents').push(this.document(response));
+      });
+    });
   }
 
   getFormControl(form: any, formControlName: string): any {

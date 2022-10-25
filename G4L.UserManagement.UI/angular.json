@@ -75,15 +75,8 @@
               "outputHashing": "all"
             },
             "development": {
-              "optimization": {
-                "scripts": true,
-                "styles": {
-                  "minify": true,
-                  "inlineCritical": false
-                }
-              },
-              "buildOptimizer": false,
               "optimization": false,
+              "buildOptimizer": false,
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
@@ -117,12 +110,25 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "G4L.UserManagement.UI:build:production",
+            "firebaseProject": "filleupload-d41e8",
+            "firebaseHostingSite": "filleupload-d41e8"
           }
         }
       }
