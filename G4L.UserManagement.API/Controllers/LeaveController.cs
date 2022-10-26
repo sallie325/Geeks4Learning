@@ -47,7 +47,14 @@ namespace G4L.UserManagement.API.Controllers
             var leaveRequests = await _leaveService.GetLeaveRequestsAsync(userId);
             return Ok(leaveRequests);
         }
-      
+        
+        [Authorize(Role.Admin, Role.Trainer)]
+        [HttpGet("approve/{userId}")]
+        public async Task<IActionResult> GetLeavesToApproveAsync(Guid userId)
+        {
+            var leaveRequests = await _leaveService.GetLeavesToApproveAsync(userId);
+            return Ok(leaveRequests);
+        }
 
         [Authorize(Role.Learner)]
         [HttpPut("{id}")]

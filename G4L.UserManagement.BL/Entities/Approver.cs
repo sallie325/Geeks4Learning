@@ -13,6 +13,6 @@ namespace G4L.UserManagement.BL.Entities
         public Guid UserId { get; set; }
         public Status status { get; set; }
         public String Comments { get; set; }
-
+        public Guid LeaveId { get; set; }
     }
 }

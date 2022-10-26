@@ -12,7 +12,7 @@ import { Roles } from 'src/app/shared/global/roles';
 })
 export class LeaveComponent implements OnInit {
   formModel: any;
-  user: any | null = null;
+  request: any | null = null;
   userRole: string | null = null;
   serverErrorMessage: any;
   editCrucialInfo: boolean = false;
@@ -23,9 +23,10 @@ export class LeaveComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.request);
     this.userRole = sessionStorage.getItem(contants.role);
   }
-  
+
 
   close() {
     this.modalRef.close();
@@ -51,6 +52,6 @@ export class LeaveComponent implements OnInit {
       return true;
     }
   }
-  
+
 }
 

@@ -13,9 +13,18 @@ import { NgChartsModule } from 'ng2-charts';
 import { TrainerComponent } from './views/trainer/trainer.component';
 import { AdminComponent } from './views/admin/admin.component';
 import { TraineeComponent } from './views/trainee/trainee.component';
+import { LeaveReviewComponent } from './leave-review/leave-review.component';
 
 @NgModule({
-  declarations: [ LeaveManagementComponent, LeaveRequestComponent, LeaveBalanceCardComponent, TrainerComponent, AdminComponent, TraineeComponent ],
+  declarations: [
+    LeaveManagementComponent,
+    LeaveRequestComponent,
+    LeaveBalanceCardComponent,
+    TrainerComponent,
+    AdminComponent,
+    TraineeComponent,
+    LeaveReviewComponent
+  ],
   imports: [
     CommonModule,
     HttpClientModule,

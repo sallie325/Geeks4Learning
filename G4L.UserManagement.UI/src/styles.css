@@ -6,13 +6,17 @@
   --bg-white: #f8f9fa;
   --g4l-green: #2d572b;
   --g4l-greeny-blue: #2b5d6b;
+  --g4l-greeny-blue-alpha-5: #2b5d6b80;
   --g4l-purple: #2d2b57;
   --g4l-dark-blue: #002d44;
   --g4l-blue: #007fa3;
   --g4l-orange: #b76928;
+  --g4l-grey-light: rgba(0, 0, 0, 0.5);
+  --g4l-grey: #67748E;
 }
 
 /* You can add global styles to this file, and also import other style files */
+
 .bg-green {
   background-color: var(--g4l-green) !important;
 }
@@ -46,16 +50,38 @@
 }
 
 /* Validation error styles */
+
+.white-text {
+  color: var(--bg-white);
+}
+
 .red-text {
-  color: var(--red);
+  color: var(--red) !important;
+}
+
+.g4l-grey-text {
+  color: var(--g4l-grey) !important;
 }
 
 .green-text {
-  color: green;
+  color: green !important;
+}
+
+
+.bg-5-g4l-greeny-blue {
+  background-color: var(--g4l-greeny-blue-alpha-5) !important;
 }
 
 .g4l-green {
-  color: var(--g4l-green);
+  color: var(--g4l-green) !important;
+}
+
+.g4l-orange {
+  color: var(--g4l-orange) !important;
+}
+
+.g4l-light-grey-text {
+  color: var(--g4l-grey-light) !important;
 }
 
 .red-border {
@@ -63,7 +89,7 @@
 }
 
 .dark-blue {
-  background-color: var(--g4l-dark-blue);
+  background-color: var(--g4l-dark-blue) !important;
 }
 
 /* main content */
@@ -1124,4 +1150,9 @@ aside#sidenav-main {
 
 .mat-form-field-wrapper {
   padding-bottom: 0;
+}
+
+.border-grey {
+  border: 1px solid lightgrey;
+  box-shadow: none !important;
 }

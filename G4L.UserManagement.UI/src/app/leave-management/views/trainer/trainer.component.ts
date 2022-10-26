@@ -5,6 +5,7 @@ import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { LeaveTypes } from 'src/app/shared/global/leave-types';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
 import { LeaveRequestComponent } from '../../leave-request/leave-request.component';
+import { LeaveReviewComponent } from '../../leave-review/leave-review.component';
 import { LeaveService } from '../../services/leave.service';
 
 @Component({
@@ -14,7 +15,7 @@ import { LeaveService } from '../../services/leave.service';
 })
 export class TrainerComponent implements OnInit {
 
-  modalDialog: MdbModalRef<LeaveRequestComponent> | null = null;
+  modalDialog: MdbModalRef<LeaveReviewComponent> | null = null;
   leaveApplications: any[] = [];
   user: any;
   leaveBalances: any[] = [];
@@ -29,32 +30,23 @@ export class TrainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.tokenService.getDecodeToken();
-    this.getLeaveApplication(this.user?.id);
-    this.getLeaveBalances(this.user?.id);
+    this.getLeaveToApprove(this.user?.id);
   }
 
-  getLeaveBalances(userId: any) {
-    this.leaveService.getLeaveBalances(userId)
-      .subscribe((response: any) => {
-        console.log(response);
-        this.leaveBalances = response;
-      });
-  }
-
-  getLeaveApplication(userId: any) {
-    this.leaveService.getLeaveApplications(userId)
+  getLeaveToApprove(userId: any) {
+    this.leaveService.getLeaveToApprove(userId)
       .subscribe(arg => {
         console.log(arg);
         this.leaveApplications = arg;
       });
   }
 
-  openDialog() {
+  openDialog(request: any) {
     this.modalDialog = this.modalService.open(LeaveRequestComponent, {
       animation: true,
       backdrop: true,
       containerClass: 'modal top fade modal-backdrop',
-      data: { },
+      data: { leaveRequest: request },
       ignoreBackdropClick: false,
       keyboard: true,
       modalClass: 'modal-xl modal-dialog-centered',
@@ -71,9 +63,8 @@ export class TrainerComponent implements OnInit {
 
     this.leaveService.updateLeave(leave)
       .subscribe(_ =>
-        this.getLeaveApplication(this.user?.id)
+        this.getLeaveToApprove(this.user?.id)
       );
-
   }
 
   setData(used: number, remaining: number) {
@@ -88,10 +79,38 @@ export class TrainerComponent implements OnInit {
         return '#2d2b57';
       case LeaveTypes.Family_Responsibility:
         return '#2a5d6b';
-
+      default:
+        return;
     }
+  }
 
-    return;
+  getStatusIcon(status: any): any {
+    switch (status) {
+      case LeaveStatus.Pending:
+        return 'fa-circle-pause g4l-orange';
+      case LeaveStatus.Approved:
+        return 'fa-circle-check green-text';
+      case LeaveStatus.Partially_Approved:
+        return 'fa-circle-half-stroke g4l-green';
+      case LeaveStatus.Cancelled:
+        return 'fa-ban red-text';
+      case LeaveStatus.Rejected:
+        return 'fa-circle-xmark red-text';
+      default:
+        break;
+    }
+  }
+
+  reviewLeave(request: any) {
+    this.modalDialog = this.modalService.open(LeaveReviewComponent, {
+      animation: true,
+      backdrop: true,
+      containerClass: 'modal top fade modal-backdrop',
+      data: { request: request, editCrucialInfo: true },
+      ignoreBackdropClick: false,
+      keyboard: true,
+      modalClass: 'modal-xl modal-dialog-centered',
+    });
   }
 
 }

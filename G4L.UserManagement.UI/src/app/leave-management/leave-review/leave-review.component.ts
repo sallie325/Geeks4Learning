@@ -1,20 +1,21 @@
-import { LeaveTypes } from './../../shared/global/leave-types';
-import { LeaveDayType } from './../../shared/global/leave-day-type';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
-import { TokenService } from 'src/app/usermanagement/login/services/token.service';
-import { LeaveService } from '../services/leave.service';
-import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { HalfDaySchedule } from 'src/app/shared/global/half-day-schedule';
+import { LeaveDayType } from 'src/app/shared/global/leave-day-type';
+import { LeaveStatus } from 'src/app/shared/global/leave-status';
+import { LeaveTypes } from 'src/app/shared/global/leave-types';
+import { TokenService } from 'src/app/usermanagement/login/services/token.service';
+import { LeaveRequestComponent } from '../leave-request/leave-request.component';
+import { LeaveService } from '../services/leave.service';
 
 @Component({
-  selector: 'app-leave-request',
-  templateUrl: './leave-request.component.html',
-  styleUrls: ['./leave-request.component.css']
+  selector: 'app-leave-review',
+  templateUrl: './leave-review.component.html',
+  styleUrls: ['./leave-review.component.css']
 })
-export class LeaveRequestComponent implements OnInit {
+export class LeaveReviewComponent implements OnInit {
 
   formModel: any;
   userId: any;
@@ -30,6 +31,7 @@ export class LeaveRequestComponent implements OnInit {
   negativeDays: boolean = false;
 
   leaveBalances: any[] = [];
+  request: any = {};
 
   constructor(
     public modalRef: MdbModalRef<LeaveRequestComponent>,
@@ -239,8 +241,17 @@ export class LeaveRequestComponent implements OnInit {
     return form.reduce((a: any, b: any) => a + b.usedDays, 0);
   }
 
+  // Start
+  getLeaveBalance(leaveType: any) {
+    console.log(this.request?.leaveBalances.find((x: any) => x.balanceType === leaveType));
+    return this.request?.leaveBalances.find((x: any) => x.balanceType === leaveType);
+  }
+
+
+
   close() {
     this.modalRef.close();
   }
 
 }
+

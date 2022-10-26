@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace G4L.UserManagement.BL.Interfaces
 {
-    public interface ILeaveRepository: IRepository<Leave>
+    public interface ILeaveRepository : IRepository<Leave>
     {
-
+        Task<List<Leave>> GetLeavesToApproveAsync(Guid userId);
     }
 }

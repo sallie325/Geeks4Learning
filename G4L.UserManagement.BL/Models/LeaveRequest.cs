@@ -12,6 +12,8 @@ namespace G4L.UserManagement.BL.Models
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
+        public User User { get; set; }
+        public List<LeaveBalanceResponse> LeaveBalances { get; set; }
         public LeaveType LeaveType { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LearnerTableComponent } from './learner-table.component';
+import { LeaveReviewComponent } from './leave-review.component';
 
-describe('LearnerTableComponent', () => {
-  let component: LearnerTableComponent;
-  let fixture: ComponentFixture<LearnerTableComponent>;
+describe('LeaveReviewComponent', () => {
+  let component: LeaveReviewComponent;
+  let fixture: ComponentFixture<LeaveReviewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LearnerTableComponent ]
+      declarations: [ LeaveReviewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LearnerTableComponent);
+    fixture = TestBed.createComponent(LeaveReviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

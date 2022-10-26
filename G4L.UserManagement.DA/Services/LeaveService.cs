@@ -113,6 +113,19 @@ namespace G4L.UserManagement.DA.Services
             leave.Status = status;
             await _leaveRepository.UpdateAsync(leave);
         }
+
+        public async Task<List<LeaveRequest>> GetLeavesToApproveAsync(Guid userId)
+        {
+            var leaves = _mapper.Map<List<LeaveRequest>>(await _leaveRepository.GetLeavesToApproveAsync(userId));
+
+            leaves.ForEach(x => {
+                x.User = _userRepository.GetByIdAsync(x.UserId).Result;
+                x.LeaveBalances = GetLeaveBalancesAsync(x.UserId).Result;
+            });
+
+            return leaves;
+        }
+
         public async Task<IEnumerable<Leave>> GetAllLeaveRequestsAsync()
         {
             return await _leaveRepository.ListAsync();
