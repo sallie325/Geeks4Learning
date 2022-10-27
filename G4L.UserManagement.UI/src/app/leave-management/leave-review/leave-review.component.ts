@@ -1,13 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { constants } from 'buffer';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
+import { any, sortBy } from 'ramda';
+import { contants } from 'src/app/shared/global/global.contants';
 import { HalfDaySchedule } from 'src/app/shared/global/half-day-schedule';
 import { LeaveDayType } from 'src/app/shared/global/leave-day-type';
 import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { LeaveTypes } from 'src/app/shared/global/leave-types';
+import { Roles } from 'src/app/shared/global/roles';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
 import { LeaveRequestComponent } from '../leave-request/leave-request.component';
+import { FileUpload } from '../models/file-upload';
 import { LeaveService } from '../services/leave.service';
 
 @Component({
@@ -32,9 +37,10 @@ export class LeaveReviewComponent implements OnInit {
 
   leaveBalances: any[] = [];
   request: any = {};
+  role: string | null = '';
 
   constructor(
-    public modalRef: MdbModalRef<LeaveRequestComponent>,
+    public modalRef: MdbModalRef<LeaveReviewComponent>,
     private formBuilder: FormBuilder,
     private leaveService: LeaveService,
     private toastr: ToastrService,
@@ -44,196 +50,70 @@ export class LeaveReviewComponent implements OnInit {
   ngOnInit(): void {
     let user: any = this.tokenService.getDecodeToken();
     this.userId = user.id;
-    this.buildForm();
+    this.role = sessionStorage.getItem(contants.role);
+    this.buildForm(this.request);
+    this.populateFormArrays();
   }
 
-  buildForm() {
+  buildForm(request: any) {
     this.formModel = this.formBuilder.group({
-      userId: [this.userId],
-      leaveType: [LeaveTypes.Please_Select_A_Leave , Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
+      id: [request?.id],
+      userId: [request?.userId],
+      leaveType: [ { value: request?.leaveType , disabled: true }, Validators.required],
+      startDate: [request?.startDate, Validators.required],
+      endDate: [request?.endDate, Validators.required],
       leaveDayDuration: [ LeaveDayType.All_day ],
       leaveSchedule: this.formBuilder.array([]),
-      comments: [''],
-      usedDays: ['', Validators.required ],
-      status: [ LeaveStatus.Pending ],
-      approvers: this.formBuilder.array([
-        {
-          "userId": "367286eb-14c6-4055-a8c4-08dab6b961fc",
-          "status": "Pending",
-          "comments": ""
-        },
-        {
-          "userId": "ac4423a8-9132-4ff6-a8c3-08dab6b961fc",
-          "status": "Pending",
-          "comments": ""
-        }
-      ]), // How do we know who will approver
-      documents: [[]]
+      comments: [ { value: request?.comments, disabled: true } ],
+      usedDays: [request?.usedDays, Validators.required ],
+      status: [ request?.status ],
+      approvers: this.formBuilder.array([]),
+      documents: this.formBuilder.array([])
+    });
+  }
+
+  populateFormArrays() {
+    this.request?.approvers
+    .sort((a: any, b: any) => b.role.localeCompare(a.role))
+    .forEach((approver: any) => {
+      this.formModel.get('approvers').push(this.approver(approver));
+    });
+
+    this.request?.leaveSchedule
+      .forEach((schedule: any) => {
+      if (schedule?.leaveDayType === LeaveDayType.All_day) schedule.usedDays = 1;
+      this.formModel.get('leaveSchedule').push(this.leaveSchedule(schedule));
+    });
+
+    this.request?.documents.forEach((document: any) => {
+      this.formModel.get('documents').push(this.document(document));
+    });
+
+  }
+
+  approver(approver: any): any {
+    return this.formBuilder.group({
+      userId: [approver?.userId, Validators.required],
+      role: [approver?.role, Validators.required],
+      status: [approver?.status, Validators.required],
+      comments: [approver?.comments, Validators.required],
     });
   }
 
   leaveSchedule(data?: any) {
     return this.formBuilder.group({
       date: [data?.date, Validators.required],
-      leaveDayType: [LeaveDayType.Half_day],
-      halfDaySchedule: [HalfDaySchedule.Afternoon_Hours],
-      usedDays: [0.5, Validators.required]
+      leaveDayType: [data?.leaveDayType, Validators.required],
+      halfDaySchedule: [data?.halfDaySchedule, Validators.required],
+      usedDays: [data?.usedDays | 0.5, Validators.required]
     });
   }
 
-  calculateDaysRequested() {
-    debugger;
-    let days = 0;
-
-    switch (this.formModel.get('leaveDayDuration').value) {
-      case LeaveDayType.All_day:
-        days = this.getBusinessDatesCount(this.formModel.get('startDate').value, this.formModel.get('endDate').value);
-        break;
-      case LeaveDayType.Half_day:
-        days = this.calculateUsedDays();
-        break;
-    }
-
-    this.formModel.get('usedDays').patchValue(days);
-    return Number(this.formModel.get('usedDays').value);
-  }
-
-  getBusinessDatesCount(startDate: any, endDate: any) {
-    let count = 0;
-    let curDate = +startDate;
-    while (curDate <= +endDate) {
-      const dayOfWeek = new Date(curDate).getDay();
-      const isWeekend = (dayOfWeek === 6) || (dayOfWeek === 0);
-      if (!isWeekend) {
-        count++;
-      }
-      curDate = curDate + 24 * 60 * 60 * 1000
-    }
-    return count;
-  }
-
-  calculateDaysRemaining(): number | undefined {
-    this.negativeDays = false;
-    var leaveType = this.formModel.get('leaveType').value;
-    switch (leaveType) {
-      case LeaveTypes.Annual:
-      case LeaveTypes.Family_Responsibility:
-      case LeaveTypes.Sick:
-        this.daysAvailable = this.leaveBalances.find(x => x.balanceType === leaveType).remaining;
-        break;
-      default:
-        return 0;
-    }
-
-    if (this.daysAvailable) {
-      this.daysRemaining = this.daysAvailable - this.calculateDaysRequested();
-
-      // display the error message
-      if (this.daysRemaining < 0) {
-        this.negativeDays = true;
-      }
-      return this.daysRemaining;
-    }
-    return undefined;
-  }
-
-  applyForLeave() {
-    this.leaveService.applyForLeave(this.formModel.value).subscribe(_ => {
-      this.toastr.success(`Your leave was successfully created.`);
-      this.modalRef.close(true);
+  document(fileUpload: any) {
+    return this.formBuilder.group({
+      fileName: [ fileUpload?.fileName, Validators.required ],
+      filePath: [ fileUpload?.filePath, Validators.required ]
     });
-  }
-
-  onOptionsSelected() {
-   switch (this.formModel.get('leaveDayDuration').value) {
-      case LeaveDayType.Half_day:
-        const startDate = new Date(this.formModel.get('startDate').value);
-        const newDate = new Date(startDate.setDate(startDate.getDate() - 1));
-        let index = 0;
-        while(index < this.getBusinessDatesCount(this.formModel.get('startDate').value, this.formModel.get('endDate').value)){
-            const endDate = new Date(newDate.setDate(newDate.getDate() + 1));
-            if(endDate.getDay() != 0 && endDate.getDay() != 6) {
-                this.formModel.get('leaveSchedule').push(this.leaveSchedule({
-                  date: new Date(endDate)
-                }));
-              index++;
-            }
-        }
-        break;
-      default:
-        break;
-    }
-  }
-
-  isAllowed(leaveType: any) {
-    switch (leaveType) {
-      case LeaveTypes.Annual:
-      case LeaveTypes.Sick:
-      case LeaveTypes.Family_Responsibility:
-        if (this.leaveBalances.find(x => x.balanceType === leaveType).remaining === 0) {
-          return true;
-        }
-        return false;
-      case LeaveTypes.Unpaid:
-        return false;
-      default:
-        return true;
-    }
-  }
-
-  isDefault(leaveType: any) {
-    switch (leaveType) {
-      case LeaveTypes.Please_Select_A_Leave:
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  handleFileInput(files: FileList) {
-    console.log(this.formModel);
-    console.log(files);
-    this.formModel.get('documents').value = files.item(0);
-  }
-
-  getFormControl(form: any, formControlName: string): any {
-    return form.controls[formControlName];
-  }
-
-  isAllDay() {
-    switch (this.formModel.get('leaveDayDuration').value) {
-      case LeaveDayType.All_day:
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  dateRangeChange() {
-    this.formModel.get('leaveSchedule').controls = [];
-    this.formModel.get('leaveDayDuration').patchValue(LeaveDayType.All_day);
-  }
-
-  holidaysAndWeekendsDatesFilter(date: Date): boolean {
-    const day = date.getDay();
-    return day !== 0 && day !== 6;
-  }
-
-  updateUsedDays(index: number) {
-    const form = this.formModel.get('leaveSchedule').at(index);
-
-    switch (form.get('leaveDayType')?.value) {
-      case LeaveDayType.All_day:
-        form.get('halfDaySchedule')?.patchValue(HalfDaySchedule.None);
-        form.get('usedDays')?.patchValue(1);
-        break;
-      case LeaveDayType.Half_day:
-        form.get('halfDaySchedule')?.patchValue(HalfDaySchedule.Morning_Hours);
-        form.get('usedDays')?.patchValue(0.5);
-        break;
-    }
   }
 
   calculateUsedDays() {
@@ -243,11 +123,144 @@ export class LeaveReviewComponent implements OnInit {
 
   // Start
   getLeaveBalance(leaveType: any) {
-    console.log(this.request?.leaveBalances.find((x: any) => x.balanceType === leaveType));
     return this.request?.leaveBalances.find((x: any) => x.balanceType === leaveType);
   }
 
+  updateLeaveStatus(status: any) {
+    var form: any;
+    this.formModel.markAllAsTouched();
 
+    switch (this.role) {
+      case Roles.Admin:
+        form = this.formModel.get('approvers').at(1);
+        break;
+      case Roles.Trainer:
+        form = this.formModel.get('approvers').at(0);
+        break;
+      default:
+        break;
+    }
+
+    form.get('status').patchValue(status);
+    this.updateStatusOnTheRequest();
+    console.log(this.formModel.value);
+
+    if (this.formModel.invalid) {
+      return;
+    }
+
+    this.leaveService.updateLeaveRequest(this.formModel.value).subscribe(_ => {
+      this.toastr.success(`Leave request successfully updated.`);
+      this.modalRef.close(true);
+    });
+  }
+  updateStatusOnTheRequest() {
+    const trainerForm = this.formModel.get('approvers').at(0);
+    const adminForm = this.formModel.get('approvers').at(1);
+
+    const responseFromTrainer = trainerForm.get('status').value;
+    const responseFromAdmin = adminForm.get('status').value;
+
+    trainerForm.get('comments').setValidators(null);
+    adminForm.get('comments').setValidators(null);
+    trainerForm.get('comments').updateValueAndValidity();
+    adminForm.get('comments').updateValueAndValidity();
+
+    if (responseFromAdmin === LeaveStatus.Approved && responseFromTrainer === LeaveStatus.Approved) {
+      this.formModel.get('status').patchValue(LeaveStatus.Approved);
+    } else if ((responseFromAdmin === LeaveStatus.Pending && responseFromTrainer === LeaveStatus.Approved)
+      || (responseFromAdmin === LeaveStatus.Approved && responseFromTrainer === LeaveStatus.Pending)) {
+      this.formModel.get('status').patchValue(LeaveStatus.Partially_Approved);
+    } else if ((responseFromAdmin === LeaveStatus.Rejected || responseFromTrainer === LeaveStatus.Rejected)) {
+      this.formModel.get('status').patchValue(LeaveStatus.Rejected);
+      switch (this.role) {
+        case Roles.Trainer:
+          if (trainerForm.get('comments').value === '') {
+            trainerForm.get('comments').setValidators(Validators.required);
+            trainerForm.get('comments').updateValueAndValidity();
+          }
+          break;
+        case Roles.Admin:
+          if (adminForm.get('comments').value === '') {
+            adminForm.get('comments').setValidators(Validators.required);
+            adminForm.get('comments').updateValueAndValidity();
+          }
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  proposeChanges() {
+
+  }
+
+  openOnNewTab(link: any) {
+    window.open(link, '_blank');
+  }
+
+  getStatusBgColor(status: any): any {
+    switch (status) {
+      case LeaveStatus.Pending:
+        return 'bg-5-g4l-orange'
+      case LeaveStatus.Approved:
+        return 'bg-5-green-text'
+      case LeaveStatus.Partially_Approved:
+        return 'bg-5-g4l-greeny-blue'
+      case LeaveStatus.Cancelled:
+        return 'bg-5-red'
+      case LeaveStatus.Rejected:
+        return 'bg-5-red'
+      default:
+        break;
+    }
+  }
+
+  getStatusIcon(status: any): any {
+    switch (status) {
+      case LeaveStatus.Pending:
+        return 'fa-circle-pause g4l-orange-text'
+      case LeaveStatus.Approved:
+        return 'fa-circle-check green-text'
+      case LeaveStatus.Partially_Approved:
+        return 'fa-circle-half-stroke g4l-greeny-blue-text'
+      case LeaveStatus.Cancelled:
+        return 'fa-ban red-text'
+      case LeaveStatus.Rejected:
+        return 'fa-circle-xmark red-text'
+      default:
+        break;
+    }
+  }
+
+  getFileIcon(fileName: any) {
+    if (fileName.toLowerCase().includes('.pdf')) {
+      return "fa-file-pdf";
+    } else if (fileName.toLowerCase().includes('.png')
+    || fileName.toLowerCase().includes('.jpeg')
+    || fileName.toLowerCase().includes('.jpg')) {
+      return "fa-file-image";
+    } else {
+      return "fa-file";
+    }
+  }
+
+  getFormControl(form: any, formControlName: string): any {
+    return form.controls[formControlName];
+  }
+
+  isAllowedToViewAll(role: any) {
+    if (role === this.role || this.role === Roles.Admin) {
+      if (this.role === Roles.Admin) {
+        const form = this.formModel.get('approvers').at(0);
+        form.get('comments').disable();
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   close() {
     this.modalRef.close();

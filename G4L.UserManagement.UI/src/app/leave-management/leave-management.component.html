@@ -1,11 +1,6 @@
-<ng-container *ngIf="isAdmin;else trainer">
-  <app-admin></app-admin>
+<ng-container *ngIf="isAdmin || isTrainer;else learner">
+  <app-approver></app-approver>
 </ng-container>
-<ng-template #trainer>
-    <ng-container *ngIf="isTrainer;else learner">
-      <app-trainer></app-trainer>
-    </ng-container>
-</ng-template>
 <ng-template #learner>
   <app-trainee></app-trainee>
 </ng-template>

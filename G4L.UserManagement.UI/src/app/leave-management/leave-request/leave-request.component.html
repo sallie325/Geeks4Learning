@@ -195,6 +195,7 @@
               </label>
               <input type="file" id="input-documents" formControlName="documents"
                 multiple="multiple"
+                (change)="handleFileInput($event)"
                 [ngClass]="{
                   'red-border':
                     formModel.controls['documents'].invalid &&

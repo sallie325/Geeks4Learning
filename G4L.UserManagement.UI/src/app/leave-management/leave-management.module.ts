@@ -10,20 +10,21 @@ import { MaterialModule } from '../shared/material/material.module';
 import { LeaveBalanceCardComponent } from './leave-balance-card/leave-balance-card.component';
 import { ChartsModule } from '../shared/charts/charts.module';
 import { NgChartsModule } from 'ng2-charts';
-import { TrainerComponent } from './views/trainer/trainer.component';
-import { AdminComponent } from './views/admin/admin.component';
+import { getStorage, provideStorage } from '@angular/fire/storage';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { environment } from 'src/environments/environment';
 import { TraineeComponent } from './views/trainee/trainee.component';
 import { LeaveReviewComponent } from './leave-review/leave-review.component';
+import { ApproverComponent } from './views/approver/approver.component';
 
 @NgModule({
   declarations: [
     LeaveManagementComponent,
     LeaveRequestComponent,
     LeaveBalanceCardComponent,
-    TrainerComponent,
-    AdminComponent,
     TraineeComponent,
-    LeaveReviewComponent
+    LeaveReviewComponent,
+    ApproverComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +35,9 @@ import { LeaveReviewComponent } from './leave-review/leave-review.component';
     MaterialModule,
     FormsModule,
     NgChartsModule,
-    ChartsModule
+    ChartsModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideStorage(() => getStorage())
   ]
 })
 export class LeaveManagementModule { }

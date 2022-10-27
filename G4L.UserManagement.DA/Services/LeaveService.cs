@@ -121,6 +121,9 @@ namespace G4L.UserManagement.DA.Services
             leaves.ForEach(x => {
                 x.User = _userRepository.GetByIdAsync(x.UserId).Result;
                 x.LeaveBalances = GetLeaveBalancesAsync(x.UserId).Result;
+                x.Approvers.ToList().ForEach(x => { 
+                    x.Role = _userRepository.GetByIdAsync(x.UserId).Result.Role;
+                });
             });
 
             return leaves;
@@ -129,6 +132,12 @@ namespace G4L.UserManagement.DA.Services
         public async Task<IEnumerable<Leave>> GetAllLeaveRequestsAsync()
         {
             return await _leaveRepository.ListAsync();
+        }
+
+        public async Task UpdateLeaveRequestAsync(LeaveRequest leaveRequest)
+        {
+            var leave = _mapper.Map<Leave>(leaveRequest);
+            await _leaveRepository.UpdateLeaveRequestAsync(leave);
         }
     }
 }

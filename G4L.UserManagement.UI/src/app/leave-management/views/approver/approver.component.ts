@@ -9,11 +9,11 @@ import { LeaveReviewComponent } from '../../leave-review/leave-review.component'
 import { LeaveService } from '../../services/leave.service';
 
 @Component({
-  selector: 'app-trainer',
-  templateUrl: './trainer.component.html',
-  styleUrls: ['./trainer.component.css']
+  selector: 'app-approver',
+  templateUrl: './approver.component.html',
+  styleUrls: ['./approver.component.css']
 })
-export class TrainerComponent implements OnInit {
+export class ApproverComponent implements OnInit {
 
   modalDialog: MdbModalRef<LeaveReviewComponent> | null = null;
   leaveApplications: any[] = [];
@@ -30,10 +30,10 @@ export class TrainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.tokenService.getDecodeToken();
-    this.getLeaveToApprove(this.user?.id);
+    this.getLeavesToApprove(this.user?.id);
   }
 
-  getLeaveToApprove(userId: any) {
+  getLeavesToApprove(userId: any) {
     this.leaveService.getLeaveToApprove(userId)
       .subscribe(arg => {
         console.log(arg);
@@ -42,7 +42,7 @@ export class TrainerComponent implements OnInit {
   }
 
   openDialog(request: any) {
-    this.modalDialog = this.modalService.open(LeaveRequestComponent, {
+    this.modalDialog = this.modalService.open(LeaveReviewComponent, {
       animation: true,
       backdrop: true,
       containerClass: 'modal top fade modal-backdrop',
@@ -52,8 +52,8 @@ export class TrainerComponent implements OnInit {
       modalClass: 'modal-xl modal-dialog-centered',
     });
 
-    this.modalDialog.onClose.subscribe((isUpdated: boolean) => {
-      if (isUpdated) return; // this.getLeaveRequest();
+    this.modalDialog.onClose.subscribe(_ => {
+      this.getLeavesToApprove(this.user?.id);
     });
   }
 
@@ -63,7 +63,7 @@ export class TrainerComponent implements OnInit {
 
     this.leaveService.updateLeave(leave)
       .subscribe(_ =>
-        this.getLeaveToApprove(this.user?.id)
+        this.getLeavesToApprove(this.user?.id)
       );
   }
 
@@ -112,6 +112,4 @@ export class TrainerComponent implements OnInit {
       modalClass: 'modal-xl modal-dialog-centered',
     });
   }
-
 }
-

@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace G4L.UserManagement.DA.Repositories
@@ -20,7 +19,8 @@ namespace G4L.UserManagement.DA.Repositories
 
         public async Task<List<Leave>> GetLeavesToApproveAsync(Guid userId)
         {
-            return await Task.Run(() => {
+            return await Task.Run(() =>
+            {
                 var leaves = new List<Leave>();
 
                 var leaveIds = _databaseContext.Approvers
@@ -28,7 +28,8 @@ namespace G4L.UserManagement.DA.Repositories
                 .Select(x => x.LeaveId)
                 .ToList();
 
-                leaveIds.ForEach(leaveId => {
+                leaveIds.ForEach(leaveId =>
+                {
                     var leave = _databaseContext.Leaves
                     .Where(x => x.Id == leaveId)
                     .Include(x => x.Approvers)
@@ -40,6 +41,29 @@ namespace G4L.UserManagement.DA.Repositories
                 });
 
                 return leaves;
+            });
+        }
+
+        public async Task UpdateLeaveRequestAsync(Leave leave)
+        {
+            await Task.Run(() =>
+            {
+                var databaseEntry = _databaseContext.Leaves
+                  .Where(p => p.Id == leave.Id)
+                  .Include(p => p.Approvers)
+                  .FirstOrDefault();
+
+                databaseEntry.LeaveType = leave.LeaveType;
+                databaseEntry.StartDate = leave.StartDate;
+                databaseEntry.EndDate = leave.EndDate;
+                databaseEntry.Status = leave.Status;
+                databaseEntry.Comments = leave.Comments;
+                databaseEntry.Documents = leave.Documents;
+                databaseEntry.Approvers = leave.Approvers;
+
+                _databaseContext.Entry(databaseEntry).State = EntityState.Modified;
+
+                _databaseContext.SaveChanges();
             });
         }
     }
