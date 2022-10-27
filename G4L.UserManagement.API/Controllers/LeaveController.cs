@@ -2,6 +2,7 @@
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
+using G4L.UserManagement.Infrustructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -46,6 +47,22 @@ namespace G4L.UserManagement.API.Controllers
             var leaveRequests = await _leaveService.GetLeaveRequestsAsync(userId);
             return Ok(leaveRequests);
         }
+        
+        [Authorize(Role.Admin, Role.Trainer)]
+        [HttpGet("approve/{userId}")]
+        public async Task<IActionResult> GetLeavesToApproveAsync(Guid userId)
+        {
+            var leaveRequests = await _leaveService.GetLeavesToApproveAsync(userId);
+            return Ok(leaveRequests);
+        }
+
+        [Authorize(Role.Admin, Role.Trainer)]
+        [HttpPut()]
+        public async Task<IActionResult> UpdateLeaveRequestAsync([FromBody] LeaveRequest leaveRequest)
+        {
+            await _leaveService.UpdateLeaveRequestAsync(leaveRequest);
+            return Ok();
+        }
 
         [Authorize(Role.Learner)]
         [HttpPut("{id}")]
@@ -53,6 +70,12 @@ namespace G4L.UserManagement.API.Controllers
         {
             await _leaveService.UpdateLeaveStatusAsync(id, leaveRequest.Status);
             return Ok();
+        }
+        [Authorize(Role.Super_Admin,Role.Admin,Role.Trainer)]
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _leaveService.GetAllLeaveRequestsAsync());
         }
     }
 }

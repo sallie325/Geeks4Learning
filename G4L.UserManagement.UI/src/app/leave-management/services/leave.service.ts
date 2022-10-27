@@ -8,6 +8,7 @@ import { LeaveTypes } from 'src/app/shared/global/leave-types';
   providedIn: 'root'
 })
 export class LeaveService {
+
   //mimic the response the the server
   leaveBalance =  new BehaviorSubject<any>(undefined);
 
@@ -40,12 +41,32 @@ export class LeaveService {
     return this.http.get(`${environment.apiUrl}/leave/${userId}`);
   }
 
+  getLeaveToApprove(userId: any): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/leave/approve/${userId}`);
+  }
+
   updateLeave(leave: any): Observable<any> {
     return this.http.put(`${environment.apiUrl}/leave/${leave?.id}`, leave);
+  }
+  getAllLeaveApplications(){
+    return this.http.get(`${environment.apiUrl}/leave`);
   }
 
   getLeaveBalances(userId: any) {
     return this.http.get(`${environment.apiUrl}/leave/balances/${userId}`);
+  }
+
+  uploadAttachments(value: any) : Observable <any> {
+
+     return this.http.post(`${environment.apiUrl}/Leave/Post_Attachments`, value);
+  }
+
+  getAttachments(leave: any): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/leave/Get_Attachments/${leave?.Id}`);
+  }
+
+  updateLeaveRequest(value: any) {
+    return this.http.put(`${environment.apiUrl}/leave`, value);
   }
 
 }

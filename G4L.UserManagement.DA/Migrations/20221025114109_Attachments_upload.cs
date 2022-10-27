@@ -2,7 +2,7 @@
 
 namespace G4L.UserManagement.DA.Migrations
 {
-    public partial class ReferenceUserIdInLeaveTable : Migration
+    public partial class Attachments_upload : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

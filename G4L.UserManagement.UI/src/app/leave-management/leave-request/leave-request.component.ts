@@ -8,6 +8,8 @@ import { TokenService } from 'src/app/usermanagement/login/services/token.servic
 import { LeaveService } from '../services/leave.service';
 import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { HalfDaySchedule } from 'src/app/shared/global/half-day-schedule';
+import { UploadService } from '../services/upload.service';
+import { FileUpload } from '../models/file-upload';
 
 @Component({
   selector: 'app-leave-request',
@@ -36,7 +38,8 @@ export class LeaveRequestComponent implements OnInit {
     private formBuilder: FormBuilder,
     private leaveService: LeaveService,
     private toastr: ToastrService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private uploadService: UploadService
   ) { }
 
   ngOnInit(): void {
@@ -58,17 +61,17 @@ export class LeaveRequestComponent implements OnInit {
       status: [ LeaveStatus.Pending ],
       approvers: this.formBuilder.array([
         {
-          "userId": "156b5e89-99ad-47aa-2895-08da80ffdfed",
+          "userId": "367286eb-14c6-4055-a8c4-08dab6b961fc",
           "status": "Pending",
           "comments": ""
         },
         {
-          "userId": "d0ad240b-dbc2-4458-65ce-08da9afed6cb",
+          "userId": "ac4423a8-9132-4ff6-a8c3-08dab6b961fc",
           "status": "Pending",
           "comments": ""
         }
       ]), // How do we know who will approver
-      documents: [[]]
+      documents: this.formBuilder.array([])
     });
   }
 
@@ -81,8 +84,14 @@ export class LeaveRequestComponent implements OnInit {
     });
   }
 
+  document(fileUpload: FileUpload | null) {
+    return this.formBuilder.group({
+      fileName: [ fileUpload?.name, Validators.required ],
+      filePath: [ fileUpload?.url, Validators.required ]
+    });
+  }
+
   calculateDaysRequested() {
-    debugger;
     let days = 0;
 
     switch (this.formModel.get('leaveDayDuration').value) {
@@ -154,7 +163,7 @@ export class LeaveRequestComponent implements OnInit {
             const endDate = new Date(newDate.setDate(newDate.getDate() + 1));
             if(endDate.getDay() != 0 && endDate.getDay() != 6) {
                 this.formModel.get('leaveSchedule').push(this.leaveSchedule({
-                  date: endDate
+                  date: new Date(endDate)
                 }));
               index++;
             }
@@ -190,10 +199,16 @@ export class LeaveRequestComponent implements OnInit {
     }
   }
 
-  handleFileInput(files: FileList) {
-    console.log(this.formModel);
-    console.log(files);
-    this.formModel.get('documents').value = files.item(0);
+  handleFileInput(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const files = target.files as FileList;
+
+    Array.from(files).forEach((file: File) => {
+      var fileUpload: FileUpload | null = new FileUpload(file);
+      this.uploadService.uploadToStorage(fileUpload)?.then((response) => {
+        this.formModel.get('documents').push(this.document(response));
+      });
+    });
   }
 
   getFormControl(form: any, formControlName: string): any {

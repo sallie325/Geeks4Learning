@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221010114606_LeaveRequestTables")]
-    partial class LeaveRequestTables
+    [Migration("20221025114109_Attachments_upload")]
+    partial class Attachments_upload
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,8 +48,6 @@ namespace G4L.UserManagement.DA.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LeaveId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Approvers");
                 });
@@ -106,7 +104,14 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UsedDays")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -114,6 +119,37 @@ namespace G4L.UserManagement.DA.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Leaves");
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.LeaveSchedule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HalfDaySchedule")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LeaveDayType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("LeaveId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeaveId");
+
+                    b.ToTable("LeaveSchedule");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
@@ -168,14 +204,6 @@ namespace G4L.UserManagement.DA.Migrations
                     b.HasOne("G4L.UserManagement.BL.Entities.Leave", null)
                         .WithMany("Approvers")
                         .HasForeignKey("LeaveId");
-
-                    b.HasOne("G4L.UserManagement.BL.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
@@ -189,7 +217,16 @@ namespace G4L.UserManagement.DA.Migrations
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.User", null)
                         .WithMany("Leaves")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.LeaveSchedule", b =>
+                {
+                    b.HasOne("G4L.UserManagement.BL.Entities.Leave", null)
+                        .WithMany("LeaveSchedule")
+                        .HasForeignKey("LeaveId");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
@@ -197,6 +234,8 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Navigation("Approvers");
 
                     b.Navigation("Documents");
+
+                    b.Navigation("LeaveSchedule");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
