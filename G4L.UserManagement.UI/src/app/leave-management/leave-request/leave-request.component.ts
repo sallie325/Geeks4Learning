@@ -213,6 +213,7 @@ export class LeaveRequestComponent implements OnInit {
 
   getFormControl(form: any, formControlName: string): any {
     return form.controls[formControlName];
+    
   }
 
   isAllDay() {

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221025114109_Attachments_upload")]
-    partial class Attachments_upload
+    [Migration("20221104133622_Attendance_Records")]
+    partial class Attendance_Records
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,7 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("LeaveId")
+                    b.Property<Guid>("LeaveId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ModifiedDate")
@@ -50,6 +50,40 @@ namespace G4L.UserManagement.DA.Migrations
                     b.HasIndex("LeaveId");
 
                     b.ToTable("Approvers");
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Attendance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Clockin_Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Clockout_Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Attendances");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
@@ -203,7 +237,16 @@ namespace G4L.UserManagement.DA.Migrations
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.Leave", null)
                         .WithMany("Approvers")
-                        .HasForeignKey("LeaveId");
+                        .HasForeignKey("LeaveId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Attendance", b =>
+                {
+                    b.HasOne("G4L.UserManagement.BL.Entities.User", null)
+                        .WithMany("Attendances")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
@@ -240,6 +283,8 @@ namespace G4L.UserManagement.DA.Migrations
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
                 {
+                    b.Navigation("Attendances");
+
                     b.Navigation("Leaves");
                 });
 #pragma warning restore 612, 618
