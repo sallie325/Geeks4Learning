@@ -59,8 +59,7 @@
               <mat-form-field appearance="fill" class="example-form-field">
                 <mat-date-range-input [rangePicker]="rangePicker" [dateFilter]="holidaysAndWeekendsDatesFilter">
                   <input matStartDate placeholder="Start date" formControlName="startDate">
-                  <input matEndDate placeholder="End date" formControlName="endDate"
-                  (dateChange)="dateRangeChange()">
+                  <input matEndDate placeholder="End date" formControlName="endDate" (dateChange)="dateRangeChange()">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
                 <mat-date-range-picker #rangePicker>
@@ -76,10 +75,16 @@
                 formModel.controls['startDate'].touched ||
                 formModel.controls['endDate'].invalid &&
                 formModel.controls['endDate'].touched">
-                <div *ngIf="formModel.controls['startDate'].errors.required">
+                <div
+                  *ngIf="formModel.controls['startDate'].errors.required && formModel.controls['endDate'].errors.required">
+                  Please select a start date and an end date
+                </div>
+                <div
+                  *ngIf="formModel.controls['startDate'].errors.required && !formModel.controls['endDate'].errors.required">
                   Please select a start date
                 </div>
-                <div *ngIf="formModel.controls['endDate'].errors.required">
+                <div
+                  *ngIf="formModel.controls['endDate'].errors.required && !formModel.controls['startDate'].errors.required">
                   Please select a end date
                 </div>
               </div>
@@ -107,7 +112,8 @@
                   </div>
                 </div>
 
-                <div formArrayName="leaveSchedule" *ngFor="let item of formModel.controls['leaveSchedule'].controls; let i = index">
+                <div formArrayName="leaveSchedule"
+                  *ngFor="let item of formModel.controls['leaveSchedule'].controls; let i = index">
                   <div class="row" [formGroupName]="i">
                     <div class="col">
                       {{ getFormControl(item, 'date').value | date: 'd MMM' }}
@@ -120,7 +126,8 @@
                     </div>
                     <div class="col">
                       <select formControlName="halfDaySchedule" class="leave-day-duration">
-                        <option *ngFor="let item of keys(halfDaySchedule)" [ngValue]="item">{{item | removeUnderscore }}</option>
+                        <option *ngFor="let item of keys(halfDaySchedule)" [ngValue]="item">{{item | removeUnderscore }}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -193,29 +200,29 @@
                   </div>
                 </div>
               </label>
-              <input type="file" id="input-documents" formControlName="documents"
-                multiple="multiple"
-                (change)="handleFileInput($event)"
-                [ngClass]="{
+              <input type="file" id="input-documents" formControlName="documents" multiple="multiple"
+                (change)="handleFileInput($event)" [ngClass]="{
                   'red-border':
                     formModel.controls['documents'].invalid &&
                     formModel.controls['documents'].touched
                 }">
 
-                <div class="row mt-3">
-                  <div class="col">
-                    <div class="file-attachment">
-                      {{ formModel.controls['documents'].value }}
-                    </div>
+              <div class="row mt-3">
+                <span class="col" *ngFor="let attachment of formModel.controls['documents'].value">
+                  <div class="bg-5-g4l-greeny-blue border-radius cursor-pointer fit-content p-1"
+                    (click)="openOnNewTab(attachment?.filePath)">
+                    <a class="p-2"><i class="fa-solid" [class]="getFileIcon(attachment?.fileName)"></i>
+                      &nbsp;{{ attachment?.fileName }}</a>
                   </div>
-                </div>
+                </span>
+              </div>
 
               <div class="red-text" *ngIf="
                   formModel.controls['documents'].invalid &&
                   formModel.controls['documents'].touched
                 ">
                 <div *ngIf="formModel.controls['documents'].errors.required">
-                  Please type your documents for the approvers
+                  Please attach your files for the approvers
                 </div>
               </div>
             </div>
@@ -225,13 +232,13 @@
         <div class="row mt-3">
           <div class="col-6"></div>
           <div class="col-3 text-end">
-            <button (click)="close()" class="btn btn-sm bg-2 gradient-primary mb-0 text-uppercase">
+            <button (click)="close()" class="btn btn-sm bg-2 gradient-primary dark-border mb-0 text-uppercase">
               Cancel</button>
           </div>
           <div class="col-3 text-end">
             <button (click)="applyForLeave()" [disabled]="negativeDays"
               class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase">
-              Request</button>
+              Request Now</button>
           </div>
         </div>
       </form>

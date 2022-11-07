@@ -1,7 +1,7 @@
 import { LeaveTypes } from './../../shared/global/leave-types';
 import { LeaveDayType } from './../../shared/global/leave-day-type';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
@@ -51,14 +51,14 @@ export class LeaveRequestComponent implements OnInit {
   buildForm() {
     this.formModel = this.formBuilder.group({
       userId: [this.userId],
-      leaveType: [LeaveTypes.Please_Select_A_Leave , Validators.required],
+      leaveType: [LeaveTypes.Please_Select_A_Leave, Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      leaveDayDuration: [ LeaveDayType.All_day ],
+      leaveDayDuration: [LeaveDayType.All_day],
       leaveSchedule: this.formBuilder.array([]),
       comments: [''],
-      usedDays: ['', Validators.required ],
-      status: [ LeaveStatus.Pending ],
+      usedDays: ['', Validators.required],
+      status: [LeaveStatus.Pending],
       approvers: this.formBuilder.array([
         {
           "userId": "367286eb-14c6-4055-a8c4-08dab6b961fc",
@@ -86,9 +86,26 @@ export class LeaveRequestComponent implements OnInit {
 
   document(fileUpload: FileUpload | null) {
     return this.formBuilder.group({
-      fileName: [ fileUpload?.name, Validators.required ],
-      filePath: [ fileUpload?.url, Validators.required ]
+      fileName: [fileUpload?.name, Validators.required],
+      filePath: [fileUpload?.url, Validators.required]
     });
+  }
+
+
+  getFileIcon(fileName: any) {
+    if (fileName.toLowerCase().includes('.pdf')) {
+      return "fa-file-pdf";
+    } else if (fileName.toLowerCase().includes('.png')
+      || fileName.toLowerCase().includes('.jpeg')
+      || fileName.toLowerCase().includes('.jpg')) {
+      return "fa-file-image";
+    } else {
+      return "fa-file";
+    }
+  }
+
+  openOnNewTab(link: any) {
+    window.open(link, '_blank');
   }
 
   calculateDaysRequested() {
@@ -147,26 +164,45 @@ export class LeaveRequestComponent implements OnInit {
   }
 
   applyForLeave() {
+
+    this.formModel.markAllAsTouched();
+
+    if (
+      (this.formModel.get('leaveType').value === LeaveTypes.Sick && Number(this.formModel.get('usedDays').value) > 1)
+      || this.formModel.get('leaveType').value === LeaveTypes.Family_Responsibility) {
+        this.formModel.get('documents').setValidators(Validators.required);
+        this.formModel.get('documents').updateValueAndValidity();
+    } else {
+      this.formModel.get('documents').setValidators(null);
+      this.formModel.get('documents').updateValueAndValidity();
+    }
+
+    if (this.formModel.invalid) {
+      return;
+    }
+
     this.leaveService.applyForLeave(this.formModel.value).subscribe(_ => {
       this.toastr.success(`Your leave was successfully created.`);
       this.modalRef.close(true);
     });
   }
 
+
+
   onOptionsSelected() {
-   switch (this.formModel.get('leaveDayDuration').value) {
+    switch (this.formModel.get('leaveDayDuration').value) {
       case LeaveDayType.Half_day:
         const startDate = new Date(this.formModel.get('startDate').value);
         const newDate = new Date(startDate.setDate(startDate.getDate() - 1));
         let index = 0;
-        while(index < this.getBusinessDatesCount(this.formModel.get('startDate').value, this.formModel.get('endDate').value)){
-            const endDate = new Date(newDate.setDate(newDate.getDate() + 1));
-            if(endDate.getDay() != 0 && endDate.getDay() != 6) {
-                this.formModel.get('leaveSchedule').push(this.leaveSchedule({
-                  date: new Date(endDate)
-                }));
-              index++;
-            }
+        while (index < this.getBusinessDatesCount(this.formModel.get('startDate').value, this.formModel.get('endDate').value)) {
+          const endDate = new Date(newDate.setDate(newDate.getDate() + 1));
+          if (endDate.getDay() != 0 && endDate.getDay() != 6) {
+            this.formModel.get('leaveSchedule').push(this.leaveSchedule({
+              date: new Date(endDate)
+            }));
+            index++;
+          }
         }
         break;
       default:
