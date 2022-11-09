@@ -22,14 +22,18 @@ namespace G4L.UserManagement.API.Controllers
             _attendanceService = attendanceService;
         }
 
+        
         [AllowAnonymous]
         [HttpPost("Register_Attendance")]
-        public async Task<IActionResult> PostAsync([FromBody] Attendance_register attendance_Register)
+        public async Task<IActionResult> PostAsync([FromBody] Attendance_Register attendance_Register)
         {
-          
-            await _attendanceService.RegisterAttendanceLeaveAsync(attendance_Register);
+            _logger.Log(LogLevel.Information, $"registering for attendance {attendance_Register.Status}");
+            await _attendanceService.RegisterAttendanceAsync(attendance_Register);
             return Ok(attendance_Register);
         }
+
+
+        //Retrieve information about all attendance records
 
         [AllowAnonymous]
         [HttpGet("Get_All_Attendance_Records")]
@@ -37,6 +41,19 @@ namespace G4L.UserManagement.API.Controllers
         {
             var AttendnanceRecords = await _attendanceService.GetAllAttendanceAsync();
             return Ok(AttendnanceRecords);
+        }
+
+
+        //Updating the attendance table when goals have been added
+
+        [AllowAnonymous]
+        [HttpPut("Create_Goals")]
+        public async Task<IActionResult> PutAsync([FromBody] UpdateAttendance learner)
+        {
+
+
+            await _attendanceService.UpdateAttendanceAsync(learner);
+            return Ok();
         }
     }
 }

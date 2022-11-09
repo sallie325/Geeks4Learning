@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221104133622_Attendance_Records")]
-    partial class Attendance_Records
+    [Migration("20221109072721_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,13 +70,22 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Goal_Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Goal_summary")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<DateTime>("Time_Limit")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -183,7 +192,7 @@ namespace G4L.UserManagement.DA.Migrations
 
                     b.HasIndex("LeaveId");
 
-                    b.ToTable("LeaveSchedule");
+                    b.ToTable("LeaveSchedules");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
@@ -246,7 +255,9 @@ namespace G4L.UserManagement.DA.Migrations
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.User", null)
                         .WithMany("Attendances")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>

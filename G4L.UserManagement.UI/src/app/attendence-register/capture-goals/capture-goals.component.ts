@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-capture-goals',
@@ -7,9 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CaptureGoalsComponent implements OnInit {
 
-  constructor() { }
 
   ngOnInit(): void {
   }
-
+ 
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace G4L.UserManagement.DA.Migrations
 {
-    public partial class Attendance_Records : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,11 +35,14 @@ namespace G4L.UserManagement.DA.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Clockin_Time = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Clockout_Time = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Goal_summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Goal_Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Time_Limit = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -51,7 +54,7 @@ namespace G4L.UserManagement.DA.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -126,7 +129,7 @@ namespace G4L.UserManagement.DA.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LeaveSchedule",
+                name: "LeaveSchedules",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -139,9 +142,9 @@ namespace G4L.UserManagement.DA.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LeaveSchedule", x => x.Id);
+                    table.PrimaryKey("PK_LeaveSchedules", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LeaveSchedule_Leaves_LeaveId",
+                        name: "FK_LeaveSchedules_Leaves_LeaveId",
                         column: x => x.LeaveId,
                         principalTable: "Leaves",
                         principalColumn: "Id",
@@ -169,8 +172,8 @@ namespace G4L.UserManagement.DA.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LeaveSchedule_LeaveId",
-                table: "LeaveSchedule",
+                name: "IX_LeaveSchedules_LeaveId",
+                table: "LeaveSchedules",
                 column: "LeaveId");
         }
 
@@ -186,7 +189,7 @@ namespace G4L.UserManagement.DA.Migrations
                 name: "Documents");
 
             migrationBuilder.DropTable(
-                name: "LeaveSchedule");
+                name: "LeaveSchedules");
 
             migrationBuilder.DropTable(
                 name: "Leaves");
