@@ -23,7 +23,7 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         
-        [AllowAnonymous]
+        [Authorize(Role.Learner)]
         [HttpPost("Register_Attendance")]
         public async Task<IActionResult> PostAsync([FromBody] Attendance_Register attendance_Register)
         {
@@ -35,7 +35,7 @@ namespace G4L.UserManagement.API.Controllers
 
         //Retrieve information about all attendance records
 
-        [AllowAnonymous]
+        [Authorize(Role.Admin,Role.Trainer)]
         [HttpGet("Get_All_Attendance_Records")]
         public async Task<IActionResult> GetAllAttendanceAsync()
         {
@@ -46,7 +46,7 @@ namespace G4L.UserManagement.API.Controllers
 
         //Updating the attendance table when goals have been added
 
-        [AllowAnonymous]
+        [Authorize(Role.Learner)]
         [HttpPut("Create_Goals")]
         public async Task<IActionResult> PutAsync([FromBody] UpdateAttendance learner)
         {
