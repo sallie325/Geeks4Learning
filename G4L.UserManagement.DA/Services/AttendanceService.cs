@@ -45,7 +45,7 @@ namespace G4L.UserManagement.DA.Services
 
 
 
-            // Update the following for Attendance;
+            // Update the following for Attaendance;
 
          
           learner.Goal_summary = model.Goal_summary;

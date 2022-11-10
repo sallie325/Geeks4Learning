@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LeaveComponent } from './leave.component';
+import { CaptureGoalsComponent } from './capture-goals.component';
 
-describe('LeaveComponent', () => {
-  let component: LeaveComponent;
-  let fixture: ComponentFixture<LeaveComponent>;
+describe('CaptureGoalsComponent', () => {
+  let component: CaptureGoalsComponent;
+  let fixture: ComponentFixture<CaptureGoalsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LeaveComponent ]
+      declarations: [ CaptureGoalsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LeaveComponent);
+    fixture = TestBed.createComponent(CaptureGoalsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

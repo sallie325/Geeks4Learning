@@ -22,6 +22,11 @@ namespace G4L.UserManagement.DA
         public DbSet<Leave> Leaves { get; set; }
         public DbSet<Approver> Approvers { get; set; }
 
+        public DbSet<LeaveSchedule> LeaveSchedules { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
+
+        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Leave>().Property(x => x.UsedDays).HasPrecision(10, 2);
