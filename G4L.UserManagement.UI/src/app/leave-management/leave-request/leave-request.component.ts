@@ -165,26 +165,25 @@ export class LeaveRequestComponent implements OnInit {
 
   applyForLeave() {
 
-    this.formModel.markAllAsTouched();
-
-    if (
-      (this.formModel.get('leaveType').value === LeaveTypes.Sick && Number(this.formModel.get('usedDays').value) > 1)
-      || this.formModel.get('leaveType').value === LeaveTypes.Family_Responsibility) {
-        this.formModel.get('documents').setValidators(Validators.required);
-        this.formModel.get('documents').updateValueAndValidity();
-    } else {
-      this.formModel.get('documents').setValidators(null);
+    if (this.formModel.get('leaveType').value === LeaveTypes.Sick && Number(this.formModel.get('usedDays').value) > 1 || this.formModel.get('leaveType').value === LeaveTypes.Family_Responsibility) {
+      this.formModel.get('documents').setValidators(Validators.required);
       this.formModel.get('documents').updateValueAndValidity();
+      console.log("please attach documents", this.formModel);
+
     }
 
-    if (this.formModel.invalid) {
-      return;
+    if (this.formModel.valid){
+
+      this.leaveService.applyForLeave(this.formModel.value).subscribe(_ => {
+        this.toastr.success(`Your leave was successfully created.`);
+        this.modalRef.close(true);
+      });
+
     }
 
-    this.leaveService.applyForLeave(this.formModel.value).subscribe(_ => {
-      this.toastr.success(`Your leave was successfully created.`);
-      this.modalRef.close(true);
-    });
+    this.formModel.markAllAsTouched()
+
+  
   }
 
 
