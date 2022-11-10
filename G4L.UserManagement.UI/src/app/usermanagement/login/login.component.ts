@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem(contants.token, response?.token);
         sessionStorage.setItem(contants.username, `${response?.name} ${response?.surname}`);
         sessionStorage.setItem(contants.role, response?.role);
+        
 
         // route to the master layout
         this.router.navigate(['/dashboard']);
