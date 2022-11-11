@@ -11,7 +11,7 @@ namespace G4L.UserManagement.BL.Entities
     public class Attendance : BaseEntity
     {
 
-
+       
         public Guid UserId { get; set; }
         public  DateTime Date { get; set; }
         public Attendance_Status Status { get; set; }

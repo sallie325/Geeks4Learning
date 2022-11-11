@@ -46,7 +46,7 @@ namespace G4L.UserManagement.API.Controllers
 
         //Updating the attendance table when goals have been added
 
-        [Authorize(Role.Learner)]
+        [AllowAnonymous]
         [HttpPut("Create_Goals")]
         public async Task<IActionResult> PutAsync([FromBody] UpdateAttendance learner)
         {
