@@ -56,22 +56,16 @@ namespace G4L.UserManagement.DA.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("Clockin_Time")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Clockout_Time")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("AttendanceDate")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Goal_Description")
+                    b.Property<string>("LoginTime")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Goal_summary")
+                    b.Property<string>("LogoutTime")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
@@ -80,15 +74,12 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Time_Limit")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("userId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("userId");
 
                     b.ToTable("Attendances");
                 });
@@ -190,7 +181,7 @@ namespace G4L.UserManagement.DA.Migrations
 
                     b.HasIndex("LeaveId");
 
-                    b.ToTable("LeaveSchedules");
+                    b.ToTable("Leave_Schedules");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
@@ -253,7 +244,7 @@ namespace G4L.UserManagement.DA.Migrations
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.User", null)
                         .WithMany("Attendances")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

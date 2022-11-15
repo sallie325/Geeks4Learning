@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { ToastrService } from 'ngx-toastr';
-import { CaptureGoalsComponent } from './capture-goals/capture-goals.component';
+import { contants } from '../shared/global/global.contants';
+import { Roles } from '../shared/global/roles';
 
 @Component({
   selector: 'app-attendence-register',
@@ -9,26 +8,27 @@ import { CaptureGoalsComponent } from './capture-goals/capture-goals.component';
   styleUrls: ['./attendence-register.component.css']
 })
 export class AttendenceRegisterComponent implements OnInit {
-
-  modalDialog: MdbModalRef<CaptureGoalsComponent> | null = null;
-
-  constructor(
-    private modalService: MdbModalService,
-    private toastr: ToastrService,
-  
-  ) { }
+  isAdmin: boolean | undefined;
+  isTrainer: boolean | undefined;
+  isLearner: boolean | undefined;
+  constructor() { }
 
   ngOnInit(): void {
+    const role = sessionStorage.getItem(contants.role);
+    this.determinRole(role);
   }
-
-  openDialog() {
-    this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
-      animation: true,
-      backdrop: true,
-      containerClass: 'modal top fade modal-backdrop',
-      ignoreBackdropClick: false,
-      keyboard: true,
-      modalClass: 'modal-xl modal-dialog-centered',
-    });
+  determinRole(role: string | null) {
+    switch (role) {
+      case Roles.Super_Admin:
+      case Roles.Admin:
+        this.isAdmin = true;
+        break;
+      case Roles.Trainer:
+        this.isTrainer = true;
+        break;
+      case Roles.Learner:
+        this.isLearner = true;
+        break;
+    }
   }
 }

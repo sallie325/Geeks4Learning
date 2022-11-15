@@ -5,6 +5,8 @@ using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
 using G4L.UserManagement.DA.Repositories;
+using G4L.UserManagement.Shared;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,54 +14,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace G4L.UserManagement.DA.Services
 {
     public class AttendanceService : IAttendanceService
     {
         private readonly IAttendanceRepository _attendanceRepository;
         private readonly IUserRepository _userRepository;
+        private readonly AppSettings _appSettings;
         private readonly IMapper _mapper;
-
-        public AttendanceService(IAttendanceRepository attendanceRepository, IUserRepository userRepository,IMapper mapper)
+        public AttendanceService(IAttendanceRepository attendanceRepository, IUserRepository userRepository, IOptions<AppSettings> appSettings, IMapper mapper)
         {
             _attendanceRepository = attendanceRepository;
             _userRepository = userRepository;
+            _appSettings = appSettings.Value;
             _mapper = mapper;
         }
 
-        public async Task RegisterAttendanceAsync(Attendance_Register attendance_Register)
+        public async Task UpdateAttendanceAsync(UpdateAttendance attendence)
         {
-            var attendance = _mapper.Map<Attendance>(attendance_Register);
+            var attendance = await _attendanceRepository.GetByIdAsync(attendence.Id);
+            // Update the following;
+            attendance.LogoutTime = attendence.LogoutTime;
+
+            await _attendanceRepository.UpdateAsync(attendance);
+        }
+        public async Task<List<AttendanceRegister>> GetAttendanceRegisterAsync(Guid userId)
+        {
+            var attendance = await _attendanceRepository.ListAsync(x => x.userId == userId);
+            return _mapper.Map<List<AttendanceRegister>>(attendance);
+        }
+
+        public async Task SigningAttendanceRegisterAsync(AttendanceRegister attendanceRegister)
+        {
+            var attendance = _mapper.Map<Attendance>(attendanceRegister);
+            if (await _attendanceRepository.QueryAsync(x =>x.AttendanceDate == attendanceRegister.AttendanceDate && x.userId == attendanceRegister.userId) != null)
+                throw new AppException(JsonConvert.SerializeObject(new ExceptionObject
+                {
+                    ErrorCode = ServerErrorCodes.DuplicateAttendanceDate.ToString(),
+                    Message = "Duplicate attendance dates found on the system"
+                }));
             await _attendanceRepository.CreateAsync(attendance);
         }
 
-        public async Task<IEnumerable<Attendance>> GetAllAttendanceAsync()
+        public async Task<IEnumerable<Attendance>> GetPagedAttendancesAsync(int skip, int take)
         {
-            return await _attendanceRepository.ListAsync();
+            return await _attendanceRepository.GetPagedListAsync(skip, take);
         }
-
-        public async Task UpdateAttendanceAsync(UpdateAttendance model)
-        {
-            var learner = await _attendanceRepository.GetByIdAsync(model.Id);
-
-
-
-            // Update the following for Attaendance;
-
-         
-          learner.Goal_summary = model.Goal_summary;
-          learner.Goal_Description = model. Goal_Description;
-          learner.Time_Limit = model.Time_Limit;
-         
-
-            await _attendanceRepository.UpdateAsync(learner);
-        }
-
-        public async Task<Attendance>GetAttendanceByIdAsync(Guid id)
-        {
-            return await _attendanceRepository.GetByIdAsync(id);
-        }
-       
     }
-    }
+}
