@@ -4,14 +4,14 @@ import { AttendenceRegisterComponent } from './attendence-register.component';
 import { CaptureGoalsComponent } from './capture-goals/capture-goals.component';
 import { LunchTimeNotificationComponent } from './lunch-time-notification/lunch-time-notification.component';
 import { ReviewGoalsComponent } from './review-goals/review-goals.component';
-import { TraineeAttendanceComponent } from './views/trainee-attendance/trainee-attendance.component';
-import { ReviewerComponent } from './views/reviewer/reviewer.component';
-
+import { TotalPresentAbsentLateCardsComponent } from './total-present-absent-late-cards/total-present-absent-late-cards.component';
+import { AdminComponent } from './views/admin/admin.component';
+import  {TraineeComponent} from './views/trainee/trainee.component'
 
 
 
 @NgModule({
-  declarations: [ AttendenceRegisterComponent, CaptureGoalsComponent, LunchTimeNotificationComponent, ReviewGoalsComponent, TraineeAttendanceComponent, ReviewerComponent,],
+  declarations: [ AttendenceRegisterComponent, CaptureGoalsComponent, LunchTimeNotificationComponent, ReviewGoalsComponent,TotalPresentAbsentLateCardsComponent, AdminComponent,TraineeComponent],
   imports: [
     CommonModule
   ]

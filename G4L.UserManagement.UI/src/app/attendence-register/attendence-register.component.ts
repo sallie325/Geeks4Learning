@@ -32,7 +32,7 @@ export class AttendenceRegisterComponent implements OnInit {
   isAdmin: boolean | undefined;
   isTrainer: boolean | undefined;
   isLearner: boolean | undefined;
-  constructor() { }
+ 
 
   ngOnInit(): void {
     const role = sessionStorage.getItem(contants.role);

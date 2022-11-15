@@ -26,27 +26,23 @@ namespace G4L.UserManagement.API.Controllers
         }
         [Authorize(Role.Learner)]
         [HttpPost("attendanceRegister")]
-        public async Task<IActionResult> PostAsync([FromBody] AttendanceRegister attendanceRegister)
+        public async Task<IActionResult> PostAsync([FromBody] Attendance_Register attendanceRegister)
         {
             await _attendanceService.SigningAttendanceRegisterAsync(attendanceRegister);
             return Ok(attendanceRegister);
         }
+
+
+
         [Authorize(Role.Learner)]
         [HttpPut("updateAttendance")]
-        public async Task<IActionResult> PutAsync([FromBody] UpdateAttendance attendance)
+        public async Task<IActionResult> PutAsync([FromBody] UpdateAttendance learner)
         {
-            await _attendanceService.UpdateAttendanceAsync(attendance);
-            return Ok();
+            await _attendanceService.UpdateAttendanceAsync(learner);
+            return Ok(learner);
         }
 
-
-        //Updating the attendance table when goals have been added
-
         [AllowAnonymous]
-        [HttpPut("Create_Goals")]
-        public async Task<IActionResult> PutAsync([FromBody] UpdateAttendance learner)
-
-        [Authorize(Role.Learner)]
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetAsync(Guid userId)
         {
