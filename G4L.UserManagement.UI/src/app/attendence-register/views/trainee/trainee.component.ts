@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { isNull, values } from 'lodash';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { contains } from 'ramda';
 import { LeaveService } from 'src/app/leave-management/services/leave.service';
 import { AttendanceType } from 'src/app/shared/global/attendance-type';
 import { contants } from 'src/app/shared/global/global.contants';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
+import { CaptureGoalsComponent } from '../../capture-goals/capture-goals.component';
 import { AttendenceService } from '../../services/attendence.service';
 
 @Component({
@@ -14,7 +16,15 @@ import { AttendenceService } from '../../services/attendence.service';
   templateUrl: './trainee.component.html',
   styleUrls: ['./trainee.component.css']
 })
+
+
+
+
+
+
 export class TraineeComponent implements OnInit {
+  modalDialog: MdbModalRef<CaptureGoalsComponent> | null = null;
+modalRef: any;
   date: any;
   userId: any | null
   holdingArray: FormGroup = new FormGroup({});
@@ -25,7 +35,8 @@ export class TraineeComponent implements OnInit {
   statu$: any;
   testTime:any
   leaveApplications: any;
-  constructor(private toastr:ToastrService, private leaveService: LeaveService, private tokenService: TokenService, private attendanceService: AttendenceService, private formBuilder: FormBuilder) { }
+  constructor(private toastr:ToastrService, private leaveService: LeaveService, private tokenService: TokenService, private attendanceService: AttendenceService, private formBuilder: FormBuilder,private modalService: MdbModalService,
+    ) { }
   ngOnInit(): void {
     this.startTimer()
     let date: any = sessionStorage.getItem("date");
@@ -118,4 +129,15 @@ export class TraineeComponent implements OnInit {
     }, 1000);
     
   }
+  CreateGoalsDialog() {
+    this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
+      animation: true,
+      backdrop: true,
+      containerClass: 'modal top fade modal-backdrop',
+      ignoreBackdropClick: false,
+      keyboard: true,
+      modalClass: 'modal-xl modal-dialog-centered',
+    });
+  }
+
 }

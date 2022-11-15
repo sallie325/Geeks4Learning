@@ -1,0 +1,80 @@
+<div class="container-fluid m-0 p-0">
+  <div class="card m-0 p-0">
+    <div class="card-header pb-0">
+      <div class="row align-items-center">
+        <div class="col-8">
+          <h6 class="mb-0 ">Create Goals</h6>
+        </div>
+        <div class="col-4 text-end">
+          <a (click)="close()" class="cursor-pointer">
+            <i class="fa-solid fa-xmark"></i></a>
+        </div>
+
+        <hr class="horizontal dark my-4" />
+      </div>
+      <div class="card-body pt-0">
+        <form autocomplete="off">
+          <div class="row">
+            <div class="col p-3">
+              <div class="row">
+                <div class="col">
+                  <h6 class="fw-bold m-1 g4l-grey-text">
+                    <i class="fa-solid fa-book"></i>
+                    Agile Development
+                  </h6>
+                  <p class="fw-bold m-1">
+                    <i class="fa-solid fa-building mr-1"></i>
+                    4 Days remaining
+                  </p>
+                </div>
+
+                <div class="col-4">
+                  <div class="card border-radius" style="background-color:#8bacb4">
+                    <p class="white-text text text-bold" style="margin-left:10%;color:#02708f"><strong>Up
+                        Next</strong></p>
+                    <p class="white-text " style="margin-left: 10%;">
+                      Agile Development
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <hr class="horizontal dark my-4" />
+              
+                <div class="row">
+                  <div class="col">
+                    <label class="form-control-label">Goal
+                      Summary</label>
+                    <input type="text" class="form-control">
+                  </div>
+                  <div class="col-3">
+                    <div class=" ">
+                      <label class="form-control-label">Time limit</label>
+                      <input type="time" class="form-control" value="10:05 AM" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col ">
+                  <div class=" mt-4">
+                <label class="form-control-label ">Description</label>
+                <textarea class="form-control" rows="3"></textarea>
+                </div>
+                </div>
+              
+              <div class="row mt-4 ">
+                <div class="col  text-left">
+                  <button class="btn btn-sm bg-2 gradient-primary mb-0  border border-primary text">
+                    <i class="fa-solid fa-pen"></i> Add new goal</button>
+                </div>
+                <div class="col text-end">
+                  <button class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text">
+                    Done</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

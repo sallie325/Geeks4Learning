@@ -30,24 +30,27 @@ namespace G4L.UserManagement.DA.Services
             _mapper = mapper;
         }
 
-        public async Task UpdateAttendanceAsync(UpdateAttendance attendence)
+        public async Task UpdateAttendanceAsync(UpdateAttendance learner)
         {
-            var attendance = await _attendanceRepository.GetByIdAsync(attendence.Id);
+            var attendance = await _attendanceRepository.GetByIdAsync(learner.Id);
             // Update the following;
-            attendance.LogoutTime = attendence.LogoutTime;
+            attendance.Goal_summary = attendance.Goal_summary;
+            attendance.Goal_Description = attendance.Goal_Description;
+            attendance.Time_Limit = attendance.Time_Limit;
+
 
             await _attendanceRepository.UpdateAsync(attendance);
         }
         public async Task<List<AttendanceRegister>> GetAttendanceRegisterAsync(Guid userId)
         {
-            var attendance = await _attendanceRepository.ListAsync(x => x.userId == userId);
+            var attendance = await _attendanceRepository.ListAsync(x => x.UserId == userId);
             return _mapper.Map<List<AttendanceRegister>>(attendance);
         }
 
-        public async Task SigningAttendanceRegisterAsync(AttendanceRegister attendanceRegister)
+        public async Task SigningAttendanceRegisterAsync(Attendance_Register attendanceRegister)
         {
             var attendance = _mapper.Map<Attendance>(attendanceRegister);
-            if (await _attendanceRepository.QueryAsync(x =>x.AttendanceDate == attendanceRegister.AttendanceDate && x.userId == attendanceRegister.userId) != null)
+            if (await _attendanceRepository.QueryAsync(x =>x.Date == attendanceRegister.Date && x.UserId == attendanceRegister.UserId) != null)
                 throw new AppException(JsonConvert.SerializeObject(new ExceptionObject
                 {
                     ErrorCode = ServerErrorCodes.DuplicateAttendanceDate.ToString(),
@@ -60,5 +63,7 @@ namespace G4L.UserManagement.DA.Services
         {
             return await _attendanceRepository.GetPagedListAsync(skip, take);
         }
+
+     
     }
 }
