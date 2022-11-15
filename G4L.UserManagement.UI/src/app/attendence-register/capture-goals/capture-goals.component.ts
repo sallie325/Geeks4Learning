@@ -11,6 +11,18 @@ export class CaptureGoalsComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    
   }
+
+constructor( public modalRef: MdbModalRef<CaptureGoalsComponent>,) {
  
+
+}
+
+close() {
+  this.modalRef.close();
+}
+
+
 }
