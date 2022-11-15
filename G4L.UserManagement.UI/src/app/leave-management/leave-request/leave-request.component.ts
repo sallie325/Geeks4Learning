@@ -46,6 +46,7 @@ export class LeaveRequestComponent implements OnInit {
     let user: any = this.tokenService.getDecodeToken();
     this.userId = user.id;
     this.buildForm();
+    console.log(this.formModel.value)
   }
 
   buildForm() {
@@ -89,6 +90,7 @@ export class LeaveRequestComponent implements OnInit {
       fileName: [ fileUpload?.name, Validators.required ],
       filePath: [ fileUpload?.url, Validators.required ]
     });
+    
   }
 
   calculateDaysRequested() {
@@ -206,6 +208,7 @@ export class LeaveRequestComponent implements OnInit {
     Array.from(files).forEach((file: File) => {
       var fileUpload: FileUpload | null = new FileUpload(file);
       this.uploadService.uploadToStorage(fileUpload)?.then((response) => {
+        console.log(fileUpload+" Snow");
         this.formModel.get('documents').push(this.document(response));
       });
     });
@@ -213,7 +216,6 @@ export class LeaveRequestComponent implements OnInit {
 
   getFormControl(form: any, formControlName: string): any {
     return form.controls[formControlName];
-    
   }
 
   isAllDay() {

@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { CaptureGoalsComponent } from './capture-goals/capture-goals.component';
 import { LunchTimeNotificationComponent } from './lunch-time-notification/lunch-time-notification.component';
 import { ReviewGoalsComponent } from './review-goals/review-goals.component';
+import { contants } from '../shared/global/global.contants';
+import { Roles } from '../shared/global/roles';
 
 
 
@@ -27,7 +29,28 @@ export class AttendenceRegisterComponent implements OnInit {
   
   ) { }
 
+  isAdmin: boolean | undefined;
+  isTrainer: boolean | undefined;
+  isLearner: boolean | undefined;
+  constructor() { }
+
   ngOnInit(): void {
+    const role = sessionStorage.getItem(contants.role);
+    this.determinRole(role);
+  }
+  determinRole(role: string | null) {
+    switch (role) {
+      case Roles.Super_Admin:
+      case Roles.Admin:
+        this.isAdmin = true;
+        break;
+      case Roles.Trainer:
+        this.isTrainer = true;
+        break;
+      case Roles.Learner:
+        this.isLearner = true;
+        break;
+    }
 
     
    

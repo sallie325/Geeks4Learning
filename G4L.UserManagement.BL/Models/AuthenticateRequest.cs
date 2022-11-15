@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace G4L.UserManagement.BL.Models
 {
@@ -9,6 +8,5 @@ namespace G4L.UserManagement.BL.Models
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
-      
     }
 }

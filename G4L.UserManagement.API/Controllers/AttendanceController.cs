@@ -1,9 +1,11 @@
 ﻿using G4L.UserManagement.API.Authorization;
+using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
 using G4L.UserManagement.DA.Services;
 using G4L.UserManagement.Infrustructure.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,36 +13,30 @@ using System.Threading.Tasks;
 
 namespace G4L.UserManagement.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AttendanceController : ControllerBase
     {
-       private readonly ILogger<AttendanceController> _logger;
-       private readonly IAttendanceService _attendanceService;
-
+        private readonly ILogger<AttendanceController> _logger;
+        private readonly IAttendanceService _attendanceService;
         public AttendanceController(ILogger<AttendanceController> logger, IAttendanceService attendanceService)
         {
             _logger = logger;
             _attendanceService = attendanceService;
         }
-
-        
         [Authorize(Role.Learner)]
-        [HttpPost("Register_Attendance")]
-        public async Task<IActionResult> PostAsync([FromBody] Attendance_Register attendance_Register)
+        [HttpPost("attendanceRegister")]
+        public async Task<IActionResult> PostAsync([FromBody] AttendanceRegister attendanceRegister)
         {
-            _logger.Log(LogLevel.Information, $"registering for attendance {attendance_Register.Status}");
-            await _attendanceService.RegisterAttendanceAsync(attendance_Register);
-            return Ok(attendance_Register);
+            await _attendanceService.SigningAttendanceRegisterAsync(attendanceRegister);
+            return Ok(attendanceRegister);
         }
-
-
-        //Retrieve information about all attendance records
-
-        [Authorize(Role.Admin,Role.Trainer)]
-        [HttpGet("Get_All_Attendance_Records")]
-        public async Task<IActionResult> GetAllAttendanceAsync()
+        [Authorize(Role.Learner)]
+        [HttpPut("updateAttendance")]
+        public async Task<IActionResult> PutAsync([FromBody] UpdateAttendance attendance)
         {
-            var AttendnanceRecords = await _attendanceService.GetAllAttendanceAsync();
-            return Ok(AttendnanceRecords);
+            await _attendanceService.UpdateAttendanceAsync(attendance);
+            return Ok();
         }
 
 
@@ -49,11 +45,19 @@ namespace G4L.UserManagement.API.Controllers
         [AllowAnonymous]
         [HttpPut("Create_Goals")]
         public async Task<IActionResult> PutAsync([FromBody] UpdateAttendance learner)
+
+        [Authorize(Role.Learner)]
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetAsync(Guid userId)
         {
-
-
-            await _attendanceService.UpdateAttendanceAsync(learner);
-            return Ok();
+            var attendanceRegister = await _attendanceService.GetAttendanceRegisterAsync(userId);
+            return Ok(attendanceRegister);
+        }
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
+        [HttpGet("attendance_pages")]
+        public async Task<IActionResult> Get(int skip = 0, int take = 5)
+        {
+            return Ok(await _attendanceService.GetPagedAttendancesAsync(skip, take));
         }
     }
 }

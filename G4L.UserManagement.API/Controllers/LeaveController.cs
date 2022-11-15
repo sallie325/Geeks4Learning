@@ -24,7 +24,7 @@ namespace G4L.UserManagement.API.Controllers
             _leaveService = leaveService;
         }
 
-        [AllowAnonymous]
+        [Authorize(Role.Learner)]
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] LeaveRequest leaveRequest)
         {
