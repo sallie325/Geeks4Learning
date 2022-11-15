@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace G4L.UserManagement.BL.Enum
 {
-    public enum Attendance_Status
+    public enum AttendanceStatus
     {
         Present,
-        Late,
         Absent,
+        Late,
         Leave
     }
 }

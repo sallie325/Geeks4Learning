@@ -10,9 +10,9 @@ namespace G4L.UserManagement.BL.Interfaces
 {
     public interface IAttendanceService
     {
-        Task RegisterAttendanceAsync(Attendance_Register attendance_Register);
-        Task<IEnumerable<Attendance>> GetAllAttendanceAsync();
-        Task<Attendance> GetAttendanceByIdAsync(Guid id);
-        Task UpdateAttendanceAsync(UpdateAttendance attendance_Register);
+        Task<List<AttendanceRegister>> GetAttendanceRegisterAsync(Guid userId);
+        Task<IEnumerable<Attendance>> GetPagedAttendancesAsync(int skip, int take);
+        Task SigningAttendanceRegisterAsync(AttendanceRegister attendanceRegister);
+        Task UpdateAttendanceAsync(UpdateAttendance attendance);
     }
 }

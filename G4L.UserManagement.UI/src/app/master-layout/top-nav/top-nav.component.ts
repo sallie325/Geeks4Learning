@@ -12,6 +12,8 @@ export class TopNavComponent implements OnInit {
   url: string = '';
   username: string | null = null;
   filterTerm!: string;
+  date: string = new Date().toDateString();
+  time: string = new Date().toTimeString();
 
   constructor(private router: Router) {
     this.username = sessionStorage.getItem(contants.username);
@@ -24,11 +26,14 @@ export class TopNavComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {console.log(this.filterTerm)}
-  
+  ngOnInit(): void { console.log(this.filterTerm) }
+
   logout() {
     sessionStorage.clear();
     window.location.reload();
+    sessionStorage.setItem(contants.time, this.time);
+    sessionStorage.setItem("date", this.date);
+
   }
-  
+
 }

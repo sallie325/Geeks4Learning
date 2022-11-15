@@ -11,6 +11,6 @@ export const environment = {
     measurementId: 'G-J58Z531TR4',
   },
   production: true,
-  apiUrl: "https://geeks4learning-dotnet.herokuapp.com/api",
+  apiUrl: "https://g4lusermanagementapi.azurewebsites.net/api",
   defaultPassword: "P@ssword1"
 };

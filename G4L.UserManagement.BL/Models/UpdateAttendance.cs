@@ -9,13 +9,11 @@ namespace G4L.UserManagement.BL.Models
 {
     public class UpdateAttendance
     {
-        public Guid Id { get; set; }
-        public DateTime Date { get; set; }
-        public Attendance_Status Status { get; set; }
-        public DateTime Clockin_Time { get; set; }
-        public DateTime Clockout_Time { get; set; }
-        public string Goal_summary { get; set; }
-        public string Goal_Description { get; set; }
-        public DateTime Time_Limit { get; set; }
+         public Guid Id { get; set; }
+        public Guid userId { get; set; }
+        public string AttendanceDate { get; set; } = DateTime.Now.ToString("MM/dd/yyyy");
+        public string LoginTime { get; set; } = DateTime.Now.ToString("HH:mm");
+        public string LogoutTime { get; set; } = DateTime.Now.ToString("HH:mm");
+        public AttendanceStatus Status { get; set; }
     }
 }

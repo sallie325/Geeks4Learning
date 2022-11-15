@@ -4,13 +4,14 @@ import { ToastrService } from 'ngx-toastr';
 import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { LeaveTypes } from 'src/app/shared/global/leave-types';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
+import { LeaveRequestComponent } from '../../leave-request/leave-request.component';
 import { LeaveReviewComponent } from '../../leave-review/leave-review.component';
 import { LeaveService } from '../../services/leave.service';
 
 @Component({
   selector: 'app-approver',
   templateUrl: './approver.component.html',
-  styleUrls: ['./approver.component.css', '../../../../styles.css']
+  styleUrls: ['./approver.component.css']
 })
 export class ApproverComponent implements OnInit {
 
@@ -19,7 +20,6 @@ export class ApproverComponent implements OnInit {
   user: any;
   leaveBalances: any[] = [];
   dataSet: any;
-  stats: any;
 
   constructor(
     private modalService: MdbModalService,
@@ -31,7 +31,6 @@ export class ApproverComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.tokenService.getDecodeToken();
     this.getLeavesToApprove(this.user?.id);
-    this.getLeaveStats(this.user?.id);
   }
 
   getLeavesToApprove(userId: any) {
@@ -40,6 +39,22 @@ export class ApproverComponent implements OnInit {
         console.log(arg);
         this.leaveApplications = arg;
       });
+  }
+
+  openDialog(request: any) {
+    this.modalDialog = this.modalService.open(LeaveReviewComponent, {
+      animation: true,
+      backdrop: true,
+      containerClass: 'modal top fade modal-backdrop',
+      data: { leaveRequest: request },
+      ignoreBackdropClick: false,
+      keyboard: true,
+      modalClass: 'modal-xl modal-dialog-centered',
+    });
+
+    this.modalDialog.onClose.subscribe(_ => {
+      this.getLeavesToApprove(this.user?.id);
+    });
   }
 
   cancelApplication(leave: any) {
@@ -86,23 +101,6 @@ export class ApproverComponent implements OnInit {
     }
   }
 
-  getStatusBgColor(status: any): any {
-    switch (status) {
-      case LeaveStatus.Pending:
-        return 'bg-5-g4l-orange'
-      case LeaveStatus.Approved:
-        return 'bg-5-green'
-      case LeaveStatus.Partially_Approved:
-        return 'bg-5-g4l-greeny-blue'
-      case LeaveStatus.Cancelled:
-        return 'bg-5-red'
-      case LeaveStatus.Rejected:
-        return 'bg-5-red'
-      default:
-        break;
-    }
-  }
-
   reviewLeave(request: any) {
     this.modalDialog = this.modalService.open(LeaveReviewComponent, {
       animation: true,
@@ -113,19 +111,5 @@ export class ApproverComponent implements OnInit {
       keyboard: true,
       modalClass: 'modal-xl modal-dialog-centered',
     });
-
-    this.modalDialog.onClose.subscribe(_ => {
-      this.getLeavesToApprove(this.user?.id);
-    });
   }
-
-  getLeaveStats(userId: any) {
-    this.leaveService.getLeaveStats(userId)
-      .subscribe((response: any) => {
-        this.stats = response;
-        console.log(response);
-      }
-    );
-  }
-
 }

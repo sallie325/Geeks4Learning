@@ -72,8 +72,8 @@ namespace G4L.UserManagement.API
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ILeaveService, LeaveService>();
             services.AddScoped<ILeaveRepository, LeaveRepository>();
-            services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             services.AddScoped<IAttendanceService, AttendanceService>();
+            services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
         }
