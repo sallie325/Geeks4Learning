@@ -1,3 +1,4 @@
+<app-total-present-absent-late-cards></app-total-present-absent-late-cards>
 <div class="card mb-4">
   <div class="card-header pb-0">
     <h6>Attendence</h6>
@@ -57,10 +58,10 @@
                 </p>
               </td>
               <td class="align-middle text-xs ps-2">
-                <p class="font-weight-bold mb-0"> {{attendance.loginTime}}</p>
+                <p class="font-weight-bold mb-0"> {{attendance.loginTime | date: 'hh:mm'}}</p>
               </td>
               <td class="align-middle text-xs ps-2">
-                <p class="font-weight-bold mb-0"> {{attendance.logoutTime}}</p>
+                <p class="font-weight-bold mb-0"> {{attendance.logoutTime | date: 'hh:mm'}}</p>
               </td>
               <td class="align-middle text-xs ps-2">
                 <p class="font-weight-bold mb-0"[class]="getStatus(attendance.status)">{{attendance.status}}
