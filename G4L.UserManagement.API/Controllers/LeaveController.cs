@@ -56,15 +56,6 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(leaveRequests);
         }
 
-        // Poor naming convention TODO!!
-        [Authorize(Role.Admin, Role.Trainer)]
-        [HttpGet("approverBalance/{userId}")]
-        public async Task<IActionResult> GetLeavesBalanceAsync(Guid userId)
-        {
-            var leaveRequests = await _leaveService.GetLeavesToApproveBalanceAsync(userId);
-            return Ok(leaveRequests);
-        }
-
         [Authorize(Role.Admin, Role.Trainer)]
         [HttpPut()]
         public async Task<IActionResult> UpdateLeaveRequestAsync([FromBody] LeaveRequest leaveRequest)

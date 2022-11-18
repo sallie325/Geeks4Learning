@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221019122018_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20221111073339_initialCreateUpdate")]
+    partial class initialCreateUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,7 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("LeaveId")
+                    b.Property<Guid>("LeaveId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ModifiedDate")
@@ -50,6 +50,40 @@ namespace G4L.UserManagement.DA.Migrations
                     b.HasIndex("LeaveId");
 
                     b.ToTable("Approvers");
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Attendance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AttendanceDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LoginTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LogoutTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("userId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("Attendances");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
@@ -108,7 +142,8 @@ namespace G4L.UserManagement.DA.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("UsedDays")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -118,6 +153,37 @@ namespace G4L.UserManagement.DA.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Leaves");
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.LeaveSchedule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HalfDaySchedule")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LeaveDayType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("LeaveId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeaveId");
+
+                    b.ToTable("Leave_Schedules");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
@@ -171,7 +237,18 @@ namespace G4L.UserManagement.DA.Migrations
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.Leave", null)
                         .WithMany("Approvers")
-                        .HasForeignKey("LeaveId");
+                        .HasForeignKey("LeaveId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Attendance", b =>
+                {
+                    b.HasOne("G4L.UserManagement.BL.Entities.User", null)
+                        .WithMany("Attendances")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
@@ -190,15 +267,26 @@ namespace G4L.UserManagement.DA.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.LeaveSchedule", b =>
+                {
+                    b.HasOne("G4L.UserManagement.BL.Entities.Leave", null)
+                        .WithMany("LeaveSchedule")
+                        .HasForeignKey("LeaveId");
+                });
+
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
                 {
                     b.Navigation("Approvers");
 
                     b.Navigation("Documents");
+
+                    b.Navigation("LeaveSchedule");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
                 {
+                    b.Navigation("Attendances");
+
                     b.Navigation("Leaves");
                 });
 #pragma warning restore 612, 618

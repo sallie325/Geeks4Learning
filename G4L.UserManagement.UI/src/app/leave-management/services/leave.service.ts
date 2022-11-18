@@ -8,6 +8,7 @@ import { LeaveTypes } from 'src/app/shared/global/leave-types';
   providedIn: 'root'
 })
 export class LeaveService {
+
   //mimic the response the the server
   leaveBalance =  new BehaviorSubject<any>(undefined);
 
@@ -47,9 +48,8 @@ export class LeaveService {
   updateLeave(leave: any): Observable<any> {
     return this.http.put(`${environment.apiUrl}/leave/${leave?.id}`, leave);
   }
-
-  getLeaveStats(userId: any){
-    return this.http.get(`${environment.apiUrl}/leave/approverBalance/${userId}`);
+  getAllLeaveApplications(){
+    return this.http.get(`${environment.apiUrl}/leave`);
   }
 
   getLeaveBalances(userId: any) {

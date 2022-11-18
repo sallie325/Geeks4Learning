@@ -1,7 +1,13 @@
 <div class="container-fluid py-4">
   <div class="row">
     <div class="col p-4">
-      <p>Attendence register coming soon...</p>
+      <app-total-present-absent-late-cards></app-total-present-absent-late-cards>
+      <ng-container *ngIf="isAdmin || isTrainer;else learner">
+        <app-admin></app-admin>
+      </ng-container>
+      <ng-template #learner>
+        <app-trainee></app-trainee>
+      </ng-template>
     </div>
   </div>
 </div>

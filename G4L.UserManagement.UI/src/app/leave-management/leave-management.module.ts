@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { MaterialModule } from '../shared/material/material.module';
+import { LeaveBalanceCardComponent } from './leave-balance-card/leave-balance-card.component';
 import { ChartsModule } from '../shared/charts/charts.module';
 import { NgChartsModule } from 'ng2-charts';
 import { getStorage, provideStorage } from '@angular/fire/storage';
@@ -15,16 +16,15 @@ import { environment } from 'src/environments/environment';
 import { TraineeComponent } from './views/trainee/trainee.component';
 import { LeaveReviewComponent } from './leave-review/leave-review.component';
 import { ApproverComponent } from './views/approver/approver.component';
-import { LeaveBalanceCardComponent } from './leave-balance-card/leave-balance-card.component';
 
 @NgModule({
   declarations: [
     LeaveManagementComponent,
     LeaveRequestComponent,
+    LeaveBalanceCardComponent,
     TraineeComponent,
     LeaveReviewComponent,
-    ApproverComponent,
-    LeaveBalanceCardComponent,
+    ApproverComponent
   ],
   imports: [
     CommonModule,

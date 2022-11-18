@@ -2,7 +2,7 @@
 
 namespace G4L.UserManagement.DA.Migrations
 {
-    public partial class Attachments_upload : Migration
+    public partial class initialCreateUpdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
