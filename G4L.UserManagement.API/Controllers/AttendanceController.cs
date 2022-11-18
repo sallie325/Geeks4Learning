@@ -24,9 +24,9 @@ namespace G4L.UserManagement.API.Controllers
             _logger = logger;
             _attendanceService = attendanceService;
         }
-        [Authorize(Role.Learner)]
+        [AllowAnonymous]
         [HttpPost("attendanceRegister")]
-        public async Task<IActionResult> PostAsync([FromBody] Attendance_Register attendanceRegister)
+        public async Task<IActionResult> PostAsync([FromBody] AttendanceRegister attendanceRegister)
         {
             await _attendanceService.SigningAttendanceRegisterAsync(attendanceRegister);
             return Ok(attendanceRegister);
@@ -34,9 +34,9 @@ namespace G4L.UserManagement.API.Controllers
 
 
 
-        [Authorize(Role.Learner)]
+        [AllowAnonymous]
         [HttpPut("updateAttendance")]
-        public async Task<IActionResult> PutAsync([FromBody] UpdateAttendance learner)
+        public async Task<IActionResult> PutAsync([FromBody] UpdateAttendanceGoals learner)
         {
             await _attendanceService.UpdateAttendanceAsync(learner);
             return Ok(learner);

@@ -9,6 +9,8 @@ import { AttendanceType } from 'src/app/shared/global/attendance-type';
 import { contants } from 'src/app/shared/global/global.contants';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
 import { CaptureGoalsComponent } from '../../capture-goals/capture-goals.component';
+import { LunchTimeNotificationComponent } from '../../lunch-time-notification/lunch-time-notification.component';
+import { ReviewGoalsComponent } from '../../review-goals/review-goals.component';
 import { AttendenceService } from '../../services/attendence.service';
 
 @Component({
@@ -38,7 +40,7 @@ modalRef: any;
   constructor(private toastr:ToastrService, private leaveService: LeaveService, private tokenService: TokenService, private attendanceService: AttendenceService, private formBuilder: FormBuilder,private modalService: MdbModalService,
     ) { }
   ngOnInit(): void {
-    this.startTimer()
+   
     let date: any = sessionStorage.getItem("date");
     let loginTime: any = sessionStorage.getItem(contants.time);
     // let loginTime: any = "07:15"
@@ -70,6 +72,7 @@ modalRef: any;
     this.getLeaveDetails(this.userId);
     this.sendDetails()
   }
+
   getLeaveDetails(userId: any) {
     this.leaveService.getLeaveApplications(userId)
       .subscribe(arg => {
@@ -77,6 +80,7 @@ modalRef: any;
         console.log(this.leaveApplications, 'leave')
       });
   }
+  
   sendDetails() {
     console.log(this.holdingArray.value + " ")
     this.attendanceService.captureDetails(this.holdingArray.value).subscribe(_ => {
@@ -118,19 +122,32 @@ modalRef: any;
         return undefined;
     }
   }
-  startTimer() {
-    setInterval(() => {
-      this.testTime = new Date().toTimeString();
-      if(this.testTime.substring(0,8) == "12:00:00"){
-        alert("Do you want to take lunch?")
-        this.toastr.info("Do you want to take lunch?")
-      }
-      console.log(this.testTime);
-    }, 1000);
-    
-  }
+
+
   CreateGoalsDialog() {
     this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
+      animation: true,
+      backdrop: true,
+      containerClass: 'modal top fade modal-backdrop',
+      ignoreBackdropClick: false,
+      keyboard: true,
+      modalClass: 'modal-xl modal-dialog-centered',
+    });
+  }
+
+  LunchDialog() {
+    this.modalDialog = this.modalService.open(LunchTimeNotificationComponent, {
+      animation: true,
+      backdrop: true,
+      containerClass: 'modal top fade modal-backdrop',
+      ignoreBackdropClick: false,
+      keyboard: true,
+      modalClass: 'modal-xl modal-dialog-centered',
+    });
+  }
+
+  GoalsDialog() {
+    this.modalDialog = this.modalService.open(ReviewGoalsComponent, {
       animation: true,
       backdrop: true,
       containerClass: 'modal top fade modal-backdrop',

@@ -56,39 +56,6 @@ export class AttendenceRegisterComponent implements OnInit {
    
   }
 
-  CreateGoalsDialog() {
-    this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
-      animation: true,
-      backdrop: true,
-      containerClass: 'modal top fade modal-backdrop',
-      ignoreBackdropClick: false,
-      keyboard: true,
-      modalClass: 'modal-xl modal-dialog-centered',
-    });
-  }
 
-  
-  LunchDialog() {
-    this.modalDialog = this.modalService.open(LunchTimeNotificationComponent, {
-      animation: true,
-      backdrop: true,
-      containerClass: 'modal top fade modal-backdrop',
-      ignoreBackdropClick: false,
-      keyboard: true,
-      modalClass: 'modal-xl modal-dialog-centered',
-    });
-  }
-
-  
-  GoalsDialog() {
-    this.modalDialog = this.modalService.open(ReviewGoalsComponent, {
-      animation: true,
-      backdrop: true,
-      containerClass: 'modal top fade modal-backdrop',
-      ignoreBackdropClick: false,
-      keyboard: true,
-      modalClass: 'modal-xl modal-dialog-centered',
-    });
-  }
  
 }

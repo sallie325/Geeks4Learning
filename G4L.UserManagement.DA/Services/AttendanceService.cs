@@ -30,24 +30,25 @@ namespace G4L.UserManagement.DA.Services
             _mapper = mapper;
         }
 
-        public async Task UpdateAttendanceAsync(UpdateAttendance learner)
+        public async Task UpdateAttendanceAsync(UpdateAttendanceGoals learner)
         {
             var attendance = await _attendanceRepository.GetByIdAsync(learner.Id);
             // Update the following;
-            attendance.Goal_summary = attendance.Goal_summary;
-            attendance.Goal_Description = attendance.Goal_Description;
-            attendance.Time_Limit = attendance.Time_Limit;
+            attendance.Goal_summary = learner.Goal_summary;
+            attendance.Goal_Description = learner.Goal_Description;
+            attendance.Time_Limit = learner.Time_Limit;
 
 
             await _attendanceRepository.UpdateAsync(attendance);
         }
+
         public async Task<List<AttendanceRegister>> GetAttendanceRegisterAsync(Guid userId)
         {
             var attendance = await _attendanceRepository.ListAsync(x => x.UserId == userId);
             return _mapper.Map<List<AttendanceRegister>>(attendance);
         }
 
-        public async Task SigningAttendanceRegisterAsync(Attendance_Register attendanceRegister)
+        public async Task SigningAttendanceRegisterAsync(AttendanceRegister attendanceRegister)
         {
             var attendance = _mapper.Map<Attendance>(attendanceRegister);
             if (await _attendanceRepository.QueryAsync(x =>x.Date == attendanceRegister.Date && x.UserId == attendanceRegister.UserId) != null)

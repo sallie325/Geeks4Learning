@@ -9,7 +9,6 @@ namespace G4L.UserManagement.BL.Interfaces
 {
     public interface IAttendanceRepository:IRepository<Attendance>
     {
-        Task AttendanceUpdateAsync(Attendance attendance);
-        Task<List<Attendance>> GetAttendanceByIdAsync(Guid userId);
+      
     }
 }

@@ -6,14 +6,15 @@ import { LunchTimeNotificationComponent } from './lunch-time-notification/lunch-
 import { ReviewGoalsComponent } from './review-goals/review-goals.component';
 import { TotalPresentAbsentLateCardsComponent } from './total-present-absent-late-cards/total-present-absent-late-cards.component';
 import { AdminComponent } from './views/admin/admin.component';
-import  {TraineeComponent} from './views/trainee/trainee.component'
+import  {TraineeComponent} from './views/trainee/trainee.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [ AttendenceRegisterComponent, CaptureGoalsComponent, LunchTimeNotificationComponent, ReviewGoalsComponent,TotalPresentAbsentLateCardsComponent, AdminComponent,TraineeComponent],
   imports: [
-    CommonModule
+    CommonModule, FormsModule, ReactiveFormsModule
   ]
 })
 export class AttendenceRegisterModule { }

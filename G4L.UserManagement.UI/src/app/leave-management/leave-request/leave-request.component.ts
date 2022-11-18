@@ -57,7 +57,7 @@ export class LeaveRequestComponent implements OnInit {
       endDate: ['', Validators.required],
       leaveDayDuration: [ LeaveDayType.All_day ],
       leaveSchedule: this.formBuilder.array([]),
-      comments: [''],
+      comments: ['',Validators.required],
       usedDays: ['', Validators.required ],
       status: [ LeaveStatus.Pending ],
       approvers: this.formBuilder.array([

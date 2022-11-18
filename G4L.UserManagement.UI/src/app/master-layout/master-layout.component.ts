@@ -14,41 +14,71 @@ export class MasterLayoutComponent implements OnInit {
 
   modalDialog: MdbModalRef<CaptureGoalsComponent> | null = null;
   modalRef: any;
-  time :any ;
+  time: any;
 
 
   constructor(
     private modalService: MdbModalService,
     private toastr: ToastrService,
-  
+
   ) { }
 
   ngOnInit(): void {
 
-    setInterval(()=> {
-
-      this.time =new Date().toTimeString();
-    if(this.time.substring(0,8) == '08:33:00'){
-
-      this.modalDialog = this.modalService.open(LunchTimeNotificationComponent)
-      console.log(this.time);
-      this.toastr.info('Dont you want to take lunch');
-
-    }
-
-    if(this.time.substring(0,8) == '08:47:00'){
-
-      this.modalDialog = this.modalService.open(ReviewGoalsComponent)
-      console.log(this.time);
-      this.toastr.info('Before you logout, lets review some goals');
-
-    }
-
-
-     
-    },1000)
-
     
-   
+
+
+      this.time = new Date().toTimeString();
+      if (this.time.substring(0, 8) == '08:17:00') {
+
+        this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
+          animation: true,
+          backdrop: true,
+          containerClass: 'modal top fade modal-backdrop',
+          ignoreBackdropClick: false,
+          keyboard: true,
+          modalClass: 'modal-xl modal-dialog-centered',
+        });
+        console.log(this.time);
+
+
+      }
+
+      if (this.time.substring(0, 8) == '08:20:00') {
+
+        this.modalDialog = this.modalService.open(LunchTimeNotificationComponent, {
+          animation: true,
+          backdrop: true,
+          containerClass: 'modal top fade modal-backdrop',
+          ignoreBackdropClick: false,
+          keyboard: true,
+          modalClass: 'modal-lg modal-dialog-centered',
+        });
+        console.log(this.time);
+
+
+      }
+
+      if (this.time.substring(0, 8) == '15:55:00') {
+
+        this.modalDialog = this.modalService.open(ReviewGoalsComponent, {
+          animation: true,
+          backdrop: true,
+          containerClass: 'modal top fade modal-backdrop',
+          ignoreBackdropClick: false,
+          keyboard: true,
+          modalClass: 'modal-lg l modal-dialog-centered',
+        });
+        console.log(this.time);
+
+
+      }
+
+
+
+
+
+
+
   }
 }

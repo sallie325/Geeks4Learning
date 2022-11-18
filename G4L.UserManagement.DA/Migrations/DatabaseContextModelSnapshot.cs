@@ -56,16 +56,22 @@ namespace G4L.UserManagement.DA.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AttendanceDate")
+                    b.Property<string>("Clockin_Time")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Clockout_Time")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("LoginTime")
+                    b.Property<string>("Date")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LogoutTime")
+                    b.Property<string>("Goal_Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Goal_summary")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
@@ -74,12 +80,15 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("userId")
+                    b.Property<string>("Time_Limit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Attendances");
                 });
@@ -244,7 +253,7 @@ namespace G4L.UserManagement.DA.Migrations
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.User", null)
                         .WithMany("Attendances")
-                        .HasForeignKey("userId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

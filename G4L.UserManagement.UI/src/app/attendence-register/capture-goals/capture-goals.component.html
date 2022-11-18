@@ -3,78 +3,99 @@
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-8">
-          <h6 class="mb-0 ">Create Goals</h6>
+          <h6 class="mb-0 text-uppsercase">CREATE GOALS</h6>
         </div>
         <div class="col-4 text-end">
           <a (click)="close()" class="cursor-pointer">
             <i class="fa-solid fa-xmark"></i></a>
         </div>
-
-        <hr class="horizontal dark my-4" />
       </div>
-      <div class="card-body pt-0">
-        <form autocomplete="off">
-          <div class="row">
-            <div class="col p-3">
-              <div class="row">
-                <div class="col">
-                  <h6 class="fw-bold m-1 g4l-grey-text">
-                    <i class="fa-solid fa-book"></i>
+      <hr class="horizontal dark my-4" />
+    </div>
+    <div class="card-body pt-0">
+      <form [formGroup]="formModel" autocomplete="off" (submit)="UpdateGoals()">
+        <div class="row">
+          <div class="col p-3">
+            <div class="row">
+              <div class="col">
+                <h6 class="fw-bold m-1 g4l-grey-text">
+                  <i class="fa-solid fa-book"></i>
+                  Agile Development
+                </h6>
+                <p class="fw-bold m-1">
+                  <i class="fa-solid fa-building mr-1"></i>
+                  4 Days remaining
+                </p>
+              </div>
+
+              <div class="col-4">
+                <div class="card border-radius" style="background-color:#8bacb4">
+                  <p class="white-text text text-bold" style="margin-left:10%;color:#056a86"><strong>Up
+                      Next</strong></p>
+                  <p class="white-text " style="margin-left: 10%;">
                     Agile Development
-                  </h6>
-                  <p class="fw-bold m-1">
-                    <i class="fa-solid fa-building mr-1"></i>
-                    4 Days remaining
                   </p>
                 </div>
-
-                <div class="col-4">
-                  <div class="card border-radius" style="background-color:#8bacb4">
-                    <p class="white-text text text-bold" style="margin-left:10%;color:#02708f"><strong>Up
-                        Next</strong></p>
-                    <p class="white-text " style="margin-left: 10%;">
-                      Agile Development
-                    </p>
-                  </div>
-                </div>
               </div>
-              <hr class="horizontal dark my-4" />
-              
-                <div class="row">
-                  <div class="col">
-                    <label class="form-control-label">Goal
-                      Summary</label>
-                    <input type="text" class="form-control">
-                  </div>
-                  <div class="col-3">
-                    <div class=" ">
-                      <label class="form-control-label">Time limit</label>
-                      <input type="time" class="form-control" value="10:05 AM" />
-                    </div>
-                  </div>
-                </div>
+            </div>
+            <hr class="horizontal dark my-4" />
 
-                <div class="col ">
-                  <div class=" mt-4">
-                <label class="form-control-label ">Description</label>
-                <textarea class="form-control" rows="3"></textarea>
-                </div>
-                </div>
-              
-              <div class="row mt-4 ">
-                <div class="col  text-left">
-                  <button class="btn btn-sm bg-2 gradient-primary mb-0  border border-primary text">
-                    <i class="fa-solid fa-pen"></i> Add new goal</button>
-                </div>
-                <div class="col text-end">
-                  <button class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text">
-                    Done</button>
+            <div class="row">
+              <div class="col">
+                <label class="form-control-label" >Goal
+                  Summary</label>
+                <input type="text" class="form-control" formControlName="GoalSummary" [ngClass]="{
+                  'red-border':
+                    formModel.controls['GoalSummary'].invalid &&
+                    formModel.controls['GoalSummary'].touched
+                }">
+              </div>
+              <div class="col-3">
+                <div class=" ">
+                  <label class="form-control-label">Time limit</label>
+                  <input type="time" class="form-control" value="10:05 AM"formControlName="Time_limt"[ngClass]="{
+                    'red-border':
+                      formModel.controls['Time_limt'].invalid &&
+                      formModel.controls['Time_limt'].touched
+                  }" />
                 </div>
               </div>
             </div>
           </div>
-        </form>
-      </div>
+     
+          <div class="row mt-4">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label" for="input-comments" 
+                >Description</label>
+                <textarea type="text" id="input-comments" class="form-control" formControlName="Goal_Description" [ngClass]="{
+                  'red-border':
+                    formModel.controls['Goal_Description'].invalid &&
+                    formModel.controls['Goal_Description'].touched
+                }">
+              </textarea>
+
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <div class="row mt-3">
+
+            <div class="col text-left">
+              <button (click)="close()" class="btn btn-sm bg-2 gradient-primary  text mb-0 text-uppercase"
+                style="border: #094252 ;">
+                <i class="fa-solid fa-pen"></i> Add new Goal</button>
+            </div>
+            <div class="col-3 text-end">
+              <button type="submit" class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase">
+                Done</button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
+
   </div>
-</div>

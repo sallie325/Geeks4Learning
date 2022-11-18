@@ -12,7 +12,7 @@ namespace G4L.UserManagement.BL.Interfaces
     {
         Task<List<AttendanceRegister>> GetAttendanceRegisterAsync(Guid userId);
         Task<IEnumerable<Attendance>> GetPagedAttendancesAsync(int skip, int take);
-        Task SigningAttendanceRegisterAsync(Attendance_Register attendanceRegister);
-        Task UpdateAttendanceAsync(UpdateAttendance learner);
+        Task SigningAttendanceRegisterAsync(AttendanceRegister attendanceRegister);
+        Task UpdateAttendanceAsync(UpdateAttendanceGoals learner);
     }
 }

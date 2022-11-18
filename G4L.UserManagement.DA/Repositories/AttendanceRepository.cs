@@ -26,14 +26,6 @@ namespace G4L.UserManagement.DA.Repositories
             });
         }
 
-        Task IAttendanceRepository.AttendanceUpdateAsync(Attendance attendance)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<List<Attendance>> IAttendanceRepository.GetAttendanceByIdAsync(Guid userId)
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }

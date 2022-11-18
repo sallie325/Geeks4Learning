@@ -13,6 +13,10 @@ export class AttendenceService {
   UpdateAttendance(logoutTime: any): Observable<any> {
     return this.http.put(`${environment.apiUrl}/Attendance/updateAttendance`, logoutTime);
   }
+
+  UpdateGoals(Goals: any): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/Attendance/updateAttendance`, Goals);
+  }
   constructor(private http: HttpClient) { }
 
   getAttendences(value:any) {
