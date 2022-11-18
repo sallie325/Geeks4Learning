@@ -25,11 +25,13 @@ export class MasterLayoutComponent implements OnInit {
 
   ngOnInit(): void {
 
-    
 
+
+
+    setInterval(() => {
 
       this.time = new Date().toTimeString();
-      if (this.time.substring(0, 8) == '08:17:00') {
+      if (this.time.substring(0, 8) == '14:38:00') {
 
         this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
           animation: true,
@@ -39,10 +41,13 @@ export class MasterLayoutComponent implements OnInit {
           keyboard: true,
           modalClass: 'modal-xl modal-dialog-centered',
         });
-        console.log(this.time);
-
 
       }
+    }, 1000);
+
+
+
+    setInterval(() => {
 
       if (this.time.substring(0, 8) == '08:20:00') {
 
@@ -54,10 +59,14 @@ export class MasterLayoutComponent implements OnInit {
           keyboard: true,
           modalClass: 'modal-lg modal-dialog-centered',
         });
-        console.log(this.time);
+
 
 
       }
+    }, 1000);
+
+    setInterval(() => {
+
 
       if (this.time.substring(0, 8) == '15:55:00') {
 
@@ -69,10 +78,11 @@ export class MasterLayoutComponent implements OnInit {
           keyboard: true,
           modalClass: 'modal-lg l modal-dialog-centered',
         });
-        console.log(this.time);
+
 
 
       }
+    }, 1000);
 
 
 
