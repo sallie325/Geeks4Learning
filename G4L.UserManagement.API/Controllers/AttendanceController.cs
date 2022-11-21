@@ -35,7 +35,7 @@ namespace G4L.UserManagement.API.Controllers
 
 
         [AllowAnonymous]
-        [HttpPut("updateAttendance")]
+        [HttpPut("updateAttendanceGoals")]
         public async Task<IActionResult> PutAsync([FromBody] UpdateAttendanceGoals learner)
         {
             await _attendanceService.UpdateAttendanceAsync(learner);
