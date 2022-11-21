@@ -35,11 +35,14 @@ namespace G4L.UserManagement.DA.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AttendanceDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LoginTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LogoutTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
+                    Clockin_Time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Clockout_Time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Goal_summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Goal_Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Time_Limit = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -47,8 +50,8 @@ namespace G4L.UserManagement.DA.Migrations
                 {
                     table.PrimaryKey("PK_Attendances", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Attendances_Users_userId",
-                        column: x => x.userId,
+                        name: "FK_Attendances_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -154,9 +157,9 @@ namespace G4L.UserManagement.DA.Migrations
                 column: "LeaveId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attendances_userId",
+                name: "IX_Attendances_UserId",
                 table: "Attendances",
-                column: "userId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Documents_LeaveId",

@@ -41,10 +41,10 @@ namespace G4L.UserManagement.DA.Services
 
             await _attendanceRepository.UpdateAsync(attendance);
         }
-        public async Task<List<AttendanceRegister>> GetAttendanceRegisterAsync(Guid userId)
+        public async Task<List<Attendance_Register>> GetAttendanceRegisterAsync(Guid userId)
         {
             var attendance = await _attendanceRepository.ListAsync(x => x.UserId == userId);
-            return _mapper.Map<List<AttendanceRegister>>(attendance);
+            return _mapper.Map<List<Attendance_Register>>(attendance);
         }
 
         public async Task SigningAttendanceRegisterAsync(Attendance_Register attendanceRegister)
@@ -56,6 +56,22 @@ namespace G4L.UserManagement.DA.Services
                     ErrorCode = ServerErrorCodes.DuplicateAttendanceDate.ToString(),
                     Message = "Duplicate attendance dates found on the system"
                 }));
+            //present
+            if(attendance.Clockin_Time.Hour >=7 && attendance.Clockin_Time.Hour <= 8)
+            {
+                if(attendance.Clockin_Time.Hour == 8 && attendance.Clockin_Time.Minute <= 15)
+                {
+                    attendance.Status = AttendanceStatus.Present;
+                }
+                attendance.Status = AttendanceStatus.Present;
+            }
+            //late
+            if (attendance.Clockin_Time.Hour >= 8 && attendance.Clockin_Time.Hour <= 11 || attendance.Clockin_Time.Minute > 15)
+            {
+                attendance.Status = AttendanceStatus.Late;
+            }
+            //absent
+
             await _attendanceRepository.CreateAsync(attendance);
         }
 

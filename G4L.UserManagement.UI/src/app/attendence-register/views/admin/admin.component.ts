@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { any } from 'ramda';
-import { AttendanceType } from 'src/app/shared/global/attendance-type';
+import { AttendanceStatus } from 'src/app/shared/global/attendance-type';
 import { contants } from 'src/app/shared/global/global.contants';
 import { UserService } from 'src/app/usermanagement/services/user.service';
 import { AttendenceService } from '../../services/attendence.service';
@@ -32,13 +32,13 @@ export class AdminComponent implements OnInit {
 
   getStatus(status: any): any {
     switch (status) {
-      case AttendanceType.Present:
+      case AttendanceStatus.Present:
         return 'present'
-      case AttendanceType.Absent:
+      case AttendanceStatus.Absent:
         return 'absent'
-      case AttendanceType.Late:
+      case AttendanceStatus.Late:
         return 'late'
-      case AttendanceType.Leave:
+      case AttendanceStatus.Leave:
         return 'leave'
       default:
         return undefined;

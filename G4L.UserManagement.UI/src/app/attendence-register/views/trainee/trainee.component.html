@@ -46,17 +46,17 @@
                     </div>
                     <div class="d-flex flex-column justify-content-center">
                       <p class="text-secondary mb-0 text-xs">
-                        {{attendance.attendanceDate | date}}
+                        {{attendance.date | date}}
                       </p>
                     </div>
                   </div>
                 </td>
                 <td class="align-middle text-xs ps-2">
-                  <p class="font-weight-bold mb-0">{{attendance.loginTime | date: 'hh:mm' }} </p>
+                  <p class="font-weight-bold mb-0">{{attendance.clockin_Time | date: 'hh:mm' }} </p>
                 </td>
                 <td class="align-middle text-xs ps-2">
                   <p class="font-weight-bold mb-0">
-                    {{attendance.logoutTime | date: 'hh:mm'}}
+                    {{attendance.clockout_Time | date: 'hh:mm'}}
                   </p>
                 </td>
                 <td class="align-middle text-xs ps-2">
