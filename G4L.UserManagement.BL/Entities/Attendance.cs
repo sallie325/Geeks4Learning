@@ -20,7 +20,7 @@ namespace G4L.UserManagement.BL.Entities
         public string Goal_summary { get; set; }
         public string Goal_Description { get; set; }
         public DateTime Time_Limit { get; set; }
-      
+        public Leave Leave_Status { get; set; }
 
 
     }

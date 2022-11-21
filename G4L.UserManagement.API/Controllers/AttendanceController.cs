@@ -24,7 +24,7 @@ namespace G4L.UserManagement.API.Controllers
             _logger = logger;
             _attendanceService = attendanceService;
         }
-        [Authorize(Role.Learner)]
+        [Authorize(Role.Admin, Role.Learner)]
         [HttpPost("attendanceRegister")]
         public async Task<IActionResult> PostAsync([FromBody] Attendance_Register attendanceRegister)
         {

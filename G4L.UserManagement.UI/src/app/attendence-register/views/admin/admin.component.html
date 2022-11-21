@@ -50,7 +50,7 @@
                 </div>
               </td>
               <td class="align-middle text-xs ps-2">
-                <p class="font-weight-bold fw-bold mb-0"> {{attendance.attendanceDate | date}} </p>
+                <p class="font-weight-bold fw-bold mb-0"> {{attendance.date | date}} </p>
               </td>
               <td class="align-middle text-xs ps-2">
                 <p class="font-weight-bold mb-0">
@@ -58,13 +58,15 @@
                 </p>
               </td>
               <td class="align-middle text-xs ps-2">
-                <p class="font-weight-bold mb-0"> {{attendance.loginTime | date: 'hh:mm'}}</p>
+                <p class="font-weight-bold mb-0"> {{attendance.clockin_Time | date: 'hh:mm'}}</p>
               </td>
               <td class="align-middle text-xs ps-2">
-                <p class="font-weight-bold mb-0"> {{attendance.logoutTime | date: 'hh:mm'}}</p>
+                <p class="font-weight-bold mb-0" *ngIf="attendance.clockout_Time != '2022-01-01T00:00:00'">
+                  {{attendance.clockout_Time | date: 'hh:mm'}}
+                </p>
               </td>
               <td class="align-middle text-xs ps-2">
-                <p class="font-weight-bold mb-0"[class]="getStatus(attendance.status)">{{attendance.status}}
+                <p class="font-weight-bold mb-0" [class]="getStatus(attendance.status)">{{attendance.status}}
                 </p>
               </td>
               <td class="align-middle dropdown">

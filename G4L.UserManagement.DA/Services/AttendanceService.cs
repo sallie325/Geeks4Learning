@@ -50,7 +50,7 @@ namespace G4L.UserManagement.DA.Services
         public async Task SigningAttendanceRegisterAsync(Attendance_Register attendanceRegister)
         {
             var attendance = _mapper.Map<Attendance>(attendanceRegister);
-            if (await _attendanceRepository.QueryAsync(x =>x.Date == attendanceRegister.Date && x.UserId == attendanceRegister.UserId) != null)
+            if (await _attendanceRepository.QueryAsync(x =>x.Date.Day == attendanceRegister.Date.Day && x.UserId == attendanceRegister.UserId) != null)
                 throw new AppException(JsonConvert.SerializeObject(new ExceptionObject
                 {
                     ErrorCode = ServerErrorCodes.DuplicateAttendanceDate.ToString(),
@@ -71,7 +71,15 @@ namespace G4L.UserManagement.DA.Services
                 attendance.Status = AttendanceStatus.Late;
             }
             //absent
-
+            if(attendance.Date.Hour > 11)
+            {
+                attendance.Status = AttendanceStatus.Absent;
+            }
+            //leave
+            if(attendance.Date.Hour > 11 && attendance.Leave_Status.ToString() == "Partially_Approved")
+            {
+                attendance.Status = AttendanceStatus.Leave;
+            }
             await _attendanceRepository.CreateAsync(attendance);
         }
 
