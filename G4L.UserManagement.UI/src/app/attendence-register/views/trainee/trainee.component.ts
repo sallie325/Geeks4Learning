@@ -8,6 +8,7 @@ import { AttendanceStatus } from 'src/app/shared/global/attendance-type';
 import { contants } from 'src/app/shared/global/global.contants';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
 import { CaptureGoalsComponent } from '../../capture-goals/capture-goals.component';
+import { LunchTimeNotificationComponent } from '../../lunch-time-notification/lunch-time-notification.component';
 import { AttendenceService } from '../../services/attendence.service';
 
 @Component({
@@ -22,7 +23,6 @@ modalRef: any;
   userId: any | null
   holdingArray: FormGroup = new FormGroup({});
   result: any;
-  logoutTime: any = '2022-01-01T00:00:00.000';
   id: any;
   loginTime: any;
   statu$: any = AttendanceStatus.Present;
@@ -55,7 +55,6 @@ modalRef: any;
       userId: [this.userId],
       date: [this.date],
       clockin_Time: [this.loginTime],
-      clockout_Time: [this.logoutTime],
       status: [this.statu$]
     });
     console.log(this.holdingArray.value)
@@ -83,12 +82,19 @@ modalRef: any;
   }
   startTimer() {
     setInterval(() => {
+      let time = new Date(Date.now()).getSeconds();
       this.testTime = new Date().toTimeString();
       if(this.testTime.substring(0,8) == "12:00:00"){
-        alert("Do you want to take lunch?")
-        this.toastr.info("Do you want to take lunch?")
+        this.modalDialog = this.modalService.open(LunchTimeNotificationComponent, {
+          animation: true,
+          backdrop: true,
+          containerClass: 'modal top fade modal-backdrop',
+          ignoreBackdropClick: false,
+          keyboard: true,
+          modalClass: 'modal-xl modal-dialog-centered',
+        });
       }
-      console.log(this.testTime);
+      console.log(time);
     }, 1000);
     
   }

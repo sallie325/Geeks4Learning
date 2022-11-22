@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   result: any;
   loginTime: any = '';
   userId: any = '156b5e89-99ad-47aa-2895-08da80ffdfed';
+  captureGoalsTime: any;
 
   constructor(private attendanceService: AttendenceService, private tokenService: TokenService, private formBuilder: FormBuilder, private userService: UserService, private router: Router, private toastr: ToastrService) { }
   ngOnInit(): void {
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit {
   login() {
     // display the error message
     this.loginForm.markAllAsTouched();
-    
+
     // stop the code running
     if (this.loginForm.invalid) {
       return;
@@ -40,7 +41,8 @@ export class LoginComponent implements OnInit {
     var date: any = new Date();
     var tzoffset = (date).getTimezoneOffset() * 60000;
     this.date = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
-    this.loginTime =  (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);;
+    this.loginTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
+    this.captureGoalsTime = new Date(Date.now()).getMinutes() + 1;
     // making a backend call
     this.userService
       .authenticate(this.loginForm.value)
@@ -49,8 +51,9 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem(contants.token, response?.token);
         sessionStorage.setItem(contants.username, `${response?.name} ${response?.surname}`);
         sessionStorage.setItem(contants.role, response?.role);
-        sessionStorage.setItem("date",this.date);
+        sessionStorage.setItem("date", this.date);
         sessionStorage.setItem(contants.time, this.loginTime);
+        sessionStorage.setItem("time", this.captureGoalsTime)
         // route to the master layout
         this.router.navigate(['/dashboard']);
 
@@ -61,7 +64,7 @@ export class LoginComponent implements OnInit {
           this.loginForm.updateValueAndValidity();
           this.serverErrorMessage = error?.message;
         });
-    
+
 
   }
   openSocialMediaOnNewTab(url: string) {

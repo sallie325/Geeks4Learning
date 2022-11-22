@@ -52,10 +52,10 @@
                   </div>
                 </td>
                 <td class="align-middle text-xs ps-2">
-                  <p class="font-weight-bold mb-0">{{attendance.clockin_Time | date: 'hh:mm' }} </p>
+                  <p class="font-weight-bold mb-0" *ngIf="attendance.clockin_Time != '0001-01-01T00:00:00'">{{attendance.clockin_Time | date: 'hh:mm' }} </p>
                 </td>
                 <td class="align-middle text-xs ps-2">
-                  <p class="font-weight-bold mb-0" *ngIf="attendance.clockout_Time != '2022-01-01T00:00:00'">
+                  <p class="font-weight-bold mb-0" *ngIf="attendance.clockout_Time != '0001-01-01T00:00:00'">
                     {{attendance.clockout_Time | date: 'hh:mm'}}
                   </p>
                 </td>

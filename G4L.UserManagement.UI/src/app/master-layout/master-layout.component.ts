@@ -17,7 +17,7 @@ export class MasterLayoutComponent implements OnInit {
   modalRef: any;
   time: any;
 
-
+  testTime: any
   constructor(
     private modalService: MdbModalService,
     private toastr: ToastrService,
@@ -25,23 +25,29 @@ export class MasterLayoutComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let time: any = sessionStorage.getItem(contants.time)
-    
-    let number: any = time.substring(15, 16);
-    var sum:any  = number - (-1);
-    console.log(time.substring(14, 16), "sum: ", sum);
+    var time: any = sessionStorage.getItem("time")
+    this.captureGoals();
+    this.startTimer();
+    console.log(time);
+  }
+  captureGoals() {
+  }
+  startTimer() {
     setInterval(() => {
-      let times: any = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -1)
-      if (sum == false) {
-
-        this.modalDialog = this.modalService.open(CaptureGoalsComponent)
-        console.log(this.time);
-        this.toastr.info('Dont you want to take lunch');
-
+      this.testTime = (new Date(Date.now()).getMinutes());
+      var time: any = sessionStorage.getItem("time")
+      if (this.testTime == time) {
+        this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
+          animation: true,
+          backdrop: true,
+          containerClass: 'modal top fade modal-backdrop',
+          ignoreBackdropClick: false,
+          keyboard: true,
+          modalClass: 'modal-xl modal-dialog-centered',
+        });
       }
-    }, 10000)
-
-
+      console.log(this.testTime);
+    }, 60000);
 
   }
 }

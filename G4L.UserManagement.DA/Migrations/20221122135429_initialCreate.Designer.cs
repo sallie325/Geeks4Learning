@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221121085920_initialCreate")]
+    [Migration("20221122135429_initialCreate")]
     partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +76,9 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<string>("Goal_summary")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("Leave_StatusId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
@@ -89,6 +92,8 @@ namespace G4L.UserManagement.DA.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Leave_StatusId");
 
                     b.HasIndex("UserId");
 
@@ -253,11 +258,17 @@ namespace G4L.UserManagement.DA.Migrations
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Attendance", b =>
                 {
+                    b.HasOne("G4L.UserManagement.BL.Entities.Leave", "Leave_Status")
+                        .WithMany()
+                        .HasForeignKey("Leave_StatusId");
+
                     b.HasOne("G4L.UserManagement.BL.Entities.User", null)
                         .WithMany("Attendances")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Leave_Status");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>

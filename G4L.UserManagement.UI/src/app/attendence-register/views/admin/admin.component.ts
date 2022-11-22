@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { any } from 'ramda';
+import { timeInterval } from 'rxjs';
 import { AttendanceStatus } from 'src/app/shared/global/attendance-type';
 import { contants } from 'src/app/shared/global/global.contants';
 import { UserService } from 'src/app/usermanagement/services/user.service';
@@ -31,22 +32,23 @@ export class AdminComponent implements OnInit {
       console.log(this.attendences);
     })
     this.userService.getPagedUsers(skip, take).subscribe((res: any) => {
-      this.users = res;
+
       res.forEach((element: any) => {
         if (element.role == "Learner") {
           this.ids = element.id
           this.testing = this.formBuider.group({
             userId: [element.id],
             date: [this.date],
-            status: [AttendanceStatus.Absent]
+            status: [AttendanceStatus.Present]
           })
-          this.attendenceService.captureDetails(this.testing.value).subscribe(_=>{
+          this.attendenceService.captureDetails(this.testing.value).subscribe(_ => {
 
           })
           console.log(this.testing.value)
           console.log(this.ids);
         }
       });
+      this.users = res;
     })
 
   }

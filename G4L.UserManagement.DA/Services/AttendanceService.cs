@@ -66,20 +66,20 @@ namespace G4L.UserManagement.DA.Services
                 attendance.Status = AttendanceStatus.Present;
             }
             //late
-            if (attendance.Clockin_Time.Hour >= 8 && attendance.Clockin_Time.Hour <= 11 || attendance.Clockin_Time.Minute > 15)
+            if (attendance.Clockin_Time.Hour >= 8 && attendance.Clockin_Time.Hour <= 10 || attendance.Clockin_Time.Minute > 15)
             {
                 attendance.Status = AttendanceStatus.Late;
             }
             //absent
-            if(attendance.Date.Hour > 11)
+            if(attendance.Date.Hour > 10)
             {
                 attendance.Status = AttendanceStatus.Absent;
             }
             //leave
-            if(attendance.Date.Hour > 11 && attendance.Leave_Status.ToString() == "Partially_Approved")
-            {
-                attendance.Status = AttendanceStatus.Leave;
-            }
+            //if(attendance.Date.Hour > 10 && attendance.Leave_Status.ToString() == "Partially_Approved" && attendanceRegister.UserId == attendance.UserId)
+            //{
+            //    attendance.Status = AttendanceStatus.Leave;
+            //}
             await _attendanceRepository.CreateAsync(attendance);
         }
 
