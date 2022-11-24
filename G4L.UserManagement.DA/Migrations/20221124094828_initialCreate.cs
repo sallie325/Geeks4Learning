@@ -91,8 +91,9 @@ namespace G4L.UserManagement.DA.Migrations
                     Clockout_Time = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Goal_summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Goal_Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Time_Limit = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Leave_StatusId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Time_Limit = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LeaveId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Leave_Status = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -100,8 +101,8 @@ namespace G4L.UserManagement.DA.Migrations
                 {
                     table.PrimaryKey("PK_Attendances", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Attendances_Leaves_Leave_StatusId",
-                        column: x => x.Leave_StatusId,
+                        name: "FK_Attendances_Leaves_LeaveId",
+                        column: x => x.LeaveId,
                         principalTable: "Leaves",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -164,9 +165,9 @@ namespace G4L.UserManagement.DA.Migrations
                 column: "LeaveId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attendances_Leave_StatusId",
+                name: "IX_Attendances_LeaveId",
                 table: "Attendances",
-                column: "Leave_StatusId");
+                column: "LeaveId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_UserId",

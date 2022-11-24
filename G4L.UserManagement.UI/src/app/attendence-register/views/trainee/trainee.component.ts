@@ -18,7 +18,7 @@ import { AttendenceService } from '../../services/attendence.service';
 })
 export class TraineeComponent implements OnInit {
   modalDialog: MdbModalRef<CaptureGoalsComponent> | null = null;
-modalRef: any;
+  modalRef: any;
   date: any;
   userId: any | null
   holdingArray: FormGroup = new FormGroup({});
@@ -26,16 +26,16 @@ modalRef: any;
   id: any;
   loginTime: any;
   statu$: any = AttendanceStatus.Present;
-  testTime:any
+  testTime: any
   leaveApplications: any;
-  constructor(private toastr:ToastrService, private tokenService: TokenService, private attendanceService: AttendenceService, private formBuilder: FormBuilder,private modalService: MdbModalService,
-    ) { }
+  constructor(private toastr: ToastrService, private tokenService: TokenService, private attendanceService: AttendenceService, private formBuilder: FormBuilder, private modalService: MdbModalService,
+  ) { }
   ngOnInit(): void {
     this.startTimer()
     let date: any = sessionStorage.getItem("date");
     let loginTime: any = sessionStorage.getItem(contants.time);
     this.loginTime = loginTime;
-    
+
     this.date = date;
     this.buildData();
     this.sendDetails()
@@ -63,7 +63,10 @@ modalRef: any;
   getAttendance(userId: any) {
     this.attendanceService.getAttendences(userId).subscribe((res: any) => {
       this.result = res;
-      console.log(this.result, " getItems")
+      this.result.forEach((element:any) => {
+        this.id = element.id;
+      });
+      console.log(this.id, " getItems")
     })
   }
   getStatus(status: any): any {
@@ -84,7 +87,7 @@ modalRef: any;
     setInterval(() => {
       let time = new Date(Date.now()).getSeconds();
       this.testTime = new Date().toTimeString();
-      if(this.testTime.substring(0,8) == "12:00:00"){
+      if (this.testTime.substring(0, 8) == "12:00:00") {
         this.modalDialog = this.modalService.open(LunchTimeNotificationComponent, {
           animation: true,
           backdrop: true,
@@ -96,12 +99,13 @@ modalRef: any;
       }
       console.log(time);
     }, 1000);
-    
+
   }
-  CreateGoalsDialog() {
+  CreateGoalsDialog(id:any) {
     this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
       animation: true,
       backdrop: true,
+      data:{attendanceId: id},
       containerClass: 'modal top fade modal-backdrop',
       ignoreBackdropClick: false,
       keyboard: true,

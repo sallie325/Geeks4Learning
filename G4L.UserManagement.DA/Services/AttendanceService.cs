@@ -29,18 +29,6 @@ namespace G4L.UserManagement.DA.Services
             _appSettings = appSettings.Value;
             _mapper = mapper;
         }
-
-        public async Task UpdateAttendanceAsync(UpdateAttendance learner)
-        {
-            var attendance = await _attendanceRepository.GetByIdAsync(learner.Id);
-            // Update the following;
-            attendance.Goal_summary = attendance.Goal_summary;
-            attendance.Goal_Description = attendance.Goal_Description;
-            attendance.Time_Limit = attendance.Time_Limit;
-
-
-            await _attendanceRepository.UpdateAsync(attendance);
-        }
         public async Task<List<Attendance_Register>> GetAttendanceRegisterAsync(Guid userId)
         {
             var attendance = await _attendanceRepository.ListAsync(x => x.UserId == userId);
@@ -50,16 +38,16 @@ namespace G4L.UserManagement.DA.Services
         public async Task SigningAttendanceRegisterAsync(Attendance_Register attendanceRegister)
         {
             var attendance = _mapper.Map<Attendance>(attendanceRegister);
-            if (await _attendanceRepository.QueryAsync(x =>x.Date.Day == attendanceRegister.Date.Day && x.UserId == attendanceRegister.UserId) != null)
+            if (await _attendanceRepository.QueryAsync(x => x.Date.Day == attendanceRegister.Date.Day && x.UserId == attendanceRegister.UserId) != null)
                 throw new AppException(JsonConvert.SerializeObject(new ExceptionObject
                 {
                     ErrorCode = ServerErrorCodes.DuplicateAttendanceDate.ToString(),
                     Message = "Duplicate attendance dates found on the system"
                 }));
             //present
-            if(attendance.Clockin_Time.Hour >=7 && attendance.Clockin_Time.Hour <= 8)
+            if (attendance.Clockin_Time.Hour >= 7 && attendance.Clockin_Time.Hour <= 8)
             {
-                if(attendance.Clockin_Time.Hour == 8 && attendance.Clockin_Time.Minute <= 15)
+                if (attendance.Clockin_Time.Hour == 8 && attendance.Clockin_Time.Minute <= 15)
                 {
                     attendance.Status = AttendanceStatus.Present;
                 }
@@ -71,15 +59,15 @@ namespace G4L.UserManagement.DA.Services
                 attendance.Status = AttendanceStatus.Late;
             }
             //absent
-            if(attendance.Date.Hour > 10)
+            if (attendance.Date.Hour > 10)
             {
                 attendance.Status = AttendanceStatus.Absent;
             }
             //leave
-            //if(attendance.Date.Hour > 10 && attendance.Leave_Status.ToString() == "Partially_Approved" && attendanceRegister.UserId == attendance.UserId)
-            //{
-            //    attendance.Status = AttendanceStatus.Leave;
-            //}
+            if (attendance.Date.Hour > 10 && attendance.Leave_Status == Status.Partially_Approved)
+            {
+                attendance.Status = AttendanceStatus.Leave;
+            }
             await _attendanceRepository.CreateAsync(attendance);
         }
 
@@ -88,6 +76,23 @@ namespace G4L.UserManagement.DA.Services
             return await _attendanceRepository.GetPagedListAsync(skip, take);
         }
 
-     
+        public async Task UpdateAttendanceRegisterAsync(UpdateAttendance updateAttendance)
+        {
+            var attendance = await _attendanceRepository.GetByIdAsync(updateAttendance.Id);
+            // Update the following;
+            attendance.Clockout_Time = updateAttendance.Clockout_Time;
+
+            await _attendanceRepository.UpdateAsync(attendance);
+        }
+
+        public async Task UpdateAttendanceGoalsAsync(UpdateAttendance updateAttendance)
+        {
+            var attendance = await _attendanceRepository.GetByIdAsync(updateAttendance.Id);
+            // Update the following;
+            attendance.Goal_Description = updateAttendance.Goal_Description;
+            attendance.Goal_summary = updateAttendance.Goal_summary;
+            attendance.Time_Limit = updateAttendance.Time_Limit;
+            await _attendanceRepository.UpdateAsync(attendance);
+        }
     }
 }

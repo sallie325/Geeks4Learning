@@ -5,13 +5,15 @@ import { CaptureGoalsComponent } from './capture-goals/capture-goals.component';
 import { TotalPresentAbsentLateCardsComponent } from './total-present-absent-late-cards/total-present-absent-late-cards.component';
 import { AdminComponent } from './views/admin/admin.component';
 import { TraineeComponent } from './views/trainee/trainee.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [ AttendenceRegisterComponent, CaptureGoalsComponent,TotalPresentAbsentLateCardsComponent, AdminComponent,TraineeComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ]
 })
 export class AttendenceRegisterModule { }

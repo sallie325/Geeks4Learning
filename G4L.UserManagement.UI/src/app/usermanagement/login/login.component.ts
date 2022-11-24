@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from './services/token.service';
 import { AttendenceService } from 'src/app/attendence-register/services/attendence.service';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-login',
@@ -43,6 +44,8 @@ export class LoginComponent implements OnInit {
     this.date = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
     this.loginTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
     this.captureGoalsTime = new Date(Date.now()).getMinutes() + 1;
+    console.log(this.captureGoalsTime);
+    
     // making a backend call
     this.userService
       .authenticate(this.loginForm.value)
@@ -53,7 +56,7 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem(contants.role, response?.role);
         sessionStorage.setItem("date", this.date);
         sessionStorage.setItem(contants.time, this.loginTime);
-        sessionStorage.setItem("time", this.captureGoalsTime)
+        sessionStorage.setItem("times", this.captureGoalsTime)
         // route to the master layout
         this.router.navigate(['/dashboard']);
 

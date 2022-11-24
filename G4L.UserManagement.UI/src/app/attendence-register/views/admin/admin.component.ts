@@ -29,20 +29,19 @@ export class AdminComponent implements OnInit {
   getAttendences(skip: any, take: any) {
     this.attendenceService.getPagedAttendance(skip, take).subscribe((res: any) => {
       this.attendences = res;
-      console.log(this.attendences);
+      console.log(this.attendences, "attendances");
     })
     this.userService.getPagedUsers(skip, take).subscribe((res: any) => {
-
       res.forEach((element: any) => {
         if (element.role == "Learner") {
           this.ids = element.id
           this.testing = this.formBuider.group({
             userId: [element.id],
             date: [this.date],
-            status: [AttendanceStatus.Present]
+            status: [AttendanceStatus.Absent]
           })
           this.attendenceService.captureDetails(this.testing.value).subscribe(_ => {
-
+            
           })
           console.log(this.testing.value)
           console.log(this.ids);

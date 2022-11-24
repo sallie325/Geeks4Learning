@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221122135429_initialCreate")]
+    [Migration("20221124094828_initialCreate")]
     partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,8 +76,11 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<string>("Goal_summary")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("Leave_StatusId")
+                    b.Property<Guid?>("LeaveId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Leave_Status")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -85,15 +88,15 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Time_Limit")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Time_Limit")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Leave_StatusId");
+                    b.HasIndex("LeaveId");
 
                     b.HasIndex("UserId");
 
@@ -258,9 +261,9 @@ namespace G4L.UserManagement.DA.Migrations
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Attendance", b =>
                 {
-                    b.HasOne("G4L.UserManagement.BL.Entities.Leave", "Leave_Status")
+                    b.HasOne("G4L.UserManagement.BL.Entities.Leave", "Leave")
                         .WithMany()
-                        .HasForeignKey("Leave_StatusId");
+                        .HasForeignKey("LeaveId");
 
                     b.HasOne("G4L.UserManagement.BL.Entities.User", null)
                         .WithMany("Attendances")
@@ -268,7 +271,7 @@ namespace G4L.UserManagement.DA.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Leave_Status");
+                    b.Navigation("Leave");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>

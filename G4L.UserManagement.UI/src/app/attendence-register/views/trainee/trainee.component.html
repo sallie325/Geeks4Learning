@@ -2,7 +2,7 @@
   <div class="row align-items-center mb-4">
     <div class="col-8"></div>
     <div class="col-4 text-end">
-      <a class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase" (click)="CreateGoalsDialog()">
+      <a class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase" (click)="CreateGoalsDialog(id)">
         CREATE GOALS</a>
     </div>
   </div>
@@ -35,7 +35,7 @@
           <tbody>
             <ng-container *ngFor="let attendance of result">
               <tr>
-                <td>
+                <td class="align-middle text-xs ps-2">
                   <div class="d-flex">
                     <div>
                       <!-- <img

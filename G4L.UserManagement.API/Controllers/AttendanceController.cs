@@ -36,13 +36,20 @@ namespace G4L.UserManagement.API.Controllers
 
         [Authorize(Role.Learner)]
         [HttpPut("updateAttendance")]
-        public async Task<IActionResult> PutAsync([FromBody] UpdateAttendance learner)
+        public async Task<IActionResult> UpdateAttendanceRegisterAsync([FromBody] UpdateAttendance updateAttendance)
         {
-            await _attendanceService.UpdateAttendanceAsync(learner);
-            return Ok(learner);
+            await _attendanceService.UpdateAttendanceRegisterAsync(updateAttendance);
+            return Ok();
+        }
+        [Authorize(Role.Learner)]
+        [HttpPut("updateAttendanceGoals")]
+        public async Task<IActionResult> UpdateAttendanceGoalsAsync([FromBody] UpdateAttendance updateAttendance)
+        {
+            await _attendanceService.UpdateAttendanceGoalsAsync(updateAttendance);
+            return Ok();
         }
 
-        [AllowAnonymous]
+        [Authorize(Role.Learner)]
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetAsync(Guid userId)
         {
