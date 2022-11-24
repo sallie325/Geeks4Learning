@@ -2,7 +2,7 @@
   <div class="row align-items-center mb-4">
     <div class="col-8"></div>
     <div class="col-4 text-end">
-      <a class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase" (click)="CreateGoalsDialog()">
+      <a class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase" (click)="CreateGoalsDialog(id)">
         CREATE GOALS</a>
     </div>
   </div>
@@ -35,7 +35,7 @@
           <tbody>
             <ng-container *ngFor="let attendance of result">
               <tr>
-                <td>
+                <td class="align-middle text-xs ps-2">
                   <div class="d-flex">
                     <div>
                       <!-- <img
@@ -46,17 +46,17 @@
                     </div>
                     <div class="d-flex flex-column justify-content-center">
                       <p class="text-secondary mb-0 text-xs">
-                        {{attendance.attendanceDate | date}}
+                        {{attendance.date | date}}
                       </p>
                     </div>
                   </div>
                 </td>
                 <td class="align-middle text-xs ps-2">
-                  <p class="font-weight-bold mb-0">{{attendance.loginTime | date: 'hh:mm' }} </p>
+                  <p class="font-weight-bold mb-0" *ngIf="attendance.clockin_Time != '0001-01-01T00:00:00'">{{attendance.clockin_Time | date: 'hh:mm' }} </p>
                 </td>
                 <td class="align-middle text-xs ps-2">
-                  <p class="font-weight-bold mb-0">
-                    {{attendance.logoutTime | date: 'hh:mm'}}
+                  <p class="font-weight-bold mb-0" *ngIf="attendance.clockout_Time != '0001-01-01T00:00:00'">
+                    {{attendance.clockout_Time | date: 'hh:mm'}}
                   </p>
                 </td>
                 <td class="align-middle text-xs ps-2">

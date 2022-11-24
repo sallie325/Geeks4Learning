@@ -3,12 +3,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { isNull, values } from 'lodash';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
-import { contains } from 'ramda';
-import { LeaveService } from 'src/app/leave-management/services/leave.service';
-import { AttendanceType } from 'src/app/shared/global/attendance-type';
+import { AttendanceStatus } from 'src/app/shared/global/attendance-type';
+
 import { contants } from 'src/app/shared/global/global.contants';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
 import { CaptureGoalsComponent } from '../../capture-goals/capture-goals.component';
+import { LunchTimeNotificationComponent } from '../../lunch-time-notification/lunch-time-notification.component';
 import { AttendenceService } from '../../services/attendence.service';
 
 @Component({
@@ -16,66 +16,29 @@ import { AttendenceService } from '../../services/attendence.service';
   templateUrl: './trainee.component.html',
   styleUrls: ['./trainee.component.css']
 })
-
-
-
-
-
-
 export class TraineeComponent implements OnInit {
   modalDialog: MdbModalRef<CaptureGoalsComponent> | null = null;
-modalRef: any;
+  modalRef: any;
   date: any;
   userId: any | null
   holdingArray: FormGroup = new FormGroup({});
   result: any;
-  logoutTime: any = '';
   id: any;
   loginTime: any;
-  statu$: any;
-  testTime:any
+  statu$: any = AttendanceStatus.Present;
+  testTime: any
   leaveApplications: any;
-  constructor(private toastr:ToastrService, private leaveService: LeaveService, private tokenService: TokenService, private attendanceService: AttendenceService, private formBuilder: FormBuilder,private modalService: MdbModalService,
-    ) { }
+  constructor(private toastr: ToastrService, private tokenService: TokenService, private attendanceService: AttendenceService, private formBuilder: FormBuilder, private modalService: MdbModalService,
+  ) { }
   ngOnInit(): void {
     this.startTimer()
     let date: any = sessionStorage.getItem("date");
     let loginTime: any = sessionStorage.getItem(contants.time);
-    // let loginTime: any = "07:15"
-    this.loginTime = loginTime.substring(0,5);
-    // validating 7:00 to 8:15 for present status
-    if (loginTime.substring(1, 2) >= 7 && loginTime.substring(1, 2) <= 8 && loginTime.substring(0, 1) == 0) {
-      if ((loginTime.substring(3, 4) == 0 || loginTime.substring(3, 4) == 1) && loginTime.substring(4, 5) <= 5 && loginTime.substring(1, 2) == 8) {
-        this.statu$ = AttendanceType.Present
-      } else {
-        this.statu$ = AttendanceType.Present
-      }
-    }
-    // validating 7:00 to 8:15 for present status
-    // validating for late status
-    if ((loginTime.substring(3, 4) == 1 && loginTime.substring(4, 5) > 5) && loginTime.substring(1, 2) >= 8 || (loginTime.substring(0, 1) == 1 && loginTime.substring(1, 2) >= 0 || loginTime.substring(1, 2) <= 1)) {
-      this.statu$ = AttendanceType.Late;
-      console.log(this.statu$);
-    }
-    // validating for late status
-    // validating for 'absent' status
+    this.loginTime = loginTime;
 
-    else {
-      console.log(AttendanceType.Absent);
-    }
-    console.log(this.leaveApplications, 'leave')
-    // validating for 'absent' status
     this.date = date;
     this.buildData();
-    this.getLeaveDetails(this.userId);
     this.sendDetails()
-  }
-  getLeaveDetails(userId: any) {
-    this.leaveService.getLeaveApplications(userId)
-      .subscribe(arg => {
-        this.leaveApplications = arg;
-        console.log(this.leaveApplications, 'leave')
-      });
   }
   sendDetails() {
     console.log(this.holdingArray.value + " ")
@@ -90,9 +53,8 @@ modalRef: any;
     console.log(this.userId);
     this.holdingArray = this.formBuilder.group({
       userId: [this.userId],
-      attendanceDate: [this.date],
-      loginTime: [this.loginTime],
-      logoutTime: [this.logoutTime],
+      date: [this.date],
+      clockin_Time: [this.loginTime],
       status: [this.statu$]
     });
     console.log(this.holdingArray.value)
@@ -101,18 +63,21 @@ modalRef: any;
   getAttendance(userId: any) {
     this.attendanceService.getAttendences(userId).subscribe((res: any) => {
       this.result = res;
-      console.log(this.result, " getItems")
+      this.result.forEach((element:any) => {
+        this.id = element.id;
+      });
+      console.log(this.id, " getItems")
     })
   }
   getStatus(status: any): any {
     switch (status) {
-      case AttendanceType.Present:
+      case AttendanceStatus.Present:
         return 'present'
-      case AttendanceType.Absent:
+      case AttendanceStatus.Absent:
         return 'absent'
-      case AttendanceType.Late:
+      case AttendanceStatus.Late:
         return 'late'
-      case AttendanceType.Leave:
+      case AttendanceStatus.Leave:
         return 'leave'
       default:
         return undefined;
@@ -120,19 +85,27 @@ modalRef: any;
   }
   startTimer() {
     setInterval(() => {
+      let time = new Date(Date.now()).getSeconds();
       this.testTime = new Date().toTimeString();
-      if(this.testTime.substring(0,8) == "12:00:00"){
-        alert("Do you want to take lunch?")
-        this.toastr.info("Do you want to take lunch?")
+      if (this.testTime.substring(0, 8) == "12:00:00") {
+        this.modalDialog = this.modalService.open(LunchTimeNotificationComponent, {
+          animation: true,
+          backdrop: true,
+          containerClass: 'modal top fade modal-backdrop',
+          ignoreBackdropClick: false,
+          keyboard: true,
+          modalClass: 'modal-xl modal-dialog-centered',
+        });
       }
-      console.log(this.testTime);
+      console.log(time);
     }, 1000);
-    
+
   }
-  CreateGoalsDialog() {
+  CreateGoalsDialog(id:any) {
     this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
       animation: true,
       backdrop: true,
+      data:{attendanceId: id},
       containerClass: 'modal top fade modal-backdrop',
       ignoreBackdropClick: false,
       keyboard: true,

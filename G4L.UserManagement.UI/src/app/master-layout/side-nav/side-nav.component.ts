@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { constants } from 'buffer';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { AttendenceService } from 'src/app/attendence-register/services/attendence.service';
-import { AttendanceType } from 'src/app/shared/global/attendance-type';
-import { contants } from 'src/app/shared/global/global.contants';
 import { Roles } from 'src/app/shared/global/roles';
 import { EnrolComponent } from 'src/app/usermanagement/enrol/enrol.component';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
@@ -37,9 +35,9 @@ export class SideNavComponent implements OnInit {
   ngOnInit(): void {
     let user: any = this.tokenService.getDecodeToken();
     this.getUserDetails(user.id);
-    var time: any = new Date();
-    this.logoutTime = time.toTimeString().substring(0,5);
+    this.logoutTime = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -1)
     this.buildData();
+    console.log(this.logoutTime)
   }
 
   getUserDetails(userId: string | null) {
@@ -187,13 +185,10 @@ export class SideNavComponent implements OnInit {
       console.log(this.comingdata)
       this.comingdata.forEach((element:any) => {
         this.holdingArray = this.formBuilder.group({
-          id: [element.id],
-          userId: [element.userId],
-          attendanceDate: [element.attendanceDate],
-          loginTime: [element.loginTime],
-          logoutTime: [this.logoutTime],
-          status: [element.status]
+          id:[element.id],
+          clockout_Time: [this.logoutTime]
         });
+        console.log(element);
       });
     })
   }
@@ -201,9 +196,8 @@ export class SideNavComponent implements OnInit {
     console.log(this.holdingArray.value)
     //clear the sessionStorage and reload
     this.attendanceService.UpdateAttendance(this.holdingArray.value).subscribe((_:any)=>{
+      alert('Updated!!');
     }) 
-    sessionStorage.clear();
-    window.location.reload();
   }
 }
 
