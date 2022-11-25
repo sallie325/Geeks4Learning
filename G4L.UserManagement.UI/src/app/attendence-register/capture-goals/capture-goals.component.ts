@@ -14,11 +14,12 @@ export class CaptureGoalsComponent implements OnInit {
 
   formModel: FormGroup= new FormGroup({});
   UserId: any;
+  id: any;
 
 
   ngOnInit(): void {
    
-    this.buildform();
+  
 
   }
  
@@ -29,9 +30,10 @@ export class CaptureGoalsComponent implements OnInit {
   buildform() {
 
     this.formModel = this.formBuilder.group({
-      GoalSummary: [],
-      Goal_Description: [],
-      Time_limit: [],
+      id: ['3CE34AE1-BA2B-45CA-6EAA-08DACDE0452E'],
+      goal_summary: ["dsfsfsdfsf"],
+      goal_Description: ["guigyguiygyg"],
+      time_Limit: ["ygughuigiughui"],
 
     });
 
@@ -47,17 +49,19 @@ export class CaptureGoalsComponent implements OnInit {
       return;
     }
 
-
-    this.attendanceService.UpdateGoals(this.formModel.value).subscribe(
+    this.attendanceService.UpdateGoals(this.formModel.value,).subscribe(
       () => {
-        this.toastrService.success(`${this.formModel.value?.GoalSummary} ${this.formModel.value?.Goal_Description} ${this.formModel.value?.Time_limit} was successfully updated.`);
+        this.toastrService.success(`${this.formModel.value?.goal_summary} ${this.formModel.value?.goal_Description} ${this.formModel.value?.time_Limit} was successfully updated.`);
         this.modalRef.close(true);
       },
       (error) => {
+
+      
        
       }
     );
     console.log(this.formModel.value)
+    console.log(this.id.value)
   }
 
 

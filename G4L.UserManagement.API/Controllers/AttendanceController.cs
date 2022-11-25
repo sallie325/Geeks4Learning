@@ -38,8 +38,16 @@ namespace G4L.UserManagement.API.Controllers
         [HttpPut("updateAttendanceGoals")]
         public async Task<IActionResult> PutAsync([FromBody] UpdateAttendanceGoals learner)
         {
-            await _attendanceService.UpdateAttendanceAsync(learner);
-            return Ok(learner);
+            if (learner != null) {
+
+                await _attendanceService.UpdateAttendanceAsync(learner);
+                return Ok(learner);
+            }
+
+            else{
+
+                return BadRequest("Update was not successful");
+            }
         }
 
         [AllowAnonymous]

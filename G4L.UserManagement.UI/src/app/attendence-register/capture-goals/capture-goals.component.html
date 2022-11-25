@@ -13,7 +13,7 @@
       <hr class="horizontal dark my-4" />
     </div>
     <div class="card-body pt-0">
-      <form [formGroup]="formModel" autocomplete="off" (submit)="UpdateGoals()">
+      <form [formGroup]="formModel" autocomplete="off" (ngSubmit)="UpdateGoals()">
         <div class="row">
           <div class="col p-3">
             <div class="row">
@@ -44,20 +44,12 @@
               <div class="col">
                 <label class="form-control-label" >Goal
                   Summary</label>
-                <input type="text" class="form-control" formControlName="GoalSummary" [ngClass]="{
-                  'red-border':
-                    formModel.controls['GoalSummary'].invalid &&
-                    formModel.controls['GoalSummary'].touched
-                }">
+                <input type="text" class="form-control" FormControlName ="goal_summary" >
               </div>
               <div class="col-3">
                 <div class=" ">
                   <label class="form-control-label">Time limit</label>
-                  <input type="time" class="form-control" value="10:05 AM"formControlName="Time_limt"[ngClass]="{
-                    'red-border':
-                      formModel.controls['Time_limt'].invalid &&
-                      formModel.controls['Time_limt'].touched
-                  }" />
+                  <input type="time" class="form-control" value="10:05 AM" FormControlName="time_Limt"/>
                 </div>
               </div>
             </div>
@@ -68,11 +60,7 @@
               <div class="form-group">
                 <label class="form-control-label" for="input-comments" 
                 >Description</label>
-                <textarea type="text" id="input-comments" class="form-control" formControlName="Goal_Description" [ngClass]="{
-                  'red-border':
-                    formModel.controls['Goal_Description'].invalid &&
-                    formModel.controls['Goal_Description'].touched
-                }">
+                <textarea type="text" id="input-comments" class="form-control" FormControlName="goal_Description" >
                 
               </textarea>
 

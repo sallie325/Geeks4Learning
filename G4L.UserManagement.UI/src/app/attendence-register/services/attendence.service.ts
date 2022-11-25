@@ -15,7 +15,7 @@ export class AttendenceService {
   }
 
   UpdateGoals(Goals: any): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/Attendance/updateAttendance`, Goals);
+    return this.http.put(`${environment.apiUrl}/Attendance/updateAttendanceGoals`, Goals);
   }
   constructor(private http: HttpClient) { }
 

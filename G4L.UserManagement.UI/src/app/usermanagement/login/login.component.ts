@@ -91,7 +91,9 @@ export class LoginComponent implements OnInit {
       userId: [this.userId],
       attendanceDate: [this.date],
       loginTime: [this.date],
-      logoutTime: [''],
+      logoutTime: ['string'],
+      Goal_Summary: ['string'],
+      Goal_Description: ['string'],
       status: [AttendanceType.Late]
     });
   }
