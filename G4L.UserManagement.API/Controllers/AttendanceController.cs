@@ -24,7 +24,7 @@ namespace G4L.UserManagement.API.Controllers
             _logger = logger;
             _attendanceService = attendanceService;
         }
-        [AllowAnonymous]
+        [Authorize(Role.Admin, Role.Learner)]
         [HttpPost("attendanceRegister")]
         public async Task<IActionResult> PostAsync([FromBody] AttendanceRegister attendanceRegister)
         {
@@ -34,23 +34,22 @@ namespace G4L.UserManagement.API.Controllers
 
 
 
-        [AllowAnonymous]
-        [HttpPut("updateAttendanceGoals")]
-        public async Task<IActionResult> PutAsync([FromBody] UpdateAttendanceGoals learner)
+        [Authorize(Role.Learner)]
+        [HttpPut("updateAttendance")]
+        public async Task<IActionResult> UpdateAttendanceRegisterAsync([FromBody] UpdateAttendance updateAttendance)
         {
-            if (learner != null) {
-
-                await _attendanceService.UpdateAttendanceAsync(learner);
-                return Ok(learner);
-            }
-
-            else{
-
-                return BadRequest("Update was not successful");
-            }
+            await _attendanceService.UpdateAttendanceRegisterAsync(updateAttendance);
+            return Ok();
+        }
+        [Authorize(Role.Learner)]
+        [HttpPut("updateAttendanceGoals")]
+        public async Task<IActionResult> UpdateAttendanceGoalsAsync([FromBody] UpdateAttendance updateAttendance)
+        {
+            await _attendanceService.UpdateAttendanceGoalsAsync(updateAttendance);
+            return Ok();
         }
 
-        [AllowAnonymous]
+        [Authorize(Role.Learner)]
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetAsync(Guid userId)
         {

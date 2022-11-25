@@ -4,6 +4,9 @@ import { ToastrService } from 'ngx-toastr';
 import { CaptureGoalsComponent } from '../attendence-register/capture-goals/capture-goals.component';
 import { LunchTimeNotificationComponent } from '../attendence-register/lunch-time-notification/lunch-time-notification.component';
 import { ReviewGoalsComponent } from '../attendence-register/review-goals/review-goals.component';
+import { AttendenceService } from '../attendence-register/services/attendence.service';
+import { contants } from '../shared/global/global.contants';
+import { TokenService } from '../usermanagement/login/services/token.service';
 
 @Component({
   selector: 'app-master-layout',
@@ -16,79 +19,42 @@ export class MasterLayoutComponent implements OnInit {
   modalRef: any;
   time: any;
 
-
-  constructor(
+  testTime: any
+  attendance: any;
+  constructor(private tokenService: TokenService, private attendanceService: AttendenceService,
     private modalService: MdbModalService,
     private toastr: ToastrService,
 
   ) { }
 
   ngOnInit(): void {
-
-
-
-
+    var time: any = sessionStorage.getItem("times")
+    this.startTimer();
+    let user: any = this.tokenService.getDecodeToken();
+    this.attendanceService.getAttendences(user.id).subscribe((res: any = []) => {
+      res.forEach((res: any) => {
+        this.attendance = res
+      })
+    })
+    console.log(time);
+  }
+  startTimer() {
     setInterval(() => {
-
-      this.time = new Date().toTimeString();
-      if (this.time.substring(0, 8) == '14:38:00') {
-
+      this.testTime = (new Date(Date.now()).getMinutes());
+      var time: any = sessionStorage.getItem("times")
+      if (this.testTime == time) {
         this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
           animation: true,
           backdrop: true,
+          data: { attendance: this.attendance },
           containerClass: 'modal top fade modal-backdrop',
           ignoreBackdropClick: false,
           keyboard: true,
           modalClass: 'modal-xl modal-dialog-centered',
         });
-
       }
-    }, 1000);
-
-
-
-    setInterval(() => {
-
-      if (this.time.substring(0, 8) == '08:20:00') {
-
-        this.modalDialog = this.modalService.open(LunchTimeNotificationComponent, {
-          animation: true,
-          backdrop: true,
-          containerClass: 'modal top fade modal-backdrop',
-          ignoreBackdropClick: false,
-          keyboard: true,
-          modalClass: 'modal-lg modal-dialog-centered',
-        });
-
-
-
-      }
-    }, 1000);
-
-    setInterval(() => {
-
-
-      if (this.time.substring(0, 8) == '15:55:00') {
-
-        this.modalDialog = this.modalService.open(ReviewGoalsComponent, {
-          animation: true,
-          backdrop: true,
-          containerClass: 'modal top fade modal-backdrop',
-          ignoreBackdropClick: false,
-          keyboard: true,
-          modalClass: 'modal-lg l modal-dialog-centered',
-        });
-
-
-
-      }
-    }, 1000);
-
-
-
-
-
-
+      console.log(this.testTime);
+    }, 60000);
 
   }
 }

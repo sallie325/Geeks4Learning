@@ -110,6 +110,8 @@ namespace G4L.UserManagement.DA.Services
         public async Task UpdateLeaveStatusAsync(Guid id, Status status)
         {
             var leave = await _leaveRepository.GetByIdAsync(id);
+            //var attendance = _mapper.Map<Attendance>(leave);
+            //attendance.Leave_Status = status;
             leave.Status = status;
             await _leaveRepository.UpdateAsync(leave);
         }

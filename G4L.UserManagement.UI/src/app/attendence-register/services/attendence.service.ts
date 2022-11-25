@@ -7,6 +7,9 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AttendenceService {
+  UpdateAttendanceGoals(value: any) {
+    return this.http.put(`${environment.apiUrl}/Attendance/updateAttendanceGoals`,value)
+  }
   getPagedAttendance(skip: any, take: any) {
     return this.http.get(`${environment.apiUrl}/Attendance/attendance_pages?skip=${skip}&take=${take}`);
   }

@@ -1,4 +1,4 @@
-export enum AttendanceType {
+export enum AttendanceStatus {
     Present = "Present",
     Absent = "Absent",
     Late = "Late",
