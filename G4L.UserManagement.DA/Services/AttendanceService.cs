@@ -71,11 +71,7 @@ namespace G4L.UserManagement.DA.Services
         {
             return await _attendanceRepository.GetPagedListAsync(skip, take);
         }
-        public async Task<IEnumerable<Attendance>> GetPagedAttendancesAsync(int skip, int take)
-            {
-                return await _attendanceRepository.GetPagedListAsync(skip, take);
-            }
-
+       
         public async Task UpdateAttendanceRegisterAsync(UpdateAttendance updateAttendance)
         {
             var attendance = await _attendanceRepository.GetByIdAsync(updateAttendance.Id);

@@ -30,7 +30,9 @@ export class CaptureGoalsComponent implements OnInit {
     this.attendanceService.UpdateAttendanceGoals(this.formModel.value).subscribe(_=>{
       
     })
+    console.log(this.formModel.value);
   }
+
 
   constructor(private attendanceService: AttendenceService, public modalRef: MdbModalRef<CaptureGoalsComponent>, private formBuilder: FormBuilder) {
 

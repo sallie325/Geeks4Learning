@@ -26,7 +26,7 @@ namespace G4L.UserManagement.API.Controllers
         }
         [Authorize(Role.Admin, Role.Learner)]
         [HttpPost("attendanceRegister")]
-        public async Task<IActionResult> PostAsync([FromBody] AttendanceRegister attendanceRegister)
+        public async Task<IActionResult> PostAsync([FromBody] Attendance_Register attendanceRegister)
         {
             await _attendanceService.SigningAttendanceRegisterAsync(attendanceRegister);
             return Ok(attendanceRegister);

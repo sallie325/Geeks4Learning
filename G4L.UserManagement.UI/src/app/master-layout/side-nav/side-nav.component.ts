@@ -198,6 +198,8 @@ export class SideNavComponent implements OnInit {
     this.attendanceService.UpdateAttendance(this.holdingArray.value).subscribe((_:any)=>{
       alert('Updated!!');
     }) 
+    sessionStorage.clear();
+    window.location.reload();
   }
 }
 

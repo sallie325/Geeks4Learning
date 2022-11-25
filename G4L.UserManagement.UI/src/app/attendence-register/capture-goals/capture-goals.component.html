@@ -44,12 +44,12 @@
               <div class="col">
                 <label class="form-control-label" >Goal
                   Summary</label>
-                <input type="text" class="form-control" FormControlName ="goal_summary" >
+                <input type="text" class="form-control" formControlName ="goal_summary" >
               </div>
               <div class="col-3">
                 <div class=" ">
                   <label class="form-control-label">Time limit</label>
-                  <input type="time" class="form-control" value="10:05 AM" FormControlName="time_Limt"/>
+                  <input type="time" class="form-control" value="10:05 AM" formControlName="time_Limit"/>
                 </div>
               </div>
             </div>
@@ -60,16 +60,13 @@
               <div class="form-group">
                 <label class="form-control-label" for="input-comments" 
                 >Description</label>
-                <textarea type="text" id="input-comments" class="form-control" FormControlName="goal_Description" >
+                <textarea type="text" id="input-comments" class="form-control" formControlName="goal_Description" >
                 
               </textarea>
 
               </div>
             </div>
           </div>
-
-
-
 
           <div class="row mt-3">
 
@@ -79,12 +76,16 @@
                 <i class="fa-solid fa-pen"></i> Add new Goal</button>
             </div>
             <div class="col-3 text-end">
-              <button type="submit" class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase">
+              <button type="submit"  class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase">
                 Done</button>
             </div>
           </div>
+
+
+         
         </div>
       </form>
+  
     </div>
 
   </div>

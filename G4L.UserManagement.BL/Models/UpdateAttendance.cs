@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace G4L.UserManagement.BL.Models
 {
-    public class UpdateAttendanceGoals
+    public class UpdateAttendance
     {
+        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public DateTime Date { get; set; }
         public AttendanceStatus Status { get; set; }

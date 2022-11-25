@@ -13,7 +13,7 @@ namespace G4L.UserManagement.BL.Entities
 
        
         public Guid UserId { get; set; }
-        public  string Date { get; set; }
+        public  DateTime Date { get; set; }
         public AttendanceStatus Status { get; set; }
         public DateTime Clockin_Time { get; set; }
         public DateTime Clockout_Time { get; set; }
