@@ -1,3 +1,4 @@
+import { SponsorService } from './../../usermanagement/services/sponsor.service';
 import { LeaveTypes } from './../../shared/global/leave-types';
 import { LeaveDayType } from './../../shared/global/leave-day-type';
 import { Component, OnInit } from '@angular/core';
@@ -32,6 +33,7 @@ export class LeaveRequestComponent implements OnInit {
   negativeDays: boolean = false;
 
   leaveBalances: any[] = [];
+  sponsorId: any;
 
   constructor(
     public modalRef: MdbModalRef<LeaveRequestComponent>,
@@ -39,12 +41,14 @@ export class LeaveRequestComponent implements OnInit {
     private leaveService: LeaveService,
     private toastr: ToastrService,
     private tokenService: TokenService,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private sponsorService: SponsorService
   ) { }
 
   ngOnInit(): void {
     let user: any = this.tokenService.getDecodeToken();
     this.userId = user.id;
+    this.getSponsor();
     this.buildForm();
   }
 
@@ -59,19 +63,39 @@ export class LeaveRequestComponent implements OnInit {
       comments: [''],
       usedDays: ['', Validators.required],
       status: [LeaveStatus.Pending],
-      approvers: this.formBuilder.array([
-        {
-          "userId": "367286eb-14c6-4055-a8c4-08dab6b961fc",
-          "status": "Pending",
-          "comments": ""
-        },
-        {
-          "userId": "ac4423a8-9132-4ff6-a8c3-08dab6b961fc",
-          "status": "Pending",
-          "comments": ""
-        }
-      ]), // How do we know who will approver
+      approvers: this.formBuilder.array([]), // How do we know who will approver
       documents: this.formBuilder.array([])
+    });
+  }
+
+  getSponsor() {
+    this.sponsorService.getSponsorByUserId(this.userId)
+      .subscribe((response: any) => {
+        console.log(response);
+        this.sponsorId = response.id;
+        this.getApprovers();
+      }
+    );
+  }
+
+  getApprovers() {
+    this.sponsorService.getApproversBySponsor(this.sponsorId)
+      .subscribe((response: any) => {
+        console.log(response);
+        response?.sort((a: any, b: any) => b.role.localeCompare(a.role))
+        .forEach((approver: any) => {
+          this.formModel.get('approvers').push(this.approver(approver));
+        });
+      }
+    );
+  }
+
+  approver(approver: any): any {
+    return this.formBuilder.group({
+      userId: [approver?.id, Validators.required],
+      role: [approver?.role, Validators.required],
+      status: [LeaveStatus.Pending, Validators.required],
+      comments: [''],
     });
   }
 
@@ -90,7 +114,6 @@ export class LeaveRequestComponent implements OnInit {
       filePath: [fileUpload?.url, Validators.required]
     });
   }
-
 
   getFileIcon(fileName: any) {
     if (fileName.toLowerCase().includes('.pdf')) {
@@ -125,6 +148,9 @@ export class LeaveRequestComponent implements OnInit {
   }
 
   getBusinessDatesCount(startDate: any, endDate: any) {
+
+    if((startDate === '' || endDate === '') && (startDate === '' && endDate === '')) return 0;
+
     let count = 0;
     let curDate = +startDate;
     while (curDate <= +endDate) {
@@ -165,17 +191,9 @@ export class LeaveRequestComponent implements OnInit {
 
   applyForLeave() {
 
-    this.formModel.markAllAsTouched();
+    console.log(this.formModel);
 
-    if (
-      (this.formModel.get('leaveType').value === LeaveTypes.Sick && Number(this.formModel.get('usedDays').value) > 1)
-      || this.formModel.get('leaveType').value === LeaveTypes.Family_Responsibility) {
-        this.formModel.get('documents').setValidators(Validators.required);
-        this.formModel.get('documents').updateValueAndValidity();
-    } else {
-      this.formModel.get('documents').setValidators(null);
-      this.formModel.get('documents').updateValueAndValidity();
-    }
+    this.formModel.markAllAsTouched();
 
     if (this.formModel.invalid) {
       return;
@@ -223,6 +241,20 @@ export class LeaveRequestComponent implements OnInit {
         return false;
       default:
         return true;
+    }
+  }
+
+  onLeaveTypeSelected(leaveType: any) {
+    if (
+      (leaveType === LeaveTypes.Sick && Number(this.formModel.get('usedDays').value) > 1)
+      || leaveType === LeaveTypes.Family_Responsibility) {
+        this.formModel.get('documents').setValidators(Validators.required);
+        this.formModel.get('documents').updateValueAndValidity();
+        return true;
+    } else {
+      this.formModel.get('documents').setValidators(null);
+      this.formModel.get('documents').updateValueAndValidity();
+      return false;
     }
   }
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221019122018_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20221121124846_InitialDatabase")]
+    partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,7 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("LeaveId")
+                    b.Property<Guid>("LeaveId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ModifiedDate")
@@ -108,7 +108,8 @@ namespace G4L.UserManagement.DA.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("UsedDays")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -120,6 +121,90 @@ namespace G4L.UserManagement.DA.Migrations
                     b.ToTable("Leaves");
                 });
 
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.LeaveSchedule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HalfDaySchedule")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LeaveDayType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("LeaveId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeaveId");
+
+                    b.ToTable("LeaveSchedules");
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Sponsor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Contact")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PhysicalAdrress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalAdrress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RegisteredName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TradeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sponsors");
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.SponsoredUser", b =>
+                {
+                    b.Property<Guid>("SponsorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("SponsorId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SponsoredUser");
+                });
+
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -128,9 +213,6 @@ namespace G4L.UserManagement.DA.Migrations
 
                     b.Property<int>("Career")
                         .HasColumnType("int");
-
-                    b.Property<string>("Client")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -159,10 +241,15 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("SponsorId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SponsorId");
 
                     b.ToTable("Users");
                 });
@@ -171,7 +258,9 @@ namespace G4L.UserManagement.DA.Migrations
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.Leave", null)
                         .WithMany("Approvers")
-                        .HasForeignKey("LeaveId");
+                        .HasForeignKey("LeaveId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
@@ -190,16 +279,60 @@ namespace G4L.UserManagement.DA.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.LeaveSchedule", b =>
+                {
+                    b.HasOne("G4L.UserManagement.BL.Entities.Leave", null)
+                        .WithMany("LeaveSchedules")
+                        .HasForeignKey("LeaveId");
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.SponsoredUser", b =>
+                {
+                    b.HasOne("G4L.UserManagement.BL.Entities.Sponsor", "Sponsor")
+                        .WithMany("SponsoredUser")
+                        .HasForeignKey("SponsorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("G4L.UserManagement.BL.Entities.User", "User")
+                        .WithMany("SponsoredUser")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sponsor");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
+                {
+                    b.HasOne("G4L.UserManagement.BL.Entities.Sponsor", null)
+                        .WithMany("Approvers")
+                        .HasForeignKey("SponsorId");
+                });
+
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
                 {
                     b.Navigation("Approvers");
 
                     b.Navigation("Documents");
+
+                    b.Navigation("LeaveSchedules");
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Sponsor", b =>
+                {
+                    b.Navigation("Approvers");
+
+                    b.Navigation("SponsoredUser");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
                 {
                     b.Navigation("Leaves");
+
+                    b.Navigation("SponsoredUser");
                 });
 #pragma warning restore 612, 618
         }

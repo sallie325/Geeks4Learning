@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { EnrolComponent } from './enrol/enrol.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { PipesModule } from '../shared/pipes/pipes.module';
+import { MaterialModule } from '../shared/material/material.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { PipesModule } from '../shared/pipes/pipes.module';
     ReactiveFormsModule,
     HttpClientModule,
     MdbModalModule,
-    PipesModule
+    PipesModule,
+    MaterialModule
   ],
 })
 export class UsermanagementModule {}

@@ -37,7 +37,6 @@ export class ApproverComponent implements OnInit {
   getLeavesToApprove(userId: any) {
     this.leaveService.getLeaveToApprove(userId)
       .subscribe(arg => {
-        console.log(arg);
         this.leaveApplications = arg;
       });
   }
@@ -115,6 +114,7 @@ export class ApproverComponent implements OnInit {
     });
 
     this.modalDialog.onClose.subscribe(_ => {
+      this.getLeaveStats(this.user?.id);
       this.getLeavesToApprove(this.user?.id);
     });
   }
@@ -123,7 +123,6 @@ export class ApproverComponent implements OnInit {
     this.leaveService.getLeaveStats(userId)
       .subscribe((response: any) => {
         this.stats = response;
-        console.log(response);
       }
     );
   }

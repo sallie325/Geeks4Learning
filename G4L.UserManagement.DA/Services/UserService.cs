@@ -4,6 +4,7 @@ using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
+using G4L.UserManagement.BL.Models.Request;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -103,7 +104,6 @@ namespace G4L.UserManagement.Infrustructure.Services
             user.Name = model.Name;
             user.Surname = model.Surname;
             user.Career = (Career)model.Career;
-            user.Client = model.Client;
             user.Email = model.Email;
             user.LearnershipStartDate = model.LearnershipStartDate;
             user.Phone = model.Phone;

@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace G4L.UserManagement.DA.Repositories
 {
-    public class LeaveRepository : Repository<Leave>, ILeaveRepository
+    public class SponsorRepository : Repository<Sponsor>, ISponsorRepository
     {
         private readonly DatabaseContext _databaseContext;
-        public LeaveRepository(DatabaseContext databaseContext) : base(databaseContext)
+        public SponsorRepository(DatabaseContext databaseContext) : base(databaseContext)
         {
             _databaseContext = databaseContext;
         }
@@ -44,26 +44,45 @@ namespace G4L.UserManagement.DA.Repositories
             });
         }
 
-        public async Task UpdateLeaveRequestAsync(Leave leave)
+        public async Task<List<Sponsor>> GetPagedSponsorsListAsync(int skip, int take)
+        {
+            return await _databaseContext.Sponsors
+                .Include(x => x.Approvers)
+                .Skip(skip * take)
+                .Take(take)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task UpdateTrainerAsync(Sponsor sponsor)
         {
             await Task.Run(() =>
             {
-                var databaseEntry = _databaseContext.Leaves
-                  .Where(p => p.Id == leave.Id)
-                  .Include(p => p.Approvers)
+                var databaseEntry = _databaseContext.Sponsors
+                  .Where(p => p.Id == sponsor.Id)
                   .FirstOrDefault();
 
-                databaseEntry.LeaveType = leave.LeaveType;
-                databaseEntry.StartDate = leave.StartDate;
-                databaseEntry.EndDate = leave.EndDate;
-                databaseEntry.Status = leave.Status;
-                databaseEntry.Comments = leave.Comments;
-                databaseEntry.Documents = leave.Documents;
-                databaseEntry.Approvers = leave.Approvers;
+                databaseEntry.Approvers = sponsor.Approvers;
 
                 _databaseContext.Entry(databaseEntry).State = EntityState.Modified;
 
                 _databaseContext.SaveChanges();
+            });
+        }
+        public async Task<Sponsor> GetFullSponsorByIdAsync(Guid sponsorId)
+        {
+                return await _databaseContext.Sponsors
+                        .Where(p => p.Id == sponsorId)
+                        .Include(x => x.Approvers)
+                        .FirstAsync();
+        }
+
+        public async Task<Sponsor> GetByUserIdAsync(Guid userId)
+        {
+            return await Task.Run(() =>
+            {
+                var sponsoredUsers = _databaseContext.SponsoredUsers.Where(x => x.UserId == userId).First();
+                return _databaseContext.Sponsors.Where(x => x.Id == sponsoredUsers.SponsorId).First();
             });
         }
     }

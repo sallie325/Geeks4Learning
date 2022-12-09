@@ -67,11 +67,16 @@ namespace G4L.UserManagement.API
                     });
             });
 
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ILeaveService, LeaveService>();
+            services.AddScoped<ISponsorService, SponsorService>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ILeaveRepository, LeaveRepository>();
+            services.AddScoped<ISponsorRepository, SponsorRepository>();
+            
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
         }

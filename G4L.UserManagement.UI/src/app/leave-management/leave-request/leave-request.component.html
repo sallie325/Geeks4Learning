@@ -56,7 +56,12 @@
                   formModel.controls['endDate'].invalid &&
                   formModel.controls['endDate'].touched
               }">Date range<span class="red-text">*</span></label>
-              <mat-form-field appearance="fill" class="example-form-field">
+              <mat-form-field appearance="fill" class="example-form-field" [ngClass]="{
+                'border-red':
+                formModel.controls['startDate'].invalid &&
+                formModel.controls['startDate'].touched ||
+                formModel.controls['endDate'].invalid &&
+                formModel.controls['endDate'].touched }">
                 <mat-date-range-input [rangePicker]="rangePicker" [dateFilter]="holidaysAndWeekendsDatesFilter">
                   <input matStartDate placeholder="Start date" formControlName="startDate">
                   <input matEndDate placeholder="End date" formControlName="endDate" (dateChange)="dateRangeChange()">
@@ -184,9 +189,13 @@
                   'red-text':
                     formModel.controls['documents'].invalid &&
                     formModel.controls['documents'].touched
-                }">Attachments
-
-                <div class="attachment-block">
+                }">Upload attachments<span *ngIf="onLeaveTypeSelected(formModel.controls['leaveType'].value)"
+                  class="red-text">*</span>
+                <div class="attachment-block" [ngClass]="{
+                    'attachment-block-red':
+                      formModel.controls['documents'].invalid &&
+                      formModel.controls['documents'].touched
+                  }">
                   <div class="row">
                     <div class="col-5">
                       <i class="fa-solid fa-paperclip paperclip"></i>
@@ -206,15 +215,23 @@
                     formModel.controls['documents'].invalid &&
                     formModel.controls['documents'].touched
                 }">
+              <!-- <div class="progress" *ngIf="uploadProgress | async as progress">
+                  <div class="progress-bar progress-bar-animated" [ngStyle]="{ 'width': progress + '%' }"></div>
+               </div> -->
 
-              <div class="row mt-3">
-                <span class="col" *ngFor="let attachment of formModel.controls['documents'].value">
-                  <div class="bg-5-g4l-greeny-blue border-radius cursor-pointer fit-content p-1"
-                    (click)="openOnNewTab(attachment?.filePath)">
-                    <a class="p-2"><i class="fa-solid" [class]="getFileIcon(attachment?.fileName)"></i>
-                      &nbsp;{{ attachment?.fileName }}</a>
-                  </div>
-                </span>
+              <div class="row mt-3" *ngIf="formModel.controls['documents'].value.length > 0">
+                <div class="col">
+                  <label class="form-control-label">Attachments</label>
+                  <ul>
+                    <li *ngFor="let attachment of formModel.controls['documents'].value">
+                      <div class="bg-5-g4l-greeny-blue border-radius cursor-pointer fit-content p-1"
+                        (click)="openOnNewTab(attachment?.filePath)">
+                        <a class="p-2"><i class="fa-solid" [class]="getFileIcon(attachment?.fileName)"></i>
+                          &nbsp;{{ attachment?.fileName }}</a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
 
               <div class="red-text" *ngIf="

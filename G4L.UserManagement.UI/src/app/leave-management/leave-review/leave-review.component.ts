@@ -1,3 +1,4 @@
+import { SponsorService } from './../../usermanagement/services/sponsor.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
@@ -9,6 +10,7 @@ import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { LeaveTypes } from 'src/app/shared/global/leave-types';
 import { Roles } from 'src/app/shared/global/roles';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
+import { FileUpload } from '../models/file-upload';
 import { LeaveService } from '../services/leave.service';
 
 @Component({
@@ -34,11 +36,13 @@ export class LeaveReviewComponent implements OnInit {
   leaveBalances: any[] = [];
   request: any = {};
   role: string | null = '';
+  sponsor: any;
 
   constructor(
     public modalRef: MdbModalRef<LeaveReviewComponent>,
     private formBuilder: FormBuilder,
     private leaveService: LeaveService,
+    private sponsorService: SponsorService,
     private toastr: ToastrService,
     private tokenService: TokenService
   ) { }
@@ -47,8 +51,11 @@ export class LeaveReviewComponent implements OnInit {
     let user: any = this.tokenService.getDecodeToken();
     this.userId = user.id;
     this.role = sessionStorage.getItem(contants.role);
+    this.getSponsor(this.request?.userId);
     this.buildForm(this.request);
-    this.populateFormArrays();
+    this.setleaveSchedule();
+    this.setApprovers();
+    this.setDocuments();
   }
 
   buildForm(request: any) {
@@ -59,7 +66,7 @@ export class LeaveReviewComponent implements OnInit {
       startDate: [request?.startDate, Validators.required],
       endDate: [request?.endDate, Validators.required],
       leaveDayDuration: [ LeaveDayType.All_day ],
-      leaveSchedule: this.formBuilder.array([]),
+      leaveSchedule: request?.leaveSchedule,
       comments: [ { value: request?.comments, disabled: true } ],
       usedDays: [request?.usedDays, Validators.required ],
       status: [ request?.status ],
@@ -68,23 +75,47 @@ export class LeaveReviewComponent implements OnInit {
     });
   }
 
-  populateFormArrays() {
-    this.request?.approvers
-    .sort((a: any, b: any) => b.role.localeCompare(a.role))
-    .forEach((approver: any) => {
-      this.formModel.get('approvers').push(this.approver(approver));
+  getSponsor(userId: any) {
+    this.sponsorService.getSponsorByUserId(userId)
+    .subscribe((response: any) => {
+      this.sponsor = response;
     });
+  }
 
-    this.request?.leaveSchedule
-      .forEach((schedule: any) => {
-      if (schedule?.leaveDayType === LeaveDayType.All_day) schedule.usedDays = 1;
-      this.formModel.get('leaveSchedule').push(this.leaveSchedule(schedule));
+  setleaveSchedule() {
+    if (this.request.leaveSchedule ) {
+      this.request?.leaveSchedule
+      .forEach((day: any) => {
+        this.formModel.get('leaveSchedule').push(this.leaveSchedule(day));
+      });
+    }
+  }
+
+  setApprovers() {
+    if (this.request.approvers) {
+      this.request?.approvers
+      .sort((a: any, b: any) => b.role.localeCompare(a.role))
+      .forEach((approver: any) => {
+        this.formModel.get('approvers').push(this.approver(approver));
+      });
+    }
+  }
+
+  setDocuments() {
+    if (this.request.documents) {
+      this.request?.documents.forEach((document: any) => {
+        this.formModel.get('documents').push(this.document(document));
+      });
+    }
+  }
+
+  leaveSchedule(data?: any) {
+    return this.formBuilder.group({
+      date: [data?.date, Validators.required],
+      leaveDayType: [LeaveDayType.Half_day],
+      halfDaySchedule: [HalfDaySchedule.Afternoon_Hours],
+      usedDays: [0.5, Validators.required]
     });
-
-    this.request?.documents.forEach((document: any) => {
-      this.formModel.get('documents').push(this.document(document));
-    });
-
   }
 
   approver(approver: any): any {
@@ -96,19 +127,11 @@ export class LeaveReviewComponent implements OnInit {
     });
   }
 
-  leaveSchedule(data?: any) {
+  document(fileUpload: any | null) {
     return this.formBuilder.group({
-      date: [data?.date, Validators.required],
-      leaveDayType: [data?.leaveDayType, Validators.required],
-      halfDaySchedule: [data?.halfDaySchedule, Validators.required],
-      usedDays: [data?.usedDays | 0.5, Validators.required]
-    });
-  }
-
-  document(fileUpload: any) {
-    return this.formBuilder.group({
-      fileName: [ fileUpload?.fileName, Validators.required ],
-      filePath: [ fileUpload?.filePath, Validators.required ]
+      id: [fileUpload?.id, Validators.required],
+      fileName: [fileUpload?.fileName, Validators.required],
+      filePath: [fileUpload?.filePath, Validators.required]
     });
   }
 
@@ -139,7 +162,6 @@ export class LeaveReviewComponent implements OnInit {
 
     form.get('status').patchValue(status);
     this.updateStatusOnTheRequest();
-    console.log(this.formModel.value);
 
     if (this.formModel.invalid) {
       return;
@@ -202,7 +224,7 @@ export class LeaveReviewComponent implements OnInit {
       case LeaveStatus.Pending:
         return 'bg-5-g4l-orange'
       case LeaveStatus.Approved:
-        return 'bg-5-green-text'
+        return 'bg-5-green'
       case LeaveStatus.Partially_Approved:
         return 'bg-5-g4l-greeny-blue'
       case LeaveStatus.Cancelled:

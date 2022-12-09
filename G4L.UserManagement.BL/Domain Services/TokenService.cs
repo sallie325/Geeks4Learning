@@ -14,10 +14,12 @@ namespace G4L.UserManagement.BL
     public class TokenService : ITokenService
     {
         private readonly AppSettings _appSettings;
+        private readonly ISponsorService _sponsorService;
 
-        public TokenService(IOptions<AppSettings> appSettings)
+        public TokenService(IOptions<AppSettings> appSettings, ISponsorService sponsorService)
         {
             _appSettings = appSettings.Value;
+            _sponsorService = sponsorService;
         }
 
         public string GenerateToken(User user)
@@ -25,6 +27,7 @@ namespace G4L.UserManagement.BL
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),

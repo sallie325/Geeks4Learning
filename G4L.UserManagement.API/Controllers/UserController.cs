@@ -2,6 +2,7 @@
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
+using G4L.UserManagement.BL.Models.Request;
 using G4L.UserManagement.DA;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

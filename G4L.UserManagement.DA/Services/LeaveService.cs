@@ -2,7 +2,8 @@
 using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
-using G4L.UserManagement.BL.Models;
+using G4L.UserManagement.BL.Models.Request;
+using G4L.UserManagement.BL.Models.Response;
 using G4L.UserManagement.Shared;
 using Microsoft.Extensions.Options;
 using System;
@@ -34,10 +35,14 @@ namespace G4L.UserManagement.DA.Services
             var leaves = await _leaveRepository.ListAsync(x => x.UserId == userId);
             var user = await _userRepository.GetByIdAsync(userId);
 
+            var annual = leaves.Where(x => x.LeaveType == LeaveType.Annual && (x.Status != Status.Cancelled && x.Status != Status.Rejected));
+            var sick = leaves.Where(x => x.LeaveType == LeaveType.Annual && (x.Status != Status.Cancelled && x.Status != Status.Rejected));
+            var family = leaves.Where(x => x.LeaveType == LeaveType.Annual && (x.Status != Status.Cancelled && x.Status != Status.Rejected));
+
             //Used days
-            var usedAnnual = leaves.Where(x => x.LeaveType == LeaveType.Annual && x.Status != Status.Cancelled).Sum(x => x.UsedDays);
-            var usedSick = leaves.Where(x => x.LeaveType == LeaveType.Sick && x.Status != Status.Cancelled).Sum(x => x.UsedDays);
-            var usedFamilyResponsibility = leaves.Where(x => x.LeaveType == LeaveType.Family_Responsibility && x.Status != Status.Cancelled).Sum(x => x.UsedDays);
+            var usedAnnual = leaves.Where(x => x.LeaveType == LeaveType.Annual && (x.Status != Status.Cancelled && x.Status != Status.Rejected)).Sum(x => x.UsedDays);
+            var usedSick = leaves.Where(x => x.LeaveType == LeaveType.Sick && (x.Status != Status.Cancelled && x.Status != Status.Rejected)).Sum(x => x.UsedDays);
+            var usedFamilyResponsibility = leaves.Where(x => x.LeaveType == LeaveType.Family_Responsibility && (x.Status != Status.Cancelled && x.Status != Status.Rejected)).Sum(x => x.UsedDays);
 
             //get the leave days accumulated
             var leaveBalance = new List<LeaveBalanceResponse>();

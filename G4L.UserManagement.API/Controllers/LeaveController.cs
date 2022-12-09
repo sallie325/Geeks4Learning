@@ -1,7 +1,7 @@
 ﻿using G4L.UserManagement.API.Authorization;
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
-using G4L.UserManagement.BL.Models;
+using G4L.UserManagement.BL.Models.Request;
 using G4L.UserManagement.Infrustructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -48,7 +48,7 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(leaveRequests);
         }
         
-        [Authorize(Role.Admin, Role.Trainer)]
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
         [HttpGet("approve/{userId}")]
         public async Task<IActionResult> GetLeavesToApproveAsync(Guid userId)
         {
@@ -57,7 +57,7 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         // Poor naming convention TODO!!
-        [Authorize(Role.Admin, Role.Trainer)]
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
         [HttpGet("approverBalance/{userId}")]
         public async Task<IActionResult> GetLeavesBalanceAsync(Guid userId)
         {
@@ -65,7 +65,8 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(leaveRequests);
         }
 
-        [Authorize(Role.Admin, Role.Trainer)]
+
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
         [HttpPut()]
         public async Task<IActionResult> UpdateLeaveRequestAsync([FromBody] LeaveRequest leaveRequest)
         {

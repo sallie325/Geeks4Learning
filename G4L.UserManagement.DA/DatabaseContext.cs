@@ -21,10 +21,16 @@ namespace G4L.UserManagement.DA
         public DbSet<Document> Documents { get; set; }
         public DbSet<Leave> Leaves { get; set; }
         public DbSet<Approver> Approvers { get; set; }
+        public DbSet<LeaveSchedule> LeaveSchedules { get; set; }
+        public DbSet<Sponsor> Sponsors { get; set; }
+        public DbSet<SponsoredUser> SponsoredUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Leave>().Property(x => x.UsedDays).HasPrecision(10, 2);
+
+            // Create a composite key for the intersection table
+            modelBuilder.Entity<SponsoredUser>().HasKey(x => new { x.SponsorId, x.UserId });
         }
 
 

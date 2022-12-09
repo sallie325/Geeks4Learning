@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace G4L.UserManagement.BL.Models
+namespace G4L.UserManagement.BL.Models.Request
 {
     public class HalfDayRequest
     {
