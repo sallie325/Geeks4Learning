@@ -81,8 +81,7 @@ export class LeaveRequestComponent implements OnInit {
   getApprovers() {
     this.sponsorService.getApproversBySponsor(this.sponsorId)
       .subscribe((response: any) => {
-        console.log(response);
-        response?.sort((a: any, b: any) => b.role.localeCompare(a.role))
+        response?.sort((a: any, b: any) => b?.role.localeCompare(a?.role))
         .forEach((approver: any) => {
           this.formModel.get('approvers').push(this.approver(approver));
         });

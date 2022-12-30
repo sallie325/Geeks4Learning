@@ -52,4 +52,8 @@ export class LeaveService {
   getApproverByStream(userId: any): Observable<any> {
     return this.http.get(`${environment.apiUrl}/leave/approverByStream/${userId}`);
   }
+
+  updateApprover(leaveId: string, approvers: any): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/leave/${leaveId}/approvers`, approvers);
+  }
 }

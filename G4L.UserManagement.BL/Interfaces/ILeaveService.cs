@@ -19,5 +19,6 @@ namespace G4L.UserManagement.BL.Interfaces
         Task<IEnumerable<Leave>> GetAllLeaveRequestsAsync();
         Task UpdateLeaveRequestAsync(LeaveRequest leaveRequest);
         Task<List<ApproversBalanceResponse>> GetLeavesToApproveBalanceAsync(Guid userId);
+        Task UpdateApproversAsync(Guid Id, List<ApproverRequest> approversRequest);
     }
 }

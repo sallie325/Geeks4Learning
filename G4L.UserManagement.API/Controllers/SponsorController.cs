@@ -67,7 +67,7 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         //[Authorize(Role.Super_Admin, Role.Admin)]
-        [HttpPut("{id}/trainers")]
+        [HttpPut("{id}/approvers")]
         public async Task<IActionResult> AssignTrainerToSponsorAsync(Guid id, Guid trainerId, Guid adminId)
         {
             var sponsor = await _sponsorService.GetByIdAsync(id);

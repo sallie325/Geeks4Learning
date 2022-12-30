@@ -10,8 +10,8 @@ import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { LeaveTypes } from 'src/app/shared/global/leave-types';
 import { Roles } from 'src/app/shared/global/roles';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
-import { FileUpload } from '../models/file-upload';
 import { LeaveService } from '../services/leave.service';
+import { UserService } from 'src/app/usermanagement/services/user.service';
 
 @Component({
   selector: 'app-leave-review',
@@ -38,13 +38,16 @@ export class LeaveReviewComponent implements OnInit {
   role: string | null = '';
   sponsor: any;
 
+  trainers: any[] = [];
+
   constructor(
     public modalRef: MdbModalRef<LeaveReviewComponent>,
     private formBuilder: FormBuilder,
     private leaveService: LeaveService,
     private sponsorService: SponsorService,
     private toastr: ToastrService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -52,10 +55,18 @@ export class LeaveReviewComponent implements OnInit {
     this.userId = user.id;
     this.role = sessionStorage.getItem(contants.role);
     this.getSponsor(this.request?.userId);
+    this.getTrainers();
     this.buildForm(this.request);
     this.setleaveSchedule();
     this.setApprovers();
     this.setDocuments();
+  }
+
+  getTrainers() {
+    this.userService.getUsersByRole(Roles.Trainer)
+      .subscribe((users: any) => {
+        this.trainers = users;
+      });
   }
 
   buildForm(request: any) {
@@ -120,7 +131,10 @@ export class LeaveReviewComponent implements OnInit {
 
   approver(approver: any): any {
     return this.formBuilder.group({
+      id: [approver?.id, Validators.required],
+      leaveId: [approver?.leaveId, Validators.required],
       userId: [approver?.userId, Validators.required],
+      fullName: [approver?.fullName, Validators.required],
       role: [approver?.role, Validators.required],
       status: [approver?.status, Validators.required],
       comments: [approver?.comments, Validators.required],
@@ -143,6 +157,16 @@ export class LeaveReviewComponent implements OnInit {
   // Start
   getLeaveBalance(leaveType: any) {
     return this.request?.leaveBalances.find((x: any) => x.balanceType === leaveType);
+  }
+
+  saveChangeOfApprover() {
+    let leaveId = this.formModel.get('id').value;
+    let approvers = this.formModel.get('approvers').value;
+
+    this.leaveService.updateApprover(leaveId, approvers).subscribe((_: any) => {
+      this.toastr.success(`Approving trainer successfully updated.`);
+      this.modalRef.close(true);
+    });
   }
 
   updateLeaveStatus(status: any) {
@@ -271,15 +295,30 @@ export class LeaveReviewComponent implements OnInit {
 
   isAllowedToViewAll(role: any) {
     if (role === this.role || this.role === Roles.Admin) {
-      if (this.role === Roles.Admin) {
-        const form = this.formModel.get('approvers').at(0);
-        form.get('comments').disable();
-      }
+      // if (this.role === Roles.Admin) {
+      //   const form = this.formModel.get('approvers').at(0);
+      //   // form.get('comments').disable();
+      // }
       return true;
     } else {
       return false;
     }
   }
+
+  isTrainer(role: string | null) {
+    switch (role) {
+      case Roles.Trainer:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  setNewApprover() {
+    let approverForm = this.formModel.get('approvers').at(0) as FormGroup;
+    let trainer = this.trainers.find(x => x.id === approverForm.get('userId')?.value);
+    approverForm.controls['fullName'].setValue(`${trainer?.name} ${trainer?.surname}`);
+}
 
   close() {
     this.modalRef.close();

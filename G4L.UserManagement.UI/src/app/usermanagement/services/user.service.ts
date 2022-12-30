@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Roles } from 'src/app/shared/global/roles';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -36,6 +37,10 @@ export class UserService {
 
   deleteUser(id: any) {
     return this.http.delete(`${environment.apiUrl}/user?id=${id}`);
+  }
+
+  getUsersByRole(role: Roles) {
+    return this.http.get(`${environment.apiUrl}/user/role/${role}`);
   }
 
 }

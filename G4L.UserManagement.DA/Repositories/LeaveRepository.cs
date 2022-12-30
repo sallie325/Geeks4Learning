@@ -50,7 +50,9 @@ namespace G4L.UserManagement.DA.Repositories
             {
                 var databaseEntry = _databaseContext.Leaves
                   .Where(p => p.Id == leave.Id)
-                  .Include(p => p.Approvers)
+                  .Include(x => x.Approvers)
+                  .Include(x => x.Documents)
+                  .Include(x => x.LeaveSchedules)
                   .FirstOrDefault();
 
                 databaseEntry.LeaveType = leave.LeaveType;
@@ -60,11 +62,27 @@ namespace G4L.UserManagement.DA.Repositories
                 databaseEntry.Comments = leave.Comments;
                 databaseEntry.Documents = leave.Documents;
                 databaseEntry.Approvers = leave.Approvers;
+                databaseEntry.LeaveSchedules = leave.LeaveSchedules;
 
                 _databaseContext.Entry(databaseEntry).State = EntityState.Modified;
 
                 _databaseContext.SaveChanges();
             });
+        }
+
+        public Task<Leave> GetFullLeaveByIdAsync(Guid id)
+        {
+            return Task.Run(() =>
+            {
+                return _databaseContext.Leaves
+                        .Where(p => p.Id == id)
+                        .Include(x => x.Approvers)
+                        .Include(x => x.Documents)
+                        .Include(x => x.LeaveSchedules)
+                        .FirstOrDefault();
+
+            });
+
         }
     }
 }

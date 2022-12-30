@@ -1,4 +1,5 @@
 ﻿using G4L.UserManagement.BL.Entities;
+using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Models;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace G4L.UserManagement.BL.Interfaces
     {
         Task<User> GetByUserByEmailAsync(string email);
         Task CreateUserAsync(RegisterRequest user);
+        Task<IEnumerable<User>> GetUsersByRoleAsync(Role role);
     }
 }

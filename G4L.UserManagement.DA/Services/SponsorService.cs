@@ -40,8 +40,8 @@ namespace G4L.UserManagement.DA.Services
             var sponsor = await _sponsorRepository.GetByIdAsync(sponsorId);
             var mappedSponsor = _mapper.Map<SponsorResponse>(sponsor);
 
-            mappedSponsor.Trainer = _mapper.Map<TrainerResponse>(sponsor.Approvers.Where(x => x.Role == Role.Trainer).First());
-            mappedSponsor.Admin = _mapper.Map<UserResponse>(sponsor.Approvers.Where(x => x.Role == Role.Trainer).First());
+            mappedSponsor.Trainer = _mapper.Map<TrainerResponse>(sponsor.Approvers.Where(x => x.Role == Role.Trainer).FirstOrDefault());
+            mappedSponsor.Admin = _mapper.Map<UserResponse>(sponsor.Approvers.Where(x => x.Role == Role.Trainer).FirstOrDefault());
 
             return _mapper.Map<SponsorResponse>(sponsor);
         }
@@ -70,8 +70,8 @@ namespace G4L.UserManagement.DA.Services
                         x.AdminId = y.Approvers.Where(x => x.Role == Role.Admin).First().Id;
                         x.TrainerId = y.Approvers.Where(x => x.Role == Role.Trainer).First().Id;
 
-                        x.Admin = _mapper.Map<UserResponse>(y.Approvers.Where(x => x.Role == Role.Admin).First());
-                        x.Trainer = _mapper.Map<TrainerResponse>(y.Approvers.Where(x => x.Role == Role.Trainer).First());
+                        x.Admin = _mapper.Map<UserResponse>(y.Approvers.Where(x => x.Role == Role.Admin).FirstOrDefault());
+                        x.Trainer = _mapper.Map<TrainerResponse>(y.Approvers.Where(x => x.Role == Role.Trainer).FirstOrDefault());
                     }
                 });
             });
@@ -84,9 +84,16 @@ namespace G4L.UserManagement.DA.Services
             var approvers = new List<UserResponse>(); 
             
             var sponsor = await _sponsorRepository.GetFullSponsorByIdAsync(sponsorId);
-            
-            approvers.Add(_mapper.Map<UserResponse>(sponsor.Approvers.Where(x => x.Role == Role.Admin).First()));
-            approvers.Add(_mapper.Map<TrainerResponse>(sponsor.Approvers.Where(x => x.Role == Role.Trainer).First()));
+            sponsor.SponsoredUser.ForEach(x => {
+                var user = _userRepository.GetByIdAsync(x.UserId).Result;
+
+                if (user.Role == Role.Admin)
+                    approvers.Add(_mapper.Map<UserResponse>(user));
+
+                if (user.Role == Role.Trainer)
+                    approvers.Add(_mapper.Map<UserResponse>(user));
+            });
+
 
             return approvers;
         }

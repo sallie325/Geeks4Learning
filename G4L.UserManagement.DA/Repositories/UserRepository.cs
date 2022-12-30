@@ -109,5 +109,15 @@ namespace G4L.UserManagement.Infrustructure.Repositories
                     .AsEnumerable();
             });
         }
+
+        public async Task<IEnumerable<User>> GetUsersByRoleAsync(Role role)
+        {
+            return await Task.Run(() =>
+            {
+                return _databaseContext.Set<User>()
+                    .Where(x => x.Role == role)
+                    .AsEnumerable();
+            });
+        }
     }
 }

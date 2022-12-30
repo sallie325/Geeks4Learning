@@ -49,6 +49,9 @@ namespace G4L.UserManagement.DA.Services
 
             var annualLeaveDays = GetMonthsBetween(user.LearnershipStartDate, DateTime.Now) * _appSettings.LeaveDaysPerMonth;
 
+            
+            if (annualLeaveDays > 15) annualLeaveDays = _appSettings.MaxAnnualAllowed;
+
             //calculate the number of days
             leaveBalance.Add(new LeaveBalanceResponse
             {
@@ -126,8 +129,10 @@ namespace G4L.UserManagement.DA.Services
             leaves.ForEach(x => {
                 x.User = _userRepository.GetByIdAsync(x.UserId).Result;
                 x.LeaveBalances = GetLeaveBalancesAsync(x.UserId).Result;
-                x.Approvers.ToList().ForEach(x => { 
-                    x.Role = _userRepository.GetByIdAsync(x.UserId).Result.Role;
+                x.Approvers.ToList().ForEach(x => {
+                    var user = _userRepository.GetByIdAsync(x.UserId).Result;
+                    x.Role = user.Role;
+                    x.FullName = $"{user.Name} {user.Surname}";
                 });
             });
 
@@ -176,6 +181,13 @@ namespace G4L.UserManagement.DA.Services
             });
 
             return response;
+        }
+
+        public async Task UpdateApproversAsync(Guid Id, List<ApproverRequest> approversRequest)
+        {
+            var leave = await _leaveRepository.GetFullLeaveByIdAsync(Id);
+            leave.Approvers = _mapper.Map<List<Approver>>(approversRequest);
+            await _leaveRepository.UpdateLeaveRequestAsync(leave);
         }
     }
 }

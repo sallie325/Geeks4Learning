@@ -60,19 +60,24 @@ namespace G4L.UserManagement.DA.Repositories
             {
                 var databaseEntry = _databaseContext.Sponsors
                   .Where(p => p.Id == sponsor.Id)
-                  .FirstOrDefault();
+                  .Include(x => x.Approvers)
+                  .SingleOrDefault();
 
-                databaseEntry.Approvers = sponsor.Approvers;
+                if (databaseEntry != null) {
 
-                _databaseContext.Entry(databaseEntry).State = EntityState.Modified;
+                    databaseEntry.Approvers = sponsor.Approvers;
 
-                _databaseContext.SaveChanges();
+                    _databaseContext.Entry(databaseEntry).State = EntityState.Modified;
+
+                    _databaseContext.SaveChanges();
+                }
             });
         }
         public async Task<Sponsor> GetFullSponsorByIdAsync(Guid sponsorId)
         {
                 return await _databaseContext.Sponsors
                         .Where(p => p.Id == sponsorId)
+                        .Include(x => x.SponsoredUser)
                         .Include(x => x.Approvers)
                         .FirstAsync();
         }

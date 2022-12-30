@@ -11,5 +11,6 @@ namespace G4L.UserManagement.BL.Interfaces
     {
         Task<List<Leave>> GetLeavesToApproveAsync(Guid userId);
         Task UpdateLeaveRequestAsync(Leave leave);
+        Task<Leave> GetFullLeaveByIdAsync(Guid id);
     }
 }
