@@ -165,7 +165,7 @@ export class LeaveRequestComponent implements OnInit {
 
   calculateDaysRemaining(): number | undefined {
     this.negativeDays = false;
-    var leaveType = this.formModel.get('leaveType').value;
+    const leaveType = this.formModel.get('leaveType').value;
     switch (leaveType) {
       case LeaveTypes.Annual:
       case LeaveTypes.Family_Responsibility:
