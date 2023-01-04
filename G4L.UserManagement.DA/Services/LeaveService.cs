@@ -18,13 +18,15 @@ namespace G4L.UserManagement.DA.Services
     {
         private readonly ILeaveRepository _leaveRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ISponsorRepository _sponsorRepository;
         private readonly AppSettings _appSettings;
         private readonly IMapper _mapper;
 
-        public LeaveService(ILeaveRepository leaveRepository, IUserRepository userRepository, IOptions<AppSettings> appSettings, IMapper mapper)
+        public LeaveService(ILeaveRepository leaveRepository, IUserRepository userRepository, IOptions<AppSettings> appSettings, IMapper mapper, ISponsorRepository sponsorRepository)
         {
             _leaveRepository = leaveRepository;
             _userRepository = userRepository;
+            _sponsorRepository = sponsorRepository;
             _appSettings = appSettings.Value;
             _mapper = mapper;
         }
@@ -125,7 +127,7 @@ namespace G4L.UserManagement.DA.Services
         public async Task<List<LeaveRequest>> GetLeavesToApproveAsync(Guid userId)
         {
             var leaves = _mapper.Map<List<LeaveRequest>>(await _leaveRepository.GetLeavesToApproveAsync(userId));
-
+            
             leaves.ForEach(x => {
                 x.User = _userRepository.GetByIdAsync(x.UserId).Result;
                 x.LeaveBalances = GetLeaveBalancesAsync(x.UserId).Result;
@@ -134,12 +136,20 @@ namespace G4L.UserManagement.DA.Services
                     x.Role = user.Role;
                     x.FullName = $"{user.Name} {user.Surname}";
                 });
+                x.Sponsor = GetLeaveRequestSponsorAsync(userId).Result;
+
             });
 
             return leaves;
         }
 
-        public async Task<IEnumerable<Leave>> GetAllLeaveRequestsAsync()
+        public async Task<SponsorRequest> GetLeaveRequestSponsorAsync(Guid userId)
+        {
+            var sponsor = await _sponsorRepository.GetByUserIdAsync(userId);
+            return _mapper.Map<SponsorRequest>(sponsor);
+        }
+
+            public async Task<IEnumerable<Leave>> GetAllLeaveRequestsAsync()
         {
             return await _leaveRepository.ListAsync();
         }
