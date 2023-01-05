@@ -5,6 +5,7 @@ import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { LeaveTypes } from 'src/app/shared/global/leave-types';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
 import { LeaveRequestComponent } from '../../leave-request/leave-request.component';
+import { EventService } from '../../services/event.service';
 import { LeaveService } from '../../services/leave.service';
 
 @Component({
@@ -20,12 +21,15 @@ export class TraineeComponent implements OnInit {
   user: any;
   leaveBalances: any[] = [];
   dataSet: any;
+  events: any[] =[];
+  eventCardTitle: string = '';
 
   constructor(
     private modalService: MdbModalService,
     private toastr: ToastrService,
     private leaveService: LeaveService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private eventService: EventService
   ) { }
 
   ngOnInit(): void {
@@ -48,12 +52,12 @@ export class TraineeComponent implements OnInit {
       });
   }
 
-  openDialog(leaveBalances: any[]) {
+  openDialog(leaveBalances: any[], holidays: any[]) {
     this.modalDialog = this.modalService.open(LeaveRequestComponent, {
       animation: true,
       backdrop: true,
       containerClass: 'modal top fade modal-backdrop',
-      data: { leaveBalances: leaveBalances },
+      data: { leaveBalances: leaveBalances, holidays: holidays },
       ignoreBackdropClick: false,
       keyboard: true,
       modalClass: 'modal-xl modal-dialog-centered',

@@ -25,7 +25,7 @@ namespace G4L.UserManagement.API.Controllers
             _userService = userService;
         } 
 
-        [Authorize(Role.Super_Admin, Role.Admin,Role.Trainer)]
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
         [HttpGet]
         public async Task<IActionResult> Get()
         {

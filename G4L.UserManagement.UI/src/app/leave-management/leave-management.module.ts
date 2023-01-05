@@ -16,6 +16,7 @@ import { TraineeComponent } from './views/trainee/trainee.component';
 import { LeaveReviewComponent } from './leave-review/leave-review.component';
 import { ApproverComponent } from './views/approver/approver.component';
 import { LeaveBalanceCardComponent } from './leave-balance-card/leave-balance-card.component';
+import { EventCardModule } from '../shared/event-card/event-card.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { LeaveBalanceCardComponent } from './leave-balance-card/leave-balance-ca
     FormsModule,
     NgChartsModule,
     ChartsModule,
+    EventCardModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideStorage(() => getStorage())
   ]

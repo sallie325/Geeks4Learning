@@ -1033,7 +1033,7 @@ a {
 }
 
 .py-4 {
-  padding: 2rem !important;
+  padding: 1.5rem !important;
 }
 
 .btn:not([class*="btn-outline-"]) {
@@ -1217,4 +1217,24 @@ aside#sidenav-main {
 
 ul.dropdown-menu.show {
   padding: 0px;
+}
+
+.vl {
+  border-left: 6px solid var(--g4l-greeny-blue);
+  border-radius: 5px;
+  height: 80%;
+  position: absolute;
+  left: 5%;
+  margin-left: 0px;
+  top: 11%;
+}
+
+.notification-card {
+  border-radius: 1rem !important;
+  border: none;
+  background-color: #f8f9fa;
+}
+
+.pls-2 {
+  padding-left: 3rem;
 }

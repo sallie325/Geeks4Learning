@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   apiUrl: "https://localhost:44326/api",
   defaultPassword: "P@ssword1",
+  googleApiKey: "",
   firebase: {
     projectId: 'filleupload-d41e8',
     appId: '1:122086441414:web:bfcbd2530598889c0372c7',
