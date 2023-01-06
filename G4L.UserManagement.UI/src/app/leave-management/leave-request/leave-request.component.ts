@@ -178,6 +178,7 @@ export class LeaveRequestComponent implements OnInit {
 
     let publicHolidays = 0;
     let curDate = +startDate;
+    this.leaveWithHolidays = [];
 
     while (curDate <= +endDate) {
       const day = new Date(curDate);

@@ -75,7 +75,7 @@ namespace G4L.UserManagement.API.Controllers
             return Ok();
         }
 
-        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer, Role.Learner)]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync([FromBody] LeaveRequest leaveRequest, Guid id)
         {
