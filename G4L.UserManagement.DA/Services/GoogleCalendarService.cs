@@ -1,18 +1,12 @@
 ﻿using AutoMapper;
-using G4L.UserManagement.BL.Entities;
-using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
-using G4L.UserManagement.BL.Models.Request;
 using G4L.UserManagement.BL.Models.Response;
 using G4L.UserManagement.Shared;
-using Google.Apis.Calendar.v3.Data;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using static Google.Apis.Calendar.v3.EventsResource;
 
 namespace G4L.UserManagement.DA.Services
 {
@@ -32,7 +26,7 @@ namespace G4L.UserManagement.DA.Services
         public async Task<List<EventResponse>> GetAllByCalendarIdAsync(string calendarId)
         {
             var result = await _googleCalendarAPI.GetEventsByCalendarIdAsync(calendarId);
-            var futureHolidays = result.Items.Where(x => Convert.ToDateTime(x.Start.Date) > DateTime.Now.AddDays(-1));
+            var futureHolidays = result.Items.Where(x => Convert.ToDateTime(x.Start.Date) > DateTime.Now.AddDays(-1) && !x.Description.Contains("Observance"));
             return _mapper.Map<List<EventResponse>>(futureHolidays);
         }
 

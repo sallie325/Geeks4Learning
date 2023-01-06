@@ -29,7 +29,6 @@ export class TraineeComponent implements OnInit {
     private toastr: ToastrService,
     private leaveService: LeaveService,
     private tokenService: TokenService,
-    private eventService: EventService
   ) { }
 
   ngOnInit(): void {
@@ -57,7 +56,7 @@ export class TraineeComponent implements OnInit {
       animation: true,
       backdrop: true,
       containerClass: 'modal top fade modal-backdrop',
-      data: { leaveBalances: leaveBalances, holidays: holidays },
+      data: { leaveBalances: leaveBalances },
       ignoreBackdropClick: false,
       keyboard: true,
       modalClass: 'modal-xl modal-dialog-centered',
