@@ -98,7 +98,7 @@ export class LeaveReviewComponent implements OnInit {
   }
 
   setleaveSchedule() {
-    if (this.request.leaveSchedule ) {
+    if (this.request.leaveSchedule) {
       this.request?.leaveSchedule
       .forEach((day: any) => {
         this.formModel.get('leaveSchedule').push(this.leaveSchedule(day));
