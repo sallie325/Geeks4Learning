@@ -1,46 +1,47 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AppConfig } from 'src/app/shared/app-config/app-config.interface';
+import { APP_SERVICE_CONFIG } from 'src/app/shared/app-config/app-config.service';
 import { Roles } from 'src/app/shared/global/roles';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(@Inject(APP_SERVICE_CONFIG) private config:AppConfig,private http: HttpClient) { }
 
   authenticate(value: any): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/user/login`, value);
+    return this.http.post(`${this.config.apiUrl}/user/login`, value);
   }
 
   getAllUsers(): Observable<any>  {
-    return this.http.get(`${environment.apiUrl}/user`);
+    return this.http.get(`${this.config.apiUrl}/user`);
   }
 
   getUserById(id: any): Observable<any>  {
-    return this.http.get(`${environment.apiUrl}/user/${id}`);
+    return this.http.get(`${this.config.apiUrl}/user/${id}`);
   }
 
   addUser(path: string, body: any): Observable<any>  {
-    return this.http.post(`${environment.apiUrl}/user`, body);
+    return this.http.post(`${this.config.apiUrl}/user`, body);
   }
 
   updateUser(path: string, body: any) {
-    return this.http.put(`${environment.apiUrl}/user`, body);
+    return this.http.put(`${this.config.apiUrl}/user`, body);
   }
 
   getPagedUsers(skip: number, take: number) {
-    return this.http.get(`${environment.apiUrl}/user?skip=${skip}&take=${take}`);
+    return this.http.get(`${this.config.apiUrl}/user?skip=${skip}&take=${take}`);
   }
 
   deleteUser(id: any) {
-    return this.http.delete(`${environment.apiUrl}/user?id=${id}`);
+    return this.http.delete(`${this.config.apiUrl}/user?id=${id}`);
   }
 
   getUsersByRole(role: Roles) {
-    return this.http.get(`${environment.apiUrl}/user/role/${role}`);
+    return this.http.get(`${this.config.apiUrl}/user/role/${role}`);
   }
 
 }
