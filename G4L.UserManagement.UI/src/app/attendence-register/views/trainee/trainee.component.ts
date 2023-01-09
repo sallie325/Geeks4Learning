@@ -31,14 +31,14 @@ export class TraineeComponent implements OnInit {
   constructor(private toastr: ToastrService, private tokenService: TokenService, private attendanceService: AttendenceService, private formBuilder: FormBuilder, private modalService: MdbModalService,
   ) { }
   ngOnInit(): void {
-    this.startTimer()
+    // this.startTimer();
     let date: any = sessionStorage.getItem("date");
     let loginTime: any = sessionStorage.getItem(contants.time);
     this.loginTime = loginTime;
 
     this.date = date;
     this.buildData();
-    this.sendDetails()
+    // this.sendDetails()
   }
   sendDetails() {
     console.log(this.holdingArray.value + " ")
@@ -66,7 +66,6 @@ export class TraineeComponent implements OnInit {
       this.result.forEach((element:any) => {
         this.id = element.id;
       });
-      console.log(this.id, " getItems")
     })
   }
   getStatus(status: any): any {
@@ -101,16 +100,17 @@ export class TraineeComponent implements OnInit {
     }, 1000);
 
   }
-  CreateGoalsDialog(id:any) {
-    this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
-      animation: true,
-      backdrop: true,
-      data:{attendanceId: id},
-      containerClass: 'modal top fade modal-backdrop',
-      ignoreBackdropClick: false,
-      keyboard: true,
-      modalClass: 'modal-xl modal-dialog-centered',
-    });
-  }
+
+  // CreateGoalsDialog(id:any) {
+  //   this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
+  //     animation: true,
+  //     backdrop: true,
+  //     data:{attendanceId: id},
+  //     containerClass: 'modal top fade modal-backdrop',
+  //     ignoreBackdropClick: false,
+  //     keyboard: true,
+  //     modalClass: 'modal-xl modal-dialog-centered',
+  //   });
+  // }
 
 }

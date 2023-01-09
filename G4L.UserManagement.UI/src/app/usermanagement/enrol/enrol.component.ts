@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +9,7 @@ import { ServerErrorCodes } from 'src/app/shared/global/server-error-codes';
 import { Streams } from 'src/app/shared/global/streams';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { environment } from 'src/environments/environment';
+import { SponsorService } from '../services/sponsor.service';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -16,7 +17,7 @@ import { UserService } from '../services/user.service';
   templateUrl: './enrol.component.html',
   styleUrls: ['./enrol.component.css'],
 })
-export class EnrolComponent implements OnInit {
+export class EnrolComponent implements OnInit, DoCheck {
   formModel: any;
   // formModel: FormGroup = new FormGroup({});
 
@@ -28,17 +29,35 @@ export class EnrolComponent implements OnInit {
   userRole: string | null = null;
   serverErrorMessage: any;
   editCrucialInfo: boolean = false;
+  sponsors: any[] = [];
+
+  dropdownList: any[] = [];
+  selectedItems: any[] = [];
+  dropdownSettings: any = {};
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
     public modalRef: MdbModalRef<EnrolComponent>,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private sponsorService: SponsorService
+  ) { }
+
+  ngDoCheck(): void {
+    console.log(this.formModel);
+  }
 
   ngOnInit(): void {
+    this.getSponsors();
     this.buildForm(this.user);
     this.userRole = sessionStorage.getItem(contants.role);
+  }
+
+  onItemSelect(item: any) {
+    console.log(item);
+  }
+  onSelectAll(items: any) {
+    console.log(items);
   }
 
   buildForm(user?: any) {
@@ -65,21 +84,45 @@ export class EnrolComponent implements OnInit {
           disabled: !this.editCrucialInfo,
         },
       ],
-      Client: [
+      SponsorId: [
         {
-          value: user?.client,
+          value: user?.sponsorId || null,
+          disabled: !this.editCrucialInfo,
+        }],
+      Clients: [
+        {
+          value: null,
           disabled: !this.editCrucialInfo,
         }],
       LearnershipStartDate: [
         {
           value: user?.learnershipStartDate
-          ? formatDate(new Date(user?.learnershipStartDate), 'yyyy-MM-dd', 'en')
-          : formatDate(new Date('0001-01-01'), 'yyyy-MM-dd', 'en'),
+            ? formatDate(new Date(user?.learnershipStartDate), 'yyyy-MM-dd', 'en')
+            : formatDate(new Date('0001-01-01'), 'yyyy-MM-dd', 'en'),
           disabled: !this.editCrucialInfo,
         },
       ],
       Password: [environment.defaultPassword, Validators.required],
     });
+  }
+
+  getSponsorByUserId(userId: any): any {
+    if (userId) {
+      this.sponsorService.getSponsorByUserId(userId).subscribe((response: any) => {
+        return response;
+      });
+    }
+  }
+
+  getSponsors() {
+    this.sponsorService.getSponsors().subscribe((response: any) => {
+      this.sponsors = response;
+    });
+  }
+
+  handleInput($event: any) {
+    console.log($event);
+    console.log(this.formModel.controls['Clients']);
   }
 
   addUser() {
@@ -185,12 +228,25 @@ export class EnrolComponent implements OnInit {
       case Roles.Learner:
         return true;
       case Roles.Trainer:
-        this.setG4LDefaults();
+        // this.setG4LDefaults();
         return false;
       case Roles.Admin:
       case Roles.Super_Admin:
         this.setG4LDefaults();
         return false;
+      default:
+        return false;
+    }
+  }
+
+  isTrainer() {
+    const role = this.formModel.controls['Role'].value;
+    switch (role) {
+      case Roles.Trainer:
+        return true;
+      case Roles.Learner:
+      case Roles.Admin:
+      case Roles.Super_Admin:
       default:
         return false;
     }
@@ -202,7 +258,7 @@ export class EnrolComponent implements OnInit {
     this.formModel.controls['Career'].patchValue(
       Streams.Please_select_a_stream
     );
-    this.formModel.controls['Client'].patchValue('');
+    this.formModel.controls['Sponsor'].patchValue('');
     this.formModel.controls['LearnershipStartDate'].patchValue(
       formatDate(new Date(new Date(today).toISOString()), 'yyyy-MM-dd', 'en')
     );

@@ -38,7 +38,7 @@ namespace G4L.UserManagement.API.Controllers
         [HttpPut("updateAttendance")]
         public async Task<IActionResult> UpdateAttendanceRegisterAsync([FromBody] UpdateAttendance updateAttendance)
         {
-            await _attendanceService.UpdateAttendanceRegisterAsync(updateAttendance);
+            //await _attendanceService.UpdateAttendanceRegisterAsync(updateAttendance);
             return Ok();
         }
         [Authorize(Role.Learner)]
@@ -49,7 +49,7 @@ namespace G4L.UserManagement.API.Controllers
             return Ok();
         }
 
-        [Authorize(Role.Learner)]
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer, Role.Learner)]
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetAsync(Guid userId)
         {

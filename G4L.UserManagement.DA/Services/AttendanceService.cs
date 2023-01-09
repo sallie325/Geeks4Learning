@@ -45,16 +45,16 @@ namespace G4L.UserManagement.DA.Services
                     Message = "Duplicate attendance dates found on the system"
                 }));
             //present
-            if (attendance.Clockin_Time.Hour >= 7 && attendance.Clockin_Time.Hour <= 8)
+            if (attendance.ClockIn.Hour >= 7 && attendance.ClockIn.Hour <= 8)
             {
-                if (attendance.Clockin_Time.Hour == 8 && attendance.Clockin_Time.Minute <= 15)
+                if (attendance.ClockIn.Hour == 8 && attendance.ClockIn.Minute <= 15)
                 {
                     attendance.Status = AttendanceStatus.Present;
                 }
                 attendance.Status = AttendanceStatus.Present;
             }
             //late
-            if (attendance.Clockin_Time.Hour >= 8 && attendance.Clockin_Time.Hour <= 10 || attendance.Clockin_Time.Minute > 15)
+            if (attendance.ClockIn.Hour >= 8 && attendance.ClockIn.Hour <= 10 || attendance.ClockIn.Minute > 15)
             {
                 attendance.Status = AttendanceStatus.Late;
             }
@@ -64,11 +64,11 @@ namespace G4L.UserManagement.DA.Services
                 attendance.Status = AttendanceStatus.Absent;
             }
             //leave
-            if (attendance.Date.Hour > 10 && attendance.Leave_Status == Status.Partially_Approved)
-            {
-                attendance.Status = AttendanceStatus.Leave;
-            }
-            await _attendanceRepository.CreateAsync(attendance);
+            //if (attendance.Date.Hour > 10 && attendance.Leave_Status == Status.Partially_Approved)
+            //{
+            //    attendance.Status = AttendanceStatus.Leave;
+            //}
+            await _attendanceRepository.AddAsync(attendance);
         }
 
         public async Task<IEnumerable<Attendance>> GetPagedAttendancesAsync(int skip, int take)
@@ -80,7 +80,7 @@ namespace G4L.UserManagement.DA.Services
         {
             var attendance = await _attendanceRepository.GetByIdAsync(updateAttendance.Id);
             // Update the following;
-            attendance.Clockout_Time = updateAttendance.Clockout_Time;
+            attendance.ClockOut = updateAttendance.ClockOut;
 
             await _attendanceRepository.UpdateAsync(attendance);
         }
@@ -89,9 +89,9 @@ namespace G4L.UserManagement.DA.Services
         {
             var attendance = await _attendanceRepository.GetByIdAsync(updateAttendance.Id);
             // Update the following;
-            attendance.Goal_Description = updateAttendance.Goal_Description;
-            attendance.Goal_summary = updateAttendance.Goal_summary;
-            attendance.Time_Limit = updateAttendance.Time_Limit;
+            //attendance.Goal_Description = updateAttendance.Goal_Description;
+            //attendance.Goal_summary = updateAttendance.Goal_summary;
+            //attendance.Time_Limit = updateAttendance.Time_Limit;
             await _attendanceRepository.UpdateAsync(attendance);
         }
     }

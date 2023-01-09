@@ -3,10 +3,30 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace G4L.UserManagement.DA.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class CreateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Sponsors",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RegisteredName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TradeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhysicalAdrress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostalAdrress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Website = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Contact = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sponsors", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -17,17 +37,47 @@ namespace G4L.UserManagement.DA.Migrations
                     IdNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Client = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Career = table.Column<int>(type: "int", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
                     LearnershipStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SponsorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Sponsors_SponsorId",
+                        column: x => x.SponsorId,
+                        principalTable: "Sponsors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Attendances",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    ClockIn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ClockOut = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attendances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Attendances_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,6 +107,54 @@ namespace G4L.UserManagement.DA.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SponsoredUsers",
+                columns: table => new
+                {
+                    SponsorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SponsoredUsers", x => new { x.SponsorId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_SponsoredUsers_Sponsors_SponsorId",
+                        column: x => x.SponsorId,
+                        principalTable: "Sponsors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SponsoredUsers_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Goals",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TimeLimit = table.Column<TimeSpan>(type: "time", nullable: false),
+                    isReached = table.Column<bool>(type: "bit", nullable: false),
+                    AttendanceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Goals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Goals_Attendances_AttendanceId",
+                        column: x => x.AttendanceId,
+                        principalTable: "Attendances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Approvers",
                 columns: table => new
                 {
@@ -75,41 +173,6 @@ namespace G4L.UserManagement.DA.Migrations
                         name: "FK_Approvers_Leaves_LeaveId",
                         column: x => x.LeaveId,
                         principalTable: "Leaves",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Attendances",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    Clockin_Time = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Clockout_Time = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Goal_summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Goal_Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Time_Limit = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LeaveId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Leave_Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Attendances", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Attendances_Leaves_LeaveId",
-                        column: x => x.LeaveId,
-                        principalTable: "Leaves",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Attendances_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -137,7 +200,7 @@ namespace G4L.UserManagement.DA.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Leave_Schedules",
+                name: "LeaveSchedules",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -150,9 +213,9 @@ namespace G4L.UserManagement.DA.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Leave_Schedules", x => x.Id);
+                    table.PrimaryKey("PK_LeaveSchedules", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Leave_Schedules_Leaves_LeaveId",
+                        name: "FK_LeaveSchedules_Leaves_LeaveId",
                         column: x => x.LeaveId,
                         principalTable: "Leaves",
                         principalColumn: "Id",
@@ -162,11 +225,6 @@ namespace G4L.UserManagement.DA.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Approvers_LeaveId",
                 table: "Approvers",
-                column: "LeaveId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Attendances_LeaveId",
-                table: "Attendances",
                 column: "LeaveId");
 
             migrationBuilder.CreateIndex(
@@ -180,14 +238,29 @@ namespace G4L.UserManagement.DA.Migrations
                 column: "LeaveId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Leave_Schedules_LeaveId",
-                table: "Leave_Schedules",
-                column: "LeaveId");
+                name: "IX_Goals_AttendanceId",
+                table: "Goals",
+                column: "AttendanceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Leaves_UserId",
                 table: "Leaves",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LeaveSchedules_LeaveId",
+                table: "LeaveSchedules",
+                column: "LeaveId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SponsoredUsers_UserId",
+                table: "SponsoredUsers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_SponsorId",
+                table: "Users",
+                column: "SponsorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -196,19 +269,28 @@ namespace G4L.UserManagement.DA.Migrations
                 name: "Approvers");
 
             migrationBuilder.DropTable(
-                name: "Attendances");
-
-            migrationBuilder.DropTable(
                 name: "Documents");
 
             migrationBuilder.DropTable(
-                name: "Leave_Schedules");
+                name: "Goals");
+
+            migrationBuilder.DropTable(
+                name: "LeaveSchedules");
+
+            migrationBuilder.DropTable(
+                name: "SponsoredUsers");
+
+            migrationBuilder.DropTable(
+                name: "Attendances");
 
             migrationBuilder.DropTable(
                 name: "Leaves");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Sponsors");
         }
     }
 }

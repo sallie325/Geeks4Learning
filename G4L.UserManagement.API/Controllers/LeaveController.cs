@@ -1,11 +1,12 @@
 ﻿using G4L.UserManagement.API.Authorization;
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
-using G4L.UserManagement.BL.Models;
+using G4L.UserManagement.BL.Models.Request;
 using G4L.UserManagement.Infrustructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace G4L.UserManagement.API.Controllers
@@ -56,7 +57,17 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(leaveRequests);
         }
 
-        [Authorize(Role.Admin, Role.Trainer)]
+        // Poor naming convention TODO!!
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
+        [HttpGet("approverBalance/{userId}")]
+        public async Task<IActionResult> GetLeavesBalanceAsync(Guid userId)
+        {
+            var leaveRequests = await _leaveService.GetLeavesToApproveBalanceAsync(userId);
+            return Ok(leaveRequests);
+        }
+
+
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer, Role.Learner)]
         [HttpPut()]
         public async Task<IActionResult> UpdateLeaveRequestAsync([FromBody] LeaveRequest leaveRequest)
         {
@@ -64,18 +75,35 @@ namespace G4L.UserManagement.API.Controllers
             return Ok();
         }
 
-        [Authorize(Role.Learner)]
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer, Role.Learner)]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync([FromBody] LeaveRequest leaveRequest, Guid id)
         {
-            await _leaveService.UpdateLeaveStatusAsync(id, leaveRequest.Status);
+            await _leaveService.UpdateLeaveStatusAsync(id, leaveRequest);
             return Ok();
         }
-        [Authorize(Role.Super_Admin,Role.Admin,Role.Trainer)]
+
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             return Ok(await _leaveService.GetAllLeaveRequestsAsync());
+        }
+
+        /// <summary>
+        /// Update the approver of the leave request
+        /// after the creation of the leave
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="approversRequest"></param>
+        /// <returns></returns>
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
+        [HttpPut("{id}/approvers")]
+        public async Task<IActionResult> PutAsync(Guid Id,[FromBody] List<ApproverRequest> approversRequest)
+        {
+            //_logger.Log(LogLevel.Information, $"applying for leave {leaveRequest.LeaveType}");
+            await _leaveService.UpdateApproversAsync(Id, approversRequest);
+            return Ok();
         }
     }
 }

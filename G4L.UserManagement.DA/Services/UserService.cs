@@ -4,6 +4,7 @@ using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models;
+using G4L.UserManagement.BL.Models.Request;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,11 @@ namespace G4L.UserManagement.Infrustructure.Services
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Allows the registeration of a user
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task RegisterUserAsync(RegisterRequest model)
         {
             await _userRepository.CreateUserAsync(model);
@@ -103,7 +109,6 @@ namespace G4L.UserManagement.Infrustructure.Services
             user.Name = model.Name;
             user.Surname = model.Surname;
             user.Career = (Career)model.Career;
-            user.Client = model.Client;
             user.Email = model.Email;
             user.LearnershipStartDate = model.LearnershipStartDate;
             user.Phone = model.Phone;
@@ -115,6 +120,11 @@ namespace G4L.UserManagement.Infrustructure.Services
         public async Task<IEnumerable<User>> GetPagedUsersAsync(int skip, int take)
         {
             return await _userRepository.GetPagedListAsync(skip, take);
+        }
+
+        public async Task<IEnumerable<User>> GetUsersByRoleAsync(Role role)
+        {
+            return await _userRepository.GetUsersByRoleAsync(role);
         }
     }
 }

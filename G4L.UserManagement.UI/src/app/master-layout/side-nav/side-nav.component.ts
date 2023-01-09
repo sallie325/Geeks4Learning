@@ -24,20 +24,21 @@ export class SideNavComponent implements OnInit {
   date: any;
   loginTime: any;
   comingdata: any;
+
   constructor(
     private modalService: MdbModalService,
     private userService: UserService,
     private tokenService: TokenService,
-    private attendanceService:AttendenceService,
+    private attendanceService: AttendenceService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     let user: any = this.tokenService.getDecodeToken();
     this.getUserDetails(user.id);
-    this.logoutTime = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -1)
+    this.logoutTime = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -1);
     this.buildData();
-    console.log(this.logoutTime)
+    console.log(this.logoutTime);
   }
 
   getUserDetails(userId: string | null) {
@@ -78,7 +79,7 @@ export class SideNavComponent implements OnInit {
           },
         ];
       case Roles.Admin:
-         return [
+        return [
           {
             name: 'Dashboard',
             route: '/dashboard',
@@ -106,7 +107,7 @@ export class SideNavComponent implements OnInit {
           },
         ];
       case Roles.Trainer:
-         return [
+        return [
           {
             name: 'Dashboard',
             route: '/dashboard',
@@ -129,7 +130,7 @@ export class SideNavComponent implements OnInit {
           },
         ];
       case Roles.Learner:
-         return [
+        return [
           {
             name: 'Dashboard',
             route: '/dashboard',
@@ -156,7 +157,7 @@ export class SideNavComponent implements OnInit {
     }
   }
 
-  openLMSinNewTab(url: string){
+  openLMSinNewTab(url: string) {
     window.open(url, "_blank");
   }
 
@@ -171,21 +172,21 @@ export class SideNavComponent implements OnInit {
       modalClass: 'modal-xl modal-dialog-centered',
     });
 
-    this.modalDialog.onClose.subscribe(() => {});
+    this.modalDialog.onClose.subscribe(() => { });
   }
   buildData() {
     let user: any = this.tokenService.getDecodeToken();
     this.userId = user.id;
     this.getAttendance(this.userId);
-    
+
   }
   getAttendance(userId: any) {
-    this.attendanceService.getAttendences(userId).subscribe((res:any)=>{
+    this.attendanceService.getAttendences(userId).subscribe((res: any) => {
       this.comingdata = res;
       console.log(this.comingdata)
-      this.comingdata.forEach((element:any) => {
+      this.comingdata.forEach((element: any) => {
         this.holdingArray = this.formBuilder.group({
-          id:[element.id],
+          id: [element.id],
           clockout_Time: [this.logoutTime]
         });
         console.log(element);
@@ -195,10 +196,17 @@ export class SideNavComponent implements OnInit {
   logout() {
     console.log(this.holdingArray.value)
     //clear the sessionStorage and reload
-    this.attendanceService.UpdateAttendance(this.holdingArray.value).subscribe((_:any)=>{
-      alert('Updated!!');
-    }) 
+    switch (this.user?.role) {
+      case Roles.Learner:
+        this.attendanceService.UpdateAttendance(this.holdingArray.value).subscribe((_: any) => {
+          sessionStorage.clear();
+          window.location.reload();
+        })
+        break;
+      default:
+        sessionStorage.clear();
+        window.location.reload();
+        break;
+    }
   }
 }
-
-

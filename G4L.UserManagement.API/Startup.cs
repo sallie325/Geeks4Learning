@@ -67,13 +67,20 @@ namespace G4L.UserManagement.API
                     });
             });
 
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IGoogleCalendarAPI, GoogleCalendarAPI>();
+
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ILeaveService, LeaveService>();
-            services.AddScoped<ILeaveRepository, LeaveRepository>();
+            services.AddScoped<ISponsorService, SponsorService>();
+            services.AddScoped<IGoogleCalendarService, GoogleCalendarService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ILeaveRepository, LeaveRepository>();
+            services.AddScoped<ISponsorRepository, SponsorRepository>();
+            
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
         }

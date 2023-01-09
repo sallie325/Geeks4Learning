@@ -15,11 +15,9 @@
   --red-alpha-5: #bb000080;
   --g4l-greeny-blue-alpha-5: #2b5d6b80;
   --g4l-orange-alpha-5: #b7682883;
-  /* sinovuyo */
   --g4l-present:#00A99D;
   --g4l-absent:#FF0000;
   --g4l-late-leave:#B76701;
-  /* sinovuyo */
 
 }
 
@@ -27,15 +25,19 @@
 .present{
   color:var(--g4l-present);
 }
+
 .absent{
   color:var(--g4l-absent);
 }
+
 .late{
   color:var(--g4l-late-leave);
 }
+
 .leave{
   color:var(--g4l-late-leave);
 }
+
 .bg-green {
   background-color: var(--g4l-green) !important;
 }
@@ -69,7 +71,6 @@
 }
 
 /* Validation error styles */
-
 .white-text {
   color: var(--bg-white);
 }
@@ -83,9 +84,12 @@
 }
 
 .green-text {
-  color: green !important;
+  color: #008000 !important;
 }
 
+.bg-5-green {
+  background-color: #00800080 !important;
+}
 
 .bg-5-g4l-greeny-blue {
   background-color: var(--g4l-greeny-blue-alpha-5) !important;
@@ -120,7 +124,7 @@
 }
 
 .bg-5-red {
-  color: var(--red-alpha-5) !important;
+  background-color: var(--red-alpha-5) !important;
 }
 
 .arrow {
@@ -1047,7 +1051,7 @@ a {
 }
 
 .py-4 {
-  padding: 2rem !important;
+  padding: 1.5rem !important;
 }
 
 .btn:not([class*="btn-outline-"]) {
@@ -1162,6 +1166,10 @@ aside#sidenav-main {
   opacity: 100% !important;
 }
 
+.mat-form-field {
+  display: block !important;
+}
+
 .mat-form-field-flex {
   width: 100%;
   font-size: 1rem;
@@ -1211,3 +1219,40 @@ aside#sidenav-main {
   border: 1px solid var(--g4l-dark-blue) !important;
 }
 
+.dropdown-item:focus, .dropdown-item:hover {
+  background-color: var(--bg-white) !important;
+}
+
+.mat-select-arrow-wrapper {
+  position: relative !important;
+  top: 5px !important;
+  display: none;
+}
+
+.table-responsive {
+  overflow-x: visible;
+}
+
+ul.dropdown-menu.show {
+  padding: 0px;
+}
+
+.vl {
+  border-left: 6px solid var(--g4l-greeny-blue);
+  border-radius: 5px;
+  height: 80%;
+  position: absolute;
+  left: 5%;
+  margin-left: 0px;
+  top: 11%;
+}
+
+.notification-card {
+  border-radius: 1rem !important;
+  border: none;
+  background-color: #f8f9fa;
+}
+
+.pls-2 {
+  padding-left: 3rem;
+}

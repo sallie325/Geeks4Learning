@@ -1,3 +1,4 @@
+import { SponsorService } from './../../usermanagement/services/sponsor.service';
 import { LeaveTypes } from './../../shared/global/leave-types';
 import { LeaveDayType } from './../../shared/global/leave-day-type';
 import { Component, OnInit } from '@angular/core';
@@ -10,6 +11,9 @@ import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { HalfDaySchedule } from 'src/app/shared/global/half-day-schedule';
 import { UploadService } from '../services/upload.service';
 import { FileUpload } from '../models/file-upload';
+import { EventService } from '../services/event.service';
+import { contants } from 'src/app/shared/global/global.contants';
+import { DateFilterFn, MatCalendarCellClassFunction } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-leave-request',
@@ -32,6 +36,10 @@ export class LeaveRequestComponent implements OnInit {
   negativeDays: boolean = false;
 
   leaveBalances: any[] = [];
+  sponsorId: any;
+  leaveWithHolidays: any[] = [];
+  workdays: number = 0;
+  publicHolidays: number = 0;
 
   constructor(
     public modalRef: MdbModalRef<LeaveRequestComponent>,
@@ -39,40 +47,60 @@ export class LeaveRequestComponent implements OnInit {
     private leaveService: LeaveService,
     private toastr: ToastrService,
     private tokenService: TokenService,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private sponsorService: SponsorService,
+    private eventService: EventService
   ) { }
 
   ngOnInit(): void {
     let user: any = this.tokenService.getDecodeToken();
     this.userId = user.id;
+    this.getSponsor();
     this.buildForm();
-    console.log(this.formModel.value)
   }
 
   buildForm() {
     this.formModel = this.formBuilder.group({
       userId: [this.userId],
-      leaveType: [LeaveTypes.Please_Select_A_Leave , Validators.required],
+      leaveType: [LeaveTypes.Please_Select_A_Leave, Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       leaveDayDuration: [ LeaveDayType.All_day ],
       leaveSchedule: this.formBuilder.array([]),
       comments: [''],
-      usedDays: ['', Validators.required ],
-      status: [ LeaveStatus.Pending ],
-      approvers: this.formBuilder.array([
-        {
-          "userId": "367286eb-14c6-4055-a8c4-08dab6b961fc",
-          "status": "Pending",
-          "comments": ""
-        },
-        {
-          "userId": "ac4423a8-9132-4ff6-a8c3-08dab6b961fc",
-          "status": "Pending",
-          "comments": ""
-        }
-      ]), // How do we know who will approver
+      usedDays: ['', Validators.required],
+      status: [LeaveStatus.Pending],
+      approvers: this.formBuilder.array([]), // How do we know who will approver
       documents: this.formBuilder.array([])
+    });
+  }
+
+  getSponsor() {
+    this.sponsorService.getSponsorByUserId(this.userId)
+      .subscribe((response: any) => {
+        this.sponsorId = response.id;
+        this.getApprovers();
+      }
+      );
+  }
+
+  getApprovers() {
+    this.sponsorService.getApproversBySponsor(this.sponsorId)
+      .subscribe((response: any) => {
+        response?.sort((a: any, b: any) => b?.role.localeCompare(a?.role))
+          .forEach((approver: any) => {
+            this.formModel.get('approvers').push(this.approver(approver));
+          });
+      }
+      );
+  }
+
+  approver(approver: any): any {
+    return this.formBuilder.group({
+      userId: [approver?.id, Validators.required],
+      role: [approver?.role, Validators.required],
+      status: [LeaveStatus.Pending, Validators.required],
+      comments: [''],
     });
   }
 
@@ -90,7 +118,22 @@ export class LeaveRequestComponent implements OnInit {
       fileName: [ fileUpload?.name, Validators.required ],
       filePath: [ fileUpload?.url, Validators.required ]
     });
-    
+  }
+
+  getFileIcon(fileName: any) {
+    if (fileName.toLowerCase().includes('.pdf')) {
+      return "fa-file-pdf";
+    } else if (fileName.toLowerCase().includes('.png')
+      || fileName.toLowerCase().includes('.jpeg')
+      || fileName.toLowerCase().includes('.jpg')) {
+      return "fa-file-image";
+    } else {
+      return "fa-file";
+    }
+  }
+
+  openOnNewTab(link: any) {
+    window.open(link, '_blank');
   }
 
   calculateDaysRequested() {
@@ -98,7 +141,7 @@ export class LeaveRequestComponent implements OnInit {
 
     switch (this.formModel.get('leaveDayDuration').value) {
       case LeaveDayType.All_day:
-        days = this.getBusinessDatesCount(this.formModel.get('startDate').value, this.formModel.get('endDate').value);
+        days = this.getWorkdays();
         break;
       case LeaveDayType.Half_day:
         days = this.calculateUsedDays();
@@ -109,18 +152,49 @@ export class LeaveRequestComponent implements OnInit {
     return Number(this.formModel.get('usedDays').value);
   }
 
-  getBusinessDatesCount(startDate: any, endDate: any) {
-    let count = 0;
+  getWorkdays() {
+    const startDate = this.formModel.get('startDate').value;
+    const endDate = this.formModel.get('endDate').value;
+
+    if ((startDate === '' || endDate === '') && (startDate === '' && endDate === '')) return 0;
+    let workdays = 0;
     let curDate = +startDate;
     while (curDate <= +endDate) {
-      const dayOfWeek = new Date(curDate).getDay();
-      const isWeekend = (dayOfWeek === 6) || (dayOfWeek === 0);
-      if (!isWeekend) {
-        count++;
+      const dayNumber = new Date(curDate).getDay();
+      const noneWorkDay = (dayNumber === 6) || (dayNumber === 0);
+      if (!noneWorkDay) {
+        workdays++;
       }
-      curDate = curDate + 24 * 60 * 60 * 1000
+      curDate = curDate + 24 * 60 * 60 * 1000;
     }
-    return count;
+    return workdays - this.getHolidaysDuringWeekdays();
+  }
+
+  getHolidaysDuringWeekdays() {
+    const startDate = this.formModel.get('startDate').value;
+    const endDate = this.formModel.get('endDate').value;
+
+    if ((startDate === '' || endDate === '') && (startDate === '' && endDate === '')) return 0;
+
+    let publicHolidays = 0;
+    let curDate = +startDate;
+    this.leaveWithHolidays = [];
+
+    while (curDate <= +endDate) {
+      const day = new Date(curDate);
+      const dayNumber = new Date(curDate).getDay();
+      const holiday = this.eventService.holidays.value.find(d => new Date(d.startDate).getTime() === day.getTime());
+      const isHoliday = holiday ? true : false;
+
+      if (isHoliday && dayNumber !== 6 && dayNumber !== 0) {
+        const isHolidayTracked = this.leaveWithHolidays.find(d => new Date(d.startDate).getTime() === new Date(holiday.startDate).getTime());
+        if (!isHolidayTracked) this.leaveWithHolidays.push(holiday);
+        publicHolidays++;
+      }
+
+      curDate = curDate + 24 * 60 * 60 * 1000;
+    }
+    return publicHolidays;
   }
 
   calculateDaysRemaining(): number | undefined {
@@ -138,8 +212,6 @@ export class LeaveRequestComponent implements OnInit {
 
     if (this.daysAvailable) {
       this.daysRemaining = this.daysAvailable - this.calculateDaysRequested();
-
-      // display the error message
       if (this.daysRemaining < 0) {
         this.negativeDays = true;
       }
@@ -149,7 +221,19 @@ export class LeaveRequestComponent implements OnInit {
   }
 
   applyForLeave() {
-    this.leaveService.applyForLeave(this.formModel.value).subscribe(_ => {
+
+    this.formModel.markAllAsTouched();
+
+    if (this.formModel.invalid) {
+      return;
+    }
+
+    // Fix time offset
+    var leaveRequest = this.formModel.value;
+    leaveRequest.startDate = this.formatDate(leaveRequest.startDate);
+    leaveRequest.endDate = this.formatDate(leaveRequest.endDate);
+
+    this.leaveService.applyForLeave(leaveRequest).subscribe(_ => {
       this.toastr.success(`Your leave was successfully created.`);
       this.modalRef.close(true);
     });
@@ -160,20 +244,37 @@ export class LeaveRequestComponent implements OnInit {
       case LeaveDayType.Half_day:
         const startDate = new Date(this.formModel.get('startDate').value);
         const newDate = new Date(startDate.setDate(startDate.getDate() - 1));
+
         let index = 0;
-        while(index < this.getBusinessDatesCount(this.formModel.get('startDate').value, this.formModel.get('endDate').value)){
-            const endDate = new Date(newDate.setDate(newDate.getDate() + 1));
-            if(endDate.getDay() != 0 && endDate.getDay() != 6) {
-                this.formModel.get('leaveSchedule').push(this.leaveSchedule({
-                  date: new Date(endDate)
-                }));
-              index++;
-            }
+        this.getHolidaysDuringWeekdays();
+        while (index < this.getWorkdays()) {
+          const endDate = new Date(newDate.setDate(newDate.getDate() + 1));
+          const isHoliday = this.eventService.holidays.value.find(d => new Date(d.startDate).getTime() === endDate.getTime()) ? true : false;
+          if (endDate.getDay() != 0 && endDate.getDay() != 6 && !isHoliday) {
+            this.formModel.get('leaveSchedule').push(this.leaveSchedule({
+              date: new Date(endDate)
+            }));
+            index++;
+          }
         }
         break;
       default:
         break;
     }
+  }
+
+  formatDate(date: Date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
   }
 
   isAllowed(leaveType: any) {
@@ -189,6 +290,20 @@ export class LeaveRequestComponent implements OnInit {
         return false;
       default:
         return true;
+    }
+  }
+
+  onLeaveTypeSelected(leaveType: any) {
+    if (
+      (leaveType === LeaveTypes.Sick && Number(this.formModel.get('usedDays').value) > 1)
+      || leaveType === LeaveTypes.Family_Responsibility) {
+      this.formModel.get('documents').setValidators(Validators.required);
+      this.formModel.get('documents').updateValueAndValidity();
+      return true;
+    } else {
+      this.formModel.get('documents').setValidators(null);
+      this.formModel.get('documents').updateValueAndValidity();
+      return false;
     }
   }
 
@@ -232,9 +347,18 @@ export class LeaveRequestComponent implements OnInit {
     this.formModel.get('leaveDayDuration').patchValue(LeaveDayType.All_day);
   }
 
-  holidaysAndWeekendsDatesFilter(date: Date): boolean {
-    const day = date.getDay();
-    return day !== 0 && day !== 6;
+  holidaysAndWeekendsDatesFilter = (value: Date): boolean => {
+    var holidays: any[] = [];
+    const day = (value || new Date()).getDay();
+
+    var holidaysJson = localStorage.getItem(contants.holidays);
+
+    if (holidaysJson) {
+      holidays = JSON.parse(holidaysJson)
+    }
+    var isHoliday = holidays.find(d => new Date(d.startDate).getTime() === value.getTime());
+
+    return day !== 0 && day !== 6 && !isHoliday;
   }
 
   updateUsedDays(index: number) {

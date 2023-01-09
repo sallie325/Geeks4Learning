@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace G4L.UserManagement.BL.Models
+namespace G4L.UserManagement.BL.Models.Request
 {
     public class AuthenticateRequest
     {

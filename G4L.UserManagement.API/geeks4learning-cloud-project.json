@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "geeks4learning-project",
+  "private_key_id": "5469c3b9f40983a7e1171712303b5fc138ecea21",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDtZiLSQ2V9atPA\npYe22EV1hlVN046FPEO7lzfjXxYGhUQl8U2eCeaIXamtME8Ibo2Km/VzVgWHqtuC\nv4gY1KpsHHgqJOqj4VQ7LUyZlpn3xgJt2kHGAOJ98nrhhj2WwOdF+rhc8kWIJMVX\nDZY2H9iMXPAXzTMxodLOZhSsVJjdqpq07ZFxzRe8jbrRQM6xPBS9MCX26VCCJmex\n5V44lakLrMugZQtYHVebHUXoBE3+K1EplEEdMMeI9hqOeuPDA+pphef8e7ABbmDe\nSJC6xUsmD005H6/kgMdzKHP+nOcZs6C47ceKAJ4LDQwhQJVnPRCDpeWhHBlJp5Qm\nXoD8zwK9AgMBAAECggEAAjR2jCIAt9Aw5LNE4uxetmKhUszTub+sPpPlerDZf58B\nc1UquOLzp35jNih8NQi91M5x0ni3XW63Ujjc/T1AbF4JU0h7fqErPjXdMvhknrOe\nnMGWgDQy5lbE6gJSretFwQi9AwcwoSNiSwnLxHeGp3fkUC97Bot8h0E7qoWwoJWe\nYrYyoGGhWjX8bAy8M+3gAv6dCL+2ComyiJXQvqPAS/P0T2UPd5EndYiDJZ/ca5B4\n7UpNTYqUgd8BXXaoQMCWrxFbJohRpjQP2drjE4/E++mVB3ZViN+4MmG4yWEHvjF8\nsFOfMAEas8SBya/aeJcqzSfq2Fio2Cj8g7U9wegtiwKBgQD+bO5lBtmW4NSRayiy\n0JhU77xh45vLy2sDtTMmFir2msbCF5xSADXcvjjKqOiLPUkAxeCNxPGbCAhhrSKi\n7yY11osdHUd1Vj9PcWCBZ6na+126sPG3iZv7ZNUBhtqh522jQQ02hKtgrr1Uu1Hv\npGqU/o9AxkSyG3kVRjEmR0VFQwKBgQDu3jsWpB/ms+EaEzfW9hkSFBjedf29o16g\nDTQ0U3+1zcfbH/2lxoE6kDFeoeWH3PssXMrgdBh2ChzaSVeIBpx1wnHuinjqajOL\nl+omRGj4xmb89Yr1iKu8/8Q2/8N7D7CnX0T+BWunOr8Efa1PEDuWAYbZ519VrS4r\nerZun7IX/wKBgQC2cUCF22KeabykRnZZu3DwvzST8VYfzk9/yijSb+UBDz3lom6q\n8pGtKA6rbHHMnvbBgiOjJY2nARyZhkCnG9yHkMAS8ZLzVhRyEDgGs2I+sC+nFwlN\n9nSO0eBYhu4yWTTqc1RZOst1uff0UZrQwFLZYq0w4rwSB9dM5ReLfmHy5wKBgHTA\n2L7TT+hyqacWF6gRN+XXPuSVZYXosVqnuYmN+pFBWNtpApChuw6F5iusFEXZJEfl\nvyAAfuhLPxkO2iLZoGYKuadvtXRWnoUvpro3m9tlFne0CMzElbTWivCbCNBAtgbJ\nES7cNWdS1oT6bNiFRaqnamNdrQJymGuWGk9t7R2/AoGAJI9HFNUIRKfuzyIoxj3l\n0+BWU3yTTvmaUXT206ylJ16ivRGvrSFFy45cHmbmNw+FeiHsMWIASNn08xP1sWF5\n9S1e2iYlhuM99hACAykzUQwyqrh5xIfwIXpkzpbH88NZVfBKen/6/CZXhih0cI9K\nP0WdJ3ibpkBoj79eAjHWogI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "g4l-556@geeks4learning-project.iam.gserviceaccount.com",
+  "client_id": "113604312613545015753",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/g4l-556%40geeks4learning-project.iam.gserviceaccount.com"
+}

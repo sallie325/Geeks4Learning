@@ -12,11 +12,9 @@ namespace G4L.UserManagement.BL.Models
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public DateTime Date { get; set; }
-        public DateTime Clockin_Time { get; set; }
-        public DateTime Clockout_Time { get; set; }
+        public DateTime ClockIn { get; set; }
+        public DateTime ClockOut { get; set; }
         public AttendanceStatus Status { get; set; }
-        public string Goal_Description { get; set; }
-        public string Goal_summary { get; set; }
-        public string Time_Limit { get; set; }
+
     }
 }

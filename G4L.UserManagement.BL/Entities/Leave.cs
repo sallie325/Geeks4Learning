@@ -12,12 +12,19 @@ namespace G4L.UserManagement.BL.Entities
 {
     public class Leave: BaseEntity
     {
+        public Leave()
+        {
+            LeaveSchedules = new List<LeaveSchedule>();
+            Approvers = new List<Approver>();
+            Documents = new List<Document>();
+        }
+
         public Guid UserId { get; set; }
         public LeaveType LeaveType { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal UsedDays { get; set; }
-        public List<LeaveSchedule> LeaveSchedule { get; set; }
+        public List<LeaveSchedule> LeaveSchedules { get; set; }
         public Status Status { get; set; }
         public string Comments { get; set; }
         public List<Approver> Approvers { get; set; }
