@@ -2,7 +2,7 @@ import { SponsorService } from './../../usermanagement/services/sponsor.service'
 import { LeaveTypes } from './../../shared/global/leave-types';
 import { LeaveDayType } from './../../shared/global/leave-day-type';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
@@ -65,7 +65,7 @@ export class LeaveRequestComponent implements OnInit {
       leaveType: [LeaveTypes.Please_Select_A_Leave, Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      leaveDayDuration: [LeaveDayType.All_day],
+      leaveDayDuration: [ LeaveDayType.All_day ],
       leaveSchedule: this.formBuilder.array([]),
       comments: [''],
       usedDays: ['', Validators.required],
@@ -115,8 +115,8 @@ export class LeaveRequestComponent implements OnInit {
 
   document(fileUpload: FileUpload | null) {
     return this.formBuilder.group({
-      fileName: [fileUpload?.name, Validators.required],
-      filePath: [fileUpload?.url, Validators.required]
+      fileName: [ fileUpload?.name, Validators.required ],
+      filePath: [ fileUpload?.url, Validators.required ]
     });
   }
 
@@ -228,16 +228,19 @@ export class LeaveRequestComponent implements OnInit {
       return;
     }
 
-    this.leaveService.applyForLeave(this.formModel.value).subscribe(_ => {
+    // Fix time offset
+    var leaveRequest = this.formModel.value;
+    leaveRequest.startDate = this.formatDate(leaveRequest.startDate);
+    leaveRequest.endDate = this.formatDate(leaveRequest.endDate);
+
+    this.leaveService.applyForLeave(leaveRequest).subscribe(_ => {
       this.toastr.success(`Your leave was successfully created.`);
       this.modalRef.close(true);
     });
   }
 
-
-
   onOptionsSelected() {
-    switch (this.formModel.get('leaveDayDuration').value) {
+   switch (this.formModel.get('leaveDayDuration').value) {
       case LeaveDayType.Half_day:
         const startDate = new Date(this.formModel.get('startDate').value);
         const newDate = new Date(startDate.setDate(startDate.getDate() - 1));
@@ -258,6 +261,20 @@ export class LeaveRequestComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  formatDate(date: Date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
   }
 
   isAllowed(leaveType: any) {
@@ -306,6 +323,7 @@ export class LeaveRequestComponent implements OnInit {
     Array.from(files).forEach((file: File) => {
       var fileUpload: FileUpload | null = new FileUpload(file);
       this.uploadService.uploadToStorage(fileUpload)?.then((response) => {
+        console.log(fileUpload+" Snow");
         this.formModel.get('documents').push(this.document(response));
       });
     });
@@ -368,4 +386,3 @@ export class LeaveRequestComponent implements OnInit {
   }
 
 }
-

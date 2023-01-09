@@ -10,7 +10,7 @@
             <i class="fa-solid fa-xmark"></i></a>
         </div>
       </div>
-      <hr class="horizontal dark my-4" />
+      <hr class="horizontal dark my-2" />
     </div>
     <div class="card-body pt-0">
       <div class="row p-2">
@@ -157,17 +157,31 @@
           </div>
         </div>
 
+        <hr class="horizontal dark my-4" />
+
         <div formArrayName="approvers" *ngFor="let item of formModel.controls['approvers'].controls; let i = index">
-          <div [formGroupName]="i" class="mt-3">
-            <hr class="horizontal dark my-4" />
+          <div [formGroupName]="i" class="mt-3" *ngIf="isAllowedToViewAll(getFormControl(item, 'role').value)">
             <div class="row mb-3" *ngIf="isTrainer(getFormControl(item, 'role').value)">
+              <div class="col-2">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-comments" [ngClass]="{
+                      'red-text':
+                        getFormControl(item, 'status').invalid &&
+                        getFormControl(item, 'status').touched
+                    }">Approver's status</label>
+                  <p class="py-2 m-0 text-uppercase">
+                    <i class="fa-solid" [class]="getStatusIcon(getFormControl(item, 'status').value)"></i>
+                    &nbsp;{{ getFormControl(item, 'status').value | removeUnderscore }}
+                  </p>
+                </div>
+              </div>
               <div class="col-4">
                 <div class="form-group">
                   <label class="form-control-label" for="input-userId" [ngClass]="{
                           'red-text':
                           getFormControl(item, 'userId').invalid &&
                           getFormControl(item, 'userId').touched
-                        }">Approving {{ getFormControl(item, 'role').value }}</label>
+                        }">Approver</label>
                   <select type="text" id="input-leaveType" #approver class="form-select" formControlName="userId"
                     (change)="setNewApprover()" [ngClass]="{
                           'red-border':
@@ -197,13 +211,40 @@
                   Change the approver</button>
               </div>
             </div>
-            <div class="row mt-1" *ngIf="isAllowedToViewAll(getFormControl(item, 'role').value)">
+            <div class="row mb-3" *ngIf="!isTrainer(getFormControl(item, 'role').value)">
+              <div class="col-2">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-comments" [ngClass]="{
+                      'red-text':
+                        getFormControl(item, 'status').invalid &&
+                        getFormControl(item, 'status').touched
+                    }">Approver's status</label>
+                  <p class="py-2 m-0 text-uppercase">
+                    <i class="fa-solid" [class]="getStatusIcon(getFormControl(item, 'status').value)"></i>
+                    &nbsp;{{ getFormControl(item, 'status').value | removeUnderscore }}
+                  </p>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-comments" [ngClass]="{
+                    'red-text':
+                      getFormControl(item, 'fullName').invalid &&
+                      getFormControl(item, 'fullName').touched
+                  }">Approver</label>
+                  <p class="py-2 m-0">
+                    &nbsp;{{ getFormControl(item, 'fullName').value }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-1">
               <div class="form-group">
                 <label class="form-control-label" for="input-comments" [ngClass]="{
                     'red-text':
                       getFormControl(item, 'comments').invalid &&
                       getFormControl(item, 'comments').touched
-                  }">Notes from {{ getFormControl(item, 'role').value }}</label>
+                  }">Notes from {{ getFormControl(item, 'fullName').value }}</label>
                 <textarea type="text" id="input-comments" class="form-control" formControlName="comments"
                   [disabled]="!isTrainer(role)" [ngClass]="{
                     'red-border':

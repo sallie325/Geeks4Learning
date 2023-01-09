@@ -50,6 +50,40 @@ namespace G4L.UserManagement.DA.Migrations
                     b.ToTable("Approvers");
                 });
 
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Attendance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ClockIn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ClockOut")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Attendances");
+                });
+
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
                 {
                     b.Property<Guid>("Id")
@@ -76,6 +110,40 @@ namespace G4L.UserManagement.DA.Migrations
                     b.HasIndex("LeaveId");
 
                     b.ToTable("Documents");
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Goal", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AttendanceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Summary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan>("TimeLimit")
+                        .HasColumnType("time");
+
+                    b.Property<bool>("isReached")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttendanceId");
+
+                    b.ToTable("Goals");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
@@ -261,11 +329,27 @@ namespace G4L.UserManagement.DA.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Attendance", b =>
+                {
+                    b.HasOne("G4L.UserManagement.BL.Entities.User", null)
+                        .WithMany("Attendances")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Document", b =>
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.Leave", null)
                         .WithMany("Documents")
                         .HasForeignKey("LeaveId");
+                });
+
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Goal", b =>
+                {
+                    b.HasOne("G4L.UserManagement.BL.Entities.Attendance", null)
+                        .WithMany("Goals")
+                        .HasForeignKey("AttendanceId");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
@@ -310,6 +394,11 @@ namespace G4L.UserManagement.DA.Migrations
                         .HasForeignKey("SponsorId");
                 });
 
+            modelBuilder.Entity("G4L.UserManagement.BL.Entities.Attendance", b =>
+                {
+                    b.Navigation("Goals");
+                });
+
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>
                 {
                     b.Navigation("Approvers");
@@ -328,6 +417,8 @@ namespace G4L.UserManagement.DA.Migrations
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.User", b =>
                 {
+                    b.Navigation("Attendances");
+
                     b.Navigation("Leaves");
 
                     b.Navigation("SponsoredUser");

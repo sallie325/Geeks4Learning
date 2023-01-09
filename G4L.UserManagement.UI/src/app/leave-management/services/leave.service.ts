@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class LeaveService {
+  //mimic the response the the server
+  leaveBalance =  new BehaviorSubject<any>(undefined);
 
   constructor(private http: HttpClient) {``
   }
@@ -33,15 +35,6 @@ export class LeaveService {
 
   getLeaveBalances(userId: any) {
     return this.http.get(`${environment.apiUrl}/leave/balances/${userId}`);
-  }
-
-  uploadAttachments(value: any) : Observable <any> {
-
-     return this.http.post(`${environment.apiUrl}/leave/Post_Attachments`, value);
-  }
-
-  getAttachments(leave: any): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/leave/Get_Attachments/${leave?.Id}`);
   }
 
   updateLeaveRequest(value: any): Observable<any> {

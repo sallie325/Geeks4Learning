@@ -60,12 +60,13 @@ namespace G4L.UserManagement.DA.Repositories
             {
                 var databaseEntry = _databaseContext.Sponsors
                   .Where(p => p.Id == sponsor.Id)
+                  .Include(x => x.SponsoredUser)
                   .Include(x => x.Approvers)
                   .SingleOrDefault();
 
                 if (databaseEntry != null) {
 
-                    databaseEntry.Approvers = sponsor.Approvers;
+                    databaseEntry.SponsoredUser = sponsor.SponsoredUser;
 
                     _databaseContext.Entry(databaseEntry).State = EntityState.Modified;
 

@@ -24,6 +24,8 @@ namespace G4L.UserManagement.DA
         public DbSet<LeaveSchedule> LeaveSchedules { get; set; }
         public DbSet<Sponsor> Sponsors { get; set; }
         public DbSet<SponsoredUser> SponsoredUsers { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<Goal> Goals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
