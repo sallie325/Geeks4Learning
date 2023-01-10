@@ -8,7 +8,7 @@ export const APP_CONFIG : AppConfig ={
     apiUrl: environment.apiUrl,
     production: environment.production,
     defaultPassword: environment.defaultPassword,
-    // googleApiKey: environment.googleApiKey,
+    googleApiKey: environment.googleApiKey,
     firebase: {
         projectId: environment.firebase.projectId,
         appId:  environment.firebase.appId,

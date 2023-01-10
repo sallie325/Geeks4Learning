@@ -2,7 +2,7 @@ export interface AppConfig {
   production: boolean;
   apiUrl: string;
   defaultPassword: string;
-  // googleApiKey?: string;
+  googleApiKey?: string;
   firebase: {
     projectId: string;
     appId: string;
