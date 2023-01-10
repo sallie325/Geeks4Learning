@@ -50,8 +50,15 @@ namespace G4L.UserManagement.DA.Services
         {
             var sponsor = _mapper.Map<Sponsor>(sponsorRequest);
 
-            sponsor.Approvers.Add(await _userRepository.GetByIdAsync(sponsorRequest.TrainerId));
-            sponsor.Approvers.Add(await _userRepository.GetByIdAsync(sponsorRequest.AdminId));
+            sponsor.SponsoredUser.Add(new SponsoredUser { 
+                SponsorId = sponsorRequest.Id,
+                UserId = sponsorRequest.TrainerId
+            });
+            sponsor.SponsoredUser.Add(new SponsoredUser
+            {
+                SponsorId = sponsorRequest.Id,
+                UserId = sponsorRequest.AdminId
+            });
             
             await _sponsorRepository.UpdateTrainerAsync(sponsor);
         }

@@ -28,6 +28,6 @@ namespace G4L.UserManagement.BL.Entities
         public string PasswordHash { get; set; }
         public List<Leave> Leaves { get; set; }
         public List<SponsoredUser> SponsoredUser { get; set; }
-
+        public List<Attendance> Attendances { get; set; }
     }
 }

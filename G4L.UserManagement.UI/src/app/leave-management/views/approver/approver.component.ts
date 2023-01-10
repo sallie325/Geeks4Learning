@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { LeaveTypes } from 'src/app/shared/global/leave-types';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
+import { LeaveRequestComponent } from '../../leave-request/leave-request.component';
 import { LeaveReviewComponent } from '../../leave-review/leave-review.component';
 import { LeaveService } from '../../services/leave.service';
 

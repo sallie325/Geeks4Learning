@@ -64,7 +64,8 @@
                 formModel.controls['endDate'].touched }">
                 <mat-date-range-input [rangePicker]="rangePicker" [dateFilter]="holidaysAndWeekendsDatesFilter">
                   <input matStartDate placeholder="Start date" formControlName="startDate">
-                  <input matEndDate placeholder="End date" formControlName="endDate" (dateChange)="dateRangeChange()">
+                  <input matEndDate placeholder="End date" formControlName="endDate"
+                  (dateChange)="dateRangeChange()">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
                 <mat-date-range-picker #rangePicker>
@@ -80,16 +81,10 @@
                 formModel.controls['startDate'].touched ||
                 formModel.controls['endDate'].invalid &&
                 formModel.controls['endDate'].touched">
-                <div
-                  *ngIf="formModel.controls['startDate'].errors.required && formModel.controls['endDate'].errors.required">
-                  Please select a start date and an end date
-                </div>
-                <div
-                  *ngIf="formModel.controls['startDate'].errors.required && !formModel.controls['endDate'].errors.required">
+                <div *ngIf="formModel.controls['startDate'].errors.required">
                   Please select a start date
                 </div>
-                <div
-                  *ngIf="formModel.controls['endDate'].errors.required && !formModel.controls['startDate'].errors.required">
+                <div *ngIf="formModel.controls['endDate'].errors.required">
                   Please select a end date
                 </div>
               </div>
@@ -106,8 +101,8 @@
 
                 <div class="row" *ngIf="isAllDay()">
                   <div class="col-9">
-                    {{ formModel.controls['startDate'].value  | date: 'EEEE, d MMM' }} - {{ formModel.controls['endDate'].value
-                    | date: 'EEEE, d MMM' }}
+                    {{ formModel.controls['startDate'].value | date: 'd MMM' }} - {{ formModel.controls['endDate'].value
+                    | date: 'd MMM' }}
                   </div>
                   <div class="col">
                     <select formControlName="leaveDayDuration" class="leave-day-duration"
@@ -117,8 +112,7 @@
                   </div>
                 </div>
 
-                <div formArrayName="leaveSchedule"
-                  *ngFor="let item of formModel.controls['leaveSchedule'].controls; let i = index">
+                <div formArrayName="leaveSchedule" *ngFor="let item of formModel.controls['leaveSchedule'].controls; let i = index">
                   <div class="row" [formGroupName]="i">
                     <div class="col">
                       {{ getFormControl(item, 'date').value  | date: 'EEEE, d MMM' }}
@@ -221,8 +215,10 @@
                   </div>
                 </div>
               </label>
-              <input type="file" id="input-documents" formControlName="documents" multiple="multiple"
-                (change)="handleFileInput($event)" [ngClass]="{
+              <input type="file" id="input-documents" formControlName="documents"
+                multiple="multiple"
+                (change)="handleFileInput($event)"
+                [ngClass]="{
                   'red-border':
                     formModel.controls['documents'].invalid &&
                     formModel.controls['documents'].touched
@@ -261,13 +257,13 @@
         <div class="row mt-3">
           <div class="col-6"></div>
           <div class="col-3 text-end">
-            <button (click)="close()" class="btn btn-sm bg-2 gradient-primary dark-border mb-0 text-uppercase">
+            <button (click)="close()" class="btn btn-sm bg-2 gradient-primary mb-0 text-uppercase">
               Cancel</button>
           </div>
           <div class="col-3 text-end">
             <button (click)="applyForLeave()" [disabled]="negativeDays"
               class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text-uppercase">
-              Request Now</button>
+              Request</button>
           </div>
         </div>
       </form>

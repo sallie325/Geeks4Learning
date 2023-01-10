@@ -25,5 +25,9 @@
   <ItemGroup>
     <ProjectReference Include="..\G4L.UserManagement.BL\G4L.UserManagement.BL.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
   
 </Project>

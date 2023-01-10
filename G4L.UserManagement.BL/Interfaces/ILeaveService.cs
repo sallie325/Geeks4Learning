@@ -14,7 +14,7 @@ namespace G4L.UserManagement.BL.Interfaces
         Task RequestLeaveAsync(LeaveRequest leaveRequest);
         Task<List<LeaveBalanceResponse>> GetLeaveBalancesAsync(Guid userId);
         Task<List<LeaveRequest>> GetLeaveRequestsAsync(Guid userId);
-        Task UpdateLeaveStatusAsync(Guid id, Enum.Status status);
+        Task UpdateLeaveStatusAsync(Guid id, LeaveRequest leaveRequest);
         Task<List<LeaveRequest>> GetLeavesToApproveAsync(Guid userId);
         Task<IEnumerable<Leave>> GetAllLeaveRequestsAsync();
         Task UpdateLeaveRequestAsync(LeaveRequest leaveRequest);

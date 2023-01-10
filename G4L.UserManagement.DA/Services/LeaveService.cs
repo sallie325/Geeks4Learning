@@ -115,15 +115,19 @@ namespace G4L.UserManagement.DA.Services
             await _leaveRepository.AddAsync(leave);
         }
 
-        public async Task UpdateLeaveStatusAsync(Guid id, Status status)
+        public async Task UpdateLeaveStatusAsync(Guid id, LeaveRequest leaveRequest)
         {
-            var leave = await _leaveRepository.GetByIdAsync(id);
-            leave.Status = status;
+            var leave = await _leaveRepository.GetFullLeaveByIdAsync(id);
+            //var attendance = _mapper.Map<Attendance>(leave);
+            //attendance.Leave_Status = status;
+            leave.Approvers = _mapper.Map<List<Approver>>(leaveRequest.Approvers);
+            leave.Status = leaveRequest.Status;
             await _leaveRepository.UpdateAsync(leave);
         }
 
         public async Task<List<LeaveRequest>> GetLeavesToApproveAsync(Guid userId)
         {
+
             var leaves = _mapper.Map<List<LeaveRequest>>(await _leaveRepository.GetLeavesToApproveAsync(userId)).Where(leave => leave.Status != Status.Cancelled).ToList();
 
             leaves.ForEach(x => {
@@ -133,6 +137,7 @@ namespace G4L.UserManagement.DA.Services
                     var user = _userRepository.GetByIdAsync(x.UserId).Result;
                     x.Role = user.Role;
                     x.FullName = $"{user.Name} {user.Surname}";
+                    x.status = x.status;
                 });
             });
 
