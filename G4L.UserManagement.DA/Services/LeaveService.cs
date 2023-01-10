@@ -127,10 +127,8 @@ namespace G4L.UserManagement.DA.Services
 
         public async Task<List<LeaveRequest>> GetLeavesToApproveAsync(Guid userId)
         {
-            var leaves = new List<LeaveRequest> ();
-            var user = await _userRepository.GetByIdAsync(userId);
 
-            leaves = _mapper.Map<List<LeaveRequest>>(await _leaveRepository.GetLeavesToApproveByUserIdAsync(userId));
+            var leaves = _mapper.Map<List<LeaveRequest>>(await _leaveRepository.GetLeavesToApproveByUserIdAsync(userId)).Where(leave => leave.Status != Status.Cancelled).ToList();
 
             leaves.ForEach(x => {
                 x.User = _userRepository.GetByIdAsync(x.UserId).Result;

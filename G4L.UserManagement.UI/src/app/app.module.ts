@@ -16,6 +16,7 @@ import { AttendenceRegisterModule } from './attendence-register/attendence-regis
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { APP_SERVICE_CONFIG, APP_CONFIG } from './shared/app-config/app-config.service';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: APP_SERVICE_CONFIG, useValue: APP_CONFIG }
   ],
   bootstrap: [AppComponent]
 })

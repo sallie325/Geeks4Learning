@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { setTimeout } from 'timers';
 import { FileUpload } from '../models/file-upload';
+import { AppConfig } from 'src/app/shared/app-config/app-config.interface';
+import { APP_SERVICE_CONFIG } from 'src/app/shared/app-config/app-config.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +18,11 @@ export class UploadService {
 
   private basePath = '/uploads';
 
-  app = initializeApp(environment.firebase);
+  app = initializeApp(this.config.firebase);
 
   private storage = getStorage(this.app);
 
-  constructor(private toastr: ToastrService) {
+  constructor(@Inject(APP_SERVICE_CONFIG) private config : AppConfig,private toastr: ToastrService) {
   }
 
   getStorage() {
