@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { contants } from '../shared/global/global.contants';
+import { contants as constants } from '../shared/global/global.contants';
 import { Roles } from '../shared/global/roles';
 
 @Component({
@@ -16,11 +16,11 @@ export class LeaveManagementComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const role = sessionStorage.getItem(contants.role);
-    this.determinRole(role);
+    const role = sessionStorage.getItem(constants.role);
+    this.determineRole(role);
   }
 
-  determinRole(role: string | null) {
+  determineRole(role: string | null) {
     switch (role) {
       case Roles.Super_Admin:
       case Roles.Admin:

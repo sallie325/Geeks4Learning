@@ -58,12 +58,12 @@
                     </td>
                     <td class="align-middle text-xs ps-2">
                       <p class="text-secondary mb-0">
-                        {{request?.user.client}}
+                        {{request?.sponsor.registeredName}}
                       </p>
                     </td>
                     <td class="align-middle text-xs ps-2">
                       <p class="text-secondary mb-0">
-                        {{request.leaveType}}
+                        {{request.leaveType | removeUnderscore}}
                       </p>
                     </td>
                     <td class="align-middle text-xs ps-2">
