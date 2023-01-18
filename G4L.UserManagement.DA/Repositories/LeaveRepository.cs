@@ -1,4 +1,5 @@
 ﻿using G4L.UserManagement.BL.Entities;
+using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.Infrustructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace G4L.UserManagement.DA.Repositories
             _databaseContext = databaseContext;
         }
 
-        public async Task<List<Leave>> GetLeavesToApproveAsync(Guid userId)
+        public async Task<List<Leave>> GetLeavesToApproveByUserIdAsync(Guid userId)
         {
             return await Task.Run(() =>
             {
@@ -83,6 +84,20 @@ namespace G4L.UserManagement.DA.Repositories
 
             });
 
+        }
+
+        public async Task<List<Leave>> GetAllLeavesToApproveAsync()
+        {
+            return await Task.Run(() =>
+            {
+                return _databaseContext.Leaves
+                        .Where(p => p.Status != Status.Approved)
+                        .Include(x => x.Approvers)
+                        .Include(x => x.Documents)
+                        .Include(x => x.LeaveSchedules)
+                        .ToListAsync();
+
+            });
         }
     }
 }

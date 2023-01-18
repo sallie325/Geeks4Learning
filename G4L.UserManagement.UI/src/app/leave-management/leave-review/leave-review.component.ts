@@ -1,8 +1,10 @@
 import { SponsorService } from './../../usermanagement/services/sponsor.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { constants } from 'buffer';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
+import { any, sortBy } from 'ramda';
 import { contants } from 'src/app/shared/global/global.contants';
 import { HalfDaySchedule } from 'src/app/shared/global/half-day-schedule';
 import { LeaveDayType } from 'src/app/shared/global/leave-day-type';
@@ -10,6 +12,8 @@ import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { LeaveTypes } from 'src/app/shared/global/leave-types';
 import { Roles } from 'src/app/shared/global/roles';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
+import { LeaveRequestComponent } from '../leave-request/leave-request.component';
+import { FileUpload } from '../models/file-upload';
 import { LeaveService } from '../services/leave.service';
 import { UserService } from 'src/app/usermanagement/services/user.service';
 
@@ -94,7 +98,7 @@ export class LeaveReviewComponent implements OnInit {
   }
 
   setleaveSchedule() {
-    if (this.request.leaveSchedule ) {
+    if (this.request.leaveSchedule) {
       this.request?.leaveSchedule
       .forEach((day: any) => {
         this.formModel.get('leaveSchedule').push(this.leaveSchedule(day));
@@ -196,7 +200,6 @@ export class LeaveReviewComponent implements OnInit {
       this.modalRef.close(true);
     });
   }
-
   updateStatusOnTheRequest() {
     const trainerForm = this.formModel.get('approvers').at(0);
     const adminForm = this.formModel.get('approvers').at(1);

@@ -2,7 +2,7 @@ import { SponsorService } from './../../usermanagement/services/sponsor.service'
 import { LeaveTypes } from './../../shared/global/leave-types';
 import { LeaveDayType } from './../../shared/global/leave-day-type';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from 'src/app/usermanagement/login/services/token.service';
@@ -11,6 +11,9 @@ import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { HalfDaySchedule } from 'src/app/shared/global/half-day-schedule';
 import { UploadService } from '../services/upload.service';
 import { FileUpload } from '../models/file-upload';
+import { EventService } from '../services/event.service';
+import { contants } from 'src/app/shared/global/global.contants';
+import { DateFilterFn, MatCalendarCellClassFunction } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-leave-request',
@@ -34,6 +37,9 @@ export class LeaveRequestComponent implements OnInit {
 
   leaveBalances: any[] = [];
   sponsorId: any;
+  leaveWithHolidays: any[] = [];
+  workdays: number = 0;
+  publicHolidays: number = 0;
 
   constructor(
     public modalRef: MdbModalRef<LeaveRequestComponent>,
@@ -42,7 +48,8 @@ export class LeaveRequestComponent implements OnInit {
     private toastr: ToastrService,
     private tokenService: TokenService,
     private uploadService: UploadService,
-    private sponsorService: SponsorService
+    private sponsorService: SponsorService,
+    private eventService: EventService
   ) { }
 
   ngOnInit(): void {
@@ -58,7 +65,7 @@ export class LeaveRequestComponent implements OnInit {
       leaveType: [LeaveTypes.Please_Select_A_Leave, Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      leaveDayDuration: [LeaveDayType.All_day],
+      leaveDayDuration: [ LeaveDayType.All_day ],
       leaveSchedule: this.formBuilder.array([]),
       comments: [''],
       usedDays: ['', Validators.required],
@@ -71,22 +78,21 @@ export class LeaveRequestComponent implements OnInit {
   getSponsor() {
     this.sponsorService.getSponsorByUserId(this.userId)
       .subscribe((response: any) => {
-        console.log(response);
         this.sponsorId = response.id;
         this.getApprovers();
       }
-    );
+      );
   }
 
   getApprovers() {
     this.sponsorService.getApproversBySponsor(this.sponsorId)
       .subscribe((response: any) => {
         response?.sort((a: any, b: any) => b?.role.localeCompare(a?.role))
-        .forEach((approver: any) => {
-          this.formModel.get('approvers').push(this.approver(approver));
-        });
+          .forEach((approver: any) => {
+            this.formModel.get('approvers').push(this.approver(approver));
+          });
       }
-    );
+      );
   }
 
   approver(approver: any): any {
@@ -109,8 +115,8 @@ export class LeaveRequestComponent implements OnInit {
 
   document(fileUpload: FileUpload | null) {
     return this.formBuilder.group({
-      fileName: [fileUpload?.name, Validators.required],
-      filePath: [fileUpload?.url, Validators.required]
+      fileName: [ fileUpload?.name, Validators.required ],
+      filePath: [ fileUpload?.url, Validators.required ]
     });
   }
 
@@ -135,7 +141,7 @@ export class LeaveRequestComponent implements OnInit {
 
     switch (this.formModel.get('leaveDayDuration').value) {
       case LeaveDayType.All_day:
-        days = this.getBusinessDatesCount(this.formModel.get('startDate').value, this.formModel.get('endDate').value);
+        days = this.getWorkdays();
         break;
       case LeaveDayType.Half_day:
         days = this.calculateUsedDays();
@@ -146,21 +152,49 @@ export class LeaveRequestComponent implements OnInit {
     return Number(this.formModel.get('usedDays').value);
   }
 
-  getBusinessDatesCount(startDate: any, endDate: any) {
+  getWorkdays() {
+    const startDate = this.formModel.get('startDate').value;
+    const endDate = this.formModel.get('endDate').value;
 
-    if((startDate === '' || endDate === '') && (startDate === '' && endDate === '')) return 0;
-
-    let count = 0;
+    if ((startDate === '' || endDate === '') && (startDate === '' && endDate === '')) return 0;
+    let workdays = 0;
     let curDate = +startDate;
     while (curDate <= +endDate) {
-      const dayOfWeek = new Date(curDate).getDay();
-      const isWeekend = (dayOfWeek === 6) || (dayOfWeek === 0);
-      if (!isWeekend) {
-        count++;
+      const dayNumber = new Date(curDate).getDay();
+      const noneWorkDay = (dayNumber === 6) || (dayNumber === 0);
+      if (!noneWorkDay) {
+        workdays++;
       }
-      curDate = curDate + 24 * 60 * 60 * 1000
+      curDate = curDate + 24 * 60 * 60 * 1000;
     }
-    return count;
+    return workdays - this.getHolidaysDuringWeekdays();
+  }
+
+  getHolidaysDuringWeekdays() {
+    const startDate = this.formModel.get('startDate').value;
+    const endDate = this.formModel.get('endDate').value;
+
+    if ((startDate === '' || endDate === '') && (startDate === '' && endDate === '')) return 0;
+
+    let publicHolidays = 0;
+    let curDate = +startDate;
+    this.leaveWithHolidays = [];
+
+    while (curDate <= +endDate) {
+      const day = new Date(curDate);
+      const dayNumber = new Date(curDate).getDay();
+      const holiday = this.eventService.holidays.value.find(d => new Date(d.startDate).getTime() === day.getTime());
+      const isHoliday = holiday ? true : false;
+
+      if (isHoliday && dayNumber !== 6 && dayNumber !== 0) {
+        const isHolidayTracked = this.leaveWithHolidays.find(d => new Date(d.startDate).getTime() === new Date(holiday.startDate).getTime());
+        if (!isHolidayTracked) this.leaveWithHolidays.push(holiday);
+        publicHolidays++;
+      }
+
+      curDate = curDate + 24 * 60 * 60 * 1000;
+    }
+    return publicHolidays;
   }
 
   calculateDaysRemaining(): number | undefined {
@@ -178,8 +212,6 @@ export class LeaveRequestComponent implements OnInit {
 
     if (this.daysAvailable) {
       this.daysRemaining = this.daysAvailable - this.calculateDaysRequested();
-
-      // display the error message
       if (this.daysRemaining < 0) {
         this.negativeDays = true;
       }
@@ -190,31 +222,35 @@ export class LeaveRequestComponent implements OnInit {
 
   applyForLeave() {
 
-    console.log(this.formModel);
-
     this.formModel.markAllAsTouched();
 
     if (this.formModel.invalid) {
       return;
     }
 
-    this.leaveService.applyForLeave(this.formModel.value).subscribe(_ => {
+    // Fix time offset
+    var leaveRequest = this.formModel.value;
+    leaveRequest.startDate = this.formatDate(leaveRequest.startDate);
+    leaveRequest.endDate = this.formatDate(leaveRequest.endDate);
+
+    this.leaveService.applyForLeave(leaveRequest).subscribe(_ => {
       this.toastr.success(`Your leave was successfully created.`);
       this.modalRef.close(true);
     });
   }
 
-
-
   onOptionsSelected() {
-    switch (this.formModel.get('leaveDayDuration').value) {
+   switch (this.formModel.get('leaveDayDuration').value) {
       case LeaveDayType.Half_day:
         const startDate = new Date(this.formModel.get('startDate').value);
         const newDate = new Date(startDate.setDate(startDate.getDate() - 1));
+
         let index = 0;
-        while (index < this.getBusinessDatesCount(this.formModel.get('startDate').value, this.formModel.get('endDate').value)) {
+        this.getHolidaysDuringWeekdays();
+        while (index < this.getWorkdays()) {
           const endDate = new Date(newDate.setDate(newDate.getDate() + 1));
-          if (endDate.getDay() != 0 && endDate.getDay() != 6) {
+          const isHoliday = this.eventService.holidays.value.find(d => new Date(d.startDate).getTime() === endDate.getTime()) ? true : false;
+          if (endDate.getDay() != 0 && endDate.getDay() != 6 && !isHoliday) {
             this.formModel.get('leaveSchedule').push(this.leaveSchedule({
               date: new Date(endDate)
             }));
@@ -225,6 +261,20 @@ export class LeaveRequestComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  formatDate(date: Date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
   }
 
   isAllowed(leaveType: any) {
@@ -247,9 +297,9 @@ export class LeaveRequestComponent implements OnInit {
     if (
       (leaveType === LeaveTypes.Sick && Number(this.formModel.get('usedDays').value) > 1)
       || leaveType === LeaveTypes.Family_Responsibility) {
-        this.formModel.get('documents').setValidators(Validators.required);
-        this.formModel.get('documents').updateValueAndValidity();
-        return true;
+      this.formModel.get('documents').setValidators(Validators.required);
+      this.formModel.get('documents').updateValueAndValidity();
+      return true;
     } else {
       this.formModel.get('documents').setValidators(null);
       this.formModel.get('documents').updateValueAndValidity();
@@ -273,6 +323,7 @@ export class LeaveRequestComponent implements OnInit {
     Array.from(files).forEach((file: File) => {
       var fileUpload: FileUpload | null = new FileUpload(file);
       this.uploadService.uploadToStorage(fileUpload)?.then((response) => {
+        console.log(fileUpload+" Snow");
         this.formModel.get('documents').push(this.document(response));
       });
     });
@@ -296,9 +347,18 @@ export class LeaveRequestComponent implements OnInit {
     this.formModel.get('leaveDayDuration').patchValue(LeaveDayType.All_day);
   }
 
-  holidaysAndWeekendsDatesFilter(date: Date): boolean {
-    const day = date.getDay();
-    return day !== 0 && day !== 6;
+  holidaysAndWeekendsDatesFilter = (value: Date): boolean => {
+    var holidays: any[] = [];
+    const day = (value || new Date()).getDay();
+
+    var holidaysJson = localStorage.getItem(contants.holidays);
+
+    if (holidaysJson) {
+      holidays = JSON.parse(holidaysJson)
+    }
+    var isHoliday = holidays.find(d => new Date(d.startDate).getTime() === value.getTime());
+
+    return day !== 0 && day !== 6 && !isHoliday;
   }
 
   updateUsedDays(index: number) {

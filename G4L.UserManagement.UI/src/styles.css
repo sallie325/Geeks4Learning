@@ -15,10 +15,28 @@
   --red-alpha-5: #bb000080;
   --g4l-greeny-blue-alpha-5: #2b5d6b80;
   --g4l-orange-alpha-5: #b7682883;
+  --g4l-present:#00A99D;
+  --g4l-absent:#FF0000;
+  --g4l-late-leave:#B76701;
 
 }
 
 /* You can add global styles to this file, and also import other style files */
+.present{
+  color:var(--g4l-present);
+}
+
+.absent{
+  color:var(--g4l-absent);
+}
+
+.late{
+  color:var(--g4l-late-leave);
+}
+
+.leave{
+  color:var(--g4l-late-leave);
+}
 
 .bg-green {
   background-color: var(--g4l-green) !important;
@@ -54,7 +72,7 @@
 
 /* Validation error styles */
 .white-text {
-  color: var(--bg-white) !important;
+  color: var(--bg-white);
 }
 
 .red-text {
@@ -1033,7 +1051,7 @@ a {
 }
 
 .py-4 {
-  padding: 2rem !important;
+  padding: 1.5rem !important;
 }
 
 .btn:not([class*="btn-outline-"]) {
@@ -1217,4 +1235,24 @@ aside#sidenav-main {
 
 ul.dropdown-menu.show {
   padding: 0px;
+}
+
+.vl {
+  border-left: 6px solid var(--g4l-greeny-blue);
+  border-radius: 5px;
+  height: 80%;
+  position: absolute;
+  left: 5%;
+  margin-left: 0px;
+  top: 11%;
+}
+
+.notification-card {
+  border-radius: 1rem !important;
+  border: none;
+  background-color: #f8f9fa;
+}
+
+.pls-2 {
+  padding-left: 3rem;
 }

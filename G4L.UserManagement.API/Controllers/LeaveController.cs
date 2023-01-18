@@ -49,7 +49,7 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(leaveRequests);
         }
         
-        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
+        [Authorize(Role.Admin, Role.Trainer)]
         [HttpGet("approve/{userId}")]
         public async Task<IActionResult> GetLeavesToApproveAsync(Guid userId)
         {
@@ -67,7 +67,7 @@ namespace G4L.UserManagement.API.Controllers
         }
 
 
-        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer, Role.Learner)]
         [HttpPut()]
         public async Task<IActionResult> UpdateLeaveRequestAsync([FromBody] LeaveRequest leaveRequest)
         {
@@ -75,11 +75,11 @@ namespace G4L.UserManagement.API.Controllers
             return Ok();
         }
 
-        [Authorize(Role.Learner)]
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer, Role.Learner)]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync([FromBody] LeaveRequest leaveRequest, Guid id)
         {
-            await _leaveService.UpdateLeaveStatusAsync(id, leaveRequest.Status);
+            await _leaveService.UpdateLeaveStatusAsync(id, leaveRequest);
             return Ok();
         }
 

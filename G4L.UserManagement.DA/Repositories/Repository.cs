@@ -17,7 +17,7 @@ namespace G4L.UserManagement.Infrustructure.Repositories
         {
             _databaseContext = databaseContext;
         }
-        public async Task CreateAsync(TEntity entity)
+        public async Task AddAsync(TEntity entity)
         {
             await _databaseContext.Set<TEntity>().AddAsync(entity);
             await _databaseContext.SaveChangesAsync();

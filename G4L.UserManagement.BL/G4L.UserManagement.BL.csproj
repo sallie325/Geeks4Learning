@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Entities\AccessLevel.cs" />
-    <Compile Remove="Entities\Questionnaire.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\G4L.UserManagement.Shared\G4L.UserManagement.Shared.csproj" />
   </ItemGroup>
 
@@ -20,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.58.0.2759" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
   </ItemGroup>

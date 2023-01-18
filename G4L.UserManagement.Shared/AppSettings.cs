@@ -13,5 +13,8 @@ namespace G4L.UserManagement.Shared
         public decimal MaxSickAllowed { get; set; }
         public decimal MaxFamilyResponsibility { get; set; }
         public decimal LeaveDaysPerMonth { get; set; }
+        public string GoogleCalendarUser { get; set; }
+        public string GoogleCalendarFileAccessKey { get; set; }
+        public string GoogleSAHolidayCalendarId { get; set; }
     }
 }

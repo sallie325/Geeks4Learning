@@ -9,8 +9,9 @@ namespace G4L.UserManagement.BL.Interfaces
 {
     public interface ILeaveRepository : IRepository<Leave>
     {
-        Task<List<Leave>> GetLeavesToApproveAsync(Guid userId);
+        Task<List<Leave>> GetLeavesToApproveByUserIdAsync(Guid userId);
         Task UpdateLeaveRequestAsync(Leave leave);
         Task<Leave> GetFullLeaveByIdAsync(Guid id);
+        Task<List<Leave>> GetAllLeavesToApproveAsync();
     }
 }
