@@ -15,9 +15,7 @@
         for="inputEmail4"
         class="form-label"
         [ngClass]="{
-          'validation-error-text':
-            loginForm.controls['Email'].invalid &&
-            loginForm.controls['Email'].touched
+          'validation-error-text': isTouched('Email') && !isValid('Email')
         }"
         >Email Address <span class="validation-error-text">*</span></label
       >
@@ -25,33 +23,26 @@
         type="email"
         class="form-control"
         id="inputEmail4"
+        autocomplete="on"
         formControlName="Email"
         [ngClass]="{
-          'red-border':
-            loginForm.controls['Email'].invalid &&
-            loginForm.controls['Email'].touched
+          'red-border': isTouched('Email') && !isValid('Email')
         }"
       />
       <div
         class="validation-error-text"
-        *ngIf="
-          loginForm.controls['Email'].invalid &&
-          loginForm.controls['Email'].touched
-        "
+        *ngIf="isTouched('Email') && !isValid('Email')"
       >
-        <div *ngIf="loginForm.controls['Email'].hasError('required')">
+        <div *ngIf="getFormControl('Email').hasError('required')">
           Please enter your email.
         </div>
       </div>
 
       <div
         class="validation-error-text"
-        *ngIf="
-          loginForm.controls['Email'].invalid &&
-          loginForm.controls['Email'].touched
-        "
+        *ngIf="isTouched('Email') && !isValid('Email')"
       >
-        <div *ngIf="loginForm.controls['Email'].hasError('email')">
+        <div *ngIf="getFormControl('Email').hasError('email')">
           Email not valid.
         </div>
       </div>
@@ -62,48 +53,41 @@
         for="inputPassword4"
         class="form-label"
         [ngClass]="{
-          'validation-error-text':
-            loginForm.controls['Password'].invalid &&
-            loginForm.controls['Password'].touched
+          'validation-error-text': isTouched('Password') && !isValid('Password')
         }"
         >Password <span class="validation-error-text">*</span></label
       >
       <input
         type="password"
         class="form-control"
+        autocomplete="on"
         id="inputPassword4"
         formControlName="Password"
         [ngClass]="{
-          'red-border':
-            loginForm.controls['Password'].invalid &&
-            loginForm.controls['Password'].touched
+          'red-border': isTouched('Password') && !isValid('Password')
         }"
       />
       <div
         class="validation-error-text"
-        *ngIf="
-          loginForm.controls['Password'].invalid &&
-          loginForm.controls['Password'].touched
-        "
+        *ngIf="isTouched('Password') && !isValid('Password')"
       >
-        <div *ngIf="loginForm.controls['Password'].hasError('required')">
+        <div *ngIf="getFormControl('Password').hasError('required')">
           Please enter your password.
         </div>
       </div>
     </div>
 
     <div class="form-group m-3">
-      <div
-      class="validation-error-text mt-3 mb-3"
-      *ngIf="
-        loginForm.invalid
-      "
-    >
-      <div *ngIf="loginForm.controls['Email'].hasError('isUserNameOrPasswordIncorrect') || loginForm.controls['Password'].hasError('isUserNameOrPasswordIncorrect')"
-      >
-        {{ serverErrorMessage }}
+      <div class="validation-error-text mt-3 mb-3" *ngIf="isFormInvalid">
+        <div
+          *ngIf="
+            getFormControl('Email').hasError('isUserNameOrPasswordIncorrect') ||
+            getFormControl('Password').hasError('isUserNameOrPasswordIncorrect')
+          "
+        >
+          {{ serverErrorMessage }}
+        </div>
       </div>
-    </div>
     </div>
 
     <button
@@ -116,58 +100,6 @@
       >Forgot your email or password?</a
     >
   </form>
-
-  <div class="icons">
-    <ul class="list-inline">
-      <li class="list-inline-item">
-        <a
-          class="social-icon text-center"
-          target="_blank"
-          (click)="
-            openSocialMediaOnNewTab('https://www.facebook.com/geeks4learning/')
-          "
-          ><i class="fa-brands fa-facebook"></i
-        ></a>
-      </li>
-      <li class="list-inline-item">
-        <a
-          class="social-icon text-center"
-          target="_blank"
-          (click)="
-            openSocialMediaOnNewTab('https://twitter.com/geeks4learning')
-          "
-          ><i class="fa-brands fa-twitter"></i
-        ></a>
-      </li>
-      <li class="list-inline-item">
-        <a
-          class="social-icon text-center"
-          target="_blank"
-          (click)="
-            openSocialMediaOnNewTab('https://www.instagram.com/geeks4learning/')
-          "
-          ><i class="fa-brands fa-instagram"></i
-        ></a>
-      </li>
-      <li class="list-inline-item">
-        <a
-          class="social-icon text-center"
-          target="_blank"
-          (click)="
-            openSocialMediaOnNewTab(
-              'https://www.linkedin.com/company/geeks4learning'
-            )
-          "
-          ><i class="fa-brands fa-linkedin"></i
-        ></a>
-      </li>
-    </ul>
-  </div>
+  <app-icons></app-icons>
 </div>
-<footer class="dark-blue m-0 p-3">
-  <p class="text-center">
-    geeks4learning © 2022 Powered by geeks4learning Technologies <br /><i
-      >Terms and conditions | Privacy policy</i
-    >
-  </p>
-</footer>
+<app-footer></app-footer>

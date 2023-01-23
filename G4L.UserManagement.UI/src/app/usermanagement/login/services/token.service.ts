@@ -3,38 +3,38 @@ import { contants } from 'src/app/shared/global/global.contants';
 import jwt_decode from 'jwt-decode';
 
 @Injectable({
-  providedIn: 'root',
+	providedIn: 'root',
 })
 export class TokenService {
-  jwtToken: string | null = null;
-  decodedToken: any | undefined;
+	jwtToken: string | null = null;
+	decodedToken: any | undefined;
 
-  constructor() {}
+	constructor() { }
 
-  getFromSessionStorage() {
-    if (sessionStorage.getItem(contants.token))
-      this.jwtToken = sessionStorage.getItem(contants.token);
-  }
+	getFromSessionStorage() {
+		if (sessionStorage.getItem(contants.token))
+			this.jwtToken = sessionStorage.getItem(contants.token);
+	}
 
-  decodeToken() {
-    if (this.jwtToken) this.decodedToken = jwt_decode(this.jwtToken);
-  }
+	//   decodeToken() {
+	//     return 
+	//   }
 
-  getDecodeToken() {
-    if (this.jwtToken) return jwt_decode(this.jwtToken);
-  }
+	getDecodeToken() {
+		return this.jwtToken ? jwt_decode(this.jwtToken) : undefined;
+	}
 
-  getExpiryTime() {
-    this.decodeToken();
-    return this.decodedToken ? this.decodedToken.exp : null;
-  }
+	getExpiryTime() {
+		this.decodedToken = this.getDecodeToken();
+		return this.decodedToken ? this.decodedToken.exp : null;
+	}
 
-  isTokenExpired(): boolean {
-    const expiryTime: number = this.getExpiryTime();
-    if (expiryTime) {
-      return 1000 * expiryTime - new Date().getTime() < 5000;
-    } else {
-      return true;
-    }
-  }
+	isTokenExpired(): boolean {
+		const expiryTime: number = this.getExpiryTime();
+		if (expiryTime) {
+			return 1000 * expiryTime - new Date().getTime() < 5000;
+		} else {
+			return true;
+		}
+	}
 }
