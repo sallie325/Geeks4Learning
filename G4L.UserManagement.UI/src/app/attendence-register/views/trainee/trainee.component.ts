@@ -9,7 +9,7 @@ import { constants } from 'src/app/shared/global/global.constants';
 import { TokenService } from 'src/app/user-management/login/services/token.service';
 import { CaptureGoalsComponent } from '../../capture-goals/capture-goals.component';
 import { LunchTimeNotificationComponent } from '../../lunch-time-notification/lunch-time-notification.component';
-import { AttendenceService } from '../../services/attendence.service';
+import { AttendanceService } from '../../services/attendance.service';
 
 @Component({
   selector: 'app-trainee',
@@ -28,7 +28,7 @@ export class TraineeComponent implements OnInit {
   statu$: any = AttendanceStatus.Present;
   testTime: any
   leaveApplications: any;
-  constructor(private toastr: ToastrService, private tokenService: TokenService, private attendanceService: AttendenceService, private formBuilder: FormBuilder, private modalService: MdbModalService,
+  constructor(private toastr: ToastrService, private tokenService: TokenService, private attendanceService: AttendanceService, private formBuilder: FormBuilder, private modalService: MdbModalService,
   ) { }
   ngOnInit(): void {
     // this.startTimer();
@@ -61,7 +61,7 @@ export class TraineeComponent implements OnInit {
     this.getAttendance(this.userId)
   }
   getAttendance(userId: any) {
-    this.attendanceService.getAttendences(userId).subscribe((res: any) => {
+    this.attendanceService.getAttendances(userId).subscribe((res: any) => {
       this.result = res;
       this.result.forEach((element:any) => {
         this.id = element.id;

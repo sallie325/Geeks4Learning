@@ -5,7 +5,7 @@ import { constants } from 'src/app/shared/global/global.constants';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from './services/token.service';
-import { AttendenceService } from 'src/app/attendence-register/services/attendence.service';
+import { AttendanceService } from 'src/app/attendence-register/services/attendance.service';
 
 
 @Component({
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   userId: any = '156b5e89-99ad-47aa-2895-08da80ffdfed';
   captureGoalsTime: any;
 
-  constructor(private attendanceService: AttendenceService, private tokenService: TokenService, private formBuilder: FormBuilder, private userService: UserService, private router: Router, private toastr: ToastrService) { }
+  constructor(private attendanceService: AttendanceService, private tokenService: TokenService, private formBuilder: FormBuilder, private userService: UserService, private router: Router, private toastr: ToastrService) { }
   ngOnInit(): void {
 
   }

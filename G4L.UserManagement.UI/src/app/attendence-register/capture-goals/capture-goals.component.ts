@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from 'src/app/user-management/login/services/token.service';
-import { AttendenceService } from '../services/attendence.service';
+import { AttendanceService } from '../services/attendance.service';
 
 @Component({
   selector: 'app-capture-goals',
@@ -26,12 +26,12 @@ export class CaptureGoalsComponent implements OnInit {
     })
   }
   UpdateGoals() {
-    this.attendanceService.UpdateAttendanceGoals(this.formModel.value).subscribe(_=>{
+    this.attendanceService.updateAttendanceGoals(this.formModel.value).subscribe(_=>{
       
     })
   }
 
-  constructor(private attendanceService: AttendenceService, public modalRef: MdbModalRef<CaptureGoalsComponent>, private formBuilder: FormBuilder) {
+  constructor(private attendanceService: AttendanceService, public modalRef: MdbModalRef<CaptureGoalsComponent>, private formBuilder: FormBuilder) {
 
 
   }

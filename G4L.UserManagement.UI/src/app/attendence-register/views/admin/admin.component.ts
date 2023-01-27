@@ -5,7 +5,7 @@ import { timeInterval } from 'rxjs';
 import { AttendanceStatus } from 'src/app/shared/global/attendance-type';
 import { constants } from 'src/app/shared/global/global.constants';
 import { UserService } from 'src/app/user-management/services/user.service';
-import { AttendenceService } from '../../services/attendence.service';
+import { AttendanceService } from '../../services/attendance.service';
 
 @Component({
   selector: 'app-admin',
@@ -20,7 +20,7 @@ export class AdminComponent implements OnInit {
   date: any;
   // testing data
 
-  constructor(private formBuider: FormBuilder, private attendenceService: AttendenceService, private userService: UserService) { }
+  constructor(private formBuider: FormBuilder, private attendenceService: AttendanceService, private userService: UserService) { }
 
   ngOnInit() {
     this.getAttendences(0, 10);
