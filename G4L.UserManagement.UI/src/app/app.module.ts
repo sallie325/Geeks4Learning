@@ -1,6 +1,6 @@
 import { TokenInterceptor } from './shared/interceptors/token.interceptor';
 import { LoaderInterceptor } from './shared/loader/interceptor/loader.interceptor';
-import { UsermanagementModule } from './usermanagement/usermanagement.module';
+import { UserManagementModule } from './user-management/user-management.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -26,7 +26,7 @@ import { APP_SERVICE_CONFIG, APP_CONFIG } from './shared/app-config/app-config.s
   imports: [
     BrowserModule,
     AppRoutingModule,
-    UsermanagementModule,
+    UserManagementModule,
     MasterLayoutModule,
     BrowserAnimationsModule, // required animations module
     AttendenceRegisterModule,

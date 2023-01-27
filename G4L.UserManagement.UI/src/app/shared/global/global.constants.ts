@@ -1,4 +1,4 @@
-export const contants = {
+export const constants = {
   token: 'token',
   username: 'username',
   role: 'role',

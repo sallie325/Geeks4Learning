@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { any } from 'ramda';
 import { timeInterval } from 'rxjs';
 import { AttendanceStatus } from 'src/app/shared/global/attendance-type';
-import { contants } from 'src/app/shared/global/global.contants';
-import { UserService } from 'src/app/usermanagement/services/user.service';
+import { constants } from 'src/app/shared/global/global.constants';
+import { UserService } from 'src/app/user-management/services/user.service';
 import { AttendenceService } from '../../services/attendence.service';
 
 @Component({

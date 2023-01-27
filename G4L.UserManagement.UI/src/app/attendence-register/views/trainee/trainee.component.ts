@@ -5,8 +5,8 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { AttendanceStatus } from 'src/app/shared/global/attendance-type';
 
-import { contants } from 'src/app/shared/global/global.contants';
-import { TokenService } from 'src/app/usermanagement/login/services/token.service';
+import { constants } from 'src/app/shared/global/global.constants';
+import { TokenService } from 'src/app/user-management/login/services/token.service';
 import { CaptureGoalsComponent } from '../../capture-goals/capture-goals.component';
 import { LunchTimeNotificationComponent } from '../../lunch-time-notification/lunch-time-notification.component';
 import { AttendenceService } from '../../services/attendence.service';
@@ -33,7 +33,7 @@ export class TraineeComponent implements OnInit {
   ngOnInit(): void {
     // this.startTimer();
     let date: any = sessionStorage.getItem("date");
-    let loginTime: any = sessionStorage.getItem(contants.time);
+    let loginTime: any = sessionStorage.getItem(constants.time);
     this.loginTime = loginTime;
 
     this.date = date;

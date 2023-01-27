@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { contants as constants } from '../shared/global/global.contants';
+import { constants as constants } from '../shared/global/global.constants';
 import { Roles } from '../shared/global/roles';
 
 @Component({

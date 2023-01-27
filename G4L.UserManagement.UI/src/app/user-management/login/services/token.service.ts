@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { contants } from 'src/app/shared/global/global.contants';
+import { constants } from 'src/app/shared/global/global.constants';
 import jwt_decode from 'jwt-decode';
 
 @Injectable({
@@ -12,8 +12,8 @@ export class TokenService {
   constructor() {}
 
   getFromSessionStorage() {
-    if (sessionStorage.getItem(contants.token))
-      this.jwtToken = sessionStorage.getItem(contants.token);
+    if (sessionStorage.getItem(constants.token))
+      this.jwtToken = sessionStorage.getItem(constants.token);
   }
 
   decodeToken() {

@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CaptureGoalsComponent } from './capture-goals/capture-goals.component';
 import { LunchTimeNotificationComponent } from './lunch-time-notification/lunch-time-notification.component';
 import { ReviewGoalsComponent } from './review-goals/review-goals.component';
-import { contants } from '../shared/global/global.contants';
+import { constants } from '../shared/global/global.constants';
 import { Roles } from '../shared/global/roles';
 
 
@@ -35,7 +35,7 @@ export class AttendenceRegisterComponent implements OnInit {
  
 
   ngOnInit(): void {
-    const role = sessionStorage.getItem(contants.role);
+    const role = sessionStorage.getItem(constants.role);
     this.determinRole(role);
   }
   determinRole(role: string | null) {

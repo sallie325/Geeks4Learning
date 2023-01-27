@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from './services/user.service';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { EnrolComponent } from './enrol/enrol.component';
-import { contants } from '../shared/global/global.contants';
+import { constants } from '../shared/global/global.constants';
 import { Roles } from '../shared/global/roles';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-usermanagement',
-  templateUrl: './usermanagement.component.html',
-  styleUrls: ['./usermanagement.component.css'],
+  selector: 'app-user-management',
+  templateUrl: './user-management.component.html',
+  styleUrls: ['./user-management.component.css'],
 })
-export class UsermanagementComponent implements OnInit {
+export class UserManagementComponent implements OnInit {
 
   users: any;
   userRole: any;
@@ -26,7 +26,7 @@ export class UsermanagementComponent implements OnInit {
   ngOnInit(): void {
     this.getAllUsers();
     // this.getPagedUsers(0, 10);
-    this.userRole = sessionStorage.getItem(contants.role);
+    this.userRole = sessionStorage.getItem(constants.role);
   }
 
   getPagedUsers(skip: number, take: number) {

@@ -1,7 +1,7 @@
-import { LoginComponent } from './usermanagement/login/login.component';
+import { LoginComponent } from './user-management/login/login.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginGuard } from './usermanagement/login/guards/login.guard';
+import { LoginGuard } from './user-management/login/guards/login.guard';
 
 const routes: Routes = [
   // {

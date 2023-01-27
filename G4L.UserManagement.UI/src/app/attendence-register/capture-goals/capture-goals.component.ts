@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
-import { TokenService } from 'src/app/usermanagement/login/services/token.service';
+import { TokenService } from 'src/app/user-management/login/services/token.service';
 import { AttendenceService } from '../services/attendence.service';
 
 @Component({

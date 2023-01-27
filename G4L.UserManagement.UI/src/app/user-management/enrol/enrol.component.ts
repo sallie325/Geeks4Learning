@@ -3,7 +3,7 @@ import { Component, OnInit, DoCheck } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
-import { contants } from 'src/app/shared/global/global.contants';
+import { constants } from 'src/app/shared/global/global.constants';
 import { Roles } from 'src/app/shared/global/roles';
 import { ServerErrorCodes } from 'src/app/shared/global/server-error-codes';
 import { Streams } from 'src/app/shared/global/streams';
@@ -50,7 +50,7 @@ export class EnrolComponent implements OnInit, DoCheck {
   ngOnInit(): void {
     this.getSponsors();
     this.buildForm(this.user);
-    this.userRole = sessionStorage.getItem(contants.role);
+    this.userRole = sessionStorage.getItem(constants.role);
   }
 
   onItemSelect(item: any) {

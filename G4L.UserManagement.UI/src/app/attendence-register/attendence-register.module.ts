@@ -7,13 +7,14 @@ import { AdminComponent } from './views/admin/admin.component';
 import { TraineeComponent } from './views/trainee/trainee.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
-
 @NgModule({
-  declarations: [ AttendenceRegisterComponent, CaptureGoalsComponent,TotalPresentAbsentLateCardsComponent, AdminComponent,TraineeComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule
-  ]
+  declarations: [
+    AttendenceRegisterComponent,
+    CaptureGoalsComponent,
+    TotalPresentAbsentLateCardsComponent,
+    AdminComponent,
+    TraineeComponent,
+  ],
+  imports: [CommonModule, ReactiveFormsModule],
 })
-export class AttendenceRegisterModule { }
+export class AttendenceRegisterModule {}

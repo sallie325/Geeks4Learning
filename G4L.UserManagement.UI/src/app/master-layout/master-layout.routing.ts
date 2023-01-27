@@ -1,10 +1,10 @@
-import { UsermanagementModule } from './../usermanagement/usermanagement.module';
+import { UserManagementModule } from './../user-management/user-management.module';
 import { MasterLayoutComponent } from './master-layout.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { DashboardModule } from '../dashboard/dashboard.module';
-import { UsermanagementComponent } from '../usermanagement/usermanagement.component';
+import { UserManagementComponent } from '../user-management/user-management.component';
 import { AdminGuard } from '../shared/guards/admin.guard';
 import { LeaveManagementComponent } from '../leave-management/leave-management.component';
 import { LeaveManagementModule } from '../leave-management/leave-management.module';
@@ -20,12 +20,12 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
       },
       {
         path: 'user-management',
-        component: UsermanagementComponent,
-        canActivate: [AdminGuard]
+        component: UserManagementComponent,
+        canActivate: [AdminGuard],
       },
       {
         path: 'leave-management',
@@ -38,20 +38,23 @@ const routes: Routes = [
       {
         path: 'attendence-register',
         component: AttendenceRegisterComponent,
-      }
-    ]
+      },
+    ],
   },
 ];
 
 @NgModule({
   declarations: [],
-  imports: [
-    RouterModule.forChild(routes)
-  ],
+  imports: [RouterModule.forChild(routes)],
   exports: [
-    RouterModule, DashboardModule, UsermanagementModule, LeaveManagementModule, IkmManagementModule, AttendenceRegisterModule
-  ]
+    RouterModule,
+    DashboardModule,
+    UserManagementModule,
+    LeaveManagementModule,
+    IkmManagementModule,
+    AttendenceRegisterModule,
+  ],
 })
 export class MasterLayoutRoutingModule {
-  static components = [ MasterLayoutComponent ]
+  static components = [MasterLayoutComponent];
 }

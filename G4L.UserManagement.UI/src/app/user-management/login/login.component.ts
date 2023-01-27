@@ -1,12 +1,12 @@
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { contants } from 'src/app/shared/global/global.contants';
+import { constants } from 'src/app/shared/global/global.constants';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from './services/token.service';
 import { AttendenceService } from 'src/app/attendence-register/services/attendence.service';
-import { Console } from 'console';
+
 
 @Component({
   selector: 'app-login',
@@ -51,13 +51,14 @@ export class LoginComponent implements OnInit {
       .authenticate(this.loginForm.value)
       .subscribe((response: any | undefined) => {
         // save the token
-        sessionStorage.setItem(contants.token, response?.token);
-        sessionStorage.setItem(contants.username, `${response?.name} ${response?.surname}`);
-        sessionStorage.setItem(contants.role, response?.role);
+        sessionStorage.setItem(constants.token, response?.token);
+        sessionStorage.setItem(constants.username, `${response?.name} ${response?.surname}`);
+        sessionStorage.setItem(constants.role, response?.role);
         sessionStorage.setItem("date", this.date);
-        sessionStorage.setItem(contants.time, this.loginTime);
+        sessionStorage.setItem(constants.time, this.loginTime);
         sessionStorage.setItem("times", this.captureGoalsTime)
         // route to the master layout
+        console.log("I am sessionStorage : "+ sessionStorage)
         this.router.navigate(['/dashboard']);
 
       },

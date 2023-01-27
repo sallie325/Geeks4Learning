@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 //import { Chart } from 'chart.js';
 import { Chart, registerables } from 'chart.js';
-import { contants } from '../shared/global/global.contants';
+import { constants } from '../shared/global/global.constants';
 import { Roles } from '../shared/global/roles';
 Chart.register(...registerables);
 
@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    const role = sessionStorage.getItem(contants.role);
+    const role = sessionStorage.getItem(constants.role);
     this.determinRole(role);
   }
 

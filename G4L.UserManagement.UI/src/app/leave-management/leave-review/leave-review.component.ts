@@ -1,21 +1,17 @@
-import { SponsorService } from './../../usermanagement/services/sponsor.service';
+import { SponsorService } from 'src/app/user-management/services/sponsor.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { constants } from 'buffer';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
-import { any, sortBy } from 'ramda';
-import { contants } from 'src/app/shared/global/global.contants';
+import { constants } from 'src/app/shared/global/global.constants';
 import { HalfDaySchedule } from 'src/app/shared/global/half-day-schedule';
 import { LeaveDayType } from 'src/app/shared/global/leave-day-type';
 import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { LeaveTypes } from 'src/app/shared/global/leave-types';
 import { Roles } from 'src/app/shared/global/roles';
-import { TokenService } from 'src/app/usermanagement/login/services/token.service';
-import { LeaveRequestComponent } from '../leave-request/leave-request.component';
-import { FileUpload } from '../models/file-upload';
+import { TokenService } from 'src/app/user-management/login/services/token.service';
 import { LeaveService } from '../services/leave.service';
-import { UserService } from 'src/app/usermanagement/services/user.service';
+import { UserService } from 'src/app/user-management/services/user.service';
 
 @Component({
   selector: 'app-leave-review',
@@ -57,7 +53,7 @@ export class LeaveReviewComponent implements OnInit {
   ngOnInit(): void {
     let user: any = this.tokenService.getDecodeToken();
     this.userId = user.id;
-    this.role = sessionStorage.getItem(contants.role);
+    this.role = sessionStorage.getItem(constants.role);
     this.getSponsor(this.request?.userId);
     this.getTrainers();
     this.buildForm(this.request);

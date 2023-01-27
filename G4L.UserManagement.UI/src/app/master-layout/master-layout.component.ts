@@ -4,7 +4,7 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { CaptureGoalsComponent } from '../attendence-register/capture-goals/capture-goals.component';
 import { AttendenceService } from '../attendence-register/services/attendence.service';
-import { TokenService } from '../usermanagement/login/services/token.service';
+import { TokenService } from '../user-management/login/services/token.service';
 
 @Component({
   selector: 'app-master-layout',

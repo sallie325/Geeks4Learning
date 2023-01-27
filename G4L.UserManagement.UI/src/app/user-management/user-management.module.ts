@@ -1,4 +1,4 @@
-import { UsermanagementComponent } from './usermanagement.component';
+import { UserManagementComponent } from './user-management.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
@@ -12,7 +12,7 @@ import { MaterialModule } from '../shared/material/material.module';
 
 @NgModule({
   declarations: [
-    UsermanagementComponent,
+    UserManagementComponent,
     LoginComponent,
     RegisterComponent,
     EnrolComponent,
@@ -26,4 +26,4 @@ import { MaterialModule } from '../shared/material/material.module';
     MaterialModule
   ],
 })
-export class UsermanagementModule {}
+export class UserManagementModule {}

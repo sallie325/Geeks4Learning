@@ -4,9 +4,9 @@ import { constants } from 'buffer';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { AttendenceService } from 'src/app/attendence-register/services/attendence.service';
 import { Roles } from 'src/app/shared/global/roles';
-import { EnrolComponent } from 'src/app/usermanagement/enrol/enrol.component';
-import { TokenService } from 'src/app/usermanagement/login/services/token.service';
-import { UserService } from 'src/app/usermanagement/services/user.service';
+import { EnrolComponent } from 'src/app/user-management/enrol/enrol.component';
+import { TokenService } from 'src/app/user-management/login/services/token.service';
+import { UserService } from 'src/app/user-management/services/user.service';
 import { NavItem } from '../models/nav-item';
 
 @Component({
