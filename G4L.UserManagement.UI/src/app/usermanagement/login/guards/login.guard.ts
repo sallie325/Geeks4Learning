@@ -8,23 +8,20 @@ import { Observable } from 'rxjs';
 })
 export class LoginGuard implements CanActivate {
 
-  constructor(private tokenService: TokenService, private router: Router) {}
+  constructor(private tokenService: TokenService, private router: Router) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     // Before I check expiry, I'll get the token from the session storage
-    this.tokenService.getFromSessionStorage();
+    // this.tokenService.getFromSessionStorage();
 
-    if (this.tokenService.isTokenExpired()) {
-      sessionStorage.clear();
-      this.router.navigate(['/login']);
-      return false;
-    } else {
-      return true;
-    }
+    // If Token is still active
+    if (!this.tokenService.isTokenExpired()) return true;
 
+    sessionStorage.clear();
+    this.router.navigate(['/login']);
+    return false;
   }
-
 }

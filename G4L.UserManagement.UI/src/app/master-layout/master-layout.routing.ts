@@ -53,5 +53,5 @@ const routes: Routes = [
   ]
 })
 export class MasterLayoutRoutingModule {
-  static components = [ MasterLayoutComponent ]
+  static components = [MasterLayoutComponent]
 }

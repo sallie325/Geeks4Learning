@@ -6,35 +6,24 @@ import jwt_decode from 'jwt-decode';
 	providedIn: 'root',
 })
 export class TokenService {
-	jwtToken: string | null = null;
+	jwtToken!: string | null;
 	decodedToken: any | undefined;
 
 	constructor() { }
 
-	getFromSessionStorage() {
-		if (sessionStorage.getItem(contants.token))
-			this.jwtToken = sessionStorage.getItem(contants.token);
-	}
+	get sessionToken() : string | null { return sessionStorage.getItem(contants.token) };
 
-	//   decodeToken() {
-	//     return 
-	//   }
+	getDecodeToken = () : any | undefined => this.sessionToken ? jwt_decode(this.sessionToken) : undefined;
 
-	getDecodeToken() {
-		return this.jwtToken ? jwt_decode(this.jwtToken) : undefined;
-	}
-
-	getExpiryTime() {
+	getExpiryTime() : number | undefined | null {
 		this.decodedToken = this.getDecodeToken();
-		return this.decodedToken ? this.decodedToken.exp : null;
+		return this.decodedToken?.exp;
 	}
 
 	isTokenExpired(): boolean {
-		const expiryTime: number = this.getExpiryTime();
-		if (expiryTime) {
-			return 1000 * expiryTime - new Date().getTime() < 5000;
-		} else {
-			return true;
-		}
+		const expiryTime: number | undefined | null = this.getExpiryTime();
+
+		if (!expiryTime) return true;
+		return (1000 * expiryTime - new Date().getTime()) < 5000;
 	}
 }

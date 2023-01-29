@@ -36,27 +36,13 @@ export class LoginComponent implements OnInit {
     return (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
   }
 
-  get isFormInvalid(): boolean {
-    return this.loginForm.invalid;
-  }
+  get isFormInvalid(): boolean { return this.loginForm.invalid; }
 
-  getFormControl(control: String) {
-    return this.loginForm.controls[`${control}`];
-  }
+  getFormControl(control: String) { return this.loginForm.controls[`${control}`]; }
 
-  isValid(key: String): Boolean {
-    if (this.getFormControl(key).invalid) {
-      return false;
-    }
-    return true;
-  }
+  isValid(key: String): Boolean { return !this.getFormControl(key).invalid }
 
-  isTouched(key: String): Boolean {
-    if (!this.getFormControl(key).touched) {
-      return false;
-    }
-    return true;
-  }
+  isTouched(key: String): Boolean { return this.getFormControl(key).touched; }
 
   login() {
     // display the error message
@@ -70,7 +56,6 @@ export class LoginComponent implements OnInit {
     // console.log("Timezone", tzoffset)
     // this.date = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
 
-    // I don't yet understand this goals function
     this.captureGoalsTime = new Date(Date.now()).getMinutes() + 1;
 
     // making a backend call
@@ -84,10 +69,9 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem(contants.time, this.currentDateTime);
         sessionStorage.setItem("date", this.currentDateTime);
         sessionStorage.setItem("times", this.captureGoalsTime)
-        // route to the master layout
-        console.log("Loggedin")
-        this.router.navigate(['/dashboard']);
 
+        // route to the master layout
+        this.router.navigate(['/dashboard']);
       },
         error => {
           this.getFormControl('Email').setErrors({ isUserNameOrPasswordIncorrect: true });
