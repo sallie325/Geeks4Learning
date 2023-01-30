@@ -10,11 +10,11 @@ import { Roles } from '../shared/global/roles';
 
 
 @Component({
-  selector: 'app-attendence-register',
-  templateUrl: './attendence-register.component.html',
-  styleUrls: ['./attendence-register.component.css']
+  selector: 'app-attendance-register',
+  templateUrl: './attendance-register.component.html',
+  styleUrls: ['./attendance-register.component.css']
 })
-export class AttendenceRegisterComponent implements OnInit {
+export class AttendanceRegisterComponent implements OnInit {
 
   modalDialog: MdbModalRef<CaptureGoalsComponent> | null = null;
   modalRef: any;

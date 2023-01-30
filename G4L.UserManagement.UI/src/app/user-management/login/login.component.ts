@@ -5,7 +5,7 @@ import { constants } from 'src/app/shared/global/global.constants';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from './services/token.service';
-import { AttendanceService } from 'src/app/attendence-register/services/attendance.service';
+import { AttendanceService } from 'src/app/attendance-register/services/attendance.service';
 
 
 @Component({

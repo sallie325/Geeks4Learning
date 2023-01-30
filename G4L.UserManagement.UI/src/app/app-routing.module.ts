@@ -4,28 +4,28 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginGuard } from './user-management/login/guards/login.guard';
 
 const routes: Routes = [
-  // {
-  //   path: 'register',
-  //   component: RegisterComponent
-  // },
+
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: '',
-    loadChildren: () => import('./master-layout/master-layout.module').then(m => m.MasterLayoutModule),
-    canActivate: [ LoginGuard ]
+    loadChildren: () =>
+      import('./master-layout/master-layout.module').then(
+        (m) => m.MasterLayoutModule
+      ),
+    canActivate: [LoginGuard],
   },
   {
     path: '**',
     redirectTo: '',
-    pathMatch: 'full'
-  }
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

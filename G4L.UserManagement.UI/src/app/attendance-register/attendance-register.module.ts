@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AttendenceRegisterComponent } from './attendence-register.component';
+import { AttendanceRegisterComponent } from './attendance-register.component';
 import { CaptureGoalsComponent } from './capture-goals/capture-goals.component';
 import { TotalPresentAbsentLateCardsComponent } from './total-present-absent-late-cards/total-present-absent-late-cards.component';
 import { AdminComponent } from './views/admin/admin.component';
@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AttendenceRegisterComponent,
+    AttendanceRegisterComponent,
     CaptureGoalsComponent,
     TotalPresentAbsentLateCardsComponent,
     AdminComponent,
@@ -17,4 +17,4 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [CommonModule, ReactiveFormsModule],
 })
-export class AttendenceRegisterModule {}
+export class AttendanceRegisterModule {}

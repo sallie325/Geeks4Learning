@@ -10,8 +10,8 @@ import { LeaveManagementComponent } from '../leave-management/leave-management.c
 import { LeaveManagementModule } from '../leave-management/leave-management.module';
 import { IkmManagementModule } from '../ikm-management/ikm-management.module';
 import { IkmManagementComponent } from '../ikm-management/ikm-management.component';
-import { AttendenceRegisterComponent } from '../attendence-register/attendence-register.component';
-import { AttendenceRegisterModule } from '../attendence-register/attendence-register.module';
+import { AttendanceRegisterComponent } from '../attendance-register/attendance-register.component';
+import { AttendanceRegisterModule } from '../attendance-register/attendance-register.module';
 
 const routes: Routes = [
   {
@@ -36,8 +36,8 @@ const routes: Routes = [
         component: IkmManagementComponent,
       },
       {
-        path: 'attendence-register',
-        component: AttendenceRegisterComponent,
+        path: 'attendance-register',
+        component: AttendanceRegisterComponent,
       },
     ],
   },
@@ -52,7 +52,7 @@ const routes: Routes = [
     UserManagementModule,
     LeaveManagementModule,
     IkmManagementModule,
-    AttendenceRegisterModule,
+    AttendanceRegisterModule,
   ],
 })
 export class MasterLayoutRoutingModule {

@@ -12,7 +12,7 @@ import { MasterLayoutModule } from './master-layout/master-layout.module';
 import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from 'ngx-toastr';
-import { AttendenceRegisterModule } from './attendence-register/attendence-register.module';
+import { AttendanceRegisterModule } from './attendance-register/attendance-register.module';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideStorage,getStorage } from '@angular/fire/storage';
@@ -29,7 +29,7 @@ import { APP_SERVICE_CONFIG, APP_CONFIG } from './shared/app-config/app-config.s
     UserManagementModule,
     MasterLayoutModule,
     BrowserAnimationsModule, // required animations module
-    AttendenceRegisterModule,
+    AttendanceRegisterModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,

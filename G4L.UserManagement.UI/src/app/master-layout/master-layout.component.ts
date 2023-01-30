@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { EventService } from '../leave-management/services/event.service';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
-import { CaptureGoalsComponent } from '../attendence-register/capture-goals/capture-goals.component';
-import { AttendanceService } from '../attendence-register/services/attendance.service';
+import { CaptureGoalsComponent } from '../attendance-register/capture-goals/capture-goals.component';
+import { AttendanceService } from '../attendance-register/services/attendance.service';
 import { TokenService } from '../user-management/login/services/token.service';
 
 @Component({

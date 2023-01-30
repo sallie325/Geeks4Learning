@@ -8,12 +8,11 @@ import { AttendanceService } from '../services/attendance.service';
 @Component({
   selector: 'app-capture-goals',
   templateUrl: './capture-goals.component.html',
-
 })
 export class CaptureGoalsComponent implements OnInit {
-  formModel: FormGroup = new FormGroup({})
-  time_Limit: any
-  attendanceId: any
+  formModel: FormGroup = new FormGroup({});
+  time_Limit: any;
+  attendanceId: any;
   ngOnInit(): void {
     this.buildForm();
   }
@@ -22,23 +21,22 @@ export class CaptureGoalsComponent implements OnInit {
       id: [this.attendanceId],
       goal_Description: [],
       goal_summary: [],
-      time_Limit: []
-    })
+      time_Limit: [],
+    });
   }
   UpdateGoals() {
-    this.attendanceService.updateAttendanceGoals(this.formModel.value).subscribe(_=>{
-      
-    })
+    this.attendanceService
+      .updateAttendanceGoals(this.formModel.value)
+      .subscribe((_) => {});
   }
 
-  constructor(private attendanceService: AttendanceService, public modalRef: MdbModalRef<CaptureGoalsComponent>, private formBuilder: FormBuilder) {
-
-
-  }
+  constructor(
+    private attendanceService: AttendanceService,
+    public modalRef: MdbModalRef<CaptureGoalsComponent>,
+    private formBuilder: FormBuilder
+  ) {}
 
   close() {
     this.modalRef.close();
   }
-
-
 }

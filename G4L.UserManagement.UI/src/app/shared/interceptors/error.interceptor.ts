@@ -29,6 +29,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           };
         }
         else {
+          console.log("I am error : ", error.error.message)
           this.exceptionObject = JSON.parse(error.error.message);
 
           errorObj = {

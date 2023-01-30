@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { AttendanceService } from 'src/app/attendence-register/services/attendance.service';
+import { AttendanceService } from 'src/app/attendance-register/services/attendance.service';
 import { Roles } from 'src/app/shared/global/roles';
 import { EnrolComponent } from 'src/app/user-management/enrol/enrol.component';
 import { TokenService } from 'src/app/user-management/login/services/token.service';
@@ -62,8 +62,8 @@ export class SideNavComponent implements OnInit {
             faIcon: 'fa-users-gear'
           },
           {
-            name: 'Attendence Register',
-            route: '/attendence-register',
+            name: 'Attendance Register',
+            route: '/attendance-register',
             faIcon: 'fa-solid fa-clipboard-user'
           },
           {
@@ -90,8 +90,8 @@ export class SideNavComponent implements OnInit {
             faIcon: 'fa-users-gear'
           },
           {
-            name: 'Attendence Register',
-            route: '/attendence-register',
+            name: 'Attendance Register',
+            route: '/attendance-register',
             faIcon: 'fa-solid fa-clipboard-user'
           },
           {
@@ -113,8 +113,8 @@ export class SideNavComponent implements OnInit {
             faIcon: 'fa-chart-line'
           },
           {
-            name: 'Attendence Register',
-            route: '/attendence-register',
+            name: 'Attendance Register',
+            route: '/attendance-register',
             faIcon: 'fa-solid fa-clipboard-user'
           },
           {
@@ -136,8 +136,8 @@ export class SideNavComponent implements OnInit {
             faIcon: 'fa-chart-line'
           },
           {
-            name: 'Attendence Register',
-            route: '/attendence-register',
+            name: 'Attendance Register',
+            route: '/attendance-register',
             faIcon: 'fa-solid fa-clipboard-user'
           },
           {

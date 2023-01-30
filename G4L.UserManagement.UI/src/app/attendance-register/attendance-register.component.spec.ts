@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AttendenceRegisterComponent } from './attendence-register.component';
+import { AttendenceRegisterComponent } from './attendance-register.component';
 
 describe('AttendenceRegisterComponent', () => {
   let component: AttendenceRegisterComponent;
