@@ -8,11 +8,12 @@ import { SideNavComponent } from './side-nav/side-nav.component';
 import { MaterialModule } from '../shared/material/material.module';
 
 @NgModule({
-  declarations: [ MasterLayoutComponent, TopNavComponent, ContentAreaComponent, SideNavComponent ],
-  imports: [
-    CommonModule,
-    MasterLayoutRoutingModule,
-    MaterialModule
-  ]
+  declarations: [
+    MasterLayoutComponent,
+    TopNavComponent,
+    ContentAreaComponent,
+    SideNavComponent,
+  ],
+  imports: [CommonModule, MasterLayoutRoutingModule, MaterialModule],
 })
-export class MasterLayoutModule { }
+export class MasterLayoutModule {}

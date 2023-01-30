@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { contants } from '../global/global.contants';
+import { constants } from '../global/global.constants';
 import { Roles } from '../global/roles';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class AdminGuard implements CanActivate {
   role: string | null;
 
   constructor(private router: Router) {
-    this.role = sessionStorage.getItem(contants.role);
+    this.role = sessionStorage.getItem(constants.role);
   }
 
   canActivate(

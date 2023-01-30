@@ -1,6 +1,6 @@
 import { TokenInterceptor } from './shared/interceptors/token.interceptor';
 import { LoaderInterceptor } from './shared/loader/interceptor/loader.interceptor';
-import { UsermanagementModule } from './usermanagement/usermanagement.module';
+import { UserManagementModule } from './user-management/user-management.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -12,7 +12,7 @@ import { MasterLayoutModule } from './master-layout/master-layout.module';
 import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from 'ngx-toastr';
-import { AttendenceRegisterModule } from './attendence-register/attendence-register.module';
+import { AttendanceRegisterModule } from './attendance-register/attendance-register.module';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideStorage,getStorage } from '@angular/fire/storage';
@@ -26,10 +26,10 @@ import { APP_SERVICE_CONFIG, APP_CONFIG } from './shared/app-config/app-config.s
   imports: [
     BrowserModule,
     AppRoutingModule,
-    UsermanagementModule,
+    UserManagementModule,
     MasterLayoutModule,
     BrowserAnimationsModule, // required animations module
-    AttendenceRegisterModule,
+    AttendanceRegisterModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,

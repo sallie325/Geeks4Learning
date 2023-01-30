@@ -1,6 +1,6 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { contants } from 'src/app/shared/global/global.contants';
+import { constants } from 'src/app/shared/global/global.constants';
 
 @Component({
   selector: 'app-top-nav',
@@ -16,7 +16,7 @@ export class TopNavComponent implements OnInit {
   time: string = new Date().toTimeString();
 
   constructor(private router: Router) {
-    this.username = sessionStorage.getItem(contants.username);
+    this.username = sessionStorage.getItem(constants.username);
 
     router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
@@ -31,7 +31,7 @@ export class TopNavComponent implements OnInit {
   logout() {
     sessionStorage.clear();
     window.location.reload();
-    sessionStorage.setItem(contants.time, this.time);
+    sessionStorage.setItem(constants.time, this.time);
     sessionStorage.setItem("date", this.date);
 
   }
