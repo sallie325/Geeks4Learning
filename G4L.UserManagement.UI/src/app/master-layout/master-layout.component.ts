@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { EventService } from '../leave-management/services/event.service';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
-import { CaptureGoalsComponent } from '../attendence-register/capture-goals/capture-goals.component';
-import { AttendenceService } from '../attendence-register/services/attendence.service';
-import { TokenService } from '../usermanagement/login/services/token.service';
+import { CaptureGoalsComponent } from '../attendance-register/capture-goals/capture-goals.component';
+import { AttendanceService } from '../attendance-register/services/attendance.service';
+import { TokenService } from '../user-management/login/services/token.service';
 
 @Component({
   selector: 'app-master-layout',
@@ -19,7 +19,7 @@ export class MasterLayoutComponent implements OnInit {
   testTime: any
   attendance: any;
 
-  constructor(private tokenService: TokenService, private attendanceService: AttendenceService,
+  constructor(private tokenService: TokenService, private attendanceService: AttendanceService,
     private modalService: MdbModalService,
     private toastr: ToastrService,
     private eventService: EventService,
@@ -29,7 +29,7 @@ export class MasterLayoutComponent implements OnInit {
     var time: any = sessionStorage.getItem("times")
     this.captureGoal();
     let user: any = this.tokenService.getDecodeToken();
-    this.attendanceService.getAttendences(user.id).subscribe((res: any = []) => {
+    this.attendanceService.getAttendances(user.id).subscribe((res: any = []) => {
       res.forEach((res: any) => {
         this.attendance = res
       })

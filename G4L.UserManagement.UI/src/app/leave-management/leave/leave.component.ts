@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
-import { contants } from 'src/app/shared/global/global.contants';
+import { constants } from 'src/app/shared/global/global.constants';
 import { Roles } from 'src/app/shared/global/roles';
 
 
@@ -24,7 +24,7 @@ export class LeaveComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.request);
-    this.userRole = sessionStorage.getItem(contants.role);
+    this.userRole = sessionStorage.getItem(constants.role);
   }
 
 

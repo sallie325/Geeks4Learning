@@ -1,18 +1,18 @@
-import { SponsorService } from './../../usermanagement/services/sponsor.service';
+import { SponsorService } from './../../user-management/services/sponsor.service';
 import { LeaveTypes } from './../../shared/global/leave-types';
 import { LeaveDayType } from './../../shared/global/leave-day-type';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
-import { TokenService } from 'src/app/usermanagement/login/services/token.service';
+import { TokenService } from 'src/app/user-management/login/services/token.service';
 import { LeaveService } from '../services/leave.service';
 import { LeaveStatus } from 'src/app/shared/global/leave-status';
 import { HalfDaySchedule } from 'src/app/shared/global/half-day-schedule';
 import { UploadService } from '../services/upload.service';
 import { FileUpload } from '../models/file-upload';
 import { EventService } from '../services/event.service';
-import { contants } from 'src/app/shared/global/global.contants';
+import { constants } from 'src/app/shared/global/global.constants';
 import { DateFilterFn, MatCalendarCellClassFunction } from '@angular/material/datepicker';
 
 @Component({
@@ -351,7 +351,7 @@ export class LeaveRequestComponent implements OnInit {
     var holidays: any[] = [];
     const day = (value || new Date()).getDay();
 
-    var holidaysJson = localStorage.getItem(contants.holidays);
+    var holidaysJson = localStorage.getItem(constants.holidays);
 
     if (holidaysJson) {
       holidays = JSON.parse(holidaysJson)

@@ -1,4 +1,4 @@
-import { contants } from 'src/app/shared/global/global.contants';
+import { constants } from 'src/app/shared/global/global.constants';
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,
@@ -19,7 +19,7 @@ export class TokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // add auth header with jwt if account is logged in and request is to the api url
-    const token = sessionStorage.getItem(contants.token);
+    const token = sessionStorage.getItem(constants.token);
     const isApiUrl = request.url.startsWith(environment.apiUrl);
     if (token && isApiUrl) {
       request = request.clone({

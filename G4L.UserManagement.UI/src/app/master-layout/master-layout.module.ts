@@ -20,4 +20,4 @@ import { MaterialModule } from '../shared/material/material.module';
     MaterialModule
   ]
 })
-export class MasterLayoutModule { }
+export class MasterLayoutModule {}
