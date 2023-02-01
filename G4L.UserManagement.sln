@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.2.32602.215
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32901.82
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "G4L.UserManagement.API", "G4L.UserManagement.API\G4L.UserManagement.API.csproj", "{CDD4BC74-C4B6-4D13-9087-D6C126725628}"
 EndProject

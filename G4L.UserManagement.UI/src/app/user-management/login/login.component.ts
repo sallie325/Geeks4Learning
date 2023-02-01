@@ -1,12 +1,8 @@
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { constants } from 'src/app/shared/global/global.constants';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { TokenService } from './services/token.service';
-import { AttendanceService } from 'src/app/attendance-register/services/attendance.service';
-
 
 @Component({
   selector: 'app-login',
@@ -14,38 +10,61 @@ import { AttendanceService } from 'src/app/attendance-register/services/attendan
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  date: any;
-  loginForm: FormGroup = new FormGroup({
-    Email: new FormControl('', [Validators.required, Validators.email]),
-    Password: new FormControl('', Validators.required),
-  });
-  holdingArray: FormGroup = new FormGroup({});
   serverErrorMessage: any;
   result: any;
-  loginTime: any = '';
   userId: any = '156b5e89-99ad-47aa-2895-08da80ffdfed';
   captureGoalsTime: any;
+  loginForm!: FormGroup;
+  holdingArray: FormGroup = new FormGroup({});
 
-  constructor(private attendanceService: AttendanceService, private tokenService: TokenService, private formBuilder: FormBuilder, private userService: UserService, private router: Router, private toastr: ToastrService) { }
-  ngOnInit(): void {
+  constructor(private userService: UserService, private router: Router) { }
 
+  getFormControl(control: String): AbstractControl {
+    return this.loginForm.controls[`${control}`];
   }
 
-  login() {
+  clearFormControlErrors(): void {
+    this.getFormControl('Email').setErrors(null);
+    this.getFormControl('Password').setErrors(null);
+  }
+
+  ngOnInit(): void {
+    this.loginForm = new FormGroup({
+      Email: new FormControl(null, [Validators.required, Validators.email]),
+      Password: new FormControl(null, Validators.required),
+    });
+
+    // Clearing errors when making username changes
+    this.getFormControl('Email').valueChanges.subscribe(() => {
+      this.clearFormControlErrors();
+    })
+
+    // Clearing errors when making password changes
+    this.getFormControl('Password').valueChanges.subscribe(() => {
+      this.clearFormControlErrors();
+    })
+  }
+
+  get currentDateTime(): string {
+    let tzoffset = Math.abs(new Date().getTimezoneOffset() * 60000);
+    return (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
+  }
+
+  get isFormInvalid(): boolean { return this.loginForm.invalid; }
+
+  isValid(key: string): boolean { return !this.getFormControl(key).invalid }
+
+  isTouched(key: string): boolean { return this.getFormControl(key).touched; }
+
+  login(): void {
     // display the error message
     this.loginForm.markAllAsTouched();
 
     // stop the code running
-    if (this.loginForm.invalid) {
-      return;
-    }
-    var date: any = new Date();
-    var tzoffset = (date).getTimezoneOffset() * 60000;
-    this.date = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
-    this.loginTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
+    if (this.isFormInvalid) return;
+
     this.captureGoalsTime = new Date(Date.now()).getMinutes() + 1;
-    console.log(this.captureGoalsTime);
-    
+
     // making a backend call
     this.userService
       .authenticate(this.loginForm.value)
@@ -54,25 +73,19 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem(constants.token, response?.token);
         sessionStorage.setItem(constants.username, `${response?.name} ${response?.surname}`);
         sessionStorage.setItem(constants.role, response?.role);
-        sessionStorage.setItem("date", this.date);
-        sessionStorage.setItem(constants.time, this.loginTime);
+        sessionStorage.setItem(constants.time, this.currentDateTime);
+        sessionStorage.setItem("date", this.currentDateTime);
         sessionStorage.setItem("times", this.captureGoalsTime)
+
         // route to the master layout
         console.log("I am sessionStorage : "+ sessionStorage)
         this.router.navigate(['/dashboard']);
-
       },
         error => {
-          this.loginForm.controls['Email'].setErrors({ isUserNameOrPasswordIncorrect: true });
-          this.loginForm.controls['Password'].setErrors({ isUserNameOrPasswordIncorrect: true });
+          this.getFormControl('Email').setErrors({ isUserNameOrPasswordIncorrect: true });
+          this.getFormControl('Password').setErrors({ isUserNameOrPasswordIncorrect: true });
           this.loginForm.updateValueAndValidity();
           this.serverErrorMessage = error?.message;
         });
-
-
   }
-  openSocialMediaOnNewTab(url: string) {
-    window.open(url, "_blank");
-  }
-
 }

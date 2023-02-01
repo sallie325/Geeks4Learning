@@ -9,6 +9,8 @@ import { EnrolComponent } from './enrol/enrol.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { PipesModule } from '../shared/pipes/pipes.module';
 import { MaterialModule } from '../shared/material/material.module';
+import { IconsComponent } from './login/icons/icons.component';
+import { FooterComponent } from './login/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { MaterialModule } from '../shared/material/material.module';
     LoginComponent,
     RegisterComponent,
     EnrolComponent,
+    IconsComponent,
+    FooterComponent,
   ],
   imports: [
     CommonModule,

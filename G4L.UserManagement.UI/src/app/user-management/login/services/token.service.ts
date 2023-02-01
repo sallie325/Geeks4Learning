@@ -1,40 +1,29 @@
 import { Injectable } from '@angular/core';
-import { constants } from 'src/app/shared/global/global.constants';
 import jwt_decode from 'jwt-decode';
+import { constants } from 'src/app/shared/global/global.constants';
 
 @Injectable({
-  providedIn: 'root',
+	providedIn: 'root',
 })
 export class TokenService {
-  jwtToken: string | null = null;
-  decodedToken: any | undefined;
+	jwtToken!: string | null;
+	decodedToken: any | undefined;
 
-  constructor() {}
+	constructor() { }
 
-  getFromSessionStorage() {
-    if (sessionStorage.getItem(constants.token))
-      this.jwtToken = sessionStorage.getItem(constants.token);
-  }
+	get sessionToken() : string | null { return sessionStorage.getItem(constants.token) };
 
-  decodeToken() {
-    if (this.jwtToken) this.decodedToken = jwt_decode(this.jwtToken);
-  }
+	getDecodeToken = () : any | undefined => this.sessionToken ? jwt_decode(this.sessionToken) : undefined;
 
-  getDecodeToken() {
-    if (this.jwtToken) return jwt_decode(this.jwtToken);
-  }
+	getExpiryTime() : number | undefined | null {
+		this.decodedToken = this.getDecodeToken();
+		return this.decodedToken?.exp;
+	}
 
-  getExpiryTime() {
-    this.decodeToken();
-    return this.decodedToken ? this.decodedToken.exp : null;
-  }
+	isTokenExpired(): boolean {
+		const expiryTime: number | undefined | null = this.getExpiryTime();
 
-  isTokenExpired(): boolean {
-    const expiryTime: number = this.getExpiryTime();
-    if (expiryTime) {
-      return 1000 * expiryTime - new Date().getTime() < 5000;
-    } else {
-      return true;
-    }
-  }
+		if (!expiryTime) return true;
+		return (1000 * expiryTime - new Date().getTime()) < 5000;
+	}
 }
