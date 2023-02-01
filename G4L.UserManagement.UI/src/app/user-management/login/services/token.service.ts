@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { constants } from 'src/app/shared/global/global.constants';
 import jwt_decode from 'jwt-decode';
+import { constants } from 'src/app/shared/global/global.constants';
 
 @Injectable({
 	providedIn: 'root',
