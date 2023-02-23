@@ -1256,3 +1256,14 @@ ul.dropdown-menu.show {
 .pls-2 {
   padding-left: 3rem;
 }
+
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0px 5px;
+  border-top-width: 0px;
+}
+
+.mat-select-arrow-wrapper {
+  position: relative !important;
+  top: 0px !important;
+  display: none;
+}

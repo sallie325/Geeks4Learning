@@ -11,5 +11,6 @@ namespace G4L.UserManagement.BL.Interfaces
     {
         Task AttendanceUpdateAsync(Attendance attendance);
         Task<List<Attendance>> GetAttendanceByIdAsync(Guid userId);
+        Task<Attendance> GetFullAttendanceAsync(DateTime date, Guid userId);
     }
 }

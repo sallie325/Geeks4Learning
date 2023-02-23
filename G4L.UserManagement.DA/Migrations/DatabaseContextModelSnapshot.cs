@@ -56,11 +56,11 @@ namespace G4L.UserManagement.DA.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("ClockIn")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("ClockIn")
+                        .HasColumnType("time");
 
-                    b.Property<DateTime>("ClockOut")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("ClockOut")
+                        .HasColumnType("time");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -121,6 +121,9 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<Guid?>("AttendanceId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CompletionTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -133,7 +136,7 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<string>("Summary")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("TimeLimit")
+                    b.Property<TimeSpan>("Time")
                         .HasColumnType("time");
 
                     b.Property<bool>("isReached")

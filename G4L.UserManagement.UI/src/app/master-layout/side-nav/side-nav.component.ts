@@ -36,9 +36,9 @@ export class SideNavComponent implements OnInit {
   ngOnInit(): void {
     let user: any = this.tokenService.getDecodeToken();
     this.getUserDetails(user.id);
-    this.logoutTime = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -1);
-    this.buildData();
-    console.log(this.logoutTime);
+    // this.logoutTime = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -1);
+    // this.buildData();
+    // console.log(this.logoutTime);
   }
 
   getUserDetails(userId: string | null) {
@@ -198,7 +198,7 @@ export class SideNavComponent implements OnInit {
     //clear the sessionStorage and reload
     switch (this.user?.role) {
       case Roles.Learner:
-        this.attendanceService.UpdateAttendance(this.holdingArray.value).subscribe((_: any) => {
+        this.attendanceService.updateAttendance(this.holdingArray.value).subscribe((_: any) => {
           sessionStorage.clear();
           window.location.reload();
         })

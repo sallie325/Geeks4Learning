@@ -11,7 +11,8 @@ namespace G4L.UserManagement.BL.Entities
     {
         public string Summary { get; set; }
         public string Description { get; set; }
-        public TimeSpan TimeLimit { get; set; }
+        public TimeSpan Time { get; set; }
+        public DateTime CompletionTime { get; set; }
         public bool isReached { get; set; }
     }
 }

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LeaveComponent } from './leave.component';
+import { IkmTableComponent } from './ikm-table.component';
 
-describe('LeaveComponent', () => {
-  let component: LeaveComponent;
-  let fixture: ComponentFixture<LeaveComponent>;
+describe('IkmTableComponent', () => {
+  let component: IkmTableComponent;
+  let fixture: ComponentFixture<IkmTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LeaveComponent ]
+      declarations: [ IkmTableComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LeaveComponent);
+    fixture = TestBed.createComponent(IkmTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

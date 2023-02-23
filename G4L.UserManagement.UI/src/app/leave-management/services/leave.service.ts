@@ -2,15 +2,18 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { contants } from 'src/app/shared/global/global.contants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LeaveService {
   //mimic the response the the server
-  leaveBalance =  new BehaviorSubject<any>(undefined);
+  leaveBalance = new BehaviorSubject<any>(undefined);
 
-  constructor(private http: HttpClient) {``
+  constructor(private http: HttpClient) {
+    const leaveBalance = localStorage.getItem(contants.leaveBalance);
+    this.leaveBalance.next(leaveBalance ? JSON.parse(leaveBalance) : []);
   }
 
   applyForLeave(value: any): Observable<any> {
@@ -29,12 +32,17 @@ export class LeaveService {
     return this.http.put(`${environment.apiUrl}/leave/${leave?.id}`, leave);
   }
 
-  getLeaveStats(userId: any){
+  getLeaveStats(userId: any) {
     return this.http.get(`${environment.apiUrl}/leave/approverBalance/${userId}`);
   }
 
   getLeaveBalances(userId: any) {
-    return this.http.get(`${environment.apiUrl}/leave/balances/${userId}`);
+    return this.http.get(`${environment.apiUrl}/leave/balances/${userId}`)
+      .subscribe((leaveBalance: any) => {
+        localStorage.setItem(contants.leaveBalance, JSON.stringify(leaveBalance));
+        this.leaveBalance.next(leaveBalance);
+      }
+    );
   }
 
   updateLeaveRequest(value: any): Observable<any> {

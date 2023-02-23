@@ -7,8 +7,6 @@ import { ReviewGoalsComponent } from './review-goals/review-goals.component';
 import { contants } from '../shared/global/global.contants';
 import { Roles } from '../shared/global/roles';
 
-
-
 @Component({
   selector: 'app-attendence-register',
   templateUrl: './attendence-register.component.html',
@@ -21,18 +19,17 @@ export class AttendenceRegisterComponent implements OnInit {
   time= new Date();
   today= new Date();
   todaysDataTime = '';
- 
+
 
   constructor(
     private modalService: MdbModalService,
     private toastr: ToastrService,
-  
   ) { }
 
   isAdmin: boolean | undefined;
   isTrainer: boolean | undefined;
   isLearner: boolean | undefined;
- 
+
 
   ngOnInit(): void {
     const role = sessionStorage.getItem(contants.role);
@@ -52,8 +49,8 @@ export class AttendenceRegisterComponent implements OnInit {
         break;
     }
 
-    
-   
+
+
   }
 
   CreateGoalsDialog() {
@@ -67,7 +64,7 @@ export class AttendenceRegisterComponent implements OnInit {
     });
   }
 
-  
+
   LunchDialog() {
     this.modalDialog = this.modalService.open(LunchTimeNotificationComponent, {
       animation: true,
@@ -79,7 +76,7 @@ export class AttendenceRegisterComponent implements OnInit {
     });
   }
 
-  
+
   GoalsDialog() {
     this.modalDialog = this.modalService.open(ReviewGoalsComponent, {
       animation: true,
@@ -90,5 +87,5 @@ export class AttendenceRegisterComponent implements OnInit {
       modalClass: 'modal-xl modal-dialog-centered',
     });
   }
- 
+
 }

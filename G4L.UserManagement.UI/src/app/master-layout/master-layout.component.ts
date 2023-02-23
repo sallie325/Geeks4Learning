@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CaptureGoalsComponent } from '../attendence-register/capture-goals/capture-goals.component';
 import { AttendenceService } from '../attendence-register/services/attendence.service';
 import { TokenService } from '../usermanagement/login/services/token.service';
+import { T } from 'ramda';
 
 @Component({
   selector: 'app-master-layout',
@@ -17,41 +18,58 @@ export class MasterLayoutComponent implements OnInit {
   modalRef: any;
   time: any;
   testTime: any
-  attendance: any;
+  attendance: any = {};
 
-  constructor(private tokenService: TokenService, private attendanceService: AttendenceService,
+  constructor(
+    private tokenService: TokenService,
+    private attendanceService: AttendenceService,
     private modalService: MdbModalService,
     private toastr: ToastrService,
     private eventService: EventService,
   ) { }
 
   ngOnInit(): void {
-    var time: any = sessionStorage.getItem("times")
-    this.captureGoal();
     let user: any = this.tokenService.getDecodeToken();
-    this.attendanceService.getAttendences(user.id).subscribe((res: any = []) => {
-      res.forEach((res: any) => {
-        this.attendance = res
-      })
-    })
+    this.getAttendenceToday(user.id);
     this.getPublicHoildays("en%2Esa%23holiday%40group%2Ev%2Ecalendar%2Egoogle%2Ecom");
   }
 
   captureGoal() {
-    this.testTime = (new Date(Date.now()).getMinutes());
-    var time: any = sessionStorage.getItem("times")
-    if (this.testTime == time) {
-      this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
-        animation: true,
-        backdrop: true,
-        data: { attendance: this.attendance },
-        containerClass: 'modal top fade modal-backdrop',
-        ignoreBackdropClick: false,
-        keyboard: true,
-        modalClass: 'modal-xl modal-dialog-centered',
+    this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
+      animation: true,
+      backdrop: true,
+      data: { attendence: this.attendance },
+      containerClass: 'modal top fade modal-backdrop',
+      ignoreBackdropClick: false,
+      keyboard: true,
+      modalClass: 'modal-xl modal-dialog-centered',
+    });
+
+    this.modalDialog.onClose.subscribe((response: any) => {
+      if (response) {
+        this.attendance.goals = response?.goals;
+        this.saveAttendence(this.attendance);
+      }
+    });
+  }
+
+  saveAttendence(attendance: any) {
+    this.attendanceService.saveAttendence(attendance)
+      .subscribe((_: any) => {
+        this.attendanceService.saveToLocalStorage(attendance);
       });
-    }
-    console.log(this.testTime);
+  }
+
+  getAttendenceToday(id: any) {
+    this.attendanceService.getAttendences(id)
+      .subscribe((attendance: any) => {
+        if (!attendance) {
+          this.attendance.userId = id;
+          this.captureGoal();
+        } else {
+          this.attendanceService.saveToLocalStorage(attendance);
+        }
+      });
   }
 
   getPublicHoildays(calendarId: string) {

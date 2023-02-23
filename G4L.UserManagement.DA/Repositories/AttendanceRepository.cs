@@ -35,5 +35,13 @@ namespace G4L.UserManagement.DA.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public async Task<Attendance> GetFullAttendanceAsync(DateTime date, Guid userId)
+        {
+            return await _databaseContext.Attendances
+                .Where(x => x.Date == date && x.UserId == userId)
+                .Include(x => x.Goals)
+                .FirstOrDefaultAsync();
+        }
     }
 }

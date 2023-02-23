@@ -6,8 +6,7 @@ import { MiniTableComponent } from './mini-table/mini-table.component';
 import { TrainerDashboardComponent } from './views/trainer-dashboard/trainer-dashboard.component';
 import { TraineeDashboardComponent } from './views/trainee-dashboard/trainee-dashboard.component';
 import { AdminDashboardComponent } from './views/admin-dashboard/admin-dashboard.component';
-
-
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +18,8 @@ import { AdminDashboardComponent } from './views/admin-dashboard/admin-dashboard
     AdminDashboardComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ]
 })
 export class DashboardModule { }

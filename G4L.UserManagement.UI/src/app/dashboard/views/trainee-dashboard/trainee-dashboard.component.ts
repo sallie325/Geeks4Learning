@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
+import { AttendenceService } from 'src/app/attendence-register/services/attendence.service';
 import { ApplicationIndicator } from 'src/app/shared/global/application-indicator';
 
 @Component({
@@ -57,10 +58,14 @@ export class TraineeDashboardComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  goals: any[] = [];
+
+  constructor(private attendanceService: AttendenceService) { }
 
   ngOnInit(): void {
-    // bar 1
+    this.goals = this.attendanceService.attendance.value?.goals;
+    console.log(this.goals);
+  //   Bar 1
   //   const myChart = new Chart("myChart", {
   //     type: 'bar',
   //     data: {
@@ -95,79 +100,74 @@ export class TraineeDashboardComponent implements OnInit {
   //         }
   //     }
   // });
-
-  //bar 2
-  this.labels = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-  ];
-
-this.data1 =  {
-  labels: this.labels,
-  datasets: [{
-    label: 'My First Dataset',
-    data: [65, 59, 80, 81, 56, 55, 40],
-    backgroundColor: [
-      'rgba(255, 99, 132, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-      'rgba(255, 205, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(153, 102, 255, 0.2)',
-      'rgba(201, 203, 207, 0.2)'
-    ],
-    borderColor: [
-      'rgb(255, 99, 132)',
-      'rgb(255, 159, 64)',
-      'rgb(255, 205, 86)',
-      'rgb(75, 192, 192)',
-      'rgb(54, 162, 235)',
-      'rgb(153, 102, 255)',
-      'rgb(201, 203, 207)'
-    ],
-    borderWidth: 1
-  }]
-};
-  this.config = new Chart("myChart", {
-    type: 'bar',
-    data: this.data1,
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    },
-  });
-
-
-// pie chart
-this.data = {
-  labels: [
-    'Process',
-    'In Process'
-  ],
-  datasets: [{
-    label: 'My First Dataset',
-    data: [300, 100],
-    backgroundColor: [
-      'rgb(75, 192, 192)',
-      'rgb(54, 162, 235)'
-    ],
-    hoverOffset: 3
-  }]
-};
-this.myPieChart = new Chart("myChartPie", {
-  type: 'doughnut',
-  data: this.data,
-});
-
-//Radar Chart
+// Bar 2
+//   this.labels = [
+//     'January',
+//     'February',
+//     'March',
+//     'April',
+//     'May',
+//     'June',
+//     'July',
+//   ];
+// this.data1 =  {
+//   labels: this.labels,
+//   datasets: [{
+//     label: 'My First Dataset',
+//     data: [65, 59, 80, 81, 56, 55, 40],
+//     backgroundColor: [
+//       'rgba(255, 99, 132, 0.2)',
+//       'rgba(255, 159, 64, 0.2)',
+//       'rgba(255, 205, 86, 0.2)',
+//       'rgba(75, 192, 192, 0.2)',
+//       'rgba(54, 162, 235, 0.2)',
+//       'rgba(153, 102, 255, 0.2)',
+//       'rgba(201, 203, 207, 0.2)'
+//     ],
+//     borderColor: [
+//       'rgb(255, 99, 132)',
+//       'rgb(255, 159, 64)',
+//       'rgb(255, 205, 86)',
+//       'rgb(75, 192, 192)',
+//       'rgb(54, 162, 235)',
+//       'rgb(153, 102, 255)',
+//       'rgb(201, 203, 207)'
+//     ],
+//     borderWidth: 1
+//   }]
+// };
+//   this.config = new Chart("myChart", {
+//     type: 'bar',
+//     data: this.data1,
+//     options: {
+//       scales: {
+//         y: {
+//           beginAtZero: true
+//         }
+//       }
+//     },
+//   });
+// Pie chart
+// this.data = {
+//   labels: [
+//     'Process',
+//     'In Process'
+//   ],
+//   datasets: [{
+//     label: 'My First Dataset',
+//     data: [300, 100],
+//     backgroundColor: [
+//       'rgb(75, 192, 192)',
+//       'rgb(54, 162, 235)'
+//     ],
+//     hoverOffset: 3
+//   }]
+// };
+// this.myPieChart = new Chart("myChartPie", {
+//   type: 'doughnut',
+//   data: this.data,
+// });
+// Radar Chart
 // const data2 = {
 //   labels: [
 //     'Eating',
@@ -211,8 +211,9 @@ this.myPieChart = new Chart("myChartPie", {
 //     }
 //   },
 // });
-
-
   }
 
+  updateProgress(goals: any[]) {
+    console.log(goals);
+  }
 }

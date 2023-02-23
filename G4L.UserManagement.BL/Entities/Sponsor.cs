@@ -22,6 +22,7 @@ namespace G4L.UserManagement.BL.Entities
         public string Contact { get; set; }
         public List<User> Approvers { get; set; }
         public List<SponsoredUser> SponsoredUser { get; set; }
+        public List<Batch> Batches { get; set; }
 
     }
 }

@@ -16,5 +16,8 @@ namespace G4L.UserManagement.Shared
         public string GoogleCalendarUser { get; set; }
         public string GoogleCalendarFileAccessKey { get; set; }
         public string GoogleSAHolidayCalendarId { get; set; }
+        public string IKMKey { get; set; }
+        public string IKMUri { get; set; }
+        public string G4LRoutingCode { get; set; }
     }
 }

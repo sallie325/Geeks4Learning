@@ -34,14 +34,12 @@ export class TraineeComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.tokenService.getDecodeToken();
     this.getLeaveApplication(this.user?.id);
-    this.getLeaveBalances(this.user?.id);
+    this.getLeaveBalances();
   }
 
-  getLeaveBalances(userId: any) {
-    this.leaveService.getLeaveBalances(userId)
-      .subscribe((response: any) => {
-        this.leaveBalances = response;
-      });
+  getLeaveBalances() {
+    this.leaveService.getLeaveBalances(this.user?.id);
+    this.leaveBalances = this.leaveService.leaveBalance.value;
   }
 
   getLeaveApplication(userId: any) {
@@ -65,7 +63,7 @@ export class TraineeComponent implements OnInit {
     this.modalDialog.onClose.subscribe((isUpdated: boolean) => {
       if (isUpdated) {
         this.getLeaveApplication(this.user?.id);
-        this.getLeaveBalances(this.user?.id);
+        this.getLeaveBalances();
       }
     });
   }
@@ -77,7 +75,7 @@ export class TraineeComponent implements OnInit {
     this.leaveService.updateLeave(leave)
       .subscribe(_ => {
         this.getLeaveApplication(this.user?.id);
-        this.getLeaveBalances(this.user?.id);
+        this.getLeaveBalances();
       });
 
   }

@@ -52,8 +52,10 @@ namespace G4L.UserManagement.API
 
             // convert enum to string
             services.AddControllersWithViews()
-                .AddJsonOptions(options =>
-                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+                .AddJsonOptions(options => {
+                    options.JsonSerializerOptions.Converters.Add(new TimeSpanToStringConverter());
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
 
             services.AddCors(options =>
             {
@@ -69,14 +71,16 @@ namespace G4L.UserManagement.API
 
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IGoogleCalendarAPI, GoogleCalendarAPI>();
+            services.AddScoped<IIKMIntegration, IKMIntegration>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ILeaveService, LeaveService>();
             services.AddScoped<ISponsorService, SponsorService>();
             services.AddScoped<IGoogleCalendarService, GoogleCalendarService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
-            services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+            services.AddScoped<IIKMIntegrationService, IKMIntegrationService>();
 
+            services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ILeaveRepository, LeaveRepository>();
             services.AddScoped<ISponsorRepository, SponsorRepository>();

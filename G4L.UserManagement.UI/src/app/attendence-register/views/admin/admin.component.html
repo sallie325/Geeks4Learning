@@ -3,13 +3,12 @@
   <div class="card-header pb-0">
     <h6>Attendence</h6>
   </div>
-  <div class="card-body px-0 pt-0 pb-2">
+  <div class="card-body px-0 pt-0 pb-2 ">
     <div class="table-responsive p-0">
       <table class="table align-items-center mb-0">
-
         <thead>
           <tr>
-            <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+            <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2" style="padding-left: 1.5rem !important;">
               Name
             </th>
             <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
@@ -33,7 +32,7 @@
         <tbody *ngFor="let attendance of attendences">
           <ng-container *ngFor="let usEr of users">
             <tr *ngIf="attendance.userId == usEr.id">
-              <td class="align-middle text-xs ps-2" >
+              <td class="align-middle text-xs ps-2" style="padding-left: 1.5rem !important;">
                 <div class="d-flex">
                   <div>
                     <!-- <img

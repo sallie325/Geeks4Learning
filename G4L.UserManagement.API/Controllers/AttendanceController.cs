@@ -24,15 +24,21 @@ namespace G4L.UserManagement.API.Controllers
             _logger = logger;
             _attendanceService = attendanceService;
         }
-        [Authorize(Role.Admin, Role.Learner)]
-        [HttpPost("attendanceRegister")]
-        public async Task<IActionResult> PostAsync([FromBody] Attendance_Register attendanceRegister)
+
+        [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer, Role.Learner)]
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> Get(Guid userId)
         {
-            await _attendanceService.SigningAttendanceRegisterAsync(attendanceRegister);
-            return Ok(attendanceRegister);
+            return Ok(await _attendanceService.GetAttendanceForTodayAsync(userId));
         }
 
-
+        [Authorize(Role.Admin, Role.Learner)]
+        [HttpPost()]
+        public async Task<IActionResult> PostAsync([FromBody] AttendanceRegister attendanceRegister)
+        {
+            await _attendanceService.SaveAttendanceAsync(attendanceRegister);
+            return Ok(attendanceRegister);
+        }
 
         [Authorize(Role.Learner)]
         [HttpPut("updateAttendance")]
@@ -41,6 +47,7 @@ namespace G4L.UserManagement.API.Controllers
             //await _attendanceService.UpdateAttendanceRegisterAsync(updateAttendance);
             return Ok();
         }
+
         [Authorize(Role.Learner)]
         [HttpPut("updateAttendanceGoals")]
         public async Task<IActionResult> UpdateAttendanceGoalsAsync([FromBody] UpdateAttendance updateAttendance)
@@ -50,12 +57,13 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer, Role.Learner)]
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetAsync(Guid userId)
+        [HttpGet("{userId}/{startDate}/{endDate}")]
+        public async Task<IActionResult> GetAsync(Guid userId, DateTime startDate, DateTime endDate)
         {
             var attendanceRegister = await _attendanceService.GetAttendanceRegisterAsync(userId);
             return Ok(attendanceRegister);
         }
+
         [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
         [HttpGet("attendance_pages")]
         public async Task<IActionResult> Get(int skip = 0, int take = 5)

@@ -4,5 +4,7 @@ export const contants = {
   role: 'role',
   time:'time',
   holidays: 'holidays',
+  leaveBalance: 'leaveBalance',
+  attendance: 'attendance'
 };
 

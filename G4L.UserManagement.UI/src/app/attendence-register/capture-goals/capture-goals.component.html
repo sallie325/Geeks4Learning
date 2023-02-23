@@ -3,78 +3,121 @@
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-8">
-          <h6 class="mb-0 ">Create Goals</h6>
+          <h6 class="mb-0">Create Goals</h6>
         </div>
         <div class="col-4 text-end">
           <a (click)="close()" class="cursor-pointer">
             <i class="fa-solid fa-xmark"></i></a>
         </div>
-
-        <hr class="horizontal dark my-4" />
+        <hr class="horizontal dark my-3" />
       </div>
-      <div class="card-body pt-0">
-        <form autocomplete="off" [formGroup]="formModel" (ngSubmit)="UpdateGoals()">
-          <div class="row">
-            <div class="col p-3">
-              <div class="row">
-                <div class="col">
-                  <h6 class="fw-bold m-1 g4l-grey-text">
-                    <i class="fa-solid fa-book"></i>
-                    Agile Development
-                  </h6>
-                  <p class="fw-bold m-1">
-                    <i class="fa-solid fa-building mr-1"></i>
-                    4 Days remaining
+    </div>
+    <div class="card-body pt-0">
+      <form autocomplete="off" [formGroup]="formModel">
+        <div class="row">
+          <div class="col p-3">
+            <div class="row">
+              <div class="col">
+                <h6 class="fw-bold m-1 g4l-grey-text text-uppercase">
+                  <i class="fa-solid fa-book mr-2"></i>
+                  Agile Development
+                </h6>
+                <p class="fw-bold mt-3 mx-1">
+                  <i class="fa-solid fa-building mr-2"></i>
+                  4 Days remaining
+                </p>
+              </div>
+
+              <div class="col-4">
+                <div class="card border-radius" style="background-color:#8bacb4">
+                  <p class="white-text text text-bold text-uppercase" style="margin: 0.5rem 1.5rem;color: #02708f;">
+                    <strong>Up
+                      Next</strong>
                   </p>
-                </div>
-
-                <div class="col-4">
-                  <div class="card border-radius" style="background-color:#8bacb4">
-                    <p class="white-text text text-bold" style="margin-left:10%;color:#02708f"><strong>Up
-                        Next</strong></p>
-                    <p class="white-text " style="margin-left: 10%;">
-                      Agile Development
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <hr class="horizontal dark my-4" />
-
-              <div class="row">
-                <div class="col">
-                  <label class="form-control-label">Goal
-                    Summary</label>
-                  <input type="text" class="form-control" formControlName="goal_Description">
-                </div>
-                <div class="col-3">
-                  <div class=" ">
-                    <label class="form-control-label">Time limit</label>
-                    <input type="time" class="form-control" value="10:05 AM" formControlName="time_Limit" />
-                  </div>
-                </div>
-              </div>
-
-              <div class="col ">
-                <div class=" mt-4">
-                  <label class="form-control-label ">Description</label>
-                  <textarea class="form-control" rows="3" formControlName="goal_summary"></textarea>
-                </div>
-              </div>
-
-              <div class="row mt-4 ">
-                <div class="col  text-left">
-                  <button class="btn btn-sm bg-2 gradient-primary mb-0  border border-primary text">
-                    <i class="fa-solid fa-pen"></i> Add new goal</button>
-                </div>
-                <div class="col text-end">
-                  <button class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text">
-                    Done</button>
+                  <p class="white-text" style="margin: 0rem 0.5rem 0.5rem 1.5rem;">
+                    Agile Development
+                  </p>
                 </div>
               </div>
             </div>
+            <hr class="horizontal dark my-3" />
+
+            <div formArrayName="goals" *ngFor="let item of formModel.controls['goals'].controls; let i = index">
+              <div [formGroupName]="i">
+                <div class="row">
+                  <div class="col">
+                    <label class="form-control-label" for="input-leaveType" [ngClass]="{
+                      'red-text':
+                        getFormControl(item, 'summary').invalid &&
+                        getFormControl(item, 'summary').touched
+                    }">Give a summary of the goal <span class="red-text">*</span></label>
+                    <input type="text" class="form-control" formControlName="summary" [ngClass]="{
+                      'red-border':
+                        getFormControl(item, 'summary').invalid &&
+                        getFormControl(item, 'summary').touched
+                      }" />
+                    <div class="red-text" *ngIf="
+                      getFormControl(item, 'summary').invalid &&
+                      getFormControl(item, 'summary').touched
+                    ">
+                      <div *ngIf="getFormControl(item, 'summary').errors.required">
+                        Please select a leave type
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                      <label class="form-control-label">Time limit <span class="red-text">*</span></label>
+                      <input type="time" class="form-control" formControlName="time" [ngClass]="{
+                        'red-border':
+                          getFormControl(item, 'time').invalid &&
+                          getFormControl(item, 'time').touched
+                        }"/>
+                      <div class="red-text" *ngIf="
+                        getFormControl(item, 'time').invalid &&
+                        getFormControl(item, 'time').touched
+                      ">
+                        <div *ngIf="getFormControl(item, 'time').errors.required">
+                          Please select a leave type
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="row mb-5">
+                  <div class="col">
+                    <div class=" mt-4">
+                      <label class="form-control-label">Description</label>
+                      <textarea class="form-control" rows="3" formControlName="description" [ngClass]="{
+                        'red-border':
+                          getFormControl(item, 'description').invalid &&
+                          getFormControl(item, 'description').touched
+                        }"></textarea>
+                      <div class="red-text" *ngIf="
+                        getFormControl(item, 'description').invalid &&
+                        getFormControl(item, 'description').touched
+                      ">
+                        <div *ngIf="getFormControl(item, 'description').errors.required">
+                          Please select a leave type
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-4">
+              <div class="col text-left">
+                <button class="btn btn-sm bg-2 gradient-primary mb-0  border border-primary text" (click)="addGoal()">
+                  <i class="fa-solid fa-pen"></i> Add new goal</button>
+              </div>
+              <div class="col text-end">
+                <button class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text" (click)="saveGoals()">
+                  Done</button>
+              </div>
+            </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

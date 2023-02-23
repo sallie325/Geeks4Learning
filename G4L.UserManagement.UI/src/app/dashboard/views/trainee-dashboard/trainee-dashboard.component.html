@@ -1,5 +1,31 @@
 <div class="container-fluid py-4">
-  <div class="row">
+  <div class="row mb-3">
+    <div class="col-lg-8 col-xl-8">
+      <div class="card">
+        <div class="row px-3 py-3">
+          <h6>Current goals</h6>
+        </div>
+        <div class="row px-3" *ngFor="let goal of goals">
+          <div class="col text-xs">
+            <label class="container">{{ goal?.summary }}
+              <input type="checkbox" [(ngModel)]="goal.isReached">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+          <!-- <div class="col text-xs fw-bolder align-middle">{{ goal?.time }}</div> -->
+        </div>
+        <div class="row align-items-center mx-2 mb-3">
+          <div class="col-8"></div>
+          <div class="col-4 text-end mr-3">
+            <a class="btn btn-sm bg-2 bg-greeny-blue mb-0 btn-dark text-uppercase" (click)="updateProgress(goals)">
+              Save progress</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-xl-4"></div>
+  </div>
+  <div class="row mb-3">
     <div class="col-lg-8 col-xl-8">
       <!-- <div class="row">
         <div class="col-lg-7 col-xl-8">
@@ -67,8 +93,7 @@
                   12 PM - 3 PM
                 </p>
                 <p class="card-text grey-table text-xs">
-                  <i class="fa-solid fa-chalkboard-user grey-table"></i
-                  >&nbsp;&nbsp; Mrs. M. Wilson
+                  <i class="fa-solid fa-chalkboard-user grey-table"></i>&nbsp;&nbsp; Mrs. M. Wilson
                 </p>
               </div>
             </div>
@@ -88,8 +113,7 @@
                   - 11 AM
                 </p>
                 <p class="card-text grey-table text-xs">
-                  <i class="fa-solid fa-chalkboard-user grey-table"></i
-                  >&nbsp;&nbsp; Mr. M. Shilenge
+                  <i class="fa-solid fa-chalkboard-user grey-table"></i>&nbsp;&nbsp; Mr. M. Shilenge
                 </p>
               </div>
             </div>
