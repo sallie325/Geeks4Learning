@@ -12,6 +12,8 @@ import { IkmManagementModule } from '../ikm-management/ikm-management.module';
 import { IkmManagementComponent } from '../ikm-management/ikm-management.component';
 import { AttendanceRegisterComponent } from '../attendance-register/attendance-register.component';
 import { AttendanceRegisterModule } from '../attendance-register/attendance-register.module';
+import { GoalManagementComponent } from '../goal-management/goal-management.component';
+import { GoalManagementModule } from '../goal-management/goal-management.module';
 
 const routes: Routes = [
   {
@@ -39,6 +41,10 @@ const routes: Routes = [
         path: 'attendance-register',
         component: AttendanceRegisterComponent,
       },
+      {
+        path: 'goal-management',
+        component: GoalManagementComponent,
+      }
     ],
   },
 ];
@@ -53,6 +59,7 @@ const routes: Routes = [
     LeaveManagementModule,
     IkmManagementModule,
     AttendanceRegisterModule,
+    GoalManagementModule
   ],
 })
 export class MasterLayoutRoutingModule {

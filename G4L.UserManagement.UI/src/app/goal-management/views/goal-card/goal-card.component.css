@@ -1,0 +1,33 @@
+mat-card {
+  border-left: 7px solid orange;
+  background-color: #dee7f2;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 10px 10px 0;
+}
+
+mat-card-header {
+  background-color: #7ea2d0;
+  padding: 0;
+  margin: 0;
+}
+
+mat-card-header mat-card-title {
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+mat-card-content {
+  display: block;
+  padding: 0.4rem;
+}
+
+mat-card-content .goal-content-item {
+  display: flex;
+  margin-bottom: 0.4rem;
+}
+
+mat-card-content .goal-content-item .goal-item-icon {
+  margin-right: 0.3rem;
+}

@@ -1,0 +1,54 @@
+<div class="goal-management-controls d-flex flex-row-reverse p-3">
+  <button mat-raised-button>Create New Goal</button>
+</div>
+<div class="goal-management-kanban d-block">
+  <div class="kanban-header row">
+    <div class="backlog col text-center">
+      <h6>
+        <i class="fa-solid fa-spinner"></i>
+        <span>Backlog</span>
+      </h6>
+    </div>
+    <div class="started col text-center">
+      <h6>
+        <i class="fa-solid fa-play"></i>
+        <span>Started</span>
+      </h6>
+    </div>
+    <div class="paused col text-center">
+      <h6>
+        <i class="fa-solid fa-pause"></i>
+        <span>Paused</span>
+      </h6>
+    </div>
+    <div class="completed col text-center">
+      <h6>
+        <i class="fa-solid fa-check"></i>
+        <span>Completed</span>
+      </h6>
+    </div>
+    <div class="archived col text-center">
+      <h6>
+        <i class="fa-solid fa-box-archive"></i>
+        <span>Archived</span>
+      </h6>
+    </div>
+  </div>
+  <div class="kanban-content row m-0" cdkDropListGroup>
+    <div class="backlog-content col">
+      <app-goal-card></app-goal-card>
+    </div>
+    <div class="started-content col">
+      <app-goal-card></app-goal-card>
+    </div>
+    <div class="paused-content col">
+      <app-goal-card></app-goal-card>
+    </div>
+    <div class="completed-content col">
+      <app-goal-card></app-goal-card>
+    </div>
+    <div class="archived-content col">
+      <app-goal-card></app-goal-card>
+    </div>
+  </div>
+</div>

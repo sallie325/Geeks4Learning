@@ -3,6 +3,14 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { AttendanceService } from 'src/app/attendance-register/services/attendance.service';
 import { Roles } from 'src/app/shared/global/roles';
+import {
+  AttendanceRegister,
+  Dashboard,
+  GoalManagement,
+  IKMManagement,
+  LeaveManagement,
+  UserManagement
+} from 'src/app/shared/global/routing.management';
 import { EnrolComponent } from 'src/app/user-management/enrol/enrol.component';
 import { TokenService } from 'src/app/user-management/login/services/token.service';
 import { UserService } from 'src/app/user-management/services/user.service';
@@ -51,105 +59,37 @@ export class SideNavComponent implements OnInit {
     switch (user?.role) {
       case Roles.Super_Admin:
         return [
-          {
-            name: 'Dashboard',
-            route: '/dashboard',
-            faIcon: 'fa-chart-line'
-          },
-          {
-            name: 'User management',
-            route: '/user-management',
-            faIcon: 'fa-users-gear'
-          },
-          {
-            name: 'Attendance Register',
-            route: '/attendance-register',
-            faIcon: 'fa-solid fa-clipboard-user'
-          },
-          {
-            name: 'Leave management',
-            route: '/leave-management',
-            faIcon: 'fa-person-walking-dashed-line-arrow-right'
-          },
-          {
-            name: 'IKM management',
-            route: '/ikm-management',
-            faIcon: 'fa-user-graduate'
-          },
+          Dashboard,
+          UserManagement,
+          AttendanceRegister,
+          LeaveManagement,
+          IKMManagement,
+          GoalManagement,
         ];
       case Roles.Admin:
         return [
-          {
-            name: 'Dashboard',
-            route: '/dashboard',
-            faIcon: 'fa-chart-line'
-          },
-          {
-            name: 'User management',
-            route: '/user-management',
-            faIcon: 'fa-users-gear'
-          },
-          {
-            name: 'Attendance Register',
-            route: '/attendance-register',
-            faIcon: 'fa-solid fa-clipboard-user'
-          },
-          {
-            name: 'Leave management',
-            route: '/leave-management',
-            faIcon: 'fa-person-walking-dashed-line-arrow-right'
-          },
-          {
-            name: 'IKM management',
-            route: '/ikm-management',
-            faIcon: 'fa-user-graduate'
-          },
+          Dashboard,
+          UserManagement,
+          AttendanceRegister,
+          LeaveManagement,
+          IKMManagement,
+          GoalManagement,
         ];
       case Roles.Trainer:
         return [
-          {
-            name: 'Dashboard',
-            route: '/dashboard',
-            faIcon: 'fa-chart-line'
-          },
-          {
-            name: 'Attendance Register',
-            route: '/attendance-register',
-            faIcon: 'fa-solid fa-clipboard-user'
-          },
-          {
-            name: 'Leave management',
-            route: '/leave-management',
-            faIcon: 'fa-person-walking-dashed-line-arrow-right'
-          },
-          {
-            name: 'IKM management',
-            route: '/ikm-management',
-            faIcon: 'fa-user-graduate'
-          },
+          Dashboard,
+          AttendanceRegister,
+          LeaveManagement,
+          IKMManagement,
+          GoalManagement,
         ];
       case Roles.Learner:
         return [
-          {
-            name: 'Dashboard',
-            route: '/dashboard',
-            faIcon: 'fa-chart-line'
-          },
-          {
-            name: 'Attendance Register',
-            route: '/attendance-register',
-            faIcon: 'fa-solid fa-clipboard-user'
-          },
-          {
-            name: 'Leave',
-            route: '/leave-management',
-            faIcon: 'fa-person-walking-dashed-line-arrow-right'
-          },
-          {
-            name: 'IKM',
-            route: '/ikm-management',
-            faIcon: 'fa-user-graduate'
-          },
+          Dashboard,
+          AttendanceRegister,
+          LeaveManagement,
+          IKMManagement,
+          GoalManagement,
         ];
       default:
         return [];

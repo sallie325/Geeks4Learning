@@ -1,0 +1,38 @@
+button {
+  border-radius: 50px;
+  background-color: #344767;
+  color: #ffffff;
+}
+
+.kanban-header {
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.kanban-header .backlog,
+.kanban-header .started,
+.kanban-header .paused,
+.kanban-header .completed,
+.kanban-header .archived {
+  padding: auto;
+}
+
+.kanban-header .backlog h6,
+.kanban-header .started h6,
+.kanban-header .paused h6,
+.kanban-header .completed h6,
+.kanban-header .archived h6 {
+  padding: 0.5rem;
+  border-radius: 50px;
+  background-color: #344767;
+  color: #ffffff;
+}
+
+.kanban-header .backlog h6 i,
+.kanban-header .started h6 i,
+.kanban-header .paused h6 i,
+.kanban-header .completed h6 i,
+.kanban-header .archived h6 i {
+    position: relative;
+    margin-right: 5px;
+}
