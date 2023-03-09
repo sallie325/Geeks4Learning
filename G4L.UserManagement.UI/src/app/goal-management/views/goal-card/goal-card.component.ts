@@ -1,24 +1,32 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-goal-card',
   templateUrl: './goal-card.component.html',
   styleUrls: ['./goal-card.component.css']
 })
-export class GoalCardComponent implements OnInit {
-
+export class GoalCardComponent {
   @Input()
   goalTitle!: string;
-  
+
   @Input()
   goalDescription!: string;
-  
+
   @Input()
   goalDuration!: string;
 
+  @Input()
+  goalState!: "backlog" | "started" | "paused" | "completed" | "archived"
+
   constructor() { }
 
-  ngOnInit(): void {
+  grab(event: any) {
+    const { target } = event
+    target.style.cursor = 'grabbing'
   }
 
+  release(event: any) {
+    const { target } = event
+    target.style.cursor = 'grab'
+  }
 }

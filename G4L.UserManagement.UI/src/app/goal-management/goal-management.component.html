@@ -1,7 +1,7 @@
 <div class="goal-management-controls d-flex flex-row-reverse p-3">
   <button mat-raised-button>Create New Goal</button>
 </div>
-<div class="goal-management-kanban d-block">
+<div class="goal-management-kanban d-block h-75">
   <div class="kanban-header row">
     <div class="backlog col text-center">
       <h6>
@@ -36,19 +36,94 @@
   </div>
   <div class="kanban-content row m-0" cdkDropListGroup>
     <div class="backlog-content col">
-      <app-goal-card></app-goal-card>
+      <div
+        cdkDropList
+        #backlog="cdkDropList"
+        [cdkDropListData]="backlogMock"
+        [cdkDropListConnectedTo]="[started, paused, archived]"
+        (cdkDropListDropped)="drop($event)"
+        class="goal-list"
+      >
+        <app-goal-card
+          *ngFor="let goal of backlogMock"
+          [goalTitle]="goal.title"
+          [goalDescription]="goal.description"
+          [goalDuration]="goal.duration"
+          [goalState]="'backlog'"
+        ></app-goal-card>
+      </div>
     </div>
     <div class="started-content col">
-      <app-goal-card></app-goal-card>
+      <div
+        cdkDropList
+        #started="cdkDropList"
+        [cdkDropListData]="startedMock"
+        [cdkDropListConnectedTo]="[paused, completed, archived]"
+        (cdkDropListDropped)="drop($event)"
+        class="goal-list"
+      >
+        <app-goal-card
+          *ngFor="let goal of startedMock"
+          [goalTitle]="goal.title"
+          [goalDescription]="goal.description"
+          [goalDuration]="goal.duration"
+          [goalState]="'started'"
+        ></app-goal-card>
+      </div>
     </div>
     <div class="paused-content col">
-      <app-goal-card></app-goal-card>
+      <div
+        cdkDropList
+        #paused="cdkDropList"
+        [cdkDropListData]="pausedMock"
+        [cdkDropListConnectedTo]="[started, paused, archived]"
+        (cdkDropListDropped)="drop($event)"
+        class="goal-list"
+      >
+        <app-goal-card
+          *ngFor="let goal of pausedMock"
+          [goalTitle]="goal.title"
+          [goalDescription]="goal.description"
+          [goalDuration]="goal.duration"
+          [goalState]="'paused'"
+        ></app-goal-card>
+      </div>
     </div>
     <div class="completed-content col">
-      <app-goal-card></app-goal-card>
+      <div
+        cdkDropList
+        #completed="cdkDropList"
+        [cdkDropListData]="completedMock"
+        [cdkDropListConnectedTo]="[]"
+        (cdkDropListDropped)="drop($event)"
+        class="goal-list"
+      >
+        <app-goal-card
+          *ngFor="let goal of completedMock"
+          [goalTitle]="goal.title"
+          [goalDescription]="goal.description"
+          [goalDuration]="goal.duration"
+          [goalState]="'completed'"
+        ></app-goal-card>
+      </div>
     </div>
     <div class="archived-content col">
-      <app-goal-card></app-goal-card>
+      <div
+        cdkDropList
+        #archived="cdkDropList"
+        [cdkDropListData]="archivedMock"
+        [cdkDropListConnectedTo]="[backlog]"
+        (cdkDropListDropped)="drop($event)"
+        class="goal-list"
+      >
+        <app-goal-card
+          *ngFor="let goal of archivedMock"
+          [goalTitle]="goal.title"
+          [goalDescription]="goal.description"
+          [goalDuration]="goal.duration"
+          [goalState]="'archived'"
+        ></app-goal-card>
+      </div>
     </div>
   </div>
 </div>

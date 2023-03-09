@@ -1,4 +1,9 @@
-<mat-card cdkDropListGroup>
+<mat-card
+  (pointerdown)="grab($event)"
+  (pointerup)="release($event)"
+  [ngClass]="goalState"
+  cdkDrag
+>
   <mat-card-header>
     <mat-card-title>
       {{ goalTitle }}

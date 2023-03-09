@@ -1,26 +1,55 @@
 mat-card {
-  border-left: 7px solid orange;
   background-color: #dee7f2;
-  margin: 0;
+  margin-bottom: 0.5rem;
   padding: 0;
-  border-radius: 0 10px 10px 0;
+  border-radius: 10px;
+}
+
+mat-card:hover{
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+mat-card.backlog {
+  border-left: 7px solid #FFB800;
+}
+
+mat-card.started {
+  border-left: 7px solid #16F6EC;
+}
+
+mat-card.paused {
+  border-left: 7px solid #FF4500;
+}
+
+mat-card.completed {
+  border-left: 7px solid #32CD32;
+}
+
+mat-card.archived {
+  border-left: 7px solid #4C0060;
 }
 
 mat-card-header {
   background-color: #7ea2d0;
   padding: 0;
   margin: 0;
+  border-radius: 0 10px 0 0;
+  pointer-events: none;
 }
 
 mat-card-header mat-card-title {
   color: #000;
   margin: 0;
-  padding: 0;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  font-size: 13pt;
 }
 
 mat-card-content {
   display: block;
   padding: 0.4rem;
+  pointer-events: none;
 }
 
 mat-card-content .goal-content-item {

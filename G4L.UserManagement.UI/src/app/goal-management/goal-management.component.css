@@ -1,3 +1,11 @@
+goal-management-kanban {
+  cursor: grabbing;
+}
+
+goal-management-kanban * {
+  cursor: grabbing;
+}
+
 button {
   border-radius: 50px;
   background-color: #344767;
@@ -17,14 +25,23 @@ button {
   padding: auto;
 }
 
+.kanban-content .backlog-content,
+.kanban-content .started-content,
+.kanban-content .paused-content,
+.kanban-content .completed-content,
+.kanban-content .archived-content {
+  padding: auto;
+  min-height: 10rem;
+}
+
 .kanban-header .backlog h6,
 .kanban-header .started h6,
 .kanban-header .paused h6,
 .kanban-header .completed h6,
 .kanban-header .archived h6 {
   padding: 0.5rem;
-  border-radius: 50px;
-  background-color: #344767;
+  border-radius: 5px;
+  background-color: #6774be;
   color: #ffffff;
 }
 
@@ -33,6 +50,10 @@ button {
 .kanban-header .paused h6 i,
 .kanban-header .completed h6 i,
 .kanban-header .archived h6 i {
-    position: relative;
-    margin-right: 5px;
+  position: relative;
+  margin-right: 5px;
+}
+
+.goal-list {
+  min-height: 9rem;
 }
