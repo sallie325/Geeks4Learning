@@ -35,7 +35,10 @@
               onfocus="focused(this)"
               onfocusout="defocused(this)"
             /> -->
-            <input type="text" class="form-control" placeholder="Search..." ngModel="filterTerm">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="{{searchTarget | titlecase}}" ngModel="filterTerm">
           </div>
         </div>
         <ul class="navbar-nav justify-content-end">

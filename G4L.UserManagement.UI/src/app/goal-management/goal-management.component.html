@@ -1,36 +1,53 @@
 <div class="goal-management-controls d-flex flex-row-reverse p-3">
-  <button mat-raised-button>Create New Goal</button>
+  <button mat-raised-button>
+    <i class="fa-solid fa-plus"></i>
+    <span>ADD NEW GOAL</span>
+  </button>
 </div>
-<div class="goal-management-kanban d-block h-75">
+<div class="goal-management-kanban d-block h-75 mt-4">
   <div class="kanban-header row">
-    <div class="backlog col text-center">
-      <h6>
-        <i class="fa-solid fa-spinner"></i>
+    <div class="backlog col">
+      <h6
+        matBadge="2"
+        matBadgePosition="after"
+        matBadgeColor="primary">
         <span>Backlog</span>
+        <i class="fa-solid fa-spinner"></i>
       </h6>
     </div>
-    <div class="started col text-center">
-      <h6>
-        <i class="fa-solid fa-play"></i>
+    <div class="started col">
+      <h6 matBadge="0"
+          matBadgePosition="after"
+          matBadgeColor="accent">
         <span>Started</span>
+        <i class="fa-solid fa-play"></i>
       </h6>
     </div>
-    <div class="paused col text-center">
-      <h6>
-        <i class="fa-solid fa-pause"></i>
+    <div class="paused col">
+      <h6
+        matBadge="2"
+        matBadgePosition="after"
+        matBadgeColor="accent">
         <span>Paused</span>
+        <i class="fa-solid fa-pause"></i>
       </h6>
     </div>
-    <div class="completed col text-center">
-      <h6>
-        <i class="fa-solid fa-check"></i>
+    <div class="completed col">
+      <h6
+        matBadge="2"
+        matBadgePosition="after"
+        matBadgeColor="accent">
         <span>Completed</span>
+        <i class="fa-solid fa-check"></i>
       </h6>
     </div>
-    <div class="archived col text-center">
-      <h6>
-        <i class="fa-solid fa-box-archive"></i>
+    <div class="archived col">
+      <h6
+        matBadge="2"
+        matBadgePosition="after"
+        matBadgeColor="warn">
         <span>Archived</span>
+        <i class="fa-solid fa-box-archive"></i>
       </h6>
     </div>
   </div>

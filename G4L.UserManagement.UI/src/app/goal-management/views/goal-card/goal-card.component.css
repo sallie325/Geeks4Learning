@@ -1,8 +1,9 @@
 mat-card {
-  background-color: #dee7f2;
+  background-color: #FFFFFF;
   margin-bottom: 0.5rem;
   padding: 0;
   border-radius: 10px;
+  box-shadow: 0 0 3px 4px rgba(0, 0, 0, .3);
 }
 
 mat-card:hover{
@@ -10,28 +11,27 @@ mat-card:hover{
   cursor: -webkit-grab;
 }
 
-mat-card.backlog {
+mat-card-content.backlog {
   border-left: 7px solid #FFB800;
 }
 
-mat-card.started {
-  border-left: 7px solid #16F6EC;
+mat-card-content.started {
+  border-left: 7px solid #1560BD;
 }
 
-mat-card.paused {
-  border-left: 7px solid #FF4500;
+mat-card-content.paused {
+  border-left: 7px solid #D1001F;
 }
 
-mat-card.completed {
-  border-left: 7px solid #32CD32;
+mat-card-content.completed {
+  border-left: 7px solid #45AC42;
 }
 
-mat-card.archived {
-  border-left: 7px solid #4C0060;
+mat-card-content.archived {
+  border-left: 7px solid #6E0280;
 }
 
 mat-card-header {
-  background-color: #7ea2d0;
   padding: 0;
   margin: 0;
   border-radius: 0 10px 0 0;
@@ -43,7 +43,7 @@ mat-card-header mat-card-title {
   margin: 0;
   padding-top: 7px;
   padding-bottom: 7px;
-  font-size: 13pt;
+  font-size: 11pt;
 }
 
 mat-card-content {

@@ -14,6 +14,7 @@ export class TopNavComponent implements OnInit {
   filterTerm!: string;
   date: string = new Date().toDateString();
   time: string = new Date().toTimeString();
+  searchTarget!: string;
 
   constructor(private router: Router) {
     this.username = sessionStorage.getItem(constants.username);
@@ -21,6 +22,7 @@ export class TopNavComponent implements OnInit {
     router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         this.url = this.router.url.replace('/', '').replace('-', ' ');
+        this.searchTarget = "Search " + this.url
       }
     });
 
