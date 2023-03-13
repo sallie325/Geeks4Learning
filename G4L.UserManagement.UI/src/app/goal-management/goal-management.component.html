@@ -1,146 +1,64 @@
-<div class="goal-management-controls d-flex flex-row-reverse p-3">
+<div class="goal-management-controls">
   <button mat-raised-button>
     <i class="fa-solid fa-plus"></i>
     <span>ADD NEW GOAL</span>
   </button>
 </div>
-<div class="goal-management-kanban d-block h-75 mt-4">
-  <div class="kanban-header row">
-    <div class="backlog col">
-      <h6
-        matBadge="2"
-        matBadgePosition="after"
-        matBadgeColor="primary">
-        <span>Backlog</span>
-        <i class="fa-solid fa-spinner"></i>
-      </h6>
-    </div>
-    <div class="started col">
-      <h6 matBadge="0"
-          matBadgePosition="after"
-          matBadgeColor="accent">
-        <span>Started</span>
-        <i class="fa-solid fa-play"></i>
-      </h6>
-    </div>
-    <div class="paused col">
-      <h6
-        matBadge="2"
-        matBadgePosition="after"
-        matBadgeColor="accent">
-        <span>Paused</span>
-        <i class="fa-solid fa-pause"></i>
-      </h6>
-    </div>
-    <div class="completed col">
-      <h6
-        matBadge="2"
-        matBadgePosition="after"
-        matBadgeColor="accent">
-        <span>Completed</span>
-        <i class="fa-solid fa-check"></i>
-      </h6>
-    </div>
-    <div class="archived col">
-      <h6
-        matBadge="2"
-        matBadgePosition="after"
-        matBadgeColor="warn">
-        <span>Archived</span>
-        <i class="fa-solid fa-box-archive"></i>
-      </h6>
-    </div>
-  </div>
-  <div class="kanban-content row m-0" cdkDropListGroup>
+
+<div class="goal-management-kanban">
+  <app-goal-column-headers
+    [backlogCount]="_backlog.length"
+    [startedCount]="_started.length"
+    [pausedCount]="_paused.length"
+    [completedCount]="_completed.length"
+    [archivedCount]="_archived.length"
+  ></app-goal-column-headers>
+
+  <div class="goal-kanban-content row m-0" cdkDropListGroup>
     <div class="backlog-content col">
-      <div
-        cdkDropList
-        #backlog="cdkDropList"
-        [cdkDropListData]="backlogMock"
-        [cdkDropListConnectedTo]="[started, paused, archived]"
-        (cdkDropListDropped)="drop($event)"
-        class="goal-list"
+      <app-goal-column-list
+        [listID]="'backlog'"
+        [goalsList]="_backlog"
+        [onDropRef]="onDropGoal"
+        [connectedIDList]="['started', 'paused', 'archived']"
       >
-        <app-goal-card
-          *ngFor="let goal of backlogMock"
-          [goalTitle]="goal.title"
-          [goalDescription]="goal.description"
-          [goalDuration]="goal.duration"
-          [goalState]="'backlog'"
-        ></app-goal-card>
-      </div>
+      </app-goal-column-list>
     </div>
     <div class="started-content col">
-      <div
-        cdkDropList
-        #started="cdkDropList"
-        [cdkDropListData]="startedMock"
-        [cdkDropListConnectedTo]="[paused, completed, archived]"
-        (cdkDropListDropped)="drop($event)"
-        class="goal-list"
+      <app-goal-column-list
+        [listID]="'started'"
+        [goalsList]="_started"
+        [onDropRef]="onDropGoal"
+        [connectedIDList]="['paused', 'completed', 'archived']"
       >
-        <app-goal-card
-          *ngFor="let goal of startedMock"
-          [goalTitle]="goal.title"
-          [goalDescription]="goal.description"
-          [goalDuration]="goal.duration"
-          [goalState]="'started'"
-        ></app-goal-card>
-      </div>
+      </app-goal-column-list>
     </div>
     <div class="paused-content col">
-      <div
-        cdkDropList
-        #paused="cdkDropList"
-        [cdkDropListData]="pausedMock"
-        [cdkDropListConnectedTo]="[started, paused, archived]"
-        (cdkDropListDropped)="drop($event)"
-        class="goal-list"
+      <app-goal-column-list
+        [listID]="'paused'"
+        [goalsList]="_paused"
+        [onDropRef]="onDropGoal"
+        [connectedIDList]="['started', 'archived']"
       >
-        <app-goal-card
-          *ngFor="let goal of pausedMock"
-          [goalTitle]="goal.title"
-          [goalDescription]="goal.description"
-          [goalDuration]="goal.duration"
-          [goalState]="'paused'"
-        ></app-goal-card>
-      </div>
+      </app-goal-column-list>
     </div>
     <div class="completed-content col">
-      <div
-        cdkDropList
-        #completed="cdkDropList"
-        [cdkDropListData]="completedMock"
-        [cdkDropListConnectedTo]="[]"
-        (cdkDropListDropped)="drop($event)"
-        class="goal-list"
+      <app-goal-column-list
+        [listID]="'completed'"
+        [goalsList]="_completed"
+        [onDropRef]="onDropGoal"
+        [connectedIDList]="[]"
       >
-        <app-goal-card
-          *ngFor="let goal of completedMock"
-          [goalTitle]="goal.title"
-          [goalDescription]="goal.description"
-          [goalDuration]="goal.duration"
-          [goalState]="'completed'"
-        ></app-goal-card>
-      </div>
+      </app-goal-column-list>
     </div>
     <div class="archived-content col">
-      <div
-        cdkDropList
-        #archived="cdkDropList"
-        [cdkDropListData]="archivedMock"
-        [cdkDropListConnectedTo]="[backlog]"
-        (cdkDropListDropped)="drop($event)"
-        class="goal-list"
+      <app-goal-column-list
+        [listID]="'archived'"
+        [goalsList]="_archived"
+        [onDropRef]="onDropGoal"
+        [connectedIDList]="['backlog']"
       >
-        <app-goal-card
-          *ngFor="let goal of archivedMock"
-          [goalTitle]="goal.title"
-          [goalDescription]="goal.description"
-          [goalDuration]="goal.duration"
-          [goalState]="'archived'"
-        ></app-goal-card>
-      </div>
+      </app-goal-column-list>
     </div>
   </div>
 </div>

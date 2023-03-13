@@ -11,31 +11,36 @@
   --g4l-blue: #007fa3;
   --g4l-orange: #b76928;
   --g4l-grey-light: #00000080;
-  --g4l-grey: #67748E;
+  --g4l-grey: #67748e;
   --red-alpha-5: #bb000080;
   --g4l-greeny-blue-alpha-5: #2b5d6b80;
   --g4l-orange-alpha-5: #b7682883;
-  --g4l-present:#00A99D;
-  --g4l-absent:#FF0000;
-  --g4l-late-leave:#B76701;
-
+  --g4l-present: #00a99d;
+  --g4l-absent: #ff0000;
+  --g4l-late-leave: #b76701;
+  --g4l-goal-state-border: 4px solid;
+  --g4l-backlog-state-color: #ffb800;
+  --g4l-started-state-color: #397097;
+  --g4l-paused-state-color: #d1001f;
+  --g4l-completed-state-color: #45ac42;
+  --g4l-archived-state-color: #6e0280;
 }
 
 /* You can add global styles to this file, and also import other style files */
-.present{
-  color:var(--g4l-present);
+.present {
+  color: var(--g4l-present);
 }
 
-.absent{
-  color:var(--g4l-absent);
+.absent {
+  color: var(--g4l-absent);
 }
 
-.late{
-  color:var(--g4l-late-leave);
+.late {
+  color: var(--g4l-late-leave);
 }
 
-.leave{
-  color:var(--g4l-late-leave);
+.leave {
+  color: var(--g4l-late-leave);
 }
 
 .bg-green {
@@ -1182,7 +1187,7 @@ aside#sidenav-main {
   background-size: 16px 12px;
   border: 1px solid #ced4da;
   border-radius: 0.375rem !important;
-  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   appearance: none;
   padding: 0px !important;
 }
@@ -1219,7 +1224,8 @@ aside#sidenav-main {
   border: 1px solid var(--g4l-dark-blue) !important;
 }
 
-.dropdown-item:focus, .dropdown-item:hover {
+.dropdown-item:focus,
+.dropdown-item:hover {
   background-color: var(--bg-white) !important;
 }
 

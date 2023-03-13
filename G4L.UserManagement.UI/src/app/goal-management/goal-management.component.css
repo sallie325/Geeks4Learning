@@ -1,6 +1,14 @@
-goal-management-kanban {
+.goal-management-controls{
+  padding-right: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.goal-management-kanban {
   position: relative;
   cursor: grabbing;
+  margin-top: .7rem;
+  /* background-color: wheat; */
 }
 
 button {
@@ -14,49 +22,6 @@ button i{
   margin-right: .5rem;
 }
 
-.kanban-header {
-  margin: 0;
-  margin-bottom: 0.5rem;
-}
-
-.kanban-header .backlog,
-.kanban-header .started,
-.kanban-header .paused,
-.kanban-header .completed,
-.kanban-header .archived {
-  padding: auto;
-}
-
-.kanban-content .backlog-content,
-.kanban-content .started-content,
-.kanban-content .paused-content,
-.kanban-content .completed-content,
-.kanban-content .archived-content {
-  padding: auto;
-  min-height: 10rem;
-}
-
-.kanban-header .backlog h6,
-.kanban-header .started h6,
-.kanban-header .paused h6,
-.kanban-header .completed h6,
-.kanban-header .archived h6 {
-  text-transform: uppercase;
-  padding: 0.5rem;
-  border-radius: 5px;
-  width: max-content;
-}
-
-.kanban-header .backlog h6 i,
-.kanban-header .started h6 i,
-.kanban-header .paused h6 i,
-.kanban-header .completed h6 i,
-.kanban-header .archived h6 i {
-  position: relative;
-  margin-left: 5px;
-  display: none;
-}
-
-.goal-list {
-  min-height: 9rem;
+.goal-kanban-content{
+  height: 100%;
 }

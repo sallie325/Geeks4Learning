@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
+import { GoalModel } from './models/goal-model';
 
 @Component({
   selector: 'app-goal-management',
@@ -7,7 +8,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./goal-management.component.css']
 })
 export class GoalManagementComponent {
-  backlogMock: Array<any> = [
+  _backlog: Array<GoalModel> = [
     {
       title: "Begin OOP Classes",
       description: "I want to start with basics and then build up from there...",
@@ -20,7 +21,7 @@ export class GoalManagementComponent {
     },
   ]
 
-  pausedMock: Array<any> = [
+  _paused: Array<GoalModel> = [
     {
       title: "Solve a Binary Search Algorithm",
       description: "I want to test my understanding of the algorithm",
@@ -33,7 +34,7 @@ export class GoalManagementComponent {
     },
   ]
 
-  archivedMock: Array<any> = [
+  _archived: Array<GoalModel> = [
     {
       title: "Solve a Binary Search Algorithm",
       description: "I want to test my understanding of the algorithm",
@@ -46,12 +47,12 @@ export class GoalManagementComponent {
     },
   ]
 
-  startedMock: Array<any> = []
-  completedMock: Array<any> = []
+  _started: Array<GoalModel> = []
+  _completed: Array<GoalModel> = []
 
   constructor() { }
 
-  drop(event: CdkDragDrop<Array<any>>) {
+  onDropGoal = (event: CdkDragDrop<Array<any>>) => {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
