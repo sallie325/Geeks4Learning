@@ -1,4 +1,4 @@
-<mat-card (pointerdown)="grab($event)" (pointerup)="release($event)" cdkDrag>
+<mat-card (click)="onViewGoalRef(goalState, goalId)" (pointerdown)="grab($event)" (pointerup)="release($event)" cdkDrag>
   <mat-card-header>
     <mat-card-title>
       {{ goalTitle }}

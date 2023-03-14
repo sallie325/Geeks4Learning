@@ -98,7 +98,7 @@ export class GoalManagementComponent {
 						alert(response)
 						break;
 					case this.pausedState:
-						if(this._started[event.previousIndex].pausedCount === 5){
+						if (this._started[event.previousIndex].pausedCount === 5) {
 							alert("This goal cannot be paused any longer, you must complete it!")
 							return;
 						}
@@ -114,5 +114,9 @@ export class GoalManagementComponent {
 				);
 			}
 		}
+	}
+
+	onViewGoal = (goalType: goalTypes, goalID: number) => {
+		alert(`Viewing Goal: [${goalType}, ${goalID}]`)
 	}
 }

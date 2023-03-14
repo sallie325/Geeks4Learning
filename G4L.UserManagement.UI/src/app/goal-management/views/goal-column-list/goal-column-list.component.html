@@ -8,9 +8,11 @@
 >
   <app-goal-card
     *ngFor="let goal of goalsList"
+    [goalId]="goal?.id"
     [goalTitle]="goal.title"
     [goalDescription]="goal.description"
     [goalDuration]="goal.duration"
     [goalState]="listID"
+    [onViewGoalRef]="onViewGoalRef"
   ></app-goal-card>
 </div>

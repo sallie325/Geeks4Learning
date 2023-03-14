@@ -7,6 +7,9 @@ import { Component, Input } from '@angular/core';
 })
 export class GoalCardComponent {
   @Input()
+  goalId!: number | undefined
+
+  @Input()
   goalTitle!: string;
 
   @Input()
@@ -17,6 +20,9 @@ export class GoalCardComponent {
 
   @Input()
   goalState!: "backlog" | "started" | "paused" | "completed" | "archived"
+
+  @Input()
+  onViewGoalRef!: any
 
   constructor() { }
 
