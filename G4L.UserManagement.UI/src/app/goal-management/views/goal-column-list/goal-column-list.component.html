@@ -1,6 +1,6 @@
 <div
   cdkDropList
-  id="listID"
+  [id]="listID"
   [cdkDropListData]="goalsList"
   [cdkDropListConnectedTo]="connectedIDList"
   (cdkDropListDropped)="onDropRef($event)"

@@ -6,7 +6,7 @@
 
 .goal-management-kanban {
   position: relative;
-  cursor: grabbing;
+  cursor: pointer;
   margin-top: .7rem;
   /* background-color: wheat; */
 }
