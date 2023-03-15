@@ -1,8 +1,8 @@
 <mat-card
+  (click)="onViewGoalRef(goalState, goalId)"
   (pointerdown)="grab($event)"
   (pointerup)="release($event)"
   cdkDrag
-  (click)="onOpenDialog()"
 >
   <mat-card-header>
     <mat-card-title>
@@ -23,7 +23,7 @@
         <div class="goal-item-icon">
           <i class="fa-regular fa-clock"></i>
         </div>
-        <div class="goal-description">
+        <div class="goal-duration">
           {{ goalDuration }}
         </div>
       </div>

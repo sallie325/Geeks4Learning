@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ViewSelectedGoalComponent } from '../../modals/views/view-selected-goal/view-selected-goal.component';
 import { GoalModel } from '../../models/goal-model';
 
 @Component({
@@ -9,6 +7,9 @@ import { GoalModel } from '../../models/goal-model';
   styleUrls: ['./goal-card.component.css'],
 })
 export class GoalCardComponent {
+  @Input()
+  goalId!: number | undefined;
+
   @Input()
   goalTitle!: string;
 
@@ -24,7 +25,10 @@ export class GoalCardComponent {
   name: any;
   animal: any;
 
-  constructor(public dialog: MatDialog) {}
+  @Input()
+  onViewGoalRef!: any;
+
+  constructor() {}
 
   grab(event: any) {
     const { target } = event;
@@ -36,17 +40,16 @@ export class GoalCardComponent {
     target.style.cursor = 'grab';
   }
   onOpenDialog(): void {
-    const dialogRef = this.dialog.open(ViewSelectedGoalComponent, {
-      data: {
-        title: this.goalTitle,
-        duration: this.goalDuration,
-        description: this.goalDescription,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-      this.goalDescription = result;
-    });
+    // const dialogRef = this.dialog.open(ViewSelectedGoalComponent, {
+    //   data: {
+    //     title: this.goalTitle,
+    //     duration: this.goalDuration,
+    //     description: this.goalDescription,
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   console.log('The dialog was closed');
+    //   this.goalDescription = result;
+    // });
   }
 }
