@@ -21,6 +21,7 @@ export class GoalManagementComponent {
 			title: "Begin OOP Classes",
 			description: "I want to start with basics and then build up from there...",
 			duration: "2 Hours",
+      goalType: "backlog",
 			pausedCount: 0,
 			tasks: [
 				{
@@ -36,6 +37,7 @@ export class GoalManagementComponent {
 			description: "Will start with the basis of springboot today",
 			duration: "2 Hours",
 			pausedCount: 0,
+      goalType: "backlog",
 		},
 	]
 
@@ -46,6 +48,7 @@ export class GoalManagementComponent {
 			description: "I want to test my understanding of the algorithm",
 			duration: "1 Hour",
 			pausedCount: 0,
+      goalType: "paused"
 		},
 		{
 			id: 2,
@@ -53,6 +56,7 @@ export class GoalManagementComponent {
 			description: "Need this for mind refreshment",
 			duration: "1 Hour",
 			pausedCount: 0,
+      goalType: "paused"
 		},
 	]
 
@@ -63,6 +67,7 @@ export class GoalManagementComponent {
 			description: "I want to test my understanding of the algorithm",
 			duration: "1 Hour",
 			pausedCount: 0,
+      goalType: "archived"
 		},
 		{
 			id: 2,
@@ -70,6 +75,7 @@ export class GoalManagementComponent {
 			description: "Need something to spice-up my lunch",
 			duration: "30min",
 			pausedCount: 0,
+      goalType: "archived"
 		},
 	]
 
