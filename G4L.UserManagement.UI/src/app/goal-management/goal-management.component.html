@@ -17,54 +17,48 @@
   <div class="goal-kanban-content row m-0" cdkDropListGroup>
     <div class="backlog-content col">
       <app-goal-column-list
-        [listID]="backlogState"
+        [listID]="'backlog'"
         [goalsList]="_backlog"
         [onDropRef]="onDropGoal"
-        [onViewGoalRef]="onViewGoal"
-        [connectedIDList]="[startedState, archivedState]"
+        [connectedIDList]="['started', 'paused', 'archived']"
       >
       </app-goal-column-list>
     </div>
     <div class="started-content col">
       <app-goal-column-list
-        [listID]="startedState"
+        [listID]="'started'"
         [goalsList]="_started"
         [onDropRef]="onDropGoal"
-        [onViewGoalRef]="onViewGoal"
-        [connectedIDList]="[pausedState, completedState, archivedState]"
+        [connectedIDList]="['paused', 'completed', 'archived']"
       >
       </app-goal-column-list>
     </div>
     <div class="paused-content col">
       <app-goal-column-list
-        [listID]="pausedState"
+        [listID]="'paused'"
         [goalsList]="_paused"
         [onDropRef]="onDropGoal"
-        [onViewGoalRef]="onViewGoal"
-        [connectedIDList]="[startedState, archivedState]"
+        [connectedIDList]="['started', 'archived']"
       >
       </app-goal-column-list>
     </div>
     <div class="completed-content col">
       <app-goal-column-list
-        [listID]="completedState"
+        [listID]="'completed'"
         [goalsList]="_completed"
         [onDropRef]="onDropGoal"
-        [onViewGoalRef]="onViewGoal"
         [connectedIDList]="[]"
       >
       </app-goal-column-list>
     </div>
     <div class="archived-content col">
       <app-goal-column-list
-        [listID]="archivedState"
+        [listID]="'archived'"
         [goalsList]="_archived"
         [onDropRef]="onDropGoal"
-        [onViewGoalRef]="onViewGoal"
-        [connectedIDList]="[backlogState]"
+        [connectedIDList]="['backlog']"
       >
       </app-goal-column-list>
     </div>
   </div>
 </div>
-

@@ -4,7 +4,9 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
+import { ViewSelectedGoalComponent } from './modals/views/view-selected-goal/view-selected-goal.component';
 import { GoalModel, goalTypes } from './models/goal-model';
 import { GoalManagementService } from './services/goal-management.service';
 
@@ -20,6 +22,8 @@ export class GoalManagementComponent implements OnInit {
   pausedState: goalTypes = 'paused';
   completedState: goalTypes = 'completed';
   archivedState: goalTypes = 'archived';
+  modal: MdbModalRef<ViewSelectedGoalComponent> | null = null;
+  selectedGoal!: GoalModel;
 
   _backlog: Array<GoalModel> = [];
 
@@ -32,7 +36,7 @@ export class GoalManagementComponent implements OnInit {
 
   constructor(
     private goalService: GoalManagementService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +90,7 @@ export class GoalManagementComponent implements OnInit {
         // Handling Goal Activity Logic
         switch (event.container.id) {
           case this.archivedState:
-            const response = prompt('Why are you archieving this goal?');
+            const response = prompt('Why are you archiving this goal?');
             if (response === null) return;
             alert(response);
             break;
@@ -111,7 +115,4 @@ export class GoalManagementComponent implements OnInit {
     }
   };
 
-  onViewGoal = (goalType: goalTypes, goalID: number) => {
-    alert(`Viewing Goal: [${goalType}, ${goalID}]`);
-  };
 }
