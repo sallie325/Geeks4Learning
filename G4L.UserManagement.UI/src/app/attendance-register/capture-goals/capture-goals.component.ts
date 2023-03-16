@@ -1,3 +1,4 @@
+import { GoalModel } from './../../goal-management/models/goal-model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
@@ -13,18 +14,30 @@ export class CaptureGoalsComponent implements OnInit {
   formModel: FormGroup = new FormGroup({});
   time_Limit: any;
   attendanceId: any;
+  currentGoal: GoalModel = {
+    id: 0,
+    title: 'Sample Goal Name',
+    description: 'Sample Goal Description',
+    duration: '5 days remaining',
+    tasks: [],
+    comment: "",
+    pausedCount: 0,
+    goalType: 'backlog'
+  }
+
   ngOnInit(): void {
     this.buildForm();
   }
   buildForm() {
     this.formModel = this.formBuilder.group({
       id: [this.attendanceId],
-      goal_Description: [],
-      goal_summary: [],
-      time_Limit: [],
+      goal_title: [],
+      goal_description: [],
+      time_limit: [],
     });
   }
-  UpdateGoals() {
+  AddGoal() {
+    console.log(this.currentGoal)
     this.attendanceService
       .updateAttendanceGoals(this.formModel.value)
       .subscribe((_) => {});
