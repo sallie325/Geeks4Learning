@@ -1,3 +1,5 @@
+import { CaptureGoalsComponent } from './../attendance-register/capture-goals/capture-goals.component';
+import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { GoalModel, goalTypes } from './models/goal-model';
@@ -8,6 +10,8 @@ import { GoalModel, goalTypes } from './models/goal-model';
 	styleUrls: ['./goal-management.component.css']
 })
 export class GoalManagementComponent {
+
+  modalDialog : MdbModalRef<CaptureGoalsComponent> | null = null;
 	// Goal states
 	backlogState: goalTypes = "backlog"
 	startedState: goalTypes = "started"
@@ -82,7 +86,7 @@ export class GoalManagementComponent {
 	_started: Array<GoalModel> = []
 	_completed: Array<GoalModel> = []
 
-	constructor() { }
+	constructor(private modalService : MdbModalService) { }
 
 	onDropGoal = (event: CdkDragDrop<Array<any>>): void => {
 		if (event.previousContainer === event.container) {
@@ -125,4 +129,17 @@ export class GoalManagementComponent {
 	onViewGoal = (goalType: goalTypes, goalID: number) => {
 		alert(`Viewing Goal: [${goalType}, ${goalID}]`)
 	}
+
+  createNewGoalDialog() {
+    console.log("Calling createNewGoalDialog()");
+
+    this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
+      animation: true,
+      backdrop: true,
+      containerClass: 'modal top fade modal-backdrop',
+      ignoreBackdropClick: false,
+      keyboard: true,
+      modalClass: 'modal-xl modal-dialog-centered'
+    });
+  }
 }
