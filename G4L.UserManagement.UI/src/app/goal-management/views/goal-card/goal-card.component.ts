@@ -1,38 +1,38 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-goal-card',
-  templateUrl: './goal-card.component.html',
-  styleUrls: ['./goal-card.component.css']
+	selector: 'app-goal-card',
+	templateUrl: './goal-card.component.html',
+	styleUrls: ['./goal-card.component.css']
 })
 export class GoalCardComponent {
-  @Input()
-  goalId!: number | undefined
+	@Input()
+	goalId!: number | undefined
 
-  @Input()
-  goalTitle!: string;
+	@Input()
+	goalTitle!: string;
 
-  @Input()
-  goalDescription!: string;
+	@Input()
+	goalDescription!: string;
 
-  @Input()
-  goalDuration!: string;
+	@Input()
+	goalDuration!: string;
 
-  @Input()
-  goalState!: "backlog" | "started" | "paused" | "completed" | "archived"
+	@Input()
+	goalState!: "backlog" | "started" | "paused" | "completed" | "archived"
 
-  @Input()
-  onViewGoalRef!: any
+	@Input()
+	onViewGoalRef!: any
 
-  constructor() { }
+	constructor() { }
 
-  grab(event: any) {
-    const { target } = event
-    target.style.cursor = 'grabbing'
-  }
+	grab(event: any) {
+		const { target } = event
+		target.style.cursor = 'grabbing'
+	}
 
-  release(event: any) {
-    const { target } = event
-    target.style.cursor = 'grab'
-  }
+	release(event: any) {
+		const { target } = event
+		target.style.cursor = 'grab'
+	}
 }

@@ -1,18 +1,18 @@
 <div
-  cdkDropList
-  [id]="listID"
-  [cdkDropListData]="goalsList"
-  [cdkDropListConnectedTo]="connectedIDList"
-  (cdkDropListDropped)="onDropRef($event)"
-  class="goal-list"
+	cdkDropList
+	[id]="listID"
+	[cdkDropListData]="goalsList"
+	[cdkDropListConnectedTo]="connectedIDList"
+	(cdkDropListDropped)="onDropRef($event)"
+	class="goal-list"
 >
   <app-goal-card
-    *ngFor="let goal of goalsList"
-    [goalId]="goal?.id"
-    [goalTitle]="goal.title"
-    [goalDescription]="goal.description"
-    [goalDuration]="goal.duration"
-    [goalState]="listID"
-    [onViewGoalRef]="onViewGoalRef"
+			*ngFor="let goal of goalsList"
+			[goalId]="goal?.id"
+			[goalTitle]="goal.title"
+			[goalDescription]="goal.description"
+			[goalDuration]="goal.duration"
+			[goalState]="listID"
+			[onViewGoalRef]="onViewGoalRef"
   ></app-goal-card>
 </div>
