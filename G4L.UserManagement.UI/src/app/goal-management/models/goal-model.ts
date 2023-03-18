@@ -13,5 +13,6 @@ export interface GoalModel {
     duration: string,
     tasks?: Array<GoalTaskModel>,
     comment?: string,
-    pausedCount: number
+    pausedCount: number,
+    goalStatus: goalTypes
 }

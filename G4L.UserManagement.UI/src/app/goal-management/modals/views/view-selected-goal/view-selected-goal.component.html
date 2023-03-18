@@ -1,1 +1,10 @@
-<p>view-selected-goal works!</p>
+<h1 mat-dialog-title>Hi {{ data.description }}</h1>
+<div mat-dialog-content>
+  <p>What's your favorite animal?</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.description" cdkFocusInitial>
+    Ok
+  </button>
+</div>
