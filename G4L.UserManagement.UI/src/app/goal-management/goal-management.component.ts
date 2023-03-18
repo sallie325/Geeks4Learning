@@ -8,6 +8,7 @@ import { GoalModel, goalTypes } from './models/goal-model';
 	styleUrls: ['./goal-management.component.css']
 })
 export class GoalManagementComponent {
+	MAX_PAUSE: number = 3
 	// Goal states
 	backlogState: goalTypes = "backlog"
 	startedState: goalTypes = "started"
@@ -98,7 +99,7 @@ export class GoalManagementComponent {
 						alert(response)
 						break;
 					case this.pausedState:
-						if (this._started[event.previousIndex].pausedCount === 5) {
+						if (this._started[event.previousIndex].pausedCount === this.MAX_PAUSE) {
 							alert("This goal cannot be paused any longer, you must complete it!")
 							return;
 						}
