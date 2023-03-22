@@ -17,51 +17,51 @@
   <div class="goal-kanban-content row m-0" cdkDropListGroup>
     <div class="backlog-content col">
       <app-goal-column-list
-					[listID]="backlogState"
-					[goalsList]="_backlog"
-					[onDropRef]="onDropGoal"
-					[onViewGoalRef]="onViewGoal"
-					[connectedIDList]="[startedState, archivedState]"
+        [listID]="backlogState"
+        [goalsList]="_backlog"
+        [onDropRef]="onDropGoal"
+        [onViewGoalRef]="onViewGoal"
+        [connectedIDList]="[startedState, archivedState]"
       >
       </app-goal-column-list>
     </div>
     <div class="started-content col">
       <app-goal-column-list
-					[listID]="startedState"
-					[goalsList]="_started"
-					[onDropRef]="onDropGoal"
-					[onViewGoalRef]="onViewGoal"
-					[connectedIDList]="[pausedState, completedState, archivedState]"
+        [listID]="startedState"
+        [goalsList]="_started"
+        [onDropRef]="onDropGoal"
+        [onViewGoalRef]="onViewGoal"
+        [connectedIDList]="[pausedState, completedState, archivedState]"
       >
       </app-goal-column-list>
     </div>
     <div class="paused-content col">
       <app-goal-column-list
-					[listID]="pausedState"
-					[goalsList]="_paused"
-					[onDropRef]="onDropGoal"
-					[onViewGoalRef]="onViewGoal"
-					[connectedIDList]="[startedState, archivedState]"
+        [listID]="pausedState"
+        [goalsList]="_paused"
+        [onDropRef]="onDropGoal"
+        [onViewGoalRef]="onViewGoal"
+        [connectedIDList]="[startedState, archivedState]"
       >
       </app-goal-column-list>
     </div>
     <div class="completed-content col">
       <app-goal-column-list
-					[listID]="completedState"
-					[goalsList]="_completed"
-					[onDropRef]="onDropGoal"
-					[onViewGoalRef]="onViewGoal"
-					[connectedIDList]="[]"
+        [listID]="completedState"
+        [goalsList]="_completed"
+        [onDropRef]="onDropGoal"
+        [onViewGoalRef]="onViewGoal"
+        [connectedIDList]="[]"
       >
       </app-goal-column-list>
     </div>
     <div class="archived-content col">
       <app-goal-column-list
-					[listID]="archivedState"
-					[goalsList]="_archived"
-					[onDropRef]="onDropGoal"
-					[onViewGoalRef]="onViewGoal"
-					[connectedIDList]="[backlogState]"
+        [listID]="archivedState"
+        [goalsList]="_archived"
+        [onDropRef]="onDropGoal"
+        [onViewGoalRef]="onViewGoal"
+        [connectedIDList]="[backlogState]"
       >
       </app-goal-column-list>
     </div>

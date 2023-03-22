@@ -8,6 +8,7 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { ViewSelectedGoalComponent } from './modals/views/view-selected-goal/view-selected-goal.component';
 import { GoalModel, goalTypes } from './models/goal-model';
+import { ActiveGoalService } from './services/active-goal.service';
 import { GoalManagementService } from './services/goal-management.service';
 
 @Component({
@@ -26,54 +27,42 @@ export class GoalManagementComponent implements OnInit {
 	modal: MdbModalRef<ViewSelectedGoalComponent> | null = null;
 	selectedGoal!: GoalModel;
 
+	// Goal collections
 	_backlog: Array<GoalModel> = [];
-
 	_paused: Array<GoalModel> = [];
-
 	_archived: Array<GoalModel> = [];
-
 	_started: Array<GoalModel> = [];
 	_completed: Array<GoalModel> = [];
 
 	constructor(
 		private goalService: GoalManagementService,
-		private toastrService: ToastrService,
+		private activeGoalPopupService: ActiveGoalService
 	) { }
 
 	ngOnInit(): void {
-		this.filterGoals();
+		this.goalService.getGoals().subscribe((goal: GoalModel) => {
+			switch (goal.goalStatus) {
+				case 'backlog':
+					this._backlog.push(goal);
+					break;
+				case 'archived':
+					this._archived.push(goal);
+					break;
+				case 'completed':
+					this._completed.push(goal);
+					break;
+				case 'paused':
+					this._paused.push(goal);
+					break;
+				case 'started':
+					this._started.push(goal);
+					break;
+			}
+		})
 	}
 
 	//TODO Mock function, to remove
-
-	filterGoals() {
-		this.goalService.getGoals().subscribe(
-			(results) => {
-				results.forEach((goal) => {
-					switch (goal.goalStatus) {
-						case 'backlog':
-							this._backlog.push(goal);
-							break;
-						case 'archived':
-							this._archived.push(goal);
-							break;
-						case 'completed':
-							this._completed.push(goal);
-							break;
-						case 'paused':
-							this._paused.push(goal);
-							break;
-						case 'started':
-							this._started.push(goal);
-							break;
-					}
-				});
-			},
-			(error) => {
-				this.toastrService.error(error.message);
-			}
-		);
-	}
+	filterGoals() { }
 
 	onDropGoal = (event: CdkDragDrop<Array<any>>): void => {
 		if (event.previousContainer === event.container) {
@@ -91,16 +80,32 @@ export class GoalManagementComponent implements OnInit {
 				// Handling Goal Activity Logic
 				switch (event.container.id) {
 					case this.archivedState:
-						const response = prompt("Why are you archieving this goal?")
+						const response = prompt("[NB] THIS IS A MOCK POPUP WINDOW, THE ACTUAL ONE IS YET TO COME!!\n\nWhy are you archieving this goal?")
 						if (response === null) return;
 						alert(response)
+
+						if (this.closePopup(event.previousContainer.id))
+							this.activeGoalPopupService.deactivateGoal();
+							
 						break;
 					case this.pausedState:
-						if (this._started[event.previousIndex].pausedCount === this.MAX_PAUSE) {
-							alert("This goal cannot be paused any longer, you must complete it!")
+						if (event.previousContainer.data[event.previousIndex].pausedCount === this.MAX_PAUSE) {
+							this.goalService.showErrorMeesage("Pause Limit Exceeded", `${event.previousContainer.data[event.previousIndex].title} has exceeded its pause limit, and can no longer be paused further!`);
 							return;
 						}
-						this._started[event.previousIndex].pausedCount += 1;
+
+						if (this.closePopup(event.previousContainer.id))
+							this.activeGoalPopupService.deactivateGoal();
+
+						event.previousContainer.data[event.previousIndex].pausedCount += 1;
+						break;
+					case this.startedState:
+						if (event.container.data.length > 0) {
+							this.goalService.showErrorMeesage("Starting a Goal", `${event.container.data[event.currentIndex].title} is still active!!`)
+							return;
+						}
+
+						this.activeGoalPopupService.activateGoalCountDown(event.previousContainer.data[event.previousIndex]);
 						break;
 				}
 
@@ -113,6 +118,11 @@ export class GoalManagementComponent implements OnInit {
 			}
 		}
 	};
+
+	closePopup(containerId: string) {
+		if (containerId === this.startedState) return true;
+		return false;
+	}
 
 	onViewGoal(goalType: goalTypes, goalId: number): void {
 		alert(`Viewing ${goalType} goal in pos [${goalId}]`)

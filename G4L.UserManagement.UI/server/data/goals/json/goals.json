@@ -2,58 +2,81 @@
   "goals": [
     {
       "id": 1,
-      "title": "Begin OOP Classes",
-      "description": "I want to start with basics and then build up from there...",
-      "duration": "2 Hours",
+      "title": "Create a component for goal management",
+      "description": "Need to create a goal management layout in a kanban format",
+      "duration": "01:59:47",
       "pausedCount": 0,
       "goalStatus": "backlog",
       "tasks": [
         {
           "id": 1,
-          "title": "Setup my environment",
+          "title": "Run the `ng g c goal-management` command",
+          "complete": false
+        },
+        {
+          "id": 2,
+          "title": "Update the routing module",
+          "complete": false
+        },
+        {
+          "id": 3,
+          "title": "Update the sidebar permissions",
+          "complete": false
+        },
+        {
+          "id": 4,
+          "title": "Test the component if it works",
           "complete": false
         }
       ]
     },
     {
       "id": 2,
-      "title": "Learn Springboot",
+      "title": "Write IKM Assessment",
       "description": "Will start with the basis of springboot today",
-      "duration": "2 Hours",
+      "duration": "01:00:00",
       "pausedCount": 0,
       "goalStatus": "backlog"
     },
     {
       "id": 1,
-      "title": "Solve a Binary Search Algorithm",
-      "description": "I want to test my understanding of the algorithm",
-      "duration": "1 Hour",
+      "title": "Create GitHub account",
+      "description": "Create a github account where I will save my coding projects",
+      "duration": "00:30:00",
       "pausedCount": 0,
       "goalStatus": "paused"
     },
     {
       "id": 2,
       "title": "Do a 5 Minute Walk",
-      "description": "Need this for mind refreshment",
-      "duration": "1 Hour",
+      "description": "Need to refreshment my mind!",
+      "duration": "00:07:00",
       "pausedCount": 0,
       "goalStatus": "paused"
     },
     {
       "id": 1,
-      "title": "Solve a Binary Search Algorithm",
-      "description": "I want to test my understanding of the algorithm",
-      "duration": "1 Hour",
+      "title": "Writing Sales Force IKM",
+      "description": "Completing Sales Force IKM Assessment",
+      "duration": "01:00:00",
+      "pausedCount": 0,
+      "goalStatus": "paused"
+    },
+    {
+      "id": 2,
+      "title": "Study Sales-force Api’s",
+      "description": "Learn how to make requests to external API using sales force",
+      "duration": "01:40:00",
       "pausedCount": 0,
       "goalStatus": "archived"
     },
     {
-      "id": 2,
-      "title": "Go to pick N pay",
-      "description": "Need something to spice-up my lunch",
-      "duration": "30min",
+      "id": 1,
+      "title": "Java OCA IKM Assessment",
+      "description": "Completed Java IKM Assessment",
+      "duration": "01:20:00",
       "pausedCount": 0,
-      "goalStatus": "archived"
+      "goalStatus": "completed"
     }
   ]
 }

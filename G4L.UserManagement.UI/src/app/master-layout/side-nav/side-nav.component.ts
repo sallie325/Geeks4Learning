@@ -72,16 +72,14 @@ export class SideNavComponent implements OnInit {
           UserManagement,
           AttendanceRegister,
           LeaveManagement,
-          IKMManagement,
-          GoalManagement,
+          IKMManagement
         ];
       case Roles.Trainer:
         return [
           Dashboard,
           AttendanceRegister,
           LeaveManagement,
-          IKMManagement,
-          GoalManagement,
+          IKMManagement
         ];
       case Roles.Learner:
         return [
@@ -89,7 +87,7 @@ export class SideNavComponent implements OnInit {
           AttendanceRegister,
           LeaveManagement,
           IKMManagement,
-          GoalManagement,
+          GoalManagement
         ];
       default:
         return [];
