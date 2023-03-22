@@ -1,88 +1,79 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
+import {
+	CdkDragDrop,
+	moveItemInArray,
+	transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { Component, OnInit } from '@angular/core';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { ToastrService } from 'ngx-toastr';
+import { ViewSelectedGoalComponent } from './modals/views/view-selected-goal/view-selected-goal.component';
 import { GoalModel, goalTypes } from './models/goal-model';
+import { GoalManagementService } from './services/goal-management.service';
 
 @Component({
 	selector: 'app-goal-management',
 	templateUrl: './goal-management.component.html',
-	styleUrls: ['./goal-management.component.css']
+	styleUrls: ['./goal-management.component.css'],
 })
-export class GoalManagementComponent {
+export class GoalManagementComponent implements OnInit {
+	MAX_PAUSE: number = 3
 	// Goal states
-	backlogState: goalTypes = "backlog"
-	startedState: goalTypes = "started"
-	pausedState: goalTypes = "paused"
-	completedState: goalTypes = "completed"
-	archivedState: goalTypes = "archived"
+	backlogState: goalTypes = 'backlog';
+	startedState: goalTypes = 'started';
+	pausedState: goalTypes = 'paused';
+	completedState: goalTypes = 'completed';
+	archivedState: goalTypes = 'archived';
+	modal: MdbModalRef<ViewSelectedGoalComponent> | null = null;
+	selectedGoal!: GoalModel;
 
-	_backlog: Array<GoalModel> = [
-		{
-			id: 1,
-			title: "Begin OOP Classes",
-			description: "I want to start with basics and then build up from there...",
-			duration: "2 Hours",
-      goalType: "backlog",
-			pausedCount: 0,
-			tasks: [
-				{
-					id: 1,
-					title: "Setup my environment",
-					complete: false
-				}
-			]
-		},
-		{
-			id: 2,
-			title: "Learn Springboot",
-			description: "Will start with the basis of springboot today",
-			duration: "2 Hours",
-			pausedCount: 0,
-      goalType: "backlog",
-		},
-	]
+	_backlog: Array<GoalModel> = [];
 
-	_paused: Array<GoalModel> = [
-		{
-			id: 1,
-			title: "Solve a Binary Search Algorithm",
-			description: "I want to test my understanding of the algorithm",
-			duration: "1 Hour",
-			pausedCount: 0,
-      goalType: "paused"
-		},
-		{
-			id: 2,
-			title: "Do a 5 Minute Walk",
-			description: "Need this for mind refreshment",
-			duration: "1 Hour",
-			pausedCount: 0,
-      goalType: "paused"
-		},
-	]
+	_paused: Array<GoalModel> = [];
 
-	_archived: Array<GoalModel> = [
-		{
-			id: 1,
-			title: "Solve a Binary Search Algorithm",
-			description: "I want to test my understanding of the algorithm",
-			duration: "1 Hour",
-			pausedCount: 0,
-      goalType: "archived"
-		},
-		{
-			id: 2,
-			title: "Go to pick N pay",
-			description: "Need something to spice-up my lunch",
-			duration: "30min",
-			pausedCount: 0,
-      goalType: "archived"
-		},
-	]
+	_archived: Array<GoalModel> = [];
 
-	_started: Array<GoalModel> = []
-	_completed: Array<GoalModel> = []
+	_started: Array<GoalModel> = [];
+	_completed: Array<GoalModel> = [];
 
-	constructor() { }
+	constructor(
+		private goalService: GoalManagementService,
+		private toastrService: ToastrService,
+	) { }
+
+	ngOnInit(): void {
+		this.filterGoals();
+	}
+
+	//TODO Mock function, to remove
+
+	filterGoals() {
+		this.goalService.getGoals().subscribe(
+			(results) => {
+				results.forEach((goal) => {
+					switch (goal.goalStatus) {
+						case 'backlog':
+							this._backlog.push(goal);
+							break;
+						case 'archived':
+							this._archived.push(goal);
+							break;
+						case 'completed':
+							this._completed.push(goal);
+							break;
+						case 'paused':
+							this._paused.push(goal);
+							break;
+						case 'started':
+							this._started.push(goal);
+							break;
+					}
+				});
+			},
+			(error) => {
+				this.toastrService.error(error.message);
+			}
+		);
+	}
 
 	onDropGoal = (event: CdkDragDrop<Array<any>>): void => {
 		if (event.previousContainer === event.container) {
@@ -92,7 +83,8 @@ export class GoalManagementComponent {
 				event.currentIndex
 			);
 		} else {
-			const previousContainerLinks: Array<string> = event.previousContainer.connectedTo.toString().split(',')
+			const previousContainerLinks: Array<string> =
+				event.previousContainer.connectedTo.toString().split(',');
 
 			// Checking if the current card is movable to the target container
 			if (previousContainerLinks.includes(event.container.id)) {
@@ -104,7 +96,7 @@ export class GoalManagementComponent {
 						alert(response)
 						break;
 					case this.pausedState:
-						if (this._started[event.previousIndex].pausedCount === 5) {
+						if (this._started[event.previousIndex].pausedCount === this.MAX_PAUSE) {
 							alert("This goal cannot be paused any longer, you must complete it!")
 							return;
 						}
@@ -116,13 +108,17 @@ export class GoalManagementComponent {
 					event.previousContainer.data,
 					event.container.data,
 					event.previousIndex,
-					event.currentIndex,
+					event.currentIndex
 				);
 			}
 		}
+	};
+
+	onViewGoal(goalType: goalTypes, goalId: number): void {
+		alert(`Viewing ${goalType} goal in pos [${goalId}]`)
 	}
 
-	onViewGoal = (goalType: goalTypes, goalID: number) => {
-		alert(`Viewing Goal: [${goalType}, ${goalID}]`)
-	}
+  addGoal(){
+    alert("Lets starts")
+  }
 }
