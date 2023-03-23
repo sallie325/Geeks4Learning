@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { ViewSelectedGoalComponent } from './modals/views/view-selected-goal/view-selected-goal.component';
-import { GoalModel, goalTypes } from './models/goal-model';
+import { GoalModel, goalStatus } from './models/goal-model';
 import { GoalManagementService } from './services/goal-management.service';
 
 @Component({
@@ -18,11 +18,11 @@ import { GoalManagementService } from './services/goal-management.service';
 export class GoalManagementComponent implements OnInit {
 	MAX_PAUSE: number = 3
 	// Goal states
-	backlogState: goalTypes = 'backlog';
-	startedState: goalTypes = 'started';
-	pausedState: goalTypes = 'paused';
-	completedState: goalTypes = 'completed';
-	archivedState: goalTypes = 'archived';
+	backlogState: goalStatus = 'backlog';
+	startedState: goalStatus = 'started';
+	pausedState: goalStatus = 'paused';
+	completedState: goalStatus = 'completed';
+	archivedState: goalStatus = 'archived';
 	modal: MdbModalRef<ViewSelectedGoalComponent> | null = null;
 	selectedGoal!: GoalModel;
 
@@ -114,8 +114,8 @@ export class GoalManagementComponent implements OnInit {
 		}
 	};
 
-	onViewGoal(goalType: goalTypes, goalId: number): void {
-		alert(`Viewing ${goalType} goal in pos [${goalId}]`)
+	onViewGoal(goalStatus: goalStatus, goalId: number): void {
+		alert(`Viewing ${goalStatus} goal in pos [${goalId}]`)
 	}
 
   addGoal(){
