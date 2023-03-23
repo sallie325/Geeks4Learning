@@ -42,12 +42,12 @@
               <div class="row">
                 <div class="col">
                   <label class="form-control-label">Title</label>
-                  <input type="text" class="form-control" formControlName="goal_title" [(ngModel)]="currentGoal.title">
+                  <input type="text" class="form-control" formControlName="goal_title"formControlName="goal_title" [(ngModel)]="currentGoal.title">
                 </div>
                 <div class="col-3">
-                  <div class=" ">
+                  <div>
                     <label class="form-control-label">Time limit</label>
-                    <input type="time" class="form-control" value="10:05 AM" formControlName="time_Limit" />
+                    <input type="time" class="form-control" value="10:05 AM" formControlName="time_limit" [(ngModel)]="currentGoal.duration" />
                   </div>
                 </div>
               </div>

@@ -1,6 +1,7 @@
+import { GoalManagementService } from './../services/goal-management.service';
 import { GoalModel } from '../models/goal-model';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from 'src/app/user-management/login/services/token.service';
@@ -11,14 +12,17 @@ import { AttendanceService } from '../../attendance-register/services/attendance
   templateUrl: './capture-goals.component.html',
 })
 export class CaptureGoalsComponent implements OnInit {
-  formModel: FormGroup = new FormGroup({});
+
+  formModel: FormGroup = new FormGroup({
+    limit: new FormControl()
+  });
   time_Limit: any;
   attendanceId: any;
   currentGoal: GoalModel = {
     id: 0,
     title: 'Sample Goal Name',
     description: 'Sample Goal Description',
-    duration: '00:00:00',
+    duration: '00:00',
     tasks: [],
     comment: "",
     pausedCount: 0,
@@ -37,14 +41,18 @@ export class CaptureGoalsComponent implements OnInit {
     });
   }
   AddGoal() {
-    console.log(this.currentGoal)
-    this.attendanceService
-      .updateAttendanceGoals(this.formModel.value)
-      .subscribe((_) => {});
+    console.log(this.formModel)
+    console.log("calling saveGoal(this.currentGoal)");
+    this.goalManagementService.saveGoal(this.currentGoal);
+    alert("User goal has been added");
+    this.close();
+    // this.attendanceService
+    //   .updateAttendanceGoals(this.formModel.value)
+    //   .subscribe((_) => {});
   }
 
   constructor(
-    private attendanceService: AttendanceService,
+    private goalManagementService: GoalManagementService,
     public modalRef: MdbModalRef<CaptureGoalsComponent>,
     private formBuilder: FormBuilder
   ) {}
