@@ -3,7 +3,7 @@
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-8">
-          <h6 class="mb-0 ">Create Goals</h6>
+          <h6 class="mb-0 ">Create Goal</h6>
         </div>
         <div class="col-4 text-end">
           <a (click)="close()" class="cursor-pointer">
@@ -13,26 +13,25 @@
         <hr class="horizontal dark my-4" />
       </div>
       <div class="card-body pt-0">
-        <form autocomplete="off" [formGroup]="formModel" (ngSubmit)="UpdateGoals()">
+        <form autocomplete="off" [formGroup]="formModel" (ngSubmit)="AddGoal()">
           <div class="row">
             <div class="col p-3">
               <div class="row">
                 <div class="col">
                   <h6 class="fw-bold m-1 g4l-grey-text">
                     <i class="fa-solid fa-book"></i>
-                    Agile Development
+                    Module/Course Name goes here
                   </h6>
                   <p class="fw-bold m-1">
-                    <i class="fa-solid fa-building mr-1"></i>
-                    4 Days remaining
+                    <i class="fas fa-clock"></i>
+                    Module/Course duration
                   </p>
                 </div>
 
                 <div class="col-4">
-                  <div class="card border-radius" style="background-color:#8bacb4">
-                    <p class="white-text text text-bold" style="margin-left:10%;color:#02708f"><strong>Up
-                        Next</strong></p>
-                    <p class="white-text " style="margin-left: 10%;">
+                  <div class="card border-radius: 5px" style="background-color:#8bacb4">
+                    <p class="white-text text text-bold mt-1" style="margin-left:5%;color:#02708f"><strong>Up Next</strong></p>
+                    <p class="white-text " style="margin-left: 5%;">
                       Agile Development
                     </p>
                   </div>
@@ -42,14 +41,13 @@
 
               <div class="row">
                 <div class="col">
-                  <label class="form-control-label">Goal
-                    Summary</label>
-                  <input type="text" class="form-control" formControlName="goal_Description">
+                  <label class="form-control-label">Title</label>
+                  <input type="text" class="form-control" formControlName="goal_title"formControlName="goal_title" [(ngModel)]="currentGoal.title">
                 </div>
                 <div class="col-3">
-                  <div class=" ">
+                  <div>
                     <label class="form-control-label">Time limit</label>
-                    <input type="time" class="form-control" value="10:05 AM" formControlName="time_Limit" />
+                    <input type="time" class="form-control" value="10:05 AM" formControlName="time_limit" [(ngModel)]="currentGoal.duration" />
                   </div>
                 </div>
               </div>
@@ -57,18 +55,13 @@
               <div class="col ">
                 <div class=" mt-4">
                   <label class="form-control-label ">Description</label>
-                  <textarea class="form-control" rows="3" formControlName="goal_summary"></textarea>
+                  <textarea class="form-control" rows="3" formControlName="goal_description" [(ngModel)]="currentGoal.description"></textarea>
                 </div>
               </div>
 
               <div class="row mt-4 ">
-                <div class="col  text-left">
-                  <button class="btn btn-sm bg-2 gradient-primary mb-0  border border-primary text">
-                    <i class="fa-solid fa-pen"></i> Add new goal</button>
-                </div>
                 <div class="col text-end">
-                  <button class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text">
-                    Done</button>
+                  <button class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark text">Add Goal</button>
                 </div>
               </div>
             </div>

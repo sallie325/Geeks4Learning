@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GoalModel, goalTypes } from '../../models/goal-model';
+import { GoalModel, goalStatus } from '../../models/goal-model';
 
 @Component({
 	selector: 'app-goal-column-list',
@@ -21,7 +21,7 @@ export class GoalColumnListComponent implements OnInit {
 	onViewGoalRef!: any
 
 	@Input()
-	listID!: goalTypes
+	listID!: goalStatus
 
 	constructor() { }
 

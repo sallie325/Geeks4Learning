@@ -7,7 +7,7 @@ import { AttendanceStatus } from 'src/app/shared/global/attendance-type';
 
 import { constants } from 'src/app/shared/global/global.constants';
 import { TokenService } from 'src/app/user-management/login/services/token.service';
-import { CaptureGoalsComponent } from '../../capture-goals/capture-goals.component';
+import { CaptureGoalsComponent } from '../../../goal-management/capture-goals/capture-goals.component';
 import { LunchTimeNotificationComponent } from '../../lunch-time-notification/lunch-time-notification.component';
 import { AttendanceService } from '../../services/attendance.service';
 

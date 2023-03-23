@@ -1,15 +1,12 @@
-import {
-	CdkDragDrop,
-	moveItemInArray,
-	transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { ToastrService } from 'ngx-toastr';
+import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ViewSelectedGoalComponent } from './modals/views/view-selected-goal/view-selected-goal.component';
-import { GoalModel, goalTypes } from './models/goal-model';
+import { GoalModel, goalStatus } from './models/goal-model';
 import { ActiveGoalService } from './services/active-goal.service';
 import { GoalManagementService } from './services/goal-management.service';
+import { CaptureGoalsComponent } from './capture-goals/capture-goals.component';
+import { CaptureGoalService } from './services/capture-goal.service';
 
 @Component({
 	selector: 'app-goal-management',
@@ -19,11 +16,11 @@ import { GoalManagementService } from './services/goal-management.service';
 export class GoalManagementComponent implements OnInit {
 	MAX_PAUSE: number = 3
 	// Goal states
-	backlogState: goalTypes = 'backlog';
-	startedState: goalTypes = 'started';
-	pausedState: goalTypes = 'paused';
-	completedState: goalTypes = 'completed';
-	archivedState: goalTypes = 'archived';
+	backlogState: goalStatus = 'backlog';
+	startedState: goalStatus = 'started';
+	pausedState: goalStatus = 'paused';
+	completedState: goalStatus = 'completed';
+	archivedState: goalStatus = 'archived';
 	modal: MdbModalRef<ViewSelectedGoalComponent> | null = null;
 	selectedGoal!: GoalModel;
 
@@ -34,9 +31,12 @@ export class GoalManagementComponent implements OnInit {
 	_started: Array<GoalModel> = [];
 	_completed: Array<GoalModel> = [];
 
+  modalDialog : MdbModalRef<CaptureGoalsComponent> | null = null;
+
 	constructor(
 		private goalService: GoalManagementService,
-		private activeGoalPopupService: ActiveGoalService
+		private activeGoalPopupService: ActiveGoalService,
+    private captureGoalService: CaptureGoalService
 	) { }
 
 	ngOnInit(): void {
@@ -86,7 +86,7 @@ export class GoalManagementComponent implements OnInit {
 
 						if (this.closePopup(event.previousContainer.id))
 							this.activeGoalPopupService.deactivateGoal();
-							
+
 						break;
 					case this.pausedState:
 						if (event.previousContainer.data[event.previousIndex].pausedCount === this.MAX_PAUSE) {
@@ -124,7 +124,11 @@ export class GoalManagementComponent implements OnInit {
 		return false;
 	}
 
-	onViewGoal(goalType: goalTypes, goalId: number): void {
-		alert(`Viewing ${goalType} goal in pos [${goalId}]`)
+	onViewGoal(goalStatus: goalStatus, goalId: number): void {
+		alert(`Viewing ${goalStatus} goal in pos [${goalId}]`)
 	}
+
+  addNewGoal(){
+    this.captureGoalService.openCaptureGoal();
+  }
 }
