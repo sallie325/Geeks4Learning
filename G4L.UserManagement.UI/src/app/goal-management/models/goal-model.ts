@@ -1,4 +1,4 @@
-export type goalTypes = "backlog" | "started" | "paused" | "completed" | "archived"
+export type goalStatus = "backlog" | "started" | "paused" | "completed" | "archived"
 
 export interface GoalTaskModel {
     id?: number,
@@ -14,5 +14,5 @@ export interface GoalModel {
     tasks?: Array<GoalTaskModel>,
     comment?: string,
     pausedCount: number,
-    goalType: goalTypes
+    goalStatus: goalStatus
 }

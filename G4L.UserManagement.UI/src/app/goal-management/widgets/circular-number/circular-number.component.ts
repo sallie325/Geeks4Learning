@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { goalTypes } from '../../models/goal-model';
+import { goalStatus } from '../../models/goal-model';
 
 @Component({
   selector: 'app-circular-number',
@@ -11,7 +11,7 @@ export class CircularNumberComponent implements OnInit {
   goalCount!: number;
 
   @Input()
-  activeClass!: goalTypes;
+  activeClass!: goalStatus;
 
   constructor() { }
 
