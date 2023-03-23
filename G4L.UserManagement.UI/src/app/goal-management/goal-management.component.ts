@@ -1,14 +1,11 @@
-import {
-	CdkDragDrop,
-	moveItemInArray,
-	transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { ViewSelectedGoalComponent } from './modals/views/view-selected-goal/view-selected-goal.component';
 import { GoalModel, goalStatus } from './models/goal-model';
 import { GoalManagementService } from './services/goal-management.service';
+import { CaptureGoalsComponent } from './capture-goals/capture-goals.component';
 
 @Component({
 	selector: 'app-goal-management',
@@ -35,9 +32,12 @@ export class GoalManagementComponent implements OnInit {
 	_started: Array<GoalModel> = [];
 	_completed: Array<GoalModel> = [];
 
+  modalDialog : MdbModalRef<CaptureGoalsComponent> | null = null;
+
 	constructor(
 		private goalService: GoalManagementService,
 		private toastrService: ToastrService,
+    private modalService: MdbModalService
 	) { }
 
 	ngOnInit(): void {
@@ -119,6 +119,15 @@ export class GoalManagementComponent implements OnInit {
 	}
 
   addGoal(){
-    alert("Lets starts")
+    console.log("Calling createNewGoalDialog()");
+
+    this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
+      animation: true,
+      backdrop: true,
+      containerClass: 'modal top fade modal-backdrop',
+      ignoreBackdropClick: false,
+      keyboard: true,
+      modalClass: 'modal-xl modal-dialog-centered'
+    });
   }
 }

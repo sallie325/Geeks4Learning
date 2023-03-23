@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
-import { CaptureGoalsComponent } from './capture-goals/capture-goals.component';
+import { CaptureGoalsComponent } from '../goal-management/capture-goals/capture-goals.component';
 import { LunchTimeNotificationComponent } from './lunch-time-notification/lunch-time-notification.component';
 import { ReviewGoalsComponent } from './review-goals/review-goals.component';
 import { constants } from '../shared/global/global.constants';
@@ -21,18 +21,18 @@ export class AttendanceRegisterComponent implements OnInit {
   time= new Date();
   today= new Date();
   todaysDataTime = '';
- 
+
 
   constructor(
     private modalService: MdbModalService,
     private toastr: ToastrService,
-  
+
   ) { }
 
   isAdmin: boolean | undefined;
   isTrainer: boolean | undefined;
   isLearner: boolean | undefined;
- 
+
 
   ngOnInit(): void {
     const role = sessionStorage.getItem(constants.role);
@@ -52,8 +52,8 @@ export class AttendanceRegisterComponent implements OnInit {
         break;
     }
 
-    
-   
+
+
   }
 
   CreateGoalsDialog() {
@@ -67,7 +67,7 @@ export class AttendanceRegisterComponent implements OnInit {
     });
   }
 
-  
+
   LunchDialog() {
     this.modalDialog = this.modalService.open(LunchTimeNotificationComponent, {
       animation: true,
@@ -79,7 +79,7 @@ export class AttendanceRegisterComponent implements OnInit {
     });
   }
 
-  
+
   GoalsDialog() {
     this.modalDialog = this.modalService.open(ReviewGoalsComponent, {
       animation: true,
@@ -90,5 +90,5 @@ export class AttendanceRegisterComponent implements OnInit {
       modalClass: 'modal-xl modal-dialog-centered',
     });
   }
- 
+
 }

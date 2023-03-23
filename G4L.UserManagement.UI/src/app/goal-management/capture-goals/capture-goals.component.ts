@@ -1,10 +1,10 @@
-import { GoalModel } from './../../goal-management/models/goal-model';
+import { GoalModel } from '../models/goal-model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from 'src/app/user-management/login/services/token.service';
-import { AttendanceService } from '../services/attendance.service';
+import { AttendanceService } from '../../attendance-register/services/attendance.service';
 
 @Component({
   selector: 'app-capture-goals',
@@ -18,11 +18,11 @@ export class CaptureGoalsComponent implements OnInit {
     id: 0,
     title: 'Sample Goal Name',
     description: 'Sample Goal Description',
-    duration: '5 days remaining',
+    duration: '00:00:00',
     tasks: [],
     comment: "",
     pausedCount: 0,
-    goalType: 'backlog'
+    goalStatus: 'backlog'
   }
 
   ngOnInit(): void {
@@ -52,4 +52,6 @@ export class CaptureGoalsComponent implements OnInit {
   close() {
     this.modalRef.close();
   }
+
+  UpdateGoals(){}
 }
