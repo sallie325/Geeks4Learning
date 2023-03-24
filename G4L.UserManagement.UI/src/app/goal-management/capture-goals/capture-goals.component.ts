@@ -10,12 +10,14 @@ import { AttendanceService } from '../../attendance-register/services/attendance
 @Component({
   selector: 'app-capture-goals',
   templateUrl: './capture-goals.component.html',
+  styleUrls: ['./capture-goals.component.css']
 })
 export class CaptureGoalsComponent implements OnInit {
 
   formModel: FormGroup = new FormGroup({
     limit: new FormControl()
   });
+
   time_Limit: any;
   attendanceId: any;
   currentGoal: GoalModel = {
@@ -50,8 +52,8 @@ export class CaptureGoalsComponent implements OnInit {
 
   AddGoal() {
     console.log(this.formModel)
-    console.log("calling saveGoal(this.currentGoal)");
-    this.goalManagementService.saveGoal(this.currentGoal);
+    // console.log("calling saveGoal(this.currentGoal)");
+    // this.goalManagementService.saveGoal(this.currentGoal);
     alert("User goal has been added");
     this.close();
     // this.attendanceService

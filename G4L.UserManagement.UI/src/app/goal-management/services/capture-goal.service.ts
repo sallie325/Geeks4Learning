@@ -18,7 +18,7 @@ export class CaptureGoalService {
       containerClass: 'modal top fade modal-backdrop',
       ignoreBackdropClick: false,
       keyboard: true,
-      modalClass: 'modal-xl modal-dialog-centered',
+      modalClass: 'modal-xl modal-dialog-centered w-50',
     });
   }
 
