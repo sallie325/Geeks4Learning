@@ -1,4 +1,4 @@
-.goal-management-controls{
+.goal-management-controls {
   padding-right: 2rem;
   display: flex;
   justify-content: flex-end;
@@ -7,7 +7,7 @@
 .goal-management-kanban {
   position: relative;
   cursor: grabbing;
-  margin-top: .7rem;
+  margin-top: 0.7rem;
   /* background-color: wheat; */
 }
 
@@ -17,11 +17,15 @@ button {
   color: #ffffff;
 }
 
-button i{
+button i {
   position: relative;
-  margin-right: .5rem;
+  margin-right: 0.5rem;
 }
 
-.goal-kanban-content{
+.goal-kanban-content {
   height: 100%;
+}
+
+.backlogTextBackgroundColor {
+  background-color: var(--g4l-backlog-state-color);
 }

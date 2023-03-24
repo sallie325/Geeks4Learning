@@ -11,6 +11,11 @@
         {
           "id": 1,
           "title": "Setup my environment",
+          "complete": true
+        },
+        {
+          "id": 2,
+          "title": "Object oriented programming",
           "complete": false
         }
       ]
