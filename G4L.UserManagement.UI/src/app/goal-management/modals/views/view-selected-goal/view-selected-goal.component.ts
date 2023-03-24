@@ -7,7 +7,7 @@ import { GoalModel } from '../../../models/goal-model';
   styleUrls: ['./view-selected-goal.component.css'],
 })
 export class ViewSelectedGoalComponent implements OnInit {
-  goal: GoalModel | null = null;
+  goal!: GoalModel;
   goalProgress!: number;
   goalProgressValue!: number;
   goalStatus!: string;

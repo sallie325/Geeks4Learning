@@ -1,0 +1,21 @@
+<!-- TASKS -->
+<div *ngIf="goal?.tasks">
+  <hr class="horizontal dark my-4" />
+  <h6 class="heading-small text-muted mb-4">
+    TASKS
+    <span class="border rounded-circle text-sm-center"
+      >&nbsp;{{ goal?.tasks?.length }}&nbsp;</span
+    >
+  </h6>
+
+  <div *ngFor="let task of goal?.tasks" class="form-check">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      value=""
+      id="checkbox"
+      [checked]="task.complete"
+    />
+    <label class="form-check-label" for="checkbox">{{ task.title }}</label>
+  </div>
+</div>

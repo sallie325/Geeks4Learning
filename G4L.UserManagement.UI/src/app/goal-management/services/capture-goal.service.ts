@@ -3,12 +3,12 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { CaptureGoalsComponent } from '../capture-goals/capture-goals.component';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CaptureGoalService {
   private modalDialog!: MdbModalRef<CaptureGoalsComponent>;
 
-  constructor(private modalService: MdbModalService) { }
+  constructor(private modalService: MdbModalService) {}
 
   openCaptureGoal(attendance?: any) {
     this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
