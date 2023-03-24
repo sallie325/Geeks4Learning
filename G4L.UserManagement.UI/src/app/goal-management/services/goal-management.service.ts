@@ -18,4 +18,8 @@ export class GoalManagementService {
   getGoals(): Observable<GoalModel[]> {
     return this.http.get<GoalModel[]>(`http://localhost:3000/goals`);
   }
+
+  getGoalById(id: any): Observable<GoalModel> {
+    return this.http.get<GoalModel>(`http://localhost:3000/goals/${id}`);
+  }
 }

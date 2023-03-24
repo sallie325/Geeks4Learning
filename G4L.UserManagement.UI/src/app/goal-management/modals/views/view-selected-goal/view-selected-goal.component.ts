@@ -1,5 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
 import { GoalModel } from '../../../models/goal-model';
 
 @Component({
@@ -8,16 +7,32 @@ import { GoalModel } from '../../../models/goal-model';
   styleUrls: ['./view-selected-goal.component.css'],
 })
 export class ViewSelectedGoalComponent implements OnInit {
-  constructor(
-    public dialogRef: MatDialogRef<ViewSelectedGoalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: GoalModel
-  ) {}
+  goal: GoalModel | null = null;
+  goalProgress!: number;
+  goalProgressValue!: number;
+  goalStatus!: string;
+
+  constructor() {}
 
   ngOnInit(): void {
-    console.log(this.data);
+    this.calculateGoalProgress();
+    this.getGoalColor();
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  calculateGoalProgress() {
+    if (this.goal?.tasks) {
+      this.goalProgress =
+        this.goal.tasks.filter((task) => task.complete).length /
+        this.goal.tasks.length;
+      this.goalProgressValue = this.goalProgress * 100;
+      return;
+    }
+    //TODO what if no task added how do we calculate the percentage
+    this.goalProgress = 0;
+    this.goalProgressValue = this.goalProgress * 100;
+  }
+
+  getGoalColor() {
+    if (this.goal?.goalStatus) this.goalStatus = this.goal?.goalStatus;
   }
 }

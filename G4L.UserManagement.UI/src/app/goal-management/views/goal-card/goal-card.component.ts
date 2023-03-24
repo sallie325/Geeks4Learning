@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { ViewSelectedGoalComponent } from '../../modals/views/view-selected-goal/view-selected-goal.component';
 import { GoalModel } from '../../models/goal-model';
 
 @Component({
@@ -10,25 +12,27 @@ export class GoalCardComponent {
   @Input()
   goalId!: number | undefined;
 
-	@Input()
-	goalTitle!: string;
+  @Input()
+  goalTitle!: string;
 
-	@Input()
-	goalDescription!: string;
+  @Input()
+  goalDescription!: string;
 
-	@Input()
-	goalDuration!: string;
+  @Input()
+  goalDuration!: string;
 
   @Input()
   goalState!: 'backlog' | 'started' | 'paused' | 'completed' | 'archived';
-  GoalModel!: GoalModel;
-  name: any;
-  animal: any;
+
+  @Input()
+  goal!: GoalModel;
 
   @Input()
   onViewGoalRef!: any;
 
-  constructor() {}
+  modalRef: MdbModalRef<ViewSelectedGoalComponent> | null = null;
+
+  constructor(private modalService: MdbModalService) {}
 
   grab(event: any) {
     const { target } = event;
@@ -39,17 +43,19 @@ export class GoalCardComponent {
     const { target } = event;
     target.style.cursor = 'grab';
   }
-  onOpenDialog(): void {
-    // const dialogRef = this.dialog.open(ViewSelectedGoalComponent, {
-    //   data: {
-    //     title: this.goalTitle,
-    //     duration: this.goalDuration,
-    //     description: this.goalDescription,
-    //   },
-    // });
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   console.log('The dialog was closed');
-    //   this.goalDescription = result;
-    // });
+
+  onViewGoal(goal?: GoalModel): void {
+    this.modalRef = this.modalService.open(ViewSelectedGoalComponent, {
+      data: { goal: goal },
+      containerClass: 'modal top fade modal-backdrop',
+      ignoreBackdropClick: false,
+      modalClass: 'modal-xl modal-dialog-centered',
+    });
+  }
+
+  onCloseGoal(): void {
+    if (this.modalRef) {
+      this.modalRef.close();
+    }
   }
 }
