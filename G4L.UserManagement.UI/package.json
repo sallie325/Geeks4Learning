@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "app": "ng serve",
-    "mock:server": "nodemon server/server.js --ext js,ts,json,html",
+    "mock:server": "npx json-server --watch server/data/goals/json/goals.json",
     "dev": "concurrently -n server,client -c green,yellow \"npm run mock:server\" \"npm run app\"",
     "start": "npm run app",
     "build": "ng build",

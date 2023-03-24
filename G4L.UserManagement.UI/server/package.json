@@ -5,15 +5,11 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js",
-    "server": "npx json-server --watch data/goals/json/goals.json"
+    "start": "npx json-server --watch data/goals/json/goals.json"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "json-server": "^0.17.2"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.21"
   }
 }

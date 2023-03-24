@@ -1,18 +1,25 @@
-export type goalStatus = "backlog" | "started" | "paused" | "completed" | "archived"
+export type goalStatus =
+  | 'backlog'
+  | 'started'
+  | 'paused'
+  | 'completed'
+  | 'archived';
 
 export interface GoalTaskModel {
-    id?: number,
-    title: string,
-    complete: boolean
+  id?: number;
+  title: string;
+  complete: boolean;
 }
 
 export interface GoalModel {
-    id?: number,
-    title: string,
-    description: string,
-    duration: string,
-    tasks?: Array<GoalTaskModel>,
-    comment?: string,
-    pausedCount: number,
-    goalStatus: goalStatus
+  id?: number;
+  title: string;
+  description: string;
+  duration: string;
+  tasks?: Array<GoalTaskModel>;
+  comment?: string;
+  pausedCount: number;
+  goalStatus: goalStatus;
+  addedTime: string;
+  timeRemaining: string;
 }

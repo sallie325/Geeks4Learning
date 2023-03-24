@@ -8,40 +8,38 @@ import { GoalModel } from '../models/goal-model';
   providedIn: 'root',
 })
 export class GoalManagementService {
-  private goalSubject!: Subject<GoalModel>
-  private localServerAddress: string = "http://localhost:58760"
+  private goalSubject!: Subject<GoalModel>;
+  private localServerAddress: string = 'http://localhost:3000';
 
-  constructor(
-    private http: HttpClient,
-    private toastrService: ToastrService,) {
+  constructor(private http: HttpClient, private toastrService: ToastrService) {
     this.goalSubject = new Subject<GoalModel>();
   }
 
   saveGoal(goal: GoalModel): Observable<GoalModel> {
-    return this.http.post<GoalModel>(`${this.localServerAddress}/goals`, goal);
+    return this.http.post<GoalModel>(`http://localhost:3000/goals`, goal);
   }
 
   updateTime(goal: GoalModel): Observable<GoalModel> {
-    return this.http.put<GoalModel>(`${this.localServerAddress}/goals`, goal);
+    return this.http.put<GoalModel>(`http://localhost:3000/goals`, goal);
   }
 
   getGoals(): Subject<GoalModel> {
-    this.http.get<GoalModel[]>(`${this.localServerAddress}/api/goals`)
-      .subscribe(
-        (goals: GoalModel[]) => {
-          goals.forEach((goal: GoalModel) => {
-            this.goalSubject.next(goal);
-          })
-        },
-        (err) => {
-        this.showErrorMeesage("Loading Goals", err.message);
-      })
-    
+    this.http.get<GoalModel[]>(`http://localhost:3000/goals`).subscribe(
+      (goals: GoalModel[]) => {
+        goals.forEach((goal: GoalModel) => {
+          this.goalSubject.next(goal);
+        });
+      },
+      (err) => {
+        this.showErrorMeesage('Loading Goals', err.message);
+      }
+    );
+
     return this.getGoalSubject();
   }
 
   showErrorMeesage(messageTitle: string, message: string) {
-    this.toastrService.error(message, messageTitle)
+    this.toastrService.error(message, messageTitle);
   }
 
   getGoalSubject(): Subject<GoalModel> {

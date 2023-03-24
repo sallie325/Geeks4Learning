@@ -1,21 +1,17 @@
-import { GoalManagementService } from './../services/goal-management.service';
-import { GoalModel } from '../models/goal-model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { ToastrService } from 'ngx-toastr';
-import { TokenService } from 'src/app/user-management/login/services/token.service';
-import { AttendanceService } from '../../attendance-register/services/attendance.service';
+import { GoalModel } from '../models/goal-model';
+import { GoalManagementService } from './../services/goal-management.service';
 
 @Component({
   selector: 'app-capture-goals',
   templateUrl: './capture-goals.component.html',
-  styleUrls: ['./capture-goals.component.css']
+  styleUrls: ['./capture-goals.component.css'],
 })
 export class CaptureGoalsComponent implements OnInit {
-
   formModel: FormGroup = new FormGroup({
-    limit: new FormControl()
+    limit: new FormControl(),
   });
 
   time_Limit: any;
@@ -26,16 +22,18 @@ export class CaptureGoalsComponent implements OnInit {
     description: 'Sample Goal Description',
     duration: '00:00',
     tasks: [],
-    comment: "",
+    comment: '',
     pausedCount: 0,
-    goalStatus: 'backlog'
-  }
+    goalStatus: 'backlog',
+    addedTime: '20:00',
+    timeRemaining: '19:00',
+  };
 
   constructor(
     private goalManagementService: GoalManagementService,
     public modalRef: MdbModalRef<CaptureGoalsComponent>,
     private formBuilder: FormBuilder
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.buildForm();
@@ -51,10 +49,10 @@ export class CaptureGoalsComponent implements OnInit {
   }
 
   AddGoal() {
-    console.log(this.formModel)
+    console.log(this.formModel);
     // console.log("calling saveGoal(this.currentGoal)");
     // this.goalManagementService.saveGoal(this.currentGoal);
-    alert("User goal has been added");
+    alert('User goal has been added');
     this.close();
     // this.attendanceService
     //   .updateAttendanceGoals(this.formModel.value)
@@ -65,5 +63,5 @@ export class CaptureGoalsComponent implements OnInit {
     this.modalRef.close();
   }
 
-  UpdateGoals() { }
+  UpdateGoals() {}
 }

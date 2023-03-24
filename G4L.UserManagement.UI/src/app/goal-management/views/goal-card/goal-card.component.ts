@@ -37,7 +37,7 @@ export class GoalCardComponent {
   constructor(
     private modalService: MdbModalService,
     private activeGoalService: ActiveGoalService
-  ) { }
+  ) {}
 
   grab(event: any) {
     const { target } = event;
@@ -49,7 +49,6 @@ export class GoalCardComponent {
     target.style.cursor = 'grab';
   }
 
-
   isGoalStarted(): activeGoalPopupWindowState {
     return this.activeGoalService.getActiveGoalPopupWindowState();
   }
@@ -59,7 +58,7 @@ export class GoalCardComponent {
       data: { goal: goal },
       containerClass: 'modal top fade modal-backdrop',
       ignoreBackdropClick: false,
-      modalClass: 'modal-xl modal-dialog-centered',
+      modalClass: 'modal-xl modal-dialog-centered w-50',
     });
   }
 
