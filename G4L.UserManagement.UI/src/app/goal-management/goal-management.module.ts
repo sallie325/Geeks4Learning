@@ -13,6 +13,7 @@ import { AddExtraGoalTimeComponent } from './modals/add-extra-goal-time/add-extr
 import { CircularNumberComponent } from './widgets/circular-number/circular-number.component';
 import { ContentComponent } from './widgets/circular-number/content/content.component';
 import { PipesModule } from '../shared/pipes/pipes.module';
+import { CaptureGoalsComponent } from './modals/capture-goals/capture-goals.component';
 
 
 
@@ -27,7 +28,8 @@ import { PipesModule } from '../shared/pipes/pipes.module';
     ViewSelectedGoalComponent,
     AddExtraGoalTimeComponent,
     CircularNumberComponent,
-    ContentComponent
+    ContentComponent,
+    CaptureGoalsComponent
   ],
   imports: [
     CommonModule,
