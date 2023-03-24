@@ -8,7 +8,9 @@
           </div>
         </div>
         <div class="col-4 text-end">
-          <a class="cursor-pointer"> <i class="fa-solid fa-xmark"></i></a>
+          <a class="cursor-pointer" (click)="onCloseModal()">
+            <i class="fa-solid fa-xmark"></i
+          ></a>
         </div>
       </div>
     </div>
@@ -62,9 +64,10 @@
 
       <!-- Add Task Component here -->
       <app-tasks [goal]="goal"></app-tasks>
-      <hr class="horizontal dark my-4" />
+
       <!-- Action buttons -->
-      <div class="row mt-3">
+      <div class="row mt-3" *ngIf="goalStatus !== 'completed'">
+        <hr class="horizontal dark my-4" />
         <div class="col-8">
           <a class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark">
             <i class="fa-solid fa-pen"></i>&nbsp;&nbsp;ADD MORE
@@ -90,25 +93,27 @@
                 <i class="fa-solid fa-play text-xs"></i>&nbsp;&nbsp;Start the
                 goal&nbsp;&nbsp;</a
               >
+
               <a
                 class="dropdown-item"
-                *ngIf="goalStatus === 'backlog' || goalStatus === 'started'"
-              >
-                <i class="fa-solid fa-archive text-xs"></i>&nbsp;&nbsp;Archive
-                goal&nbsp;&nbsp;</a
-              >
-              <a
-                class="dropdown-item"
-                *ngIf="goalStatus === 'started' || goalStatus === 'paused'"
+                *ngIf="goalStatus === 'started' && goalProgressValue === 100"
               >
                 <i class="fa-solid fa-play text-xs"></i>&nbsp;&nbsp;Complete
                 goal&nbsp;&nbsp;</a
               >
+              <a class="dropdown-item" *ngIf="goalStatus === 'started'">
+                <i class="fa-solid fa-play text-xs"></i>&nbsp;&nbsp;Pause
+                goal&nbsp;&nbsp;</a
+              >
+              <a class="dropdown-item" *ngIf="goalStatus === 'archived'">
+                <i class="fa-solid fa-play text-xs"></i>&nbsp;&nbsp;Restart
+                goal&nbsp;&nbsp;</a
+              >
               <a
                 class="dropdown-item"
                 *ngIf="goalStatus === 'started' || goalStatus === 'paused'"
               >
-                <i class="fa-solid fa-play text-xs"></i>&nbsp;&nbsp;Pause
+                <i class="fa-solid fa-archive text-xs"></i>&nbsp;&nbsp;Archive
                 goal&nbsp;&nbsp;</a
               >
             </div>
