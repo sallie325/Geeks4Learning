@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from './services/user.service';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { EnrolComponent } from './enrol/enrol.component';
+import { ToastrService } from 'ngx-toastr';
 import { constants } from '../shared/global/global.constants';
 import { Roles } from '../shared/global/roles';
-import { ToastrService } from 'ngx-toastr';
+import { EnrolComponent } from './enrol/enrol.component';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-user-management',
@@ -12,7 +12,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./user-management.component.css'],
 })
 export class UserManagementComponent implements OnInit {
-
   users: any;
   userRole: any;
   modalDialog: MdbModalRef<EnrolComponent> | null = null;
@@ -30,7 +29,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   getPagedUsers(skip: number, take: number) {
-     this.userService.getPagedUsers(skip, take).subscribe((response: any) => {
+    this.userService.getPagedUsers(skip, take).subscribe((response: any) => {
       this.filterUserByRole(response);
     });
   }

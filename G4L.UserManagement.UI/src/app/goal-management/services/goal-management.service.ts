@@ -47,4 +47,8 @@ export class GoalManagementService {
   getGoalSubject(): Subject<GoalModel> {
     return this.goalSubject;
   }
+
+  getGoalById(id: any): Observable<GoalModel> {
+    return this.http.get<GoalModel>(`http://localhost:3000/goals/${id}`);
+  }
 }

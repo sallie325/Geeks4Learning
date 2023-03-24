@@ -1,4 +1,8 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ViewSelectedGoalComponent } from './modals/views/view-selected-goal/view-selected-goal.component';
@@ -9,29 +13,31 @@ import { CaptureGoalsComponent } from './capture-goals/capture-goals.component';
 import { CaptureGoalService } from './services/capture-goal.service';
 
 @Component({
-	selector: 'app-goal-management',
-	templateUrl: './goal-management.component.html',
-	styleUrls: ['./goal-management.component.css'],
+  selector: 'app-goal-management',
+  templateUrl: './goal-management.component.html',
+  styleUrls: ['./goal-management.component.css'],
 })
 export class GoalManagementComponent implements OnInit {
-	MAX_PAUSE: number = 3
-	// Goal states
-	backlogState: goalStatus = 'backlog';
-	startedState: goalStatus = 'started';
-	pausedState: goalStatus = 'paused';
-	completedState: goalStatus = 'completed';
-	archivedState: goalStatus = 'archived';
-	modal: MdbModalRef<ViewSelectedGoalComponent> | null = null;
-	selectedGoal!: GoalModel;
+  MAX_PAUSE: number = 3;
+  // Goal states
+  backlogState: goalStatus = 'backlog';
+  startedState: goalStatus = 'started';
+  pausedState: goalStatus = 'paused';
+  completedState: goalStatus = 'completed';
+  archivedState: goalStatus = 'archived';
 
-	// Goal collections
-	_backlog: Array<GoalModel> = [];
-	_paused: Array<GoalModel> = [];
-	_archived: Array<GoalModel> = [];
-	_started: Array<GoalModel> = [];
-	_completed: Array<GoalModel> = [];
+  selectedGoal!: GoalModel;
 
-  modalDialog : MdbModalRef<CaptureGoalsComponent> | null = null;
+  _backlog: Array<GoalModel> = [];
+
+  _paused: Array<GoalModel> = [];
+
+  _archived: Array<GoalModel> = [];
+
+  _started: Array<GoalModel> = [];
+  _completed: Array<GoalModel> = [];
+
+  modalRef: MdbModalRef<ViewSelectedGoalComponent> | null = null;
 
 	constructor(
 		private goalService: GoalManagementService,
@@ -64,16 +70,16 @@ export class GoalManagementComponent implements OnInit {
 	//TODO Mock function, to remove
 	filterGoals() { }
 
-	onDropGoal = (event: CdkDragDrop<Array<any>>): void => {
-		if (event.previousContainer === event.container) {
-			moveItemInArray(
-				event.container.data,
-				event.previousIndex,
-				event.currentIndex
-			);
-		} else {
-			const previousContainerLinks: Array<string> =
-				event.previousContainer.connectedTo.toString().split(',');
+  onDropGoal = (event: CdkDragDrop<Array<any>>): void => {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      const previousContainerLinks: Array<string> =
+        event.previousContainer.connectedTo.toString().split(',');
 
 			// Checking if the current card is movable to the target container
 			if (previousContainerLinks.includes(event.container.id)) {
@@ -109,15 +115,15 @@ export class GoalManagementComponent implements OnInit {
 						break;
 				}
 
-				transferArrayItem(
-					event.previousContainer.data,
-					event.container.data,
-					event.previousIndex,
-					event.currentIndex
-				);
-			}
-		}
-	};
+        transferArrayItem(
+          event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex
+        );
+      }
+    }
+  };
 
 	closePopup(containerId: string) {
 		if (containerId === this.startedState) return true;

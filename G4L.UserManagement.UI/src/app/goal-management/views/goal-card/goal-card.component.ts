@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { ViewSelectedGoalComponent } from '../../modals/views/view-selected-goal/view-selected-goal.component';
 import { activeGoalPopupWindowState } from '../../models/active-goal-model';
 import { GoalModel } from '../../models/goal-model';
 import { ActiveGoalService } from '../../services/active-goal.service';
@@ -23,15 +25,19 @@ export class GoalCardComponent {
 
   @Input()
   goalState!: 'backlog' | 'started' | 'paused' | 'completed' | 'archived';
-  
-  GoalModel!: GoalModel;
-  name: any;
-  animal: any;
+
+  @Input()
+  goal!: GoalModel;
 
   @Input()
   onViewGoalRef!: any;
 
-  constructor(private activeGoalService: ActiveGoalService) { }
+  modalRef: MdbModalRef<ViewSelectedGoalComponent> | null = null;
+
+  constructor(
+    private modalService: MdbModalService,
+    private activeGoalService: ActiveGoalService
+  ) { }
 
   grab(event: any) {
     const { target } = event;
@@ -43,21 +49,23 @@ export class GoalCardComponent {
     target.style.cursor = 'grab';
   }
 
+
   isGoalStarted(): activeGoalPopupWindowState {
     return this.activeGoalService.getActiveGoalPopupWindowState();
   }
 
-  onOpenDialog(): void {
-    // const dialogRef = this.dialog.open(ViewSelectedGoalComponent, {
-    //   data: {
-    //     title: this.goalTitle,
-    //     duration: this.goalDuration,
-    //     description: this.goalDescription,
-    //   },
-    // });
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   console.log('The dialog was closed');
-    //   this.goalDescription = result;
-    // });
+  onViewGoal(goal?: GoalModel): void {
+    this.modalRef = this.modalService.open(ViewSelectedGoalComponent, {
+      data: { goal: goal },
+      containerClass: 'modal top fade modal-backdrop',
+      ignoreBackdropClick: false,
+      modalClass: 'modal-xl modal-dialog-centered',
+    });
+  }
+
+  onCloseGoal(): void {
+    if (this.modalRef) {
+      this.modalRef.close();
+    }
   }
 }

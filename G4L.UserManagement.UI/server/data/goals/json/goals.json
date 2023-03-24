@@ -10,22 +10,12 @@
       "tasks": [
         {
           "id": 1,
-          "title": "Run the `ng g c goal-management` command",
-          "complete": false
+          "title": "Setup my environment",
+          "complete": true
         },
         {
           "id": 2,
-          "title": "Update the routing module",
-          "complete": false
-        },
-        {
-          "id": 3,
-          "title": "Update the sidebar permissions",
-          "complete": false
-        },
-        {
-          "id": 4,
-          "title": "Test the component if it works",
+          "title": "Object oriented programming",
           "complete": false
         }
       ]
