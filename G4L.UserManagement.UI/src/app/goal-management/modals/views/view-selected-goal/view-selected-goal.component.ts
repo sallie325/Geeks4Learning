@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { GoalModel } from '../../../models/goal-model';
 
 @Component({
@@ -12,7 +13,7 @@ export class ViewSelectedGoalComponent implements OnInit {
   goalProgressValue!: number;
   goalStatus!: string;
 
-  constructor() {}
+  constructor(private modalRef: MdbModalRef<ViewSelectedGoalComponent>) {}
 
   ngOnInit(): void {
     this.calculateGoalProgress();
@@ -35,4 +36,10 @@ export class ViewSelectedGoalComponent implements OnInit {
   getGoalColor() {
     if (this.goal?.goalStatus) this.goalStatus = this.goal?.goalStatus;
   }
+
+  onCloseModal() {
+    this.modalRef.close();
+  }
+
+  onActionClicked(actionType: string, goal: GoalModel) {}
 }
