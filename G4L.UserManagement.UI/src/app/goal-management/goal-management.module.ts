@@ -13,7 +13,6 @@ import { ViewSelectedGoalComponent } from './modals/views/view-selected-goal/vie
 import { CircularNumberComponent } from './widgets/circular-number/circular-number.component';
 import { ContentComponent } from './widgets/circular-number/content/content.component';
 import { PipesModule } from '../shared/pipes/pipes.module';
-import { CaptureGoalsComponent } from './modals/capture-goals/capture-goals.component';
 
 
 
