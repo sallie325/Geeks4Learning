@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
-import { CaptureGoalsComponent } from '../goal-management/capture-goals/capture-goals.component';
+import { CaptureGoalsComponent } from '../goal-management/modals/capture-goals/capture-goals.component';
 import { LunchTimeNotificationComponent } from './lunch-time-notification/lunch-time-notification.component';
 import { ReviewGoalsComponent } from './review-goals/review-goals.component';
 import { constants } from '../shared/global/global.constants';
@@ -18,8 +18,8 @@ export class AttendanceRegisterComponent implements OnInit {
 
   modalDialog: MdbModalRef<CaptureGoalsComponent> | null = null;
   modalRef: any;
-  time= new Date();
-  today= new Date();
+  time = new Date();
+  today = new Date();
   todaysDataTime = '';
 
 

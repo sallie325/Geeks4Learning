@@ -1,21 +1,48 @@
 <!-- TASKS -->
-<div *ngIf="goal?.tasks">
-  <hr class="horizontal dark my-4" />
-  <h6 class="heading-small text-muted mb-4">
-    TASKS
-    <span class="border rounded-circle text-sm-center"
-      >&nbsp;{{ goal?.tasks?.length }}&nbsp;</span
-    >
+<div *ngIf="(goal?.tasks)!.length > 0">
+  <!-- <hr class="horizontal dark my-4" /> -->
+  <h6 class="heading-small text-muted d-flex ml-0 mr-0 mt-3 mb-2">
+    <span>{{
+      viewType === "create" ? ("Tasks" | titlecase) : ("Tasks" | uppercase)
+    }}</span>
+    <app-content class="taskCount">
+      <div class="countContainer d-flex w-100 h-100">
+        <span class="text-light">{{ goal?.tasks?.length }}</span>
+      </div>
+    </app-content>
   </h6>
 
-  <div *ngFor="let task of goal?.tasks" class="form-check">
-    <input
-      class="form-check-input"
-      type="checkbox"
-      value=""
-      id="checkbox"
-      [checked]="task.complete"
-    />
-    <label class="form-check-label" for="checkbox">{{ task.title }}</label>
+  <div *ngFor="let task of goal?.tasks; let pos = index" class="form-check">
+    <div class="d-flex text-nowrap taskcontainer">
+      <div class="d-flex text-nowrap task">
+        <input
+          class="form-check-input"
+          type="radio"
+          [ngStyle]="{
+            'pointer-events':
+              viewType === 'view' && goalStatus === 'started' ? 'all' : 'none'
+          }"
+          [id]="pos"
+          [checked]="task.complete"
+          (click)="toggleTaskForCompletion($event)"
+        />
+        <label
+          [ngStyle]="{
+            'pointer-events':
+              viewType === 'view' && goalStatus === 'started' ? 'all' : 'none'
+          }"
+          class="form-check-label ml-1"
+          [for]="pos"
+          [id]="pos"
+          >{{ task.title }}</label
+        >
+      </div>
+      <i
+        *ngIf="viewType === 'create' || goalStatus === 'backlog'"
+        class="fa-solid fa-times removeTask"
+        [id]="pos"
+        (click)="removeTask($event)"
+      ></i>
+    </div>
   </div>
 </div>

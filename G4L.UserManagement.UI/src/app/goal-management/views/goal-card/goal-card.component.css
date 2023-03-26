@@ -36,7 +36,7 @@ mat-card-content .backlog {
   border-left: var(--g4l-goal-state-border) var(--g4l-backlog-state-color);
 }
 
-mat-card-content .backlog .goal-content-item:nth-child(2) .goal-item-icon i {
+mat-card-content .backlog .goal-content-item.goal-duration .goal-item-icon i {
   color: var(--g4l-backlog-state-color);
 }
 
@@ -44,7 +44,7 @@ mat-card-content .started {
   border-left: var(--g4l-goal-state-border) var(--g4l-started-state-color);
 }
 
-mat-card-content .started .goal-content-item:nth-child(2) .goal-item-icon i {
+mat-card-content .started .goal-content-item.goal-duration .goal-item-icon i {
   color: var(--g4l-started-state-color);
 }
 
@@ -52,7 +52,7 @@ mat-card-content .paused {
   border-left: var(--g4l-goal-state-border) var(--g4l-paused-state-color);
 }
 
-mat-card-content .paused .goal-content-item:nth-child(2) .goal-item-icon i {
+mat-card-content .paused .goal-content-item.goal-duration .goal-item-icon i {
   color: var(--g4l-paused-state-color);
 }
 
@@ -60,7 +60,7 @@ mat-card-content .completed {
   border-left: var(--g4l-goal-state-border) var(--g4l-completed-state-color);
 }
 
-mat-card-content .completed .goal-content-item:nth-child(2) .goal-item-icon i {
+mat-card-content .completed .goal-content-item.goal-duration .goal-item-icon i {
   color: var(--g4l-completed-state-color);
 }
 
@@ -68,7 +68,7 @@ mat-card-content .archived {
   border-left: var(--g4l-goal-state-border) var(--g4l-archived-state-color);
 }
 
-mat-card-content .archived .goal-content-item:nth-child(2) .goal-item-icon i {
+mat-card-content .archived .goal-content-item.goal-duration .goal-item-icon i {
   color: var(--g4l-archived-state-color);
 }
 
@@ -81,19 +81,19 @@ mat-card-content .goal-content-item .goal-item-icon {
   margin-right: 0.3rem;
 }
 
-mat-card-content .goal-content-item:nth-child(1) .goal-item-icon i{
+mat-card-content .goal-content-item.goal-description .goal-item-icon i{
   color: #67748e;
   font-size: 9pt;
 }
 
-mat-card-content .goal-content-item:nth-child(1) .goal-item-description {
+mat-card-content .goal-content-item.goal-description .goal-item-description {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-mat-card-content .goal-content-item:nth-child(2) .goal-duration{
+mat-card-content .goal-content-item.goal-duration .goal-duration{
   font-weight: bold;
 }
 

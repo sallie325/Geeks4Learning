@@ -1,0 +1,41 @@
+.taskCount{
+    position: relative;
+    margin-left: .7rem;
+}
+
+.taskCount .countContainer{
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    background-color: grey;
+}
+
+.taskCount .countContainer span{
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+.taskcontainer {
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.taskcontainer .task label{
+    position: relative;
+    user-select: none;
+    margin-left: .4rem;
+}
+
+.taskcontainer .removeTask{
+    position: relative;
+    margin-left: .4rem;
+    font-size: 12pt;
+    color: red;
+    display: flex;
+    transition: all .5s;
+    cursor: pointer;
+}
+
+.taskcontainer:hover .removeTask{
+    display: flex;
+}

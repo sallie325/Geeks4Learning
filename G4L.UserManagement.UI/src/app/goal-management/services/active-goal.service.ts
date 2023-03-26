@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, Observable, Subscription } from 'rxjs';
 import { activeGoalPopupWindowState } from '../models/active-goal-model';
 import { GoalModel } from '../models/goal-model';
+import { ViewGoalService } from './view-goal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class ActiveGoalService {
   countDownTimer!: BehaviorSubject<string>
   $intervalStream: Subscription | null = null
 
-  constructor() {
+  constructor(private viewGoalService: ViewGoalService) {
     this.countDownTimer = new BehaviorSubject<string>("00:00:00");
   }
 
@@ -59,22 +60,32 @@ export class ActiveGoalService {
   }
 
   activateGoalCountDown(goal: GoalModel): void {
+    // Check if active goal is running and deactivate before creating a new interval instance
+    this.deactivateGoal();
+
+    // Set the new goal instance
     this.setActiveGoal(goal);
 
     // console.log(startDateTime, endDateTime)
-    const goalDuration = this.getGoalDuration(this.currentGoal.duration.split(":"));
+    const goalDuration = this.getGoalDuration(this.currentGoal.timeRemaining.split(":"));
 
     this.$intervalStream = interval(1000).subscribe(() => {
       if (goalDuration.getHours() === 0 && goalDuration.getMinutes() === 0 && goalDuration.getSeconds() === 0) {
         this.deactivateGoal();
         // Open the ADD EXTRA TIME DIALOG!!
-        alert("ADD EXTRA TIME DIALOG MUST APPEAR HERE!!!!!!!")
+        this.viewGoalService.viewSelectedGoal(this.getActiveGoalObject(), true)
         return;
       }
-      
+
       goalDuration.setSeconds(goalDuration.getSeconds() - 1)
-      goal.duration = this.getTimeFormated(goalDuration);
-      this.countDownTimer.next(goal.duration)
+      goal.timeRemaining = this.getTimeFormated(goalDuration);
+      this.countDownTimer.next(goal.timeRemaining)
+
+      // Create a Memento for the current timestamp
+      sessionStorage.setItem("activeGoalSession", JSON.stringify({
+        id: goal.id,
+        timeLeft: goal.timeRemaining
+      }))
     })
   }
 

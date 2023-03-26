@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActiveGoalService } from 'src/app/goal-management/services/active-goal.service';
+import { ViewGoalService } from 'src/app/goal-management/services/view-goal.service';
 import { goalStatusStages } from './models/active-goal-model';
 
 @Component({
@@ -11,7 +12,10 @@ export class ActiveGoalCardComponent implements OnInit {
   activeGoalStatus!: goalStatusStages
   remainingTime!: string
 
-  constructor(private activeGoalPopupService: ActiveGoalService) { }
+  constructor(
+    private activeGoalPopupService: ActiveGoalService,
+    private viewGoalService: ViewGoalService
+  ) { }
 
   ngOnInit(): void {
     this.activeGoalPopupService.getCountDownTimer()
@@ -39,6 +43,6 @@ export class ActiveGoalCardComponent implements OnInit {
   }
 
   viewGoal() {
-    alert(this.activeGoal().title)
+    this.viewGoalService.viewSelectedGoal(this.activeGoal());
   }
 }

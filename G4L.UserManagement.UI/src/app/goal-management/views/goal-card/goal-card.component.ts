@@ -1,16 +1,15 @@
-import { Component, Input } from '@angular/core';
-import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { ViewSelectedGoalComponent } from '../../modals/views/view-selected-goal/view-selected-goal.component';
+import { Component, Input, OnInit } from '@angular/core';
 import { activeGoalPopupWindowState } from '../../models/active-goal-model';
 import { GoalModel } from '../../models/goal-model';
 import { ActiveGoalService } from '../../services/active-goal.service';
+import { ViewGoalService } from '../../services/view-goal.service';
 
 @Component({
   selector: 'app-goal-card',
   templateUrl: './goal-card.component.html',
   styleUrls: ['./goal-card.component.css'],
 })
-export class GoalCardComponent {
+export class GoalCardComponent implements OnInit {
   @Input()
   goalId!: number | undefined;
 
@@ -22,6 +21,9 @@ export class GoalCardComponent {
 
   @Input()
   goalDuration!: string;
+  
+  @Input()
+  goalRemainingTime!: string;
 
   @Input()
   goalState!: 'backlog' | 'started' | 'paused' | 'completed' | 'archived';
@@ -32,12 +34,12 @@ export class GoalCardComponent {
   @Input()
   onViewGoalRef!: any;
 
-  modalRef: MdbModalRef<ViewSelectedGoalComponent> | null = null;
-
   constructor(
-    private modalService: MdbModalService,
-    private activeGoalService: ActiveGoalService
-  ) {}
+    private activeGoalService: ActiveGoalService,
+    private viewGoalService: ViewGoalService
+  ) { }
+
+  ngOnInit(): void { }
 
   grab(event: any) {
     const { target } = event;
@@ -54,17 +56,10 @@ export class GoalCardComponent {
   }
 
   onViewGoal(goal?: GoalModel): void {
-    this.modalRef = this.modalService.open(ViewSelectedGoalComponent, {
-      data: { goal: goal },
-      containerClass: 'modal top fade modal-backdrop',
-      ignoreBackdropClick: false,
-      modalClass: 'modal-xl modal-dialog-centered w-50',
-    });
+    this.viewGoalService.viewSelectedGoal(goal!)
   }
 
   onCloseGoal(): void {
-    if (this.modalRef) {
-      this.modalRef.close();
-    }
+    this.viewGoalService.closeViewedGoal()
   }
 }

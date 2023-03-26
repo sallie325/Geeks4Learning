@@ -4,9 +4,54 @@
       "id": 1,
       "title": "Create a component for goal management",
       "description": "Need to create a goal management layout in a kanban format",
-      "duration": "01:59:47",
+      "duration": "02:00:00",
       "pausedCount": 0,
-      "goalStatus": "backlog",
+      "goalStatus": "archived",
+      "addedTime": "00:00:00",
+      "timeRemaining": "02:00:00",
+      "comment": "Cannot continue with the goal due to a gap in knowledge",
+      "tasks": [
+        {
+          "id": 1,
+          "title": "Setup my environment",
+          "complete": false
+        }
+      ],
+      "pauseCount": 0
+    },
+    {
+      "id": 2,
+      "title": "Write IKM Assessment",
+      "description": "Will start with the basis of springboot today",
+      "duration": "01:00:00",
+      "pausedCount": 3,
+      "goalStatus": "completed",
+      "addedTime": "00:00:00",
+      "timeRemaining": "00:54:36",
+      "comment": "",
+      "tasks": [
+        {
+          "id": 1,
+          "title": "Setup my environment",
+          "complete": true
+        },
+        {
+          "id": 2,
+          "title": "Object oriented programming",
+          "complete": true
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Create GitHub account",
+      "description": "Create a github account where I will save my coding projects",
+      "duration": "00:30:00",
+      "pausedCount": 3,
+      "goalStatus": "archived",
+      "addedTime": "00:00:00",
+      "timeRemaining": "00:25:22",
+      "comment": "Something unexpected showed up!!",
       "tasks": [
         {
           "id": 1,
@@ -21,52 +66,137 @@
       ]
     },
     {
-      "id": 2,
-      "title": "Write IKM Assessment",
-      "description": "Will start with the basis of springboot today",
-      "duration": "01:00:00",
-      "pausedCount": 0,
-      "goalStatus": "started"
-    },
-    {
-      "id": 1,
-      "title": "Create GitHub account",
-      "description": "Create a github account where I will save my coding projects",
-      "duration": "00:30:00",
-      "pausedCount": 0,
-      "goalStatus": "paused"
-    },
-    {
-      "id": 2,
+      "id": 4,
       "title": "Do a 5 Minute Walk",
       "description": "Need to refreshment my mind!",
       "duration": "00:07:00",
-      "pausedCount": 0,
-      "goalStatus": "paused"
+      "pausedCount": 1,
+      "goalStatus": "backlog",
+      "addedTime": "00:00:00",
+      "timeRemaining": "00:07:00",
+      "comment": "Too much work",
+      "pauseCount": 0
     },
     {
-      "id": 1,
+      "id": 5,
       "title": "Writing Sales Force IKM",
       "description": "Completing Sales Force IKM Assessment",
       "duration": "01:00:00",
-      "pausedCount": 0,
-      "goalStatus": "paused"
+      "pausedCount": 3,
+      "goalStatus": "archived",
+      "addedTime": "00:00:00",
+      "timeRemaining": "01:00:00",
+      "comment": "Reached my pause limit",
+      "pauseCount": 0
     },
     {
-      "id": 2,
+      "id": 6,
       "title": "Study Sales-force Api’s",
       "description": "Learn how to make requests to external API using sales force",
       "duration": "01:40:00",
       "pausedCount": 0,
-      "goalStatus": "archived"
+      "goalStatus": "backlog",
+      "addedTime": "00:00:00",
+      "timeRemaining": "01:40:00",
+      "comment": ""
     },
     {
-      "id": 1,
+      "id": 7,
       "title": "Java OCA IKM Assessment",
       "description": "Completed Java IKM Assessment",
       "duration": "01:20:00",
       "pausedCount": 0,
-      "goalStatus": "completed"
+      "goalStatus": "completed",
+      "addedTime": "00:00:00",
+      "timeRemaining": "01:20:00",
+      "comment": ""
+    },
+    {
+      "title": "Complete the Create goal component functionality",
+      "description": "Need to be able to save the newly created goal and ensure that task bindings with the parent create goal for the toggling works!!\n\nI also need to know where the task component is being used in order to determine the correct behaviour of the component",
+      "duration": "01:00:00",
+      "pausedCount": 0,
+      "goalStatus": "backlog",
+      "addedTime": "00:00:00",
+      "timeRemaining": "01:00:00",
+      "comment": "",
+      "tasks": [
+        {
+          "title": "Determine the directory where the component fits",
+          "complete": false
+        },
+        {
+          "title": "Open terminal in the directory",
+          "complete": false
+        },
+        {
+          "title": "Run the `ng g c goal-management` command",
+          "complete": false
+        }
+      ],
+      "id": 8
+    },
+    {
+      "title": "Test",
+      "description": "This is a test goal",
+      "duration": "00:30:00",
+      "pausedCount": 1,
+      "goalStatus": "completed",
+      "addedTime": "00:00:00",
+      "timeRemaining": "00:30:00",
+      "comment": "",
+      "tasks": [],
+      "id": 9
+    },
+    {
+      "title": "Test 2",
+      "description": "This is test 2 goal",
+      "duration": "00:25:00",
+      "pausedCount": 1,
+      "goalStatus": "backlog",
+      "addedTime": "00:00:00",
+      "timeRemaining": "00:25:00",
+      "comment": "",
+      "tasks": [
+        {
+          "title": "test task1",
+          "complete": false
+        }
+      ],
+      "id": 10
+    },
+    {
+      "title": "Another Test",
+      "description": "",
+      "duration": "00:36:00",
+      "pausedCount": 2,
+      "goalStatus": "paused",
+      "addedTime": "00:00:00",
+      "timeRemaining": "00:26:59",
+      "comment": "",
+      "tasks": [],
+      "id": 11
+    },
+    {
+      "title": "Complete Final Assessment Practical 1",
+      "description": "",
+      "duration": "02:00:00",
+      "pausedCount": 1,
+      "goalStatus": "paused",
+      "addedTime": "00:00:00",
+      "timeRemaining": "01:50:32",
+      "comment": "",
+      "tasks": [
+        {
+          "title": "Login to chat-gpt",
+          "complete": false
+        },
+        {
+          "title": "Start answering questions",
+          "complete": false
+        }
+      ],
+      "id": 12
     }
   ]
 }

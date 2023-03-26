@@ -9,44 +9,48 @@ import { GoalModel } from '../models/goal-model';
 })
 export class GoalManagementService {
   private goalSubject!: Subject<GoalModel>;
-  private localServerAddress: string = 'http://localhost:3000';
+  private fakeServer: string = 'http://localhost:3000';
 
   constructor(private http: HttpClient, private toastrService: ToastrService) {
     this.goalSubject = new Subject<GoalModel>();
   }
 
-  saveGoal(goal: GoalModel): Observable<GoalModel> {
-    return this.http.post<GoalModel>(`http://localhost:3000/goals`, goal);
+  emitGoal(goal: GoalModel): void {
+    this.getGoalSubject().next(goal);
   }
 
-  updateTime(goal: GoalModel): Observable<GoalModel> {
-    return this.http.put<GoalModel>(`http://localhost:3000/goals`, goal);
+  insertNewGoal(goal: GoalModel): void {
+    this.http.post<GoalModel>(`${this.fakeServer}/goals`, goal)
+      .subscribe(newGoal => {
+        this.emitGoal(newGoal)
+      })
   }
 
-  getGoals(): Subject<GoalModel> {
-    this.http.get<GoalModel[]>(`http://localhost:3000/goals`).subscribe(
+  updateGoal(goal: GoalModel): Observable<GoalModel> {
+    return this.http.put<GoalModel>(`${this.fakeServer}/goals/${goal?.id}`, goal);
+  }
+
+  onGoalEmit(): Subject<GoalModel> {
+    this.http.get<GoalModel[]>(`${this.fakeServer}/goals`).subscribe(
       (goals: GoalModel[]) => {
         goals.forEach((goal: GoalModel) => {
-          this.goalSubject.next(goal);
+          this.emitGoal(goal)
         });
-      },
-      (err) => {
-        this.showErrorMeesage('Loading Goals', err.message);
       }
     );
 
     return this.getGoalSubject();
   }
 
-  showErrorMeesage(messageTitle: string, message: string) {
+  getGoalById(id: any): Observable<GoalModel> {
+    return this.http.get<GoalModel>(`${this.fakeServer}/goals/${id}`);
+  }
+
+  showErrorMessage(messageTitle: string, message: string) {
     this.toastrService.error(message, messageTitle);
   }
 
   getGoalSubject(): Subject<GoalModel> {
     return this.goalSubject;
-  }
-
-  getGoalById(id: any): Observable<GoalModel> {
-    return this.http.get<GoalModel>(`http://localhost:3000/goals/${id}`);
   }
 }

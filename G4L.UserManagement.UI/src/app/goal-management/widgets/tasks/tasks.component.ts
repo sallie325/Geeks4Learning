@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GoalModel } from '../../models/goal-model';
+import { GoalModel, goalStatus } from '../../models/goal-model';
+import { GoalManagementService } from '../../services/goal-management.service';
 
 @Component({
   selector: 'app-tasks',
@@ -7,9 +8,46 @@ import { GoalModel } from '../../models/goal-model';
   styleUrls: ['./tasks.component.css'],
 })
 export class TasksComponent implements OnInit {
-  @Input() goal!: GoalModel;
+  @Input()
+  goal!: GoalModel;
 
-  constructor() {}
+  @Input()
+  viewType!: "view" | "create"
 
-  ngOnInit(): void {}
+  @Input()
+  goalStatus!: goalStatus
+
+  constructor(private goalManagementService: GoalManagementService) { }
+
+  ngOnInit(): void { }
+
+  toggleTaskForCompletion(element: any) {
+    const { target: { id } } = element;
+
+    if (this.goal.tasks) {
+      this.goal.tasks[id].complete = !this.goal?.tasks[id]?.complete
+
+      if (this.viewType === "view") {
+        this.goalManagementService.updateGoal(this.goal)
+          .subscribe((updatedGoal: GoalModel) => {
+            console.log(updatedGoal)
+          })
+      }
+    }
+  }
+
+  removeTask(element: any): void {
+    const { target: { id } } = element;
+
+    if (this.goal.tasks) {
+      this.goal.tasks.splice(id, 1)
+
+      if (this.viewType === "view") {
+        this.goalManagementService.updateGoal(this.goal)
+          .subscribe((updatedGoal: GoalModel) => {
+            console.log(updatedGoal)
+          })
+      }
+    }
+  }
 }
