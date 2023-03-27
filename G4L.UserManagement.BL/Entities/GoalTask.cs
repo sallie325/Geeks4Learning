@@ -8,6 +8,7 @@ namespace G4L.UserManagement.BL.Entities
 {
     public class GoalTask
     {
+        public Guid TaskId { get; set; }
         public string Description { get; set; }
         public bool IsCompleted { get; set; }
     }

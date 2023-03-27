@@ -1,5 +1,7 @@
 ﻿using G4L.UserManagement.BL.Entities;
+using G4L.UserManagement.BL.Models.Request;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace G4L.UserManagement.API.Controllers
@@ -9,18 +11,22 @@ namespace G4L.UserManagement.API.Controllers
     public class GoalsManagementController : Controller
     {
         [HttpGet]
-        public async Task<IActionResult> GetAllGoals()
+        [Route("UserId: Guid")]
+        public async Task<IActionResult> GetAllGoals([FromRoute] Guid UserId)
         {
             return Ok();
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddGoal(int UserId, Goal goal)
+        [Route("goal/{UserId: Guid}")]
+        public async Task<IActionResult> AddGoal([FromRoute] Guid UserId, [FromBody] CreateGoal goal)
         {
             return Ok();
         }
 
-        public async Task<IActionResult> UpdateGoal(Goal goal)
+        [HttpPut]
+        [Route("updateGoal/{UserId: Guid}")]
+        public async Task<IActionResult> UpdateGoal([FromRoute] Guid UserId, [FromBody] UpdateGoal goal)
         {
             return Ok();
         }

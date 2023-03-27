@@ -10,7 +10,7 @@ namespace G4L.UserManagement.BL.Entities
 {
     public class Goal: BaseEntity
     {
-        public string GoalId { get; set; }
+        public Guid GoalId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public TimeSpan Duration { get; set; }
