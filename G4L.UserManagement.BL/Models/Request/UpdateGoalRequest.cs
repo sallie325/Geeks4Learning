@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace G4L.UserManagement.BL.Models.Request
 {
-    public class UpdateGoal
+    public class UpdateGoalRequest
     {
         public string GoalName { get; set; }
         public string GoalDescription { get; set; }
@@ -16,8 +16,8 @@ namespace G4L.UserManagement.BL.Models.Request
         public GoalStatus GoalStatus { get; set; }
         public string Comments { get; set; }
         public DateTime AddedTime { get; set; }
-/*        public DateTime TimeLeft { get; set; }
-        public DateTime CreatedTime { get; set; }*/
+        /*        public TimeSpan TimeLeft { get; set; }
+                public TimeSpan CreatedTime { get; set; }*/
         public List<GoalTask> GoalTask { get; set; }
     }
 }

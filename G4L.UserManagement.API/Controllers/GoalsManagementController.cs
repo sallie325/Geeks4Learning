@@ -8,10 +8,10 @@ namespace G4L.UserManagement.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class GoalsManagementController : Controller
+    public class GoalsManagementController : ControllerBase
     {
         [HttpGet]
-        [Route("UserId: Guid")]
+        [Route("{UserId:Guid}")]
         public async Task<IActionResult> GetAllGoals([FromRoute] Guid UserId)
         {
             return Ok();
