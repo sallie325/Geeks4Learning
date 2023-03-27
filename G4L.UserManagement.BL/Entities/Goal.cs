@@ -18,5 +18,6 @@ namespace G4L.UserManagement.BL.Entities
         public string Comments { get; set; }
         public TimeSpan AddedTime { get; set; }
         public TimeSpan TimeLeft { get; set; }
+        public List<GoalTask> goalTasks { get; set; }
     }
 }
