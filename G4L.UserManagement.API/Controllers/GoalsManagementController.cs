@@ -1,4 +1,5 @@
 ﻿using G4L.UserManagement.BL.Entities;
+using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models.Request;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,24 +11,34 @@ namespace G4L.UserManagement.API.Controllers
     [Route("api/[controller]")]
     public class GoalsManagementController : ControllerBase
     {
+        private readonly IGoalService _goalService;
+
+        public GoalsManagementController(IGoalService goalService)
+        {
+            _goalService = goalService;
+        }
+
         [HttpGet]
         [Route("{UserId:Guid}")]
         public async Task<IActionResult> GetAllGoals([FromRoute] Guid UserId)
         {
-            return Ok();
+            var allUserGoals = await _goalService.GetAllUserGoals(UserId);
+            return Ok(allUserGoals);
         }
 
         [HttpPost]
-        [Route("goal/{UserId: Guid}")]
-        public async Task<IActionResult> AddGoal([FromRoute] Guid UserId, [FromBody] CreateGoal goal)
+        [Route("AddGoal/{UserId: Guid}")]
+        public async Task<IActionResult> AddGoal([FromRoute] Guid UserId, [FromBody] CreateGoalRequest goal)
         {
-            return Ok();
+            var createdGoal = await _goalService.CreateUserGoal(UserId, goal);
+            return Ok(createdGoal);
         }
 
         [HttpPut]
         [Route("updateGoal/{UserId: Guid}")]
-        public async Task<IActionResult> UpdateGoal([FromRoute] Guid UserId, [FromBody] UpdateGoal goal)
+        public async Task<IActionResult> UpdateGoal([FromRoute] Guid UserId, [FromBody] UpdateGoalRequest goal)
         {
+            var updatedGoal = await _goalService.UpdateUserGoal(UserId, goal);
             return Ok();
         }
     }
