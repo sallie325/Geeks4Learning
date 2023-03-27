@@ -10,7 +10,11 @@
         <span class="text-dark">{{ goal?.tasks?.length }}</span>
       </div>
     </app-content>
-    <i *ngIf="viewType === 'view'" class="fa-solid fa-circle-plus addGoalTask"></i>
+    <i
+      *ngIf="viewType === 'view'"
+      class="fa-solid fa-circle-plus addGoalTask"
+      (click)="addMoreTasks()"
+    ></i>
   </h6>
 
   <div *ngFor="let task of goal?.tasks; let pos = index" class="form-check">

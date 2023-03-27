@@ -9,12 +9,14 @@ export interface GoalTaskModel {
   id?: number;
   title: string;
   complete: boolean;
+  goalId?: number;
 }
 
 export interface GoalCommentModel {
   id?: number;
   comment: string;
   commentType: "backlog" | "archived";
+  goalId?: number;
 }
 
 export interface GoalModel {

@@ -11,8 +11,7 @@ import { GoalManagementService } from '../../services/goal-management.service';
   templateUrl: './capture-goals.component.html',
   styleUrls: ['./capture-goals.component.css'],
 })
-export class CaptureGoalsComponent implements OnInit {
-  private modalRef!: MdbModalRef<CaptureGoalsComponent>;
+export class CaptureGoalsComponent implements OnInit {  
   attendanceId: any;
 
   formModel: FormGroup = new FormGroup({
@@ -34,6 +33,7 @@ export class CaptureGoalsComponent implements OnInit {
   };
 
   constructor(
+    private modalRef: MdbModalRef<CaptureGoalsComponent>,
     private goalManagementService: GoalManagementService,
     private captureGoalService: CaptureGoalService
   ) { }

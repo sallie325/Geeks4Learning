@@ -126,6 +126,7 @@
       "comment": "",
       "tasks": [
         {
+          "id": 1,
           "title": "Determine the directory where the component fits",
           "complete": false
         },
