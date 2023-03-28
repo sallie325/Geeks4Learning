@@ -12,6 +12,6 @@ namespace G4L.UserManagement.BL.Interfaces
     {
         public Task<List<Goal>> GetAllUserGoals(Guid UserId);
         public Task<User> CreateUserGoal(Guid UserId, CreateGoalRequest request);
-        public Task<User> UpdateUserGoal(Guid UserId, UpdateGoalRequest request);
+        public Task<UpdateGoalRequest> UpdateUserGoal(Guid UserId, UpdateGoalRequest request);
     }
 }

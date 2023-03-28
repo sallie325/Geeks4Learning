@@ -25,6 +25,11 @@ namespace G4L.UserManagement.API.Controllers
             _userService = userService;
         } 
 
+
+
+
+
+
         [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -32,12 +37,21 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(await _userService.GetAllUsersAsync());
         }
 
+
+
+
+
         [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
         [HttpGet("paged")]
         public async Task<IActionResult> Get(int skip = 0, int take = 5)
         {
             return Ok(await _userService.GetPagedUsersAsync(skip, take));
         }
+
+
+
+
+
 
         [Authorize(Role.Super_Admin, Role.Admin, Role.Trainer)]
         [HttpGet("role/{role}")]

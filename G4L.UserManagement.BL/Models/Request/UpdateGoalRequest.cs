@@ -10,14 +10,14 @@ namespace G4L.UserManagement.BL.Models.Request
 {
     public class UpdateGoalRequest
     {
-        public string GoalName { get; set; }
+        public Guid Id { get; set; }
+        public string GoalTitle { get; set; }
         public string GoalDescription { get; set; }
-        public DateTime Duration { get; set; }
+        public DateTime Duration { get; set; } //This must be sent as DateTime.Now + Duration from front-end
         public GoalStatus GoalStatus { get; set; }
         public string Comments { get; set; }
         public DateTime AddedTime { get; set; }
-        /*        public TimeSpan TimeLeft { get; set; }
-                public TimeSpan CreatedTime { get; set; }*/
-        public List<GoalTask> GoalTask { get; set; }
+        public TimeSpan TimeRemaining { get; set; }
+        public List<GoalTask> GoalTasks {get; set; }
     }
 }

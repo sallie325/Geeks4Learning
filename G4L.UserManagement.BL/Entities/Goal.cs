@@ -10,15 +10,15 @@ namespace G4L.UserManagement.BL.Entities
 {
     public class Goal: BaseEntity
     {
-        public Guid GoalId { get; set; }
+        public Guid GoalId { get; set; } //Maybe we can have just int ids for goals
         public string Title { get; set; }
         public string Description { get; set; }
-        public TimeSpan Duration { get; set; }
+        public TimeSpan Duration { get; set; } //The name is misleading, we should store this as DateTime named EndTime/ExpiryTime
         public GoalStatus GoalStatus { get; set; }
         public int PauseCount { get; set; }
         public int ArchiveCount { get; set; }
         public List<GoalComment> Comments { get; set; }
-        public TimeSpan TimeLeft { get; set; }
+        public TimeSpan TimeLeft { get; set; } 
         public List<GoalTask> goalTasks { get; set; }
     }
 }

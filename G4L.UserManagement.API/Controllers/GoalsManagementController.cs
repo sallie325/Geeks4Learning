@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace G4L.UserManagement.API.Controllers
 {
+  
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")]  //https://geek4Learning.com/api/GoalsManagement
     public class GoalsManagementController : ControllerBase
     {
         private readonly IGoalService _goalService;
@@ -18,13 +19,15 @@ namespace G4L.UserManagement.API.Controllers
             _goalService = goalService;
         }
 
+
         [HttpGet]
-        [Route("{UserId:Guid}")]
+        [Route("{UserId:Guid}")]  
         public async Task<IActionResult> GetAllGoals([FromRoute] Guid UserId)
         {
             var allUserGoals = await _goalService.GetAllUserGoals(UserId);
             return Ok(allUserGoals);
         }
+
 
         [HttpPost]
         [Route("AddGoal/{UserId: Guid}")]
@@ -34,12 +37,13 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(createdGoal);
         }
 
+
         [HttpPut]
         [Route("updateGoal/{UserId: Guid}")]
         public async Task<IActionResult> UpdateGoal([FromRoute] Guid UserId, [FromBody] UpdateGoalRequest goal)
         {
             var updatedGoal = await _goalService.UpdateUserGoal(UserId, goal);
-            return Ok();
+            return Ok(updatedGoal);
         }
     }
 }
