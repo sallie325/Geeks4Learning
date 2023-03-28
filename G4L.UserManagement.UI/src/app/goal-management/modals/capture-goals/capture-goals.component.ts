@@ -26,10 +26,12 @@ export class CaptureGoalsComponent implements OnInit {
     duration: String('00:00:00'),
     pausedCount: 0,
     goalStatus: 'backlog',
-    addedTime: String('00:00:00'),
     timeRemaining: String('00:00:00'),
-    comment: String(''),
-    tasks: []
+    comment: [],
+    tasks: [],
+    archiveCount: 0,
+    attendanceId: '',
+    userId: ''
   };
 
   constructor(

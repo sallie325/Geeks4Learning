@@ -1,4 +1,6 @@
-﻿using G4L.UserManagement.BL.Entities;
+﻿using G4L.UserManagement.API.Authorization;
+using G4L.UserManagement.BL.Entities;
+using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models.Request;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 namespace G4L.UserManagement.API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class GoalsManagementController : ControllerBase
     {
@@ -27,11 +30,12 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         [HttpPost]
-        [Route("AddGoal/{UserId}")]
-        public async Task<IActionResult> AddGoal([FromRoute] Guid UserId, [FromBody] CreateGoalRequest goal)
+        [Authorize(Role.Learner)]
+        [Route("AddGoal")]
+        public async Task<IActionResult> AddGoal([FromBody] CreateGoalRequest goalRequest)
         {
-            var createdGoal = await _goalService.CreateUserGoal(UserId, goal);
-            return Ok(createdGoal);
+            await _goalService.CreateUserGoal(goalRequest);
+            return Ok();
         }
 
         [HttpPut]
