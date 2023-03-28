@@ -19,7 +19,7 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         [HttpGet]
-        [Route("{UserId:Guid}")]
+        [Route("{UserId}")]
         public async Task<IActionResult> GetAllGoals([FromRoute] Guid UserId)
         {
             var allUserGoals = await _goalService.GetAllUserGoalsAsync(UserId);
@@ -27,7 +27,7 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         [HttpPost]
-        [Route("AddGoal/{UserId: Guid}")]
+        [Route("AddGoal/{UserId}")]
         public async Task<IActionResult> AddGoal([FromRoute] Guid UserId, [FromBody] CreateGoalRequest goal)
         {
             var createdGoal = await _goalService.CreateUserGoal(UserId, goal);
@@ -35,7 +35,7 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         [HttpPut]
-        [Route("updateGoal/{UserId: Guid}")]
+        [Route("updateGoal/{UserId}")]
         public async Task<IActionResult> UpdateGoal([FromRoute] Guid UserId, [FromBody] UpdateGoalRequest goal)
         {
             var updatedGoal = await _goalService.UpdateUserGoal(UserId, goal);
