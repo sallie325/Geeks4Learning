@@ -28,6 +28,6 @@ export interface GoalModel {
   archiveCount: number;
   goalStatus: goalStatus;
   attendanceId: string;
-  // addedTime: string;
+  userId: string;
   timeRemaining: string;
 }

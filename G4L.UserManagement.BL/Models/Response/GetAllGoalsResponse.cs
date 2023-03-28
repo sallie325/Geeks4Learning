@@ -1,14 +1,14 @@
-﻿using G4L.UserManagement.BL.Enum;
-using G4L.UserManagement.Shared;
+﻿using G4L.UserManagement.BL.Entities;
+using G4L.UserManagement.BL.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace G4L.UserManagement.BL.Entities
+namespace G4L.UserManagement.BL.Models.Response
 {
-    public class Goal: BaseEntity
+    public class GetAllGoalsResponse
     {
         public Guid GoalId { get; set; }
         public string GoalTitle { get; set; }

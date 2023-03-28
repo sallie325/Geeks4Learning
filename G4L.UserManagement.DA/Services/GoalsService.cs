@@ -1,4 +1,5 @@
-﻿using G4L.UserManagement.BL.Entities;
+﻿using AutoMapper;
+using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models.Request;
 using System;
@@ -11,14 +12,26 @@ namespace G4L.UserManagement.DA.Services
 {
     public class GoalsService : IGoalService
     {
+        private readonly IGoalRepository _goalRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
+
+        public GoalsService(IGoalRepository goalRepository, IUserRepository userRepository, IMapper mapper)
+        {
+            _goalRepository = goalRepository;
+            _userRepository = userRepository;
+            _mapper = mapper;
+        }
+
         public Task<User> CreateUserGoal(Guid UserId, CreateGoalRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Goal>> GetAllUserGoals(Guid UserId)
+        public async Task<List<Goal>> GetAllUserGoalsAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            var allUserGoals = await _goalRepository.ListAsync(x => x.UserId == userId);
+            return _mapper.Map<List<Goal>>(allUserGoals);
         }
 
         public Task<User> UpdateUserGoal(Guid UserId, UpdateGoalRequest request)

@@ -22,7 +22,7 @@ namespace G4L.UserManagement.API.Controllers
         [Route("{UserId:Guid}")]
         public async Task<IActionResult> GetAllGoals([FromRoute] Guid UserId)
         {
-            var allUserGoals = await _goalService.GetAllUserGoals(UserId);
+            var allUserGoals = await _goalService.GetAllUserGoalsAsync(UserId);
             return Ok(allUserGoals);
         }
 
