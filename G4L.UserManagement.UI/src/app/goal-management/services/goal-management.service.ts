@@ -20,6 +20,7 @@ export class GoalManagementService {
   }
 
   insertNewGoal(goal: GoalModel): void {
+    console.log("I am insertNewGoal :" +goal)
     this.http.post<GoalModel>(`https://localhost:44326/api/GoalsManagement/AddGoal`, goal)
       .subscribe(newGoal => {
         this.emitGoal(newGoal)

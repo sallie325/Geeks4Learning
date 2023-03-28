@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { any } from 'ramda';
 import { AttendanceService } from 'src/app/attendance-register/services/attendance.service';
 import { GoalCommentModel, GoalModel, GoalTaskModel } from '../../models/goal-model';
 import { CaptureGoalService } from '../../services/capture-goal.service';
@@ -21,6 +22,7 @@ export class CaptureGoalsComponent implements OnInit {
   });
 
   currentGoal: GoalModel = {
+    id: 0,
     title: String(''),
     description: String(''),
     duration: String('00:00:00'),
@@ -30,7 +32,8 @@ export class CaptureGoalsComponent implements OnInit {
     timeRemaining: String('00:00:00'),
     comment: new Array<GoalCommentModel>(),
     tasks: new Array<GoalTaskModel>(),
-    addedTime: ''
+    attendanceId: String(''),
+    userId: String(''),
   };
 
   constructor(

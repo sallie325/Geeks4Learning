@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230328111132_updatedMigrationWithGoalModel")]
+    [Migration("20230328124206_updatedMigrationWithGoalModel")]
     partial class updatedMigrationWithGoalModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -144,17 +144,17 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<int>("GoalStatus")
                         .HasColumnType("int");
 
-                    b.Property<string>("GoalTitle")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PauseCount")
+                    b.Property<int>("PausedCount")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan>("TimeLeft")
+                    b.Property<TimeSpan>("TimeRemaining")
                         .HasColumnType("time");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -437,7 +437,7 @@ namespace G4L.UserManagement.DA.Migrations
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.GoalComment", b =>
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.Goal", null)
-                        .WithMany("Comments")
+                        .WithMany("Comment")
                         .HasForeignKey("GoalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -446,7 +446,7 @@ namespace G4L.UserManagement.DA.Migrations
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.GoalTask", b =>
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.Goal", null)
-                        .WithMany("GoalTasks")
+                        .WithMany("Tasks")
                         .HasForeignKey("GoalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -501,9 +501,9 @@ namespace G4L.UserManagement.DA.Migrations
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Goal", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("Comment");
 
-                    b.Navigation("GoalTasks");
+                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230328115256_updatedMigrationWithGoalModels")]
+    [Migration("20230328120904_updatedMigrationWithGoalModels")]
     partial class updatedMigrationWithGoalModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
