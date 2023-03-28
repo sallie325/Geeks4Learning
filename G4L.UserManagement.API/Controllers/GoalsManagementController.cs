@@ -1,4 +1,6 @@
-﻿using G4L.UserManagement.BL.Entities;
+﻿using G4L.UserManagement.API.Authorization;
+using G4L.UserManagement.BL.Entities;
+using G4L.UserManagement.BL.Enum;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models.Request;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +11,7 @@ namespace G4L.UserManagement.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Role.Admin, Role.Learner, Role.Super_Admin)]
     public class GoalsManagementController : ControllerBase
     {
         private readonly IGoalService _goalService;

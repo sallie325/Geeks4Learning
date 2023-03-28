@@ -28,9 +28,9 @@ namespace G4L.UserManagement.DA.Services
             throw new NotImplementedException();
         }
 
-        public async Task<List<Goal>> GetAllUserGoalsAsync(Guid userId)
+        public async Task<List<Goal>> GetAllUserGoalsAsync(Guid UserId)
         {
-            var allUserGoals = await _goalRepository.ListAsync(x => x.UserId == userId);
+            var allUserGoals = await _goalRepository.ListAsync();
             return _mapper.Map<List<Goal>>(allUserGoals);
         }
 
