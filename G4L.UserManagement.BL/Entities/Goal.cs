@@ -11,16 +11,16 @@ namespace G4L.UserManagement.BL.Entities
     public class Goal: BaseEntity
     {
         public Guid GoalId { get; set; }
-        public string GoalTitle { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public TimeSpan Duration { get; set; }
-        public GoalStatus GoalStatus { get; set; }
-        public int PauseCount { get; set; }
+        public int PausedCount { get; set; }
         public int ArchiveCount { get; set; }
-        public Guid UserId { get; set; }
+        public GoalStatus GoalStatus { get; set; }
+        public TimeSpan TimeRemaining { get; set; }
+        public List<GoalComment> Comment { get; set; }
+        public List<GoalTask> Tasks { get; set; }
         public Guid AttendenceId { get; set; }
-        public List<GoalComment> Comments { get; set; }
-        public TimeSpan TimeLeft { get; set; }
-        public List<GoalTask> GoalTasks { get; set; }
+        public Guid UserId { get; set; }
     }
 }

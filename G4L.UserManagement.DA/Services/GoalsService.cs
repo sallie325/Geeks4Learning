@@ -24,7 +24,7 @@ namespace G4L.UserManagement.DA.Services
             _mapper = mapper;
         }
 
-        public async Task CreateUserGoal(CreateGoalRequest goalRequest)
+        public async Task CreateUserGoalAsync(CreateGoalRequest goalRequest)
         {
             var goal = _mapper.Map<Goal>(goalRequest);
             await _goalRepository.AddAsync(goal);

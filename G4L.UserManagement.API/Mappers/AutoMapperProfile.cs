@@ -40,6 +40,7 @@ namespace G4L.UserManagement.API.Mappers
             CreateMap<Attendance_Register,Attendance>().ReverseMap();
 
             CreateMap<Goal, GetAllGoalsResponse>().ReverseMap();
+            CreateMap<Goal, CreateGoalRequest>().ReverseMap();
         }
     }
 }

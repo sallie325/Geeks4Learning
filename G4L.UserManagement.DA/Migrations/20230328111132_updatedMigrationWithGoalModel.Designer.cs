@@ -4,14 +4,16 @@ using G4L.UserManagement.DA;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230328111132_updatedMigrationWithGoalModel")]
+    partial class updatedMigrationWithGoalModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,17 +144,17 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<int>("GoalStatus")
                         .HasColumnType("int");
 
+                    b.Property<string>("GoalTitle")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PausedCount")
+                    b.Property<int>("PauseCount")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan>("TimeRemaining")
+                    b.Property<TimeSpan>("TimeLeft")
                         .HasColumnType("time");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -435,7 +437,7 @@ namespace G4L.UserManagement.DA.Migrations
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.GoalComment", b =>
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.Goal", null)
-                        .WithMany("Comment")
+                        .WithMany("Comments")
                         .HasForeignKey("GoalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -444,7 +446,7 @@ namespace G4L.UserManagement.DA.Migrations
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.GoalTask", b =>
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.Goal", null)
-                        .WithMany("Tasks")
+                        .WithMany("GoalTasks")
                         .HasForeignKey("GoalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -499,9 +501,9 @@ namespace G4L.UserManagement.DA.Migrations
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Goal", b =>
                 {
-                    b.Navigation("Comment");
+                    b.Navigation("Comments");
 
-                    b.Navigation("Tasks");
+                    b.Navigation("GoalTasks");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.Leave", b =>

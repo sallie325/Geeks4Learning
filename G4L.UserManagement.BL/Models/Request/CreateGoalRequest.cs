@@ -10,14 +10,16 @@ namespace G4L.UserManagement.BL.Models.Request
 {
     public class CreateGoalRequest
     {
-        public string GoalName { get; set; }
-        public string GoalDescription { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
         public TimeSpan Duration { get; set; }
+        public int PausedCount { get; set; }
+        public int ArchiveCount { get; set; }
         public GoalStatus GoalStatus { get; set; }
-        /*        public string Comments { get; set; }
-                public TimeSpan AddedTime { get; set; }
-                public TimeSpan TimeLeft { get; set; }
-                public TimeSpan CreatedTime { get; set;}*/
-        public List<GoalTask> GoalTask { get; set; }
+        public TimeSpan TimeRemaining { get; set; }
+        public List<GoalComment> Comment { get; set; }
+        public List<GoalTask> Tasks { get; set; }
+        public Guid AttendenceId { get; set; }
+        public Guid UserId { get; set; }
     }
 }
