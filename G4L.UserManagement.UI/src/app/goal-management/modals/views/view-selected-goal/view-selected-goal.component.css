@@ -17,3 +17,7 @@
 .backlogBackgroundColor {
   background-color: var(--g4l-backlog-state-color);
 }
+
+.defaultCase {
+  font-size: 10pt;
+}

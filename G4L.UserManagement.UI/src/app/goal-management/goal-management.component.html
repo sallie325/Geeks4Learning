@@ -17,34 +17,34 @@
   <div class="goal-kanban-content row m-0" cdkDropListGroup>
     <div class="backlog-content col">
       <app-goal-column-list
-        [listID]="backlogState"
+        [listID]="goalStates.backlog"
         [goalsList]="_backlog"
         [onDropRef]="onDropGoal"
-        [connectedIDList]="[startedState, archivedState]"
+        [connectedIDList]="[goalStates.started, goalStates.archived]"
       >
       </app-goal-column-list>
     </div>
     <div class="started-content col">
       <app-goal-column-list
-        [listID]="startedState"
+        [listID]="goalStates.started"
         [goalsList]="_started"
         [onDropRef]="onDropGoal"
-        [connectedIDList]="[pausedState, completedState, archivedState]"
+        [connectedIDList]="[goalStates.paused, goalStates.completed, goalStates.archived]"
       >
       </app-goal-column-list>
     </div>
     <div class="paused-content col">
       <app-goal-column-list
-        [listID]="pausedState"
+        [listID]="goalStates.paused"
         [goalsList]="_paused"
         [onDropRef]="onDropGoal"
-        [connectedIDList]="[startedState, archivedState]"
+        [connectedIDList]="[goalStates.started, goalStates.archived]"
       >
       </app-goal-column-list>
     </div>
     <div class="completed-content col">
       <app-goal-column-list
-        [listID]="completedState"
+        [listID]="goalStates.completed"
         [goalsList]="_completed"
         [onDropRef]="onDropGoal"
         [connectedIDList]="[]"
@@ -53,10 +53,10 @@
     </div>
     <div class="archived-content col">
       <app-goal-column-list
-        [listID]="archivedState"
+        [listID]="goalStates.archived"
         [goalsList]="_archived"
         [onDropRef]="onDropGoal"
-        [connectedIDList]="[backlogState]"
+        [connectedIDList]="[goalStates.backlog]"
       >
       </app-goal-column-list>
     </div>

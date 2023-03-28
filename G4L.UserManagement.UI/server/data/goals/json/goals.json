@@ -2,33 +2,34 @@
   "goals": [
     {
       "id": 1,
+      "userId": "2a62267c-386c-4359-d331-08daf55d9628",
       "title": "Create a component for goal management",
       "description": "Need to create a goal management layout in a kanban format",
       "duration": "02:00:00",
       "pausedCount": 0,
-      "goalStatus": "archived",
-      "addedTime": "00:00:00",
+      "archiveCount": 0,
+      "goalStatus": "backlog",
       "timeRemaining": "02:00:00",
-      "comment": "Cannot continue with the goal due to a gap in knowledge",
+      "comment": [],
       "tasks": [
         {
           "id": 1,
           "title": "Setup my environment",
           "complete": false
         }
-      ],
-      "pauseCount": 0
+      ]
     },
     {
       "id": 2,
+      "userId": "2a62267c-386c-4359-d331-08daf55d9628",
       "title": "Write IKM Assessment",
       "description": "Will start with the basis of springboot today",
       "duration": "01:00:00",
       "pausedCount": 3,
+      "archiveCount": 0,
       "goalStatus": "completed",
-      "addedTime": "00:00:00",
       "timeRemaining": "00:54:36",
-      "comment": "",
+      "comment": [],
       "tasks": [
         {
           "id": 1,
@@ -44,14 +45,15 @@
     },
     {
       "id": 3,
+      "userId": "2a62267c-386c-4359-d331-08daf55d9628",
       "title": "Create GitHub account",
       "description": "Create a github account where I will save my coding projects",
       "duration": "00:30:00",
       "pausedCount": 3,
+      "archiveCount": 1,
       "goalStatus": "archived",
-      "addedTime": "00:00:00",
       "timeRemaining": "00:25:22",
-      "comment": "Something unexpected showed up!!",
+      "comment": [],
       "tasks": [
         {
           "id": 1,
@@ -67,28 +69,28 @@
     },
     {
       "id": 4,
+      "userId": "2a62267c-386c-4359-d331-08daf55d9628",
       "title": "Do a 5 Minute Walk",
       "description": "Need to refreshment my mind!",
       "duration": "00:07:00",
       "pausedCount": 1,
+      "archiveCount": 0,
       "goalStatus": "backlog",
-      "addedTime": "00:00:00",
       "timeRemaining": "00:07:00",
-      "comment": "Too much work",
-      "pauseCount": 0,
+      "comment": [],
       "tasks": []
     },
     {
       "id": 5,
+      "userId": "2a62267c-386c-4359-d331-08daf55d9628",
       "title": "Writing Sales Force IKM",
       "description": "Completing Sales Force IKM Assessment",
       "duration": "01:00:00",
       "pausedCount": 3,
+      "archiveCount": 1,
       "goalStatus": "archived",
-      "addedTime": "00:00:00",
       "timeRemaining": "01:00:00",
-      "comment": "Reached my pause limit",
-      "pauseCount": 0,
+      "comment": [],
       "tasks": []
     },
     {
@@ -97,11 +99,12 @@
       "description": "Learn how to make requests to external API using sales force",
       "duration": "01:40:00",
       "pausedCount": 0,
+      "archiveCount": 1,
       "goalStatus": "backlog",
-      "addedTime": "00:00:00",
       "timeRemaining": "01:40:00",
-      "comment": "",
-      "tasks": []
+      "comment": [],
+      "tasks": [],
+      "userId": "2a62267c-386c-4359-d331-08daf55d9628"
     },
     {
       "id": 7,
@@ -109,21 +112,22 @@
       "description": "Completed Java IKM Assessment",
       "duration": "01:20:00",
       "pausedCount": 0,
+      "archiveCount": 0,
       "goalStatus": "completed",
-      "addedTime": "00:00:00",
       "timeRemaining": "01:20:00",
-      "comment": "",
-      "tasks": []
+      "comment": [],
+      "tasks": [],
+      "userId": "2a62267c-386c-4359-d331-08daf55d9628"
     },
     {
       "title": "Complete the Create goal component functionality",
       "description": "Need to be able to save the newly created goal and ensure that task bindings with the parent create goal for the toggling works!!\n\nI also need to know where the task component is being used in order to determine the correct behaviour of the component",
       "duration": "01:00:00",
       "pausedCount": 0,
+      "archiveCount": 0,
       "goalStatus": "backlog",
-      "addedTime": "00:00:00",
       "timeRemaining": "01:00:00",
-      "comment": "",
+      "comment": [],
       "tasks": [
         {
           "id": 1,
@@ -139,6 +143,7 @@
           "complete": false
         }
       ],
+      "userId": "2a62267c-386c-4359-d331-08daf55d9628",
       "id": 8
     },
     {
@@ -146,40 +151,64 @@
       "description": "This is a test goal",
       "duration": "00:30:00",
       "pausedCount": 1,
+      "archiveCount": 0,
       "goalStatus": "completed",
-      "addedTime": "00:00:00",
       "timeRemaining": "00:30:00",
-      "comment": "",
+      "comment": [],
       "tasks": [],
+      "userId": "2a62267c-386c-4359-d331-08daf55d9628",
       "id": 9
     },
     {
       "title": "Test 2",
       "description": "This is test 2 goal",
       "duration": "00:25:00",
-      "pausedCount": 1,
-      "goalStatus": "backlog",
-      "addedTime": "00:00:00",
-      "timeRemaining": "00:25:00",
-      "comment": "",
+      "pausedCount": 3,
+      "archiveCount": 1,
+      "goalStatus": "started",
+      "timeRemaining": "00:24:45",
+      "comment": [],
       "tasks": [
         {
           "title": "test task1",
           "complete": false
+        },
+        {
+          "title": "Test goal 2",
+          "complete": false,
+          "goalId": 10
+        },
+        {
+          "title": "Third test task",
+          "complete": false,
+          "goalId": 10
         }
       ],
+      "userId": "2a62267c-386c-4359-d331-08daf55d9628",
       "id": 10
     },
     {
       "title": "Another Test",
       "description": "",
       "duration": "00:36:00",
-      "pausedCount": 2,
-      "goalStatus": "paused",
-      "addedTime": "00:00:00",
-      "timeRemaining": "00:26:59",
-      "comment": "",
-      "tasks": [],
+      "pausedCount": 0,
+      "archiveCount": 0,
+      "goalStatus": "archived",
+      "timeRemaining": "00:36:00",
+      "comment": "wdwd",
+      "tasks": [
+        {
+          "title": "Watch Naruto",
+          "complete": false,
+          "goalId": 11
+        },
+        {
+          "title": "Watch demon slayer",
+          "complete": false,
+          "goalId": 11
+        }
+      ],
+      "userId": "2a62267c-386c-4359-d331-08daf55d9628",
       "id": 11
     },
     {
@@ -187,10 +216,10 @@
       "description": "",
       "duration": "02:00:00",
       "pausedCount": 1,
+      "archiveCount": 0,
       "goalStatus": "paused",
-      "addedTime": "00:00:00",
       "timeRemaining": "01:50:32",
-      "comment": "",
+      "comment": [],
       "tasks": [
         {
           "title": "Login to chat-gpt",
@@ -201,6 +230,7 @@
           "complete": false
         }
       ],
+      "userId": "2a62267c-386c-4359-d331-08daf55d9628",
       "id": 12
     }
   ]

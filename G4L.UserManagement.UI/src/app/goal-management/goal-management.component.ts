@@ -6,8 +6,9 @@ import {
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { Subscription } from 'rxjs';
+import { archivedState, backlogState, completedState, pausedState, startedState } from '../shared/constants/goal-states';
 import { ViewSelectedGoalComponent } from './modals/views/view-selected-goal/view-selected-goal.component';
-import { GoalModel, goalStatus } from './models/goal-model';
+import { GoalModel } from './models/goal-model';
 import { ActiveGoalService } from './services/active-goal.service';
 import { CaptureGoalService } from './services/capture-goal.service';
 import { GoalCommentService } from './services/goal-comment.service';
@@ -19,15 +20,14 @@ import { GoalManagementService } from './services/goal-management.service';
   styleUrls: ['./goal-management.component.css'],
 })
 export class GoalManagementComponent implements OnInit, OnDestroy {
-  MAX_PAUSE_COUNT: number = 3;
   modalRef: MdbModalRef<ViewSelectedGoalComponent> | null = null;
-
-  // Goal states
-  backlogState: goalStatus = 'backlog';
-  startedState: goalStatus = 'started';
-  pausedState: goalStatus = 'paused';
-  completedState: goalStatus = 'completed';
-  archivedState: goalStatus = 'archived';
+  goalStates = {
+    backlog: backlogState,
+    started: startedState,
+    paused: pausedState,
+    completed: completedState,
+    archived: archivedState
+  }
 
   // Why is this here?
   selectedGoal!: GoalModel;
@@ -53,19 +53,19 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.goalService.onGoalEmit().subscribe((goal: GoalModel) => {
       switch (goal.goalStatus) {
-        case 'backlog':
+        case backlogState:
           this._backlog.push(goal);
           break;
-        case 'archived':
+        case archivedState:
           this._archived.push(goal);
           break;
-        case 'completed':
+        case completedState:
           this._completed.push(goal);
           break;
-        case 'paused':
+        case pausedState:
           this._paused.push(goal);
           break;
-        case 'started':
+        case startedState:
           // Restore goal session
           if (this._started.length == 0) {
             // Checking if user has a past session
@@ -97,9 +97,10 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
       if (previousContainerLinks.includes(event.container.id)) {
         // Handling Goal Activity Logic
         switch (event.container.id) {
-          case this.archivedState:
+          case archivedState:
             const onCommentResponse: Subscription = this.goalCommentService.openCommentDialog(event.previousContainer.data[event.previousIndex])
               .subscribe((userComment: string | null) => {
+                console.log("Archive")
                 // Clearing the stream listener to avoid mulitple emits
                 onCommentResponse.unsubscribe();
 
@@ -108,8 +109,8 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
                   event.previousContainer.data[event.previousIndex].comment = userComment;
 
                   // Changing the goal state
-                  event.previousContainer.data[event.previousIndex].goalStatus = this.archivedState;
-                  event.previousContainer.data[event.previousIndex].pauseCount = 0;
+                  event.previousContainer.data[event.previousIndex].goalStatus = archivedState;
+                  event.previousContainer.data[event.previousIndex].pausedCount = 0;
                   event.previousContainer.data[event.previousIndex].timeRemaining = event.previousContainer.data[event.previousIndex].duration;
                   event.previousContainer.data[event.previousIndex]?.tasks?.forEach((element: any) => {
                     element.complete = false;
@@ -124,16 +125,35 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
                 }
               })
             break;
-          case this.pausedState:
+          case pausedState:
             if (
-              event.previousContainer.data[event.previousIndex].pausedCount ===
-              this.MAX_PAUSE_COUNT
+              +(event.previousContainer.data[event.previousIndex].pausedCount) % 3 === 0
             ) {
-              this.goalService.showErrorMessage(
-                'Pause Limit Exceeded',
-                `${event.previousContainer.data[event.previousIndex].title
-                } has exceeded its pause limit, and can no longer be paused further!`
-              );
+              const onCommentResponse: Subscription = this.goalCommentService.openCommentDialog(event.previousContainer.data[event.previousIndex])
+                .subscribe((userComment: string | null) => {
+                  // Clearing the stream listener to avoid mulitple emits
+                  onCommentResponse.unsubscribe();
+
+                  if (userComment) {
+                    event.previousContainer.data[event.previousIndex].comment.push({
+                      comment: userComment,
+                      commentType: pausedState,
+                      goalId: event.previousContainer.data[event.previousIndex].id
+                    })
+
+                    // If a user decides to archive a goal directly from [in-progress] state, stop the countdown window
+                    this.activeGoalPopupService.deactivateGoal();
+
+                    // Changing the goal state
+                    event.previousContainer.data[event.previousIndex].goalStatus = pausedState;
+
+                    // Incrementing the [pauseCount]
+                    event.previousContainer.data[event.previousIndex].pausedCount += 1;
+
+                    // Updating goal changes in the database
+                    this.updateGoalChanges(event)
+                  }
+                })
               return;
             }
 
@@ -141,7 +161,7 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
             this.activeGoalPopupService.deactivateGoal();
 
             // Changing the goal state
-            event.previousContainer.data[event.previousIndex].goalStatus = this.pausedState;
+            event.previousContainer.data[event.previousIndex].goalStatus = pausedState;
 
             // Incrementing the [pauseCount]
             event.previousContainer.data[event.previousIndex].pausedCount += 1;
@@ -149,7 +169,7 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
             // Updating goal changes in the database
             this.updateGoalChanges(event)
             break;
-          case this.startedState:
+          case startedState:
             if (event.container.data.length > 0) {
               this.goalService.showErrorMessage(
                 'Starting a Goal',
@@ -160,7 +180,7 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
             }
 
             // Changing the goal state
-            event.previousContainer.data[event.previousIndex].goalStatus = this.startedState;
+            event.previousContainer.data[event.previousIndex].goalStatus = startedState;
 
             // Starting the [Active Goal Popup] window
             this.activeGoalPopupService.activateGoalCountDown(
@@ -170,19 +190,19 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
             // Updating goal changes in the database
             this.updateGoalChanges(event)
             break;
-          case this.completedState:
+          case completedState:
             // If a user decides to archive a goal directly, [Stop the countdown window]
             this.activeGoalPopupService.deactivateGoal();
 
             // Change Goal State
-            event.previousContainer.data[event.previousIndex].goalStatus = this.completedState;
+            event.previousContainer.data[event.previousIndex].goalStatus = completedState;
 
             // Updating goal changes in the database
             this.updateGoalChanges(event)
             break;
-          case this.backlogState:
+          case backlogState:
             // Change Goal State
-            event.previousContainer.data[event.previousIndex].goalStatus = this.backlogState;
+            event.previousContainer.data[event.previousIndex].goalStatus = backlogState;
 
             // Updating goal changes in the database
             this.updateGoalChanges(event)
@@ -193,9 +213,10 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
   };
 
   updateGoalChanges(event: CdkDragDrop<any[], any[], any>) {
+    console.log(event.previousContainer.data[event.previousIndex])
     this.goalService.updateGoal(event.previousContainer.data[event.previousIndex])
       .subscribe((response: any) => {
-        console.log(response);
+        // console.log(response);
         transferArrayItem(
           event.previousContainer.data,
           event.container.data,
@@ -206,7 +227,7 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
   }
 
   isPopupOpen(containerId: string): boolean {
-    return containerId === this.startedState;
+    return containerId === startedState;
   }
 
   addNewGoal() {

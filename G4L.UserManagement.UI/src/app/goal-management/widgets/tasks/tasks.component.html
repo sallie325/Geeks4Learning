@@ -1,6 +1,5 @@
 <!-- TASKS -->
 <div>
-  <!-- <hr class="horizontal dark my-4" /> -->
   <h6 class="heading-small text-muted d-flex ml-0 mr-0 mt-3 mb-2">
     <span>{{
       viewType === "create" ? ("Tasks" | titlecase) : ("Tasks" | uppercase)
@@ -11,7 +10,7 @@
       </div>
     </app-content>
     <i
-      *ngIf="viewType === 'view'"
+      *ngIf="viewType === 'view' && goalStatus !== 'completed'"
       class="fa-solid fa-circle-plus addGoalTask"
       (click)="addMoreTasks()"
     ></i>
@@ -43,7 +42,7 @@
         >
       </div>
       <i
-        *ngIf="viewType === 'create' || goalStatus === 'backlog'"
+        *ngIf="goalStatus !== 'completed'"
         class="fa-solid fa-times removeTask"
         [id]="pos"
         (click)="removeTask($event)"

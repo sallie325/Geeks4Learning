@@ -11,7 +11,7 @@ import { GoalManagementService } from '../../services/goal-management.service';
   templateUrl: './capture-goals.component.html',
   styleUrls: ['./capture-goals.component.css'],
 })
-export class CaptureGoalsComponent implements OnInit {  
+export class CaptureGoalsComponent implements OnInit {
   attendanceId: any;
 
   formModel: FormGroup = new FormGroup({
@@ -29,7 +29,8 @@ export class CaptureGoalsComponent implements OnInit {
     goalStatus: 'backlog',
     timeRemaining: String('00:00:00'),
     comment: new Array<GoalCommentModel>(),
-    tasks: new Array<GoalTaskModel>()
+    tasks: new Array<GoalTaskModel>(),
+    userId: String('')
   };
 
   constructor(

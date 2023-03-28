@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { activeGoalPopupWindowState } from 'src/app/goal-management/models/active-goal-model';
+import { ActiveGoalService } from 'src/app/goal-management/services/active-goal.service';
 import { GoalModel } from '../../../models/goal-model';
 
 @Component({
@@ -13,7 +15,10 @@ export class ViewSelectedGoalComponent implements OnInit {
   goalProgressValue!: number;
   goalStatus!: string;
 
-  constructor(private modalRef: MdbModalRef<ViewSelectedGoalComponent>) {}
+  constructor(
+    private modalRef: MdbModalRef<ViewSelectedGoalComponent>,
+    private activeGoalService: ActiveGoalService
+  ) {}
 
   ngOnInit(): void {
     this.calculateGoalProgress();
@@ -40,6 +45,11 @@ export class ViewSelectedGoalComponent implements OnInit {
   onCloseModal() {
     this.modalRef.close();
   }
+
+  isGoalStarted(): activeGoalPopupWindowState {
+    return this.activeGoalService.getActiveGoalPopupWindowState();
+  }
+
 
   onActionClicked(actionType: string, goal: GoalModel) {}
 }

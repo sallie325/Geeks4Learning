@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject } from 'rxjs';
+import { TokenService } from 'src/app/user-management/login/services/token.service';
+import { environment } from 'src/environments/environment';
 import { GoalModel } from '../models/goal-model';
 
 @Injectable({
@@ -9,9 +11,12 @@ import { GoalModel } from '../models/goal-model';
 })
 export class GoalManagementService {
   private goalSubject!: Subject<GoalModel>;
-  private fakeServer: string = 'http://localhost:3000';
 
-  constructor(private http: HttpClient, private toastrService: ToastrService) {
+  constructor(
+    private http: HttpClient,
+    private toastrService: ToastrService,
+    private tokenService: TokenService
+  ) {
     this.goalSubject = new Subject<GoalModel>();
   }
 
@@ -20,18 +25,21 @@ export class GoalManagementService {
   }
 
   insertNewGoal(goal: GoalModel): void {
-    this.http.post<GoalModel>(`${this.fakeServer}/goals`, goal)
+    const user = this.tokenService.getDecodeToken();
+    goal.userId = user.id;
+
+    this.http.post<GoalModel>(`${environment.mockServer}/goals`, goal)
       .subscribe(newGoal => {
         this.emitGoal(newGoal)
       })
   }
 
   updateGoal(goal: GoalModel): Observable<GoalModel> {
-    return this.http.put<GoalModel>(`${this.fakeServer}/goals/${goal?.id}`, goal);
+    return this.http.put<GoalModel>(`${environment.mockServer}/goals/${goal?.id}`, goal);
   }
 
   onGoalEmit(): Subject<GoalModel> {
-    this.http.get<GoalModel[]>(`${this.fakeServer}/goals`).subscribe(
+    this.http.get<GoalModel[]>(`${environment.mockServer}/goals`).subscribe(
       (goals: GoalModel[]) => {
         goals.forEach((goal: GoalModel) => {
           this.emitGoal(goal)
@@ -43,10 +51,10 @@ export class GoalManagementService {
   }
 
   getGoalById(id: any): Observable<GoalModel> {
-    return this.http.get<GoalModel>(`${this.fakeServer}/goals/${id}`);
+    return this.http.get<GoalModel>(`${environment.mockServer}/goals/${id}`);
   }
 
-  showErrorMessage(messageTitle: string, message: string) {
+  showErrorMessage(messageTitle: string, message: string): void {
     this.toastrService.error(message, messageTitle);
   }
 

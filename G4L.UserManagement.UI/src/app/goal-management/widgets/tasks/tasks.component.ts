@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GoalModel, goalStatus } from '../../models/goal-model';
+import { GoalModel, goalStatus, viewType } from '../../models/goal-model';
 import { CaptureGoalService } from '../../services/capture-goal.service';
 import { GoalManagementService } from '../../services/goal-management.service';
 
@@ -13,7 +13,7 @@ export class TasksComponent implements OnInit {
   goal!: GoalModel;
 
   @Input()
-  viewType!: "view" | "create"
+  viewType!: viewType
 
   @Input()
   goalStatus!: goalStatus
@@ -56,6 +56,6 @@ export class TasksComponent implements OnInit {
   }
 
   addMoreTasks(){
-    this.captureGoalService.openAddGoalTaskDialog(this.goal);
+    this.captureGoalService.openAddGoalTaskDialog(this.goal, "view");
   }
 }

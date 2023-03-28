@@ -5,6 +5,8 @@ export type goalStatus =
   | 'completed'
   | 'archived';
 
+export type viewType = "create" | "view";
+
 export interface GoalTaskModel {
   id?: number;
   title: string;
@@ -31,4 +33,5 @@ export interface GoalModel {
   goalStatus: goalStatus;
   attendanceId?: string;
   timeRemaining: string;
+  userId: string;
 }
