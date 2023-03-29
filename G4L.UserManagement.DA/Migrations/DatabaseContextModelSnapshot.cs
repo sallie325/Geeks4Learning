@@ -136,9 +136,6 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
-                    b.Property<Guid>("GoalId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("GoalStatus")
                         .HasColumnType("int");
 
