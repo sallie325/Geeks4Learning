@@ -39,8 +39,8 @@ namespace G4L.UserManagement.API.Controllers
 
 
         [HttpPut]
-        [Route("updateGoal/{UserId: Guid}")]
-        public async Task<IActionResult> UpdateGoal([FromRoute] Guid UserId, [FromBody] UpdateGoalRequest goal)
+        [Route("update")]
+        public async Task<IActionResult> UpdateGoal([FromBody] UpdateGoalRequest goal)
         {
             if(goal == null) return BadRequest("Attempting to update with a null goal object");
             if (goal.Id.Equals(null)) return BadRequest("Goal can not be found");
