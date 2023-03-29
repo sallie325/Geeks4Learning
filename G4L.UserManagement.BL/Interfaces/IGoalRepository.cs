@@ -17,7 +17,6 @@ namespace G4L.UserManagement.BL.Interfaces
         public Task<Goal> GetGoalByIdAsync(Guid id);
 
         public Task AddAsync(Goal goal);
- 
 
         Task CreateUserGoalAsync(CreateGoalRequest goalRequest);
 
