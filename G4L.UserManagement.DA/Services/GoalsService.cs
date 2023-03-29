@@ -1,7 +1,9 @@
-﻿using G4L.UserManagement.BL.Entities;
+﻿using AutoMapper;
+using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models.Request;
 using G4L.UserManagement.BL.Models.Response;
+using G4L.UserManagement.DA.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,32 +14,39 @@ using G4L.UserManagement.BL.Models;
 using G4L.UserManagement.BL.Enum;
 using Newtonsoft.Json;
 using System.Net.Http;
-using AutoMapper;
 
 namespace G4L.UserManagement.DA.Services
 {
     public class GoalsService : IGoalService
     {
-        IGoalRepository _goalRepository;
-        IMapper _mapper;
-        public GoalsService(IGoalRepository goalRepository, IMapper mapper ) {
-            _goalRepository = goalRepository;  
+
+        private readonly IGoalRepository _goalRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
+
+        public GoalsService(IGoalRepository goalRepository, IUserRepository userRepository, IMapper mapper)
+        {
+            _goalRepository = goalRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
-        public Task<User> CreateUserGoal(Guid UserId, CreateGoalRequest request)
+
+        public async Task CreateUserGoalAsync(CreateGoalRequest goalRequest)
         {
-            throw new NotImplementedException();
+            var goal = _mapper.Map<Goal>(goalRequest);
+            await _goalRepository.AddAsync(goal);
         }
 
-        public Task<List<Goal>> GetAllUserGoals(Guid UserId)
+        public async Task<List<Goal>> GetAllUserGoalsAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            var allUserGoals = await _goalRepository.ListAsync(x => x.UserId == userId);
+            return _mapper.Map<List<Goal>>(allUserGoals);
         }
 
         public async Task<UpdateGoalResponse> UpdateUserGoal(UpdateGoalRequest updateGoalRequest)
         {
            
-            var oldGoal =  _mapper.Map<UpdateGoalRequest>(await _goalRepository.GetGoalById(updateGoalRequest.Id));
+            var oldGoal =  _mapper.Map<UpdateGoalRequest>(await _goalRepository.GetGoalByIdAsync(updateGoalRequest.Id));
             //check if goal status has changed
             if(updateGoalRequest.GoalStatus != oldGoal.GoalStatus)
             {
@@ -66,7 +75,7 @@ namespace G4L.UserManagement.DA.Services
          
 
             var goalEntity = _mapper.Map<Goal>(updateGoalRequest);
-            var updatedGoalEntity = await _goalRepository.UpdateGoal(goalEntity);
+            var updatedGoalEntity = await _goalRepository.UpdateGoalAsync(goalEntity);
             var updatedGoalResponse = _mapper.Map<UpdateGoalResponse>(updatedGoalEntity); 
             return updatedGoalResponse;
         }

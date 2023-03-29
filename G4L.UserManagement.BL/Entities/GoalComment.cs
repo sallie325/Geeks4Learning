@@ -1,4 +1,5 @@
 ﻿using G4L.UserManagement.BL.Enum;
+using G4L.UserManagement.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,14 @@ using System.Threading.Tasks;
 
 namespace G4L.UserManagement.BL.Entities
 {
-    public class GoalComment
+    public class GoalComment:BaseEntity
     {
+<<<<<<< HEAD
         public Guid CommentId { get; set; } //Do not need Guids here
+=======
+        public Guid GoalId { get; set; }
+        public Guid CommentId { get; set; }
+>>>>>>> 7d8114f0afb594182dfccb5ae89e2187b7d9c65f
         public string Comment { get; set; }
         public GoalStatus GoalStatus { get; set; }
     }
