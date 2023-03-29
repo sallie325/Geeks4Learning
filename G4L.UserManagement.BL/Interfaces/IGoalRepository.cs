@@ -10,7 +10,8 @@ namespace G4L.UserManagement.BL.Interfaces
 {
     public interface IGoalRepository
     {
-        Task<UpdateGoalRequest> UpdateGoal(UpdateGoalRequest request);
-        Task<Goal> GetGoalById(Guid id);
+       public Task<Goal> UpdateGoal(Goal request);
+        public Task<Goal> GetGoalById(Guid id);
+      
     }
 }

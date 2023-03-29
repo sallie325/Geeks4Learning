@@ -42,7 +42,7 @@ namespace G4L.UserManagement.API.Mappers
             //Goal Mappings
             CreateMap<Goal, CreateGoalRequest>().ReverseMap();
             CreateMap<Goal, UpdateGoalRequest>().ReverseMap(); //TODO: confirm Goal Entity and Update Model with front end  
-            
+            CreateMap<Goal, UpdateGoalResponse>().ReverseMap();
         }
     }
 }

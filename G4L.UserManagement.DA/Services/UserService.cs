@@ -114,6 +114,8 @@ namespace G4L.UserManagement.Infrustructure.Services
             user.Phone = model.Phone;
             user.Role = (Role)model.Role;
 
+            //var _user = _mapper.Map<User>(model);
+
             await _userRepository.UpdateAsync(user);
         }
 

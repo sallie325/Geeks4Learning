@@ -3,13 +3,14 @@ using G4L.UserManagement.BL.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace G4L.UserManagement.BL.Models.Request
+namespace G4L.UserManagement.BL.Models.Response
 {
-    public class UpdateGoalRequest
+    public class UpdateGoalResponse
     {
         [Key]
         [Required]

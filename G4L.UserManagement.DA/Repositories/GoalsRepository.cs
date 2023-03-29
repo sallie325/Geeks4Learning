@@ -14,20 +14,20 @@ namespace G4L.UserManagement.DA.Repositories
     public class GoalsRepository: Repository<Goal>, IGoalRepository
     {
         DatabaseContext _dbContext;
-        IMapper _mapper;
-        public GoalsRepository(DatabaseContext dbContext, IMapper mapper): base(dbContext)  { 
+        public GoalsRepository(DatabaseContext dbContext): base(dbContext)  { 
             _dbContext = dbContext;
-            _mapper = mapper;
         }
 
-        Task<Goal> IGoalRepository.GetGoalById(Guid id)
+        public async Task<Goal> GetGoalById(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.FindAsync<Goal>(id);
         }
-
-        Task<UpdateGoalRequest> IGoalRepository.UpdateGoal(UpdateGoalRequest request)
+       
+        public async Task<Goal> UpdateGoal(Goal request)
         {
-            throw new NotImplementedException();
+            var result = _dbContext.Update(request);
+            await _dbContext.SaveChangesAsync();
+            return result.Entity;
         }
     }
 }

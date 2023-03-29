@@ -9,7 +9,7 @@ namespace G4L.UserManagement.BL.Entities
 {
     public class GoalComment
     {
-        public Guid CommentId { get; set; }
+        public Guid CommentId { get; set; } //Do not need Guids here
         public string Comment { get; set; }
         public GoalStatus GoalStatus { get; set; }
     }
