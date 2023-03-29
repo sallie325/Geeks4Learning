@@ -39,7 +39,7 @@ namespace G4L.UserManagement.API
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                options.UseSqlServer(Configuration.GetConnectionString("ThapeloConnection"))
             );
 
             services.AddControllers();
