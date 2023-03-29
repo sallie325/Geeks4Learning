@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { any } from 'ramda';
 import { AttendanceService } from 'src/app/attendance-register/services/attendance.service';
-import { GoalModel } from '../../models/goal-model';
+import { GoalCommentModel, GoalModel, GoalTaskModel } from '../../models/goal-model';
+import { CaptureGoalService } from '../../services/capture-goal.service';
 import { GoalManagementService } from '../../services/goal-management.service';
-import { CreateGoalTaskComponent } from '../create-goal-task/create-goal-task.component';
 
 @Component({
   selector: 'app-capture-goals',
   templateUrl: './capture-goals.component.html',
   styleUrls: ['./capture-goals.component.css'],
 })
-export class CaptureGoalsComponent implements OnInit {
+export class CaptureGoalsComponent implements OnInit {  
   attendanceId: any;
 
   formModel: FormGroup = new FormGroup({
@@ -21,23 +22,24 @@ export class CaptureGoalsComponent implements OnInit {
   });
 
   currentGoal: GoalModel = {
+    id: 0,
     title: String(''),
     description: String(''),
     duration: String('00:00:00'),
     pausedCount: 0,
+    archiveCount: 0,
     goalStatus: 'backlog',
-    addedTime: String('00:00:00'),
     timeRemaining: String('00:00:00'),
-    comment: String(''),
-    tasks: []
+    comment: new Array<GoalCommentModel>(),
+    tasks: new Array<GoalTaskModel>(),
+    attendanceId: String(''),
+    userId: String(''),
   };
 
   constructor(
-    private goalManagementService: GoalManagementService,
     private modalRef: MdbModalRef<CaptureGoalsComponent>,
-    private taskModalService: MdbModalService,
-    private taskModalRef: MdbModalRef<CreateGoalTaskComponent>,
-    private attendanceService: AttendanceService
+    private goalManagementService: GoalManagementService,
+    private captureGoalService: CaptureGoalService
   ) { }
 
   ngOnInit(): void { }
@@ -65,27 +67,8 @@ export class CaptureGoalsComponent implements OnInit {
     this.modalRef.close();
   }
 
-  onTaskCreation(taskRef: MdbModalRef<CreateGoalTaskComponent>): void {
-    taskRef.onClose.subscribe((newTask: string | null) => {
-      if (newTask) this.currentGoal['tasks']?.push({
-        title: newTask,
-        complete: false
-      })
-    })
-  }
-
-  addGoalTask() {
-    this.taskModalRef = this.taskModalService.open(CreateGoalTaskComponent, {
-      animation: true,
-      backdrop: true,
-      data: null,
-      containerClass: 'modal top fade modal-backdrop',
-      ignoreBackdropClick: false,
-      keyboard: true,
-      modalClass: 'modal-xl modal-dialog-centered w-50',
-    })
-
-    this.onTaskCreation(this.taskModalRef)
+  addGoalTask(): void {
+    this.captureGoalService.openAddGoalTaskDialog(this.currentGoal);
   }
 
   addNewGoal() {

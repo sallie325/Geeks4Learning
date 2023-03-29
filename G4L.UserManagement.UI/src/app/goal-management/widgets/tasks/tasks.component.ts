@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GoalModel, goalStatus } from '../../models/goal-model';
+import { CaptureGoalService } from '../../services/capture-goal.service';
 import { GoalManagementService } from '../../services/goal-management.service';
 
 @Component({
@@ -17,7 +18,10 @@ export class TasksComponent implements OnInit {
   @Input()
   goalStatus!: goalStatus
 
-  constructor(private goalManagementService: GoalManagementService) { }
+  constructor(
+    private goalManagementService: GoalManagementService,
+    private captureGoalService: CaptureGoalService
+  ) { }
 
   ngOnInit(): void { }
 
@@ -49,5 +53,9 @@ export class TasksComponent implements OnInit {
           })
       }
     }
+  }
+
+  addMoreTasks(){
+    this.captureGoalService.openAddGoalTaskDialog(this.goal);
   }
 }

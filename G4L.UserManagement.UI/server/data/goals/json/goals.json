@@ -75,7 +75,8 @@
       "addedTime": "00:00:00",
       "timeRemaining": "00:07:00",
       "comment": "Too much work",
-      "pauseCount": 0
+      "pauseCount": 0,
+      "tasks": []
     },
     {
       "id": 5,
@@ -87,7 +88,8 @@
       "addedTime": "00:00:00",
       "timeRemaining": "01:00:00",
       "comment": "Reached my pause limit",
-      "pauseCount": 0
+      "pauseCount": 0,
+      "tasks": []
     },
     {
       "id": 6,
@@ -98,7 +100,8 @@
       "goalStatus": "backlog",
       "addedTime": "00:00:00",
       "timeRemaining": "01:40:00",
-      "comment": ""
+      "comment": "",
+      "tasks": []
     },
     {
       "id": 7,
@@ -109,7 +112,8 @@
       "goalStatus": "completed",
       "addedTime": "00:00:00",
       "timeRemaining": "01:20:00",
-      "comment": ""
+      "comment": "",
+      "tasks": []
     },
     {
       "title": "Complete the Create goal component functionality",
@@ -122,6 +126,7 @@
       "comment": "",
       "tasks": [
         {
+          "id": 1,
           "title": "Determine the directory where the component fits",
           "complete": false
         },

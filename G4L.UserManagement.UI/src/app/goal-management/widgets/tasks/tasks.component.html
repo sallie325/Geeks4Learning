@@ -1,15 +1,20 @@
 <!-- TASKS -->
-<div *ngIf="(goal?.tasks)!.length > 0">
+<div>
   <!-- <hr class="horizontal dark my-4" /> -->
   <h6 class="heading-small text-muted d-flex ml-0 mr-0 mt-3 mb-2">
     <span>{{
       viewType === "create" ? ("Tasks" | titlecase) : ("Tasks" | uppercase)
     }}</span>
-    <app-content class="taskCount">
+    <app-content class="taskCount rounded-circle">
       <div class="countContainer d-flex w-100 h-100">
-        <span class="text-light">{{ goal?.tasks?.length }}</span>
+        <span class="text-dark">{{ goal?.tasks?.length }}</span>
       </div>
     </app-content>
+    <i
+      *ngIf="viewType === 'view'"
+      class="fa-solid fa-circle-plus addGoalTask"
+      (click)="addMoreTasks()"
+    ></i>
   </h6>
 
   <div *ngFor="let task of goal?.tasks; let pos = index" class="form-check">

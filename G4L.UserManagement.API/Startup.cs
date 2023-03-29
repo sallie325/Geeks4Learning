@@ -76,12 +76,12 @@ namespace G4L.UserManagement.API
             services.AddScoped<IGoogleCalendarService, GoogleCalendarService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<IAttendanceRepository, AttendanceRepository>();
-            services.AddScoped<IGoalService, GoalsService>();
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ILeaveRepository, LeaveRepository>();
             services.AddScoped<ISponsorRepository, SponsorRepository>();
             services.AddScoped<IGoalRepository, GoalsRepository>();
+            services.AddScoped<IGoalService,GoalsService>();
             
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 

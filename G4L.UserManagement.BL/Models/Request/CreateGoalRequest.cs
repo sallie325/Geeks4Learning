@@ -10,9 +10,8 @@ namespace G4L.UserManagement.BL.Models.Request
 {
     public class CreateGoalRequest
     {
-        public Guid GoalId { get; set; }
-        public string GoalTitle { get; set; }
-        public string Description { get; set; }
+        public string GoalName { get; set; }
+        public string GoalDescription { get; set; }
         public TimeSpan Duration { get; set; }
         public GoalStatus GoalStatus { get; set; }
         public int PauseCount { get; set; }

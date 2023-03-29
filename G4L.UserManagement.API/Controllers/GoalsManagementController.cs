@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace G4L.UserManagement.API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     [Authorize(Role.Super_Admin, Role.Admin, Role.Learner, Role.Admin)]
     public class GoalsManagementController : ControllerBase
@@ -44,11 +45,12 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         [HttpPost]
-        [Route("AddGoal/{UserId}")]
-        public async Task<IActionResult> AddGoal([FromRoute] Guid UserId, [FromBody] CreateGoalRequest goal)
+        [Authorize(Role.Learner)]
+        [Route("AddGoal")]
+        public async Task<IActionResult> AddGoalsync([FromBody] CreateGoalRequest goalRequest)
         {
-            var createdGoal = await _goalService.CreateUserGoal(UserId, goal);
-            return Ok(createdGoal);
+            await _goalService.CreateUserGoalAsync(goalRequest);
+            return Ok();
         }
 
         [HttpPut]

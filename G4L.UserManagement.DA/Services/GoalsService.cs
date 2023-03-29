@@ -2,6 +2,7 @@
 using G4L.UserManagement.BL.Entities;
 using G4L.UserManagement.BL.Interfaces;
 using G4L.UserManagement.BL.Models.Request;
+using G4L.UserManagement.DA.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,10 @@ namespace G4L.UserManagement.DA.Services
             _mapper = mapper;
         }
 
-        public Task<User> CreateUserGoal(Guid UserId, CreateGoalRequest request)
+        public async Task CreateUserGoalAsync(CreateGoalRequest goalRequest)
         {
-            throw new NotImplementedException();
+            var goal = _mapper.Map<Goal>(goalRequest);
+            await _goalRepository.AddAsync(goal);
         }
 
         public async Task<List<Goal>> GetAllUserGoalsAsync(Guid UserId)
