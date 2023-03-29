@@ -11,12 +11,9 @@ namespace G4L.UserManagement.API.Controllers
 {
   
     [ApiController]
-<<<<<<< HEAD
-    [Route("api/[controller]")]  //https://geek4Learning.com/api/GoalsManagement
-=======
     [Authorize]
     [Route("api/[controller]")]
->>>>>>> 7d8114f0afb594182dfccb5ae89e2187b7d9c65f
+
     public class GoalsManagementController : ControllerBase
     {
         private readonly IGoalService _goalService;
@@ -28,11 +25,8 @@ namespace G4L.UserManagement.API.Controllers
 
 
         [HttpGet]
-<<<<<<< HEAD
-        [Route("{UserId:Guid}")]  
-=======
         [Route("{UserId}")]
->>>>>>> 7d8114f0afb594182dfccb5ae89e2187b7d9c65f
+
         public async Task<IActionResult> GetAllGoals([FromRoute] Guid UserId)
         {
             var allUserGoals = await _goalService.GetAllUserGoalsAsync(UserId);
@@ -51,13 +45,8 @@ namespace G4L.UserManagement.API.Controllers
 
 
         [HttpPut]
-<<<<<<< HEAD
         [Route("update")]
         public async Task<IActionResult> UpdateGoal([FromBody] UpdateGoalRequest goal)
-=======
-        [Route("updateGoal/{UserId}")]
-        public async Task<IActionResult> UpdateGoal([FromRoute] Guid UserId, [FromBody] UpdateGoalRequest goal)
->>>>>>> 7d8114f0afb594182dfccb5ae89e2187b7d9c65f
         {
             if(goal == null) return BadRequest("Attempting to update with a null goal object");
             if (goal.Id.Equals(null)) return BadRequest("Goal can not be found");

@@ -10,12 +10,10 @@ namespace G4L.UserManagement.BL.Entities
 {
     public class GoalComment:BaseEntity
     {
-<<<<<<< HEAD
+
         public Guid CommentId { get; set; } //Do not need Guids here
-=======
+
         public Guid GoalId { get; set; }
-        public Guid CommentId { get; set; }
->>>>>>> 7d8114f0afb594182dfccb5ae89e2187b7d9c65f
         public string Comment { get; set; }
         public GoalStatus GoalStatus { get; set; }
     }

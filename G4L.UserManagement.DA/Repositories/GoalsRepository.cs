@@ -38,12 +38,6 @@ namespace G4L.UserManagement.DA.Repositories
 
         }
 
-        public Task ListAsync(CreateGoalRequest goalRequest)
-        {
-            throw new NotImplementedException();
-
-        }
-
         public Task CreateUserGoalAsync(CreateGoalRequest goalRequest)
         {
             throw new NotImplementedException();
