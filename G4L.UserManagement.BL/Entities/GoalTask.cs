@@ -9,7 +9,7 @@ namespace G4L.UserManagement.BL.Entities
 {
     public class GoalTask:BaseEntity
     {
-        public string Description { get; set; }
-        public bool IsCompleted { get; set; }
+        public string Title { get; set; }
+        public bool Complete { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace G4L.UserManagement.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Role.Super_Admin, Role.Admin, Role.Learner, Role.Admin)]
+   // [Authorize(Role.Super_Admin, Role.Admin, Role.Learner, Role.Admin)]
     public class GoalsManagementController : ControllerBase
     {
         private readonly IGoalService _goalService;
@@ -44,7 +44,7 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Role.Learner)]
+       // [Authorize(Role.Learner)]
         [Route("AddGoal")]
         public async Task<IActionResult> AddGoalsync([FromBody] CreateGoalRequest goalRequest)
         {
