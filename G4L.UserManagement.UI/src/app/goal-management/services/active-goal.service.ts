@@ -25,7 +25,8 @@ export class ActiveGoalService {
 
   deactivateGoal(): void {
     if (this.$intervalStream) this.$intervalStream.unsubscribe();
-    this.popupGoalWindowState = "close"
+    if (this.popupGoalWindowState = "open") this.popupGoalWindowState = "close"
+    if (sessionStorage.getItem('activeGoalSession')) sessionStorage.removeItem('activeGoalSession')
   }
 
   getActiveGoalPopupWindowState(): activeGoalPopupWindowState {

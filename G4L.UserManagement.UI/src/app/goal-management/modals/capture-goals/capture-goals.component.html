@@ -41,7 +41,14 @@
         <div class="col-12 row m-0 p-0">
           <div class="col-12 row m-0 p-0 pt-3 pb-3">
             <div class="col p-0">
-              <label class="form-control-label">
+              <label
+                class="form-control-label"
+                [ngClass]="{
+                  errorMessage:
+                    isFormControlTouched('duration') &&
+                    isFormControlInvalid('duration')
+                }"
+              >
                 <span>What is your goal</span>
                 <sup class="text-danger">*</sup>
               </label>
@@ -56,17 +63,16 @@
                     isFormControlInvalid('title')
                 }"
               />
-              <label
-                *ngIf="
-                  isFormControlTouched('title') && isFormControlInvalid('title')
-                "
-                class="text-danger errorMessage"
-                >This field is required</label
-              >
             </div>
             <div class="col-3 pr-0">
               <div>
-                <label class="form-control-label"
+                <label
+                  class="form-control-label"
+                  [ngClass]="{
+                    errorMessage:
+                      isFormControlTouched('duration') &&
+                      isFormControlInvalid('duration')
+                  }"
                   >Estimated time <sup class="text-danger">*</sup></label
                 >
                 <input
@@ -81,14 +87,6 @@
                       isFormControlInvalid('duration')
                   }"
                 />
-                <label
-                  *ngIf="
-                    isFormControlTouched('duration') &&
-                    isFormControlInvalid('duration')
-                  "
-                  class="text-danger errorMessage"
-                  >This field is required</label
-                >
               </div>
             </div>
 
@@ -124,8 +122,7 @@
       <div class="card-footer row m-0 p-2 border-0">
         <div class="col text-start p-0">
           <button
-            mat-stroked-button
-            color="primary"
+            class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark"
             type="button"
             (click)="addGoalTask()"
           >
@@ -134,7 +131,9 @@
           </button>
         </div>
         <div class="col text-end p-0">
-          <button mat-raised-button color="primary">Add Goal</button>
+          <button class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark">
+            Add Goal
+          </button>
         </div>
       </div>
     </form>

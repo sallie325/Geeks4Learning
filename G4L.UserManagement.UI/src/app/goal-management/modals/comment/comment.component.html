@@ -9,8 +9,12 @@
       </div>
     </div>
     <div class="card-body">
-      <label for="#comment" class="form-control-label text-nowrap">
-        <span>Why are you archiving this goal</span>
+      <label *ngIf="commentType === 'archived'" for="#comment" class="form-control-label text-nowrap">
+        <span>Why are you archiving this goal?</span>
+        <sup class="text-danger">*</sup>
+      </label>
+      <label *ngIf="commentType === 'paused'" for="#comment" class="form-control-label text-nowrap">
+        <span>Why are you pausing this goal frequently?</span>
         <sup class="text-danger">*</sup>
       </label>
       <textarea
@@ -36,7 +40,7 @@
       >
     </div>
     <div class="card-footer d-flex flex-row-reverse">
-      <button mat-raised-button color="primary">Done</button>
+      <button class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark">Done</button>
     </div>
   </form>
 </div>

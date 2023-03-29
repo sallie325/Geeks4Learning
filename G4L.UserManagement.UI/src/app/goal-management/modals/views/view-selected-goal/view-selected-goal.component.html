@@ -39,7 +39,7 @@
         <div class="col-3"><h6>Estimated Time:</h6></div>
         <div class="col-2">
           <h6>
-            {{ goal.duration | formatDuration : goal.goalStatus : "close" }}
+            {{ goal.duration | formatDuration }}
           </h6>
         </div>
       </div>
@@ -47,26 +47,23 @@
         <div class="col-3"><h6>Remaining Time:</h6></div>
         <div class="col-2">
           <h6>
-            {{
-              goal.timeRemaining
-                | formatDuration : goal.goalStatus : isGoalStarted()
-            }}
+            {{ goal.timeRemaining | formatDuration }}
           </h6>
         </div>
       </div>
       <div class="row">
         <div class="col-3"><h6>Progress:</h6></div>
         <div class="col-2">
-          <h6>{{ goalProgress | percent }}</h6>
+          <h6>{{ getProgress() | percent }}</h6>
         </div>
       </div>
       <p>
         <ngb-progressbar
-          type="warning"
-          [value]="goalProgressValue"
+          [type]="progressState"
+          [value]="getProgressValue()"
           [striped]="true"
           [animated]="true"
-          ><i>{{ goalProgress | percent }}</i></ngb-progressbar
+          ><i>{{ getProgress() | percent }}</i></ngb-progressbar
         >
       </p>
       <!-- Descriptions -->
@@ -89,56 +86,87 @@
       ></app-tasks>
 
       <!-- Action buttons -->
-      <div class="row mt-3" *ngIf="goalStatus !== 'completed'">
-        <hr class="horizontal dark my-4" />
+      <div class="row mt-4 border-top pt-2">
         <div class="col-8">
-          <a class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark">
-            <i class="fa-solid fa-pen"></i>&nbsp;&nbsp;ADD MORE
-            TIME&nbsp;&nbsp;</a
+          <button
+            *ngIf="
+              goalStatus === 'started' && goal.timeRemaining === '00:00:00'
+            "
+            class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark"
+            (click)="addMoreTime()"
           >
+            <i class="fa-solid fa-pen"></i>
+            <span>ADD MORE TIME</span>
+          </button>
         </div>
         <div class="col-4 text-end">
-          <div>
-            <a
-              class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark dropdown-toggle"
-              id="dropdownAction"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              &nbsp;&nbsp;ACTION GOAL&nbsp;&nbsp;
-              <i aria-hidden="true" class="fa fa-caret-down text-xs"></i>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdown">
+          <div [ngSwitch]="goalStatus">
+            <div *ngSwitchCase="'completed'">
+              <button
+                class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark"
+                (click)="onCloseModal()"
+              >
+                <span>DONE</span>
+              </button>
+            </div>
+            <div *ngSwitchDefault>
               <a
-                class="dropdown-item"
-                *ngIf="goalStatus === 'backlog' || goalStatus === 'paused'"
+                class="btn btn-sm bg-2 gradient-primary mb-0 btn-dark dropdown-toggle"
+                id="dropdownAction"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
               >
-                <i class="fa-solid fa-play text-xs"></i>&nbsp;&nbsp;Start the
-                goal&nbsp;&nbsp;</a
-              >
-
-              <a
-                class="dropdown-item"
-                *ngIf="goalStatus === 'started' && goalProgressValue === 100"
-              >
-                <i class="fa-solid fa-play text-xs"></i>&nbsp;&nbsp;Complete
-                goal&nbsp;&nbsp;</a
-              >
-              <a class="dropdown-item" *ngIf="goalStatus === 'started'">
-                <i class="fa-solid fa-play text-xs"></i>&nbsp;&nbsp;Pause
-                goal&nbsp;&nbsp;</a
-              >
-              <a class="dropdown-item" *ngIf="goalStatus === 'archived'">
-                <i class="fa-solid fa-play text-xs"></i>&nbsp;&nbsp;Restart
-                goal&nbsp;&nbsp;</a
-              >
-              <a
-                class="dropdown-item"
-                *ngIf="goalStatus === 'started' || goalStatus === 'paused'"
-              >
-                <i class="fa-solid fa-archive text-xs"></i>&nbsp;&nbsp;Archive
-                goal&nbsp;&nbsp;</a
-              >
+                &nbsp;&nbsp;ACTION GOAL&nbsp;&nbsp;
+                <i aria-hidden="true" class="fa fa-caret-down text-xs"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdown">
+                <a
+                  class="dropdown-item text-center"
+                  *ngIf="goalStatus === 'backlog' || goalStatus === 'archived'"
+                  (click)="onGoalAction('start', goal)"
+                >
+                  &nbsp;&nbsp;{{ "Start goal" | titlecase }}&nbsp;&nbsp;
+                </a>
+                <a
+                  class="dropdown-item text-center"
+                  *ngIf="goalStatus === 'paused'"
+                  (click)="onGoalAction('resume', goal)"
+                >
+                  &nbsp;&nbsp;{{ "Resume goal" | titlecase }}&nbsp;&nbsp;
+                </a>
+                <a
+                  class="dropdown-item text-center"
+                  *ngIf="goalStatus === 'started'"
+                  (click)="onGoalAction('complete', goal)"
+                >
+                  &nbsp;&nbsp;{{ "Complete goal" | titlecase }}&nbsp;&nbsp;
+                </a>
+                <a
+                  class="dropdown-item text-center"
+                  *ngIf="goalStatus === 'started'"
+                  (click)="onGoalAction('pause', goal)"
+                >
+                  &nbsp;&nbsp;{{ "Pause goal" | titlecase }}&nbsp;&nbsp;
+                </a>
+                <a
+                  class="dropdown-item text-center"
+                  *ngIf="goalStatus === 'archived'"
+                  (click)="onGoalAction('restore', goal)"
+                >
+                  &nbsp;&nbsp;{{ "Restore goal" | titlecase }}&nbsp;&nbsp;
+                </a>
+                <a
+                  class="dropdown-item text-center"
+                  *ngIf="
+                    goalStatus === 'started' ||
+                    goalStatus === 'paused' ||
+                    goalStatus === 'backlog'
+                  "
+                  (click)="onGoalAction('archive', goal)"
+                >
+                  &nbsp;&nbsp;{{ "Archive goal" | titlecase }}&nbsp;&nbsp;
+                </a>
+              </div>
             </div>
           </div>
         </div>

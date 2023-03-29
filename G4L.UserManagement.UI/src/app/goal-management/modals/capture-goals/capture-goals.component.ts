@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { AttendanceService } from 'src/app/attendance-register/services/attendance.service';
+import { ToastrMessagesService } from 'src/app/shared/utils/toastr-messages.service';
 import { GoalCommentModel, GoalModel, GoalTaskModel } from '../../models/goal-model';
 import { CaptureGoalService } from '../../services/capture-goal.service';
 import { GoalManagementService } from '../../services/goal-management.service';
@@ -36,7 +37,9 @@ export class CaptureGoalsComponent implements OnInit {
   constructor(
     private modalRef: MdbModalRef<CaptureGoalsComponent>,
     private goalManagementService: GoalManagementService,
-    private captureGoalService: CaptureGoalService
+    private captureGoalService: CaptureGoalService,
+    private toastrMessage: ToastrMessagesService,
+    private attendanceService: AttendanceService
   ) { }
 
   ngOnInit(): void { }
@@ -78,7 +81,7 @@ export class CaptureGoalsComponent implements OnInit {
 
     // Business rule [Goals must have a minumum duration of 25 minutes]
     if (+hours === 0 && +minutes < 25) {
-      this.goalManagementService.showErrorMessage("Create New Goal", "Cannot set a goal with a duration less than 25 minutes")
+      this.toastrMessage.showErrorMessage("Create New Goal", "Cannot set a goal with a duration less than 25 minutes")
       return;
     }
 

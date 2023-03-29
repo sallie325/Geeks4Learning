@@ -7,6 +7,7 @@ import { SideNavComponent } from './side-nav/side-nav.component';
 import { MaterialModule } from '../shared/material/material.module';
 import { MasterLayoutRoutingModule } from './master-layout.routing';
 import { ActiveGoalCardComponent } from './side-nav/active-goal-card/active-goal-card.component';
+import { PipesModule } from '../shared/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ActiveGoalCardComponent } from './side-nav/active-goal-card/active-goal
   imports: [
     CommonModule,
     MaterialModule,
-    MasterLayoutRoutingModule
+    MasterLayoutRoutingModule,
+    PipesModule
   ]
 })
 export class MasterLayoutModule {}

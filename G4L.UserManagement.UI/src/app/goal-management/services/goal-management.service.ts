@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject } from 'rxjs';
 import { TokenService } from 'src/app/user-management/login/services/token.service';
 import { environment } from 'src/environments/environment';
-import { GoalModel } from '../models/goal-model';
+import { GoalModel, goalTypes } from '../models/goal-model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,9 +12,16 @@ import { GoalModel } from '../models/goal-model';
 export class GoalManagementService {
   private goalSubject!: Subject<GoalModel>;
 
+  private goalTypeObjectList: goalTypes = {
+    backlog: new Array<GoalModel>(),
+    started: new Array<GoalModel>(),
+    paused: new Array<GoalModel>(),
+    completed: new Array<GoalModel>(),
+    archived: new Array<GoalModel>()
+  }
+
   constructor(
     private http: HttpClient,
-    private toastrService: ToastrService,
     private tokenService: TokenService
   ) {
     this.goalSubject = new Subject<GoalModel>();
@@ -38,8 +45,8 @@ export class GoalManagementService {
     return this.http.put<GoalModel>(`${environment.mockServer}/goals/${goal?.id}`, goal);
   }
 
-  onGoalEmit(): Subject<GoalModel> {
-    this.http.get<GoalModel[]>(`${environment.mockServer}/goals`).subscribe(
+  onSelectUserGoals(user_id: string): Subject<GoalModel> {
+    this.http.get<GoalModel[]>(`${environment.mockServer}/goals?userId=${user_id}`).subscribe(
       (goals: GoalModel[]) => {
         goals.forEach((goal: GoalModel) => {
           this.emitGoal(goal)
@@ -54,11 +61,11 @@ export class GoalManagementService {
     return this.http.get<GoalModel>(`${environment.mockServer}/goals/${id}`);
   }
 
-  showErrorMessage(messageTitle: string, message: string): void {
-    this.toastrService.error(message, messageTitle);
-  }
-
   getGoalSubject(): Subject<GoalModel> {
     return this.goalSubject;
+  }
+
+  getGoalTypeObjectList(): goalTypes {
+    return this.goalTypeObjectList;
   }
 }

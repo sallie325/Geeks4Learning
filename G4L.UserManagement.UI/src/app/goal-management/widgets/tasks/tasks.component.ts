@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GoalModel, goalStatus, viewType } from '../../models/goal-model';
 import { CaptureGoalService } from '../../services/capture-goal.service';
+import { GoalButtonActionService } from '../../services/goal-button-action.service';
 import { GoalManagementService } from '../../services/goal-management.service';
 
 @Component({
@@ -20,7 +21,8 @@ export class TasksComponent implements OnInit {
 
   constructor(
     private goalManagementService: GoalManagementService,
-    private captureGoalService: CaptureGoalService
+    private captureGoalService: CaptureGoalService,
+    private goalButtonActionService: GoalButtonActionService
   ) { }
 
   ngOnInit(): void { }
@@ -35,6 +37,7 @@ export class TasksComponent implements OnInit {
         this.goalManagementService.updateGoal(this.goal)
           .subscribe((updatedGoal: GoalModel) => {
             console.log(updatedGoal)
+            this.goalButtonActionService.calculateTaskCompletion(updatedGoal);
           })
       }
     }

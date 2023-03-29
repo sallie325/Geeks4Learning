@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { Subject } from 'rxjs';
 import { CommentComponent } from '../modals/comment/comment.component';
-import { GoalModel } from '../models/goal-model';
+import { goalStatus } from '../models/goal-model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +15,11 @@ export class GoalCommentService {
     this.commentSubject = new Subject<string | null>();
   }
 
-  openCommentDialog(goal: GoalModel): Subject<string | null> {
+  openCommentDialog(commentType: goalStatus): Subject<string | null> {
     this.modalRef = this.modalService.open(CommentComponent, {
-      data: { goal: goal },
+      data: {
+        commentType: commentType
+      },
       containerClass: 'modal top fade modal-backdrop',
       ignoreBackdropClick: true,
       modalClass: 'modal-xl modal-dialog-centered w-50',

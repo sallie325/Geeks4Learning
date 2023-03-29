@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { activeGoalPopupWindowState } from 'src/app/goal-management/models/active-goal-model';
 import { ActiveGoalService } from 'src/app/goal-management/services/active-goal.service';
-import { GoalModel } from '../../../models/goal-model';
+import { GoalButtonActionService } from 'src/app/goal-management/services/goal-button-action.service';
+import { goalButtonAction, GoalModel } from '../../../models/goal-model';
 
 @Component({
   selector: 'app-view-selected-goal',
@@ -11,38 +12,41 @@ import { GoalModel } from '../../../models/goal-model';
 })
 export class ViewSelectedGoalComponent implements OnInit {
   goal!: GoalModel;
-  goalProgress!: number;
-  goalProgressValue!: number;
   goalStatus!: string;
+  progressState: "danger" | "warning" | "success" | "primary" = 'danger'
 
   constructor(
     private modalRef: MdbModalRef<ViewSelectedGoalComponent>,
-    private activeGoalService: ActiveGoalService
-  ) {}
+    private activeGoalService: ActiveGoalService,
+    private goalButtonActonService: GoalButtonActionService
+  ) { }
 
   ngOnInit(): void {
-    this.calculateGoalProgress();
     this.getGoalColor();
+
+    this.goalButtonActonService.calculateTaskCompletion(this.goal);
   }
 
-  calculateGoalProgress() {
-    if (this.goal?.tasks) {
-      this.goalProgress =
-        this.goal.tasks.filter((task) => task.complete).length /
-        this.goal.tasks.length;
-      this.goalProgressValue = this.goalProgress * 100;
-      return;
-    }
-    //TODO what if no task added how do we calculate the percentage
-    this.goalProgress = 0;
-    this.goalProgressValue = this.goalProgress * 100;
+  getProgress(): number {
+    return this.goalButtonActonService.getGoalProgress();
+  }
+
+  getProgressValue(): number {
+    const percentage = this.getProgress() * 100;
+
+    if (percentage === 100) this.progressState = "success"
+    else if (percentage >= 75) this.progressState = "primary"
+    else if (percentage >= 50) this.progressState = "warning"
+    else this.progressState = "danger"
+
+    return percentage;
   }
 
   getGoalColor() {
     if (this.goal?.goalStatus) this.goalStatus = this.goal?.goalStatus;
   }
 
-  onCloseModal() {
+  onCloseModal(): void {
     this.modalRef.close();
   }
 
@@ -50,6 +54,11 @@ export class ViewSelectedGoalComponent implements OnInit {
     return this.activeGoalService.getActiveGoalPopupWindowState();
   }
 
+  onGoalAction(actionType: goalButtonAction, goal: GoalModel) {
+    this.goalButtonActonService.performButtonAction(actionType, goal, this.modalRef);
+  }
 
-  onActionClicked(actionType: string, goal: GoalModel) {}
+  addMoreTime() {
+    this.goalButtonActonService.addMoreGoalTime(this.goal, this.modalRef)
+  }
 }

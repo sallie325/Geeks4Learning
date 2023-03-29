@@ -5,7 +5,17 @@ export type goalStatus =
   | 'completed'
   | 'archived';
 
+export interface goalTypes {
+  backlog: Array<GoalModel>;
+  started: Array<GoalModel>;
+  paused: Array<GoalModel>;
+  completed: Array<GoalModel>;
+  archived: Array<GoalModel>;
+}
+
 export type viewType = "create" | "view";
+
+export type goalButtonAction = "start" | "resume" | "complete" | "restore" | "archive" | "pause";
 
 export interface GoalTaskModel {
   id?: number;
@@ -17,7 +27,7 @@ export interface GoalTaskModel {
 export interface GoalCommentModel {
   id?: number;
   comment: string;
-  commentType: "backlog" | "archived";
+  commentType: "paused" | "archived";
   goalId?: number;
 }
 

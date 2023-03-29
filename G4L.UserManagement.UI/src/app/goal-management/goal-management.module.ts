@@ -16,6 +16,7 @@ import { CircularNumberComponent } from './widgets/circular-number/circular-numb
 import { ContentComponent } from './widgets/circular-number/content/content.component';
 import { TasksComponent } from './widgets/tasks/tasks.component';
 import { CommentComponent } from './modals/comment/comment.component';
+import { AddExtraGoalTimeComponent } from './modals/add-extra-goal-time/add-extra-goal-time.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { CommentComponent } from './modals/comment/comment.component';
     ContentComponent,
     TasksComponent,
     CaptureGoalsComponent,
-    CommentComponent
+    CommentComponent,
+    AddExtraGoalTimeComponent
   ],
   imports: [
     CommonModule,
