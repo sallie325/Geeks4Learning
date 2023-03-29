@@ -19,16 +19,14 @@ export class GoalManagementService {
     this.getGoalSubject().next(goal);
   }
 
-  insertNewGoal(goal: GoalModel): void {
-    console.log("I am insertNewGoal :" +goal)
-    this.http.post<GoalModel>(`https://localhost:44326/api/GoalsManagement/AddGoal`, goal)
-      .subscribe(newGoal => {
-        this.emitGoal(newGoal)
-      })
+  insertNewGoal(goal:any): void {
+    this.http.post(`https://localhost:44326/api/GoalsManagement/AddGoal`, goal).subscribe((newGoal:any) =>{
+      this.emitGoal(newGoal);
+    })
   }
 
   updateGoal(goal: GoalModel): Observable<GoalModel> {
-    return this.http.put<GoalModel>(`${this.fakeServer}/goals/${goal?.id}`, goal);
+    return this.http.put<GoalModel>(`${this.fakeServer}/goals/${goal?.userId}`, goal);
   }
 
   onGoalEmit(): Subject<GoalModel> {

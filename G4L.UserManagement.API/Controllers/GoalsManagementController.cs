@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace G4L.UserManagement.API.Controllers
 {
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     public class GoalsManagementController : ControllerBase
     {
@@ -30,7 +30,7 @@ namespace G4L.UserManagement.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Role.Learner)]
+        //[Authorize(Role.Learner)]
         [Route("AddGoal")]
         public async Task<IActionResult> AddGoalsync([FromBody] CreateGoalRequest goalRequest)
         {

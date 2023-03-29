@@ -10,7 +10,10 @@ namespace G4L.UserManagement.BL.Entities
 {
     public class Goal: BaseEntity
     {
-        public Guid GoalId { get; set; }
+        public Goal() {
+            Comment = new List<GoalComment>();
+            Tasks = new List<GoalTask>();
+        }
         public string Title { get; set; }
         public string Description { get; set; }
         public TimeSpan Duration { get; set; }
@@ -20,7 +23,6 @@ namespace G4L.UserManagement.BL.Entities
         public TimeSpan TimeRemaining { get; set; }
         public List<GoalComment> Comment { get; set; }
         public List<GoalTask> Tasks { get; set; }
-        public Guid AttendenceId { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }
     }

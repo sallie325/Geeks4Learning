@@ -71,7 +71,7 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
             // Checking if user has a past session
             if (sessionStorage.getItem('activeGoalSession')) {
               const lastActiveGoalSession = JSON.parse(sessionStorage.getItem('activeGoalSession')!)
-              if (goal.id === lastActiveGoalSession.id) goal.timeRemaining = lastActiveGoalSession.timeLeft;
+              if (goal.userId === lastActiveGoalSession.id) goal.timeRemaining = lastActiveGoalSession.timeLeft;
             }
             this._started.push(goal);
             this.activeGoalPopupService.activateGoalCountDown(this._started[0])

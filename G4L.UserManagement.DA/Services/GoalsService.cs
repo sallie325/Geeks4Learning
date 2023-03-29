@@ -28,6 +28,7 @@ namespace G4L.UserManagement.DA.Services
         {
             var goal = _mapper.Map<Goal>(goalRequest);
             await _goalRepository.AddAsync(goal);
+       
         }
 
         public async Task<List<Goal>> GetAllUserGoalsAsync(Guid userId)

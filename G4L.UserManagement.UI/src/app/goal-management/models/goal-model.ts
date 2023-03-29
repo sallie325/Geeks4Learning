@@ -14,13 +14,13 @@ export interface GoalTaskModel {
 
 export interface GoalCommentModel {
   id?: number;
-  comment: string;
+  comment?: string;
   commentType: "backlog" | "archived";
   goalId?:number;
 }
 
 export interface GoalModel {
-  id?: number;
+  id:number
   title: string;
   description: string;
   duration: string;

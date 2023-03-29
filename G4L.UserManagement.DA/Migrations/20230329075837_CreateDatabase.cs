@@ -135,10 +135,14 @@ namespace G4L.UserManagement.DA.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TimeLimit = table.Column<TimeSpan>(type: "time", nullable: false),
-                    isReached = table.Column<bool>(type: "bit", nullable: false),
+                    Duration = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PausedCount = table.Column<int>(type: "int", nullable: false),
+                    ArchiveCount = table.Column<int>(type: "int", nullable: false),
+                    GoalStatus = table.Column<int>(type: "int", nullable: false),
+                    TimeRemaining = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AttendanceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -152,6 +156,12 @@ namespace G4L.UserManagement.DA.Migrations
                         principalTable: "Attendances",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Goals_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -222,6 +232,50 @@ namespace G4L.UserManagement.DA.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "GoalComment",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CommentType = table.Column<int>(type: "int", nullable: false),
+                    GoalId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GoalComment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GoalComment_Goals_GoalId",
+                        column: x => x.GoalId,
+                        principalTable: "Goals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GoalTask",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Complete = table.Column<bool>(type: "bit", nullable: false),
+                    GoalId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GoalTask", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GoalTask_Goals_GoalId",
+                        column: x => x.GoalId,
+                        principalTable: "Goals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Approvers_LeaveId",
                 table: "Approvers",
@@ -238,9 +292,24 @@ namespace G4L.UserManagement.DA.Migrations
                 column: "LeaveId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GoalComment_GoalId",
+                table: "GoalComment",
+                column: "GoalId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Goals_AttendanceId",
                 table: "Goals",
                 column: "AttendanceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Goals_UserId",
+                table: "Goals",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GoalTask_GoalId",
+                table: "GoalTask",
+                column: "GoalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Leaves_UserId",
@@ -272,7 +341,10 @@ namespace G4L.UserManagement.DA.Migrations
                 name: "Documents");
 
             migrationBuilder.DropTable(
-                name: "Goals");
+                name: "GoalComment");
+
+            migrationBuilder.DropTable(
+                name: "GoalTask");
 
             migrationBuilder.DropTable(
                 name: "LeaveSchedules");
@@ -281,10 +353,13 @@ namespace G4L.UserManagement.DA.Migrations
                 name: "SponsoredUsers");
 
             migrationBuilder.DropTable(
-                name: "Attendances");
+                name: "Goals");
 
             migrationBuilder.DropTable(
                 name: "Leaves");
+
+            migrationBuilder.DropTable(
+                name: "Attendances");
 
             migrationBuilder.DropTable(
                 name: "Users");

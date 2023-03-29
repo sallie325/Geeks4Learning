@@ -83,7 +83,7 @@ export class ActiveGoalService {
 
       // Create a Memento for the current timestamp
       sessionStorage.setItem("activeGoalSession", JSON.stringify({
-        id: goal.id,
+        id: goal.userId ,
         timeLeft: goal.timeRemaining
       }))
     })
