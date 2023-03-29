@@ -12,7 +12,7 @@ namespace G4L.UserManagement.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Role.Admin, Role.Learner, Role.Super_Admin)]
+    [Authorize(Role.Super_Admin, Role.Admin, Role.Learner, Role.Admin)]
     public class GoalsManagementController : ControllerBase
     {
         private readonly IGoalService _goalService;
