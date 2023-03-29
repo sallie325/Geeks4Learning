@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 namespace G4L.UserManagement.API.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api/[controller]")]
     [Authorize(Role.Super_Admin, Role.Admin, Role.Learner, Role.Admin)]
     public class GoalsManagementController : ControllerBase
