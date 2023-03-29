@@ -9,7 +9,7 @@ namespace G4L.UserManagement.BL.Entities
 {
     public class GoalTask:BaseEntity
     {
-        public Guid TaskId { get; set; } //Do not need Guids here
+        public int TaskId { get; set; } //Do not need Guids here
         public string Description { get; set; }
         public bool IsCompleted { get; set; }
         public Guid GoalId { get; set; }

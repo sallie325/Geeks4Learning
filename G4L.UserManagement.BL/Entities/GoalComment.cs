@@ -11,7 +11,7 @@ namespace G4L.UserManagement.BL.Entities
     public class GoalComment:BaseEntity
     {
 
-        public Guid CommentId { get; set; } //Do not need Guids here
+        public int CommentId { get; set; } //Do not need Guids here
 
         public Guid GoalId { get; set; }
         public string Comment { get; set; }

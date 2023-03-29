@@ -11,8 +11,7 @@ namespace G4L.UserManagement.BL.Models.Request
 {
     public class UpdateGoalRequest
     {
-        [Key]
-        [Required]
+        
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public Guid AttendanceId { get; set; }
