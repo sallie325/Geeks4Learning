@@ -29,7 +29,6 @@ export class CaptureGoalsComponent implements OnInit {
   });
 
   currentGoal: GoalModel = {
-    id: 0,
     title: String(''),
     description: String(''),
     duration: String('00:00:00'),

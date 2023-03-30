@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace G4L.UserManagement.BL.Models.Request
 {
-    public class CreateGoalRequest
+    public class GoalRequest
     {
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Duration { get; set; }

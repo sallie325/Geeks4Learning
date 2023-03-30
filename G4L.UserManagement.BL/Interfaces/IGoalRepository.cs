@@ -11,6 +11,6 @@ namespace G4L.UserManagement.BL.Interfaces
 {
     public interface IGoalRepository : IRepository<Goal>
     {
-        Task CreateUserGoalAsync(CreateGoalRequest goalRequest);
+        Task CreateUserGoalAsync(GoalRequest goalRequest);
     }
 }

@@ -26,37 +26,30 @@ export class GoalManagementService {
   }
 
   insertNewGoal(goal: GoalModel): void {
-    console.log(JSON.stringify(goal));
     this.http
       .post<GoalModel>(`${this.config.apiUrl}/goal/addGoal`, goal)
       .subscribe((newGoal) => {
-        console.log('I am new goal');
-        console.log(newGoal);
         this.emitGoal(newGoal);
       });
   }
 
   updateGoal(goal: GoalModel): Observable<GoalModel> {
-    return this.http.put<GoalModel>(
-      `${this.fakeServer}/goals/${goal?.id}`,
-      goal
-    );
+    return this.http.put<GoalModel>(`${this.config.apiUrl}/goal`, goal);
   }
 
   onGoalEmit(): Subject<GoalModel> {
     this.http
-      .get<GoalModel[]>(`${this.fakeServer}/goals`)
+      .get<GoalModel[]>(`${this.config.apiUrl}/goal`)
       .subscribe((goals: GoalModel[]) => {
         goals.forEach((goal: GoalModel) => {
           this.emitGoal(goal);
         });
       });
-
     return this.getGoalSubject();
   }
 
   getGoalById(id: any): Observable<GoalModel> {
-    return this.http.get<GoalModel>(`${this.fakeServer}/goals/${id}`);
+    return this.http.get<GoalModel>(`${this.config.apiUrl}/goal/${id}`);
   }
 
   showErrorMessage(messageTitle: string, message: string) {

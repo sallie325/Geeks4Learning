@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace G4L.UserManagement.BL.Models.Response
 {
-    public class GetAllGoalsResponse
+    public class GoalResponse
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

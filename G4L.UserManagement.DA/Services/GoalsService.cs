@@ -25,22 +25,37 @@ namespace G4L.UserManagement.DA.Services
             _mapper = mapper;
         }
 
-        public async Task<GetAllGoalsResponse> CreateUserGoalAsync(CreateGoalRequest goalRequest)
+        public async Task<GoalResponse> CreateUserGoalAsync(GoalRequest goalRequest)
         {
             var goal = _mapper.Map<Goal>(goalRequest);
             await _goalRepository.AddAsync(goal);
-            return _mapper.Map<GetAllGoalsResponse>(goal);
+            return _mapper.Map<GoalResponse>(goal);
         }
 
-        public async Task<List<Goal>> GetAllUserGoalsAsync(Guid UserId)
+        public async Task<List<Goal>> GetUserGoalsAsync(Guid UserId)
         {
             var allUserGoals = await _goalRepository.ListAsync();
             return _mapper.Map<List<Goal>>(allUserGoals);
         }
 
-        public Task<User> UpdateUserGoal(Guid UserId, UpdateGoalRequest request)
+        public async Task<GoalResponse> GetGoal(Guid goalId)
         {
-            throw new NotImplementedException();
+            var allUserGoals = await _goalRepository.GetByIdAsync(goalId);
+            return _mapper.Map<GoalResponse>(allUserGoals);
+        }
+
+
+        public async Task<List<GoalResponse>> GetAllGoalsAsync()
+        {
+            var allUserGoals = await _goalRepository.ListAsync();
+            return _mapper.Map<List<GoalResponse>>(allUserGoals);
+        }
+
+        public async Task<GoalResponse> UpdateGoal(GoalRequest goalRequest)
+        {
+            var goal = _mapper.Map<Goal>(goalRequest);
+            await _goalRepository.UpdateAsync(goal);
+            return _mapper.Map<GoalResponse>(goal);
         }
 
         

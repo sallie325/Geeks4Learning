@@ -8,10 +8,10 @@ namespace G4L.UserManagement.BL.Enum
 {
     public enum GoalStatus
     {
-        Backlog,
-        Started,
-        Paused,
-        Completed,
-        Archived
+        backlog,
+        started,
+        paused,
+        completed,
+        archived
     }
 }

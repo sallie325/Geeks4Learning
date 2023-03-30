@@ -19,7 +19,7 @@ namespace G4L.UserManagement.DA.Repositories
             _databaseContext = databaseContext;
         }
 
-        public Task CreateUserGoalAsync(CreateGoalRequest goalRequest)
+        public Task CreateUserGoalAsync(GoalRequest goalRequest)
         {
             throw new NotImplementedException();
         }

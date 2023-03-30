@@ -26,7 +26,7 @@ namespace G4L.UserManagement.API.Controllers
 
         [HttpGet]
         [Route("{UserId}")]
-        public async Task<IActionResult> GetAllGoals([FromRoute] Guid UserId)
+        public async Task<IActionResult> GetAllUserGoals([FromRoute] Guid UserId)
         {
             var user = await _userService.GetUserByIdAsync(UserId);
             if (user == null)
@@ -34,7 +34,7 @@ namespace G4L.UserManagement.API.Controllers
                 return NotFound("User not found");
             }
 
-            var allUserGoals = await _goalService.GetAllUserGoalsAsync(UserId);
+            var allUserGoals = await _goalService.GetUserGoalsAsync(UserId);
             if (!allUserGoals.Any())
             {
                 return Ok("No goals present");
@@ -43,20 +43,34 @@ namespace G4L.UserManagement.API.Controllers
             return Ok(allUserGoals);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllGoals()
+        {
+            var goalList = await _goalService.GetAllGoalsAsync();
+            return Ok(goalList);
+        }
+
+        [HttpGet]
+        [Route("goalId")]
+        public async Task<IActionResult> GetGoal([FromRoute] Guid goalId)
+        {
+            var goalList = await _goalService.GetAllGoalsAsync();
+            return Ok(goalList);
+        }
+
         [HttpPost]
        // [Authorize(Role.Learner)]
         [Route("AddGoal")]
-        public async Task<IActionResult> AddGoalsync([FromBody] CreateGoalRequest goalRequest)
+        public async Task<IActionResult> AddGoalsync([FromBody] GoalRequest goalRequest)
         {
-            return Ok(await _goalService.CreateUserGoalAsync(goalRequest));
+            var responseGoal = await _goalService.CreateUserGoalAsync(goalRequest);
+            return Ok(responseGoal);
         }
 
         [HttpPut]
-        [Route("updateGoal/{UserId}")]
-        public async Task<IActionResult> UpdateGoal([FromRoute] Guid UserId, [FromBody] UpdateGoalRequest goal)
+        public async Task<IActionResult> UpdateGoal([FromBody] GoalRequest goal)
         {
-            var updatedGoal = await _goalService.UpdateUserGoal(UserId, goal);
-            return Ok();
+            return Ok(await _goalService.UpdateGoal(goal));
         }
     }
 }

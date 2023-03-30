@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { Subject } from 'rxjs';
 import { CommentComponent } from '../modals/comment/comment.component';
-import { GoalModel } from '../models/goal-model';
+import { GoalCommentModel, GoalModel } from '../models/goal-model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GoalCommentService {
-  modalRef!: MdbModalRef<CommentComponent>
-  commentSubject!: Subject<string | null>
+  modalRef!: MdbModalRef<CommentComponent>;
+  commentSubject!: Subject<string | null>;
 
   constructor(private modalService: MdbModalService) {
     this.commentSubject = new Subject<string | null>();
@@ -27,13 +27,24 @@ export class GoalCommentService {
     return this.commentSubject;
   }
 
+  transFormGoalComment(
+    comment: string,
+    commentType: 'backlog' | 'archived'
+  ): GoalCommentModel {
+    const goalCommentModel: GoalCommentModel = {
+      comment,
+      commentType,
+    };
+    return goalCommentModel;
+  }
+
   commentDialogUserAction(action: string | null) {
     // Emit user-action
-    this.commentSubject.next(action)
+    this.commentSubject.next(action);
   }
 
   closeCommentDialog(userResponse: string | null) {
-    this.commentDialogUserAction(userResponse)
-    this.modalRef?.close()
+    this.commentDialogUserAction(userResponse);
+    this.modalRef?.close();
   }
 }

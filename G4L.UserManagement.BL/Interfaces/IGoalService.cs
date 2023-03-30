@@ -11,8 +11,9 @@ namespace G4L.UserManagement.BL.Interfaces
 {
     public interface IGoalService
     {
-        Task<GetAllGoalsResponse> CreateUserGoalAsync(CreateGoalRequest goalRequest);
-        Task<List<Goal>> GetAllUserGoalsAsync(Guid UserId);
-        Task<User> UpdateUserGoal(Guid UserId, UpdateGoalRequest request);
+        Task<GoalResponse> CreateUserGoalAsync(GoalRequest goalRequest);
+        Task<List<Goal>> GetUserGoalsAsync(Guid UserId);
+        Task<GoalResponse> UpdateGoal(GoalRequest goalRequest);
+        Task<List<GoalResponse>> GetAllGoalsAsync();
     }
 }

@@ -11,6 +11,6 @@ namespace G4L.UserManagement.BL.Entities
     public class GoalComment:BaseEntity
     {
         public string Comment { get; set; }
-        public GoalStatus GoalStatus { get; set; }
+        public GoalStatus CommentType { get; set; }
     }
 }
