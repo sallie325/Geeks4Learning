@@ -49,7 +49,6 @@ export interface GoalModel {
   pausedCount: number;
   archiveCount: number;
   goalStatus: goalStatus;
-  attendanceId: string;
   timeRemaining: string;
   userId: string;
 }
