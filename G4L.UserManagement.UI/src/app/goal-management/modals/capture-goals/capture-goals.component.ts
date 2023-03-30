@@ -4,8 +4,8 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { AttendanceService } from 'src/app/attendance-register/services/attendance.service';
 import { ToastrMessagesService } from 'src/app/shared/utils/toastr-messages.service';
 import { GoalCommentModel, GoalModel, GoalTaskModel } from '../../models/goal-model';
-import { CaptureGoalService } from '../../services/capture-goal.service';
-import { GoalManagementService } from '../../services/goal-management.service';
+import { CaptureGoalService } from '../../services/component-logic/capture-goal.service';
+import { GoalManagementService } from '../../services/data/goal-management.service';
 
 @Component({
   selector: 'app-capture-goals',
@@ -63,7 +63,7 @@ export class CaptureGoalsComponent implements OnInit {
     this.currentGoal.timeRemaining = duration.concat(":00");
   }
 
-  close() {
+  closeCaptureGoalModal() {
     this.modalRef.close();
   }
 
@@ -81,7 +81,9 @@ export class CaptureGoalsComponent implements OnInit {
 
     // Business rule [Goals must have a minumum duration of 25 minutes]
     if (+hours === 0 && +minutes < 25) {
-      this.toastrMessage.showErrorMessage("Create New Goal", "Cannot set a goal with a duration less than 25 minutes")
+      this.toastrMessage
+        .showErrorMessage("Create New Goal",
+          "Cannot set a goal with a duration less than 25 minutes")
       return;
     }
 
@@ -94,6 +96,6 @@ export class CaptureGoalsComponent implements OnInit {
     // console.log(this.currentGoal);
     this.goalManagementService.insertNewGoal(this.currentGoal);
 
-    this.close();
+    this.closeCaptureGoalModal();
   }
 }

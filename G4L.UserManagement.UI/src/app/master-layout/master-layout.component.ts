@@ -5,11 +5,11 @@ import { ToastrService } from 'ngx-toastr';
 import { CaptureGoalsComponent } from '../goal-management/modals/capture-goals/capture-goals.component';
 import { AttendanceService } from '../attendance-register/services/attendance.service';
 import { TokenService } from '../user-management/login/services/token.service';
-import { CaptureGoalService } from '../goal-management/services/capture-goal.service';
 import { GoalModel } from '../goal-management/models/goal-model';
 import { backlogState, archivedState, completedState, pausedState, startedState } from '../shared/constants/goal-states';
-import { GoalManagementService } from '../goal-management/services/goal-management.service';
-import { ActiveGoalService } from '../goal-management/services/active-goal.service';
+import { ActiveGoalService } from '../goal-management/services/component-logic/active-goal.service';
+import { CaptureGoalService } from '../goal-management/services/component-logic/capture-goal.service';
+import { GoalManagementService } from '../goal-management/services/data/goal-management.service';
 
 @Component({
   selector: 'app-master-layout',
@@ -56,7 +56,7 @@ export class MasterLayoutComponent implements OnInit {
     console.log(this.testTime, time)
 
     if (this.testTime == time) {
-      this.captureGoalService.openCaptureGoal(this.attendance)
+      this.captureGoalService.openCaptureGoalDialog(this.attendance)
     }
     console.log(this.testTime);
   }

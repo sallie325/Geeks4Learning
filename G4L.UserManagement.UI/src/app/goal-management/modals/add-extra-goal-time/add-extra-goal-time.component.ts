@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { GoalButtonActionService } from '../../services/goal-button-action.service';
+import { GoalButtonActionService } from '../../services/component-logic/goal-button-action.service';
 
 @Component({
   selector: 'app-add-extra-goal-time',

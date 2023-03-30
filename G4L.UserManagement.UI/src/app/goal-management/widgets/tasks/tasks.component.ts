@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GoalModel, goalStatus, viewType } from '../../models/goal-model';
-import { CaptureGoalService } from '../../services/capture-goal.service';
-import { GoalButtonActionService } from '../../services/goal-button-action.service';
-import { GoalManagementService } from '../../services/goal-management.service';
+import { CaptureGoalService } from '../../services/component-logic/capture-goal.service';
+import { GoalButtonActionService } from '../../services/component-logic/goal-button-action.service';
+import { GoalManagementService } from '../../services/data/goal-management.service';
 
 @Component({
   selector: 'app-tasks',

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { Subject } from 'rxjs';
-import { CommentComponent } from '../modals/comment/comment.component';
-import { goalStatus } from '../models/goal-model';
+import { CommentComponent } from '../../modals/comment/comment.component';
+import { goalStatus } from '../../models/goal-model';
 
 @Injectable({
   providedIn: 'root'

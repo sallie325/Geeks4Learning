@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { ViewSelectedGoalComponent } from '../modals/views/view-selected-goal/view-selected-goal.component';
-import { GoalModel } from '../models/goal-model';
+import { ViewSelectedGoalComponent } from '../../modals/views/view-selected-goal/view-selected-goal.component';
+import { GoalModel } from '../../models/goal-model';
 
 @Injectable({
   providedIn: 'root'

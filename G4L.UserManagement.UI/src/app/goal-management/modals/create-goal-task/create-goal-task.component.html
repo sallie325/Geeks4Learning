@@ -4,7 +4,7 @@
       <h5 class="m-0">CREATE A TASK</h5>
     </div>
     <div class="col text-end">
-      <i class="fa-solid fa-times" (click)="closeModal()"></i>
+      <i class="fa-solid fa-times" (click)="closeAddTaskModal()"></i>
     </div>
   </div>
   <form [formGroup]="taskFormGroup" (ngSubmit)="addNewTask()">

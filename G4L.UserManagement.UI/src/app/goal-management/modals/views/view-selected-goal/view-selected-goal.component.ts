@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { activeGoalPopupWindowState } from 'src/app/goal-management/models/active-goal-model';
-import { ActiveGoalService } from 'src/app/goal-management/services/active-goal.service';
-import { GoalButtonActionService } from 'src/app/goal-management/services/goal-button-action.service';
-import { goalButtonAction, GoalModel } from '../../../models/goal-model';
+import { ActiveGoalService } from 'src/app/goal-management/services/component-logic/active-goal.service';
+import { GoalButtonActionService } from 'src/app/goal-management/services/component-logic/goal-button-action.service';
+import { activeGoalPopupWindowState, goalButtonAction, GoalModel } from '../../../models/goal-model';
 
 @Component({
   selector: 'app-view-selected-goal',

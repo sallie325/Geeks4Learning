@@ -22,31 +22,35 @@
         <div class="col-3">
           <h6>Status:</h6>
         </div>
-        <div
-          class="col-2 text-sm-center rounded text-white"
-          [ngClass]="{
-            backlogBackgroundColor: goalStatus === 'backlog',
-            archivedBackgroundColor: goalStatus === 'archived',
-            completedBackgroundColor: goalStatus === 'completed',
-            pausedBackgroundColor: goalStatus === 'paused',
-            startedBackgroundColor: goalStatus === 'started'
-          }"
-        >
-          {{ goal?.goalStatus | titlecase }}
+        <div class="col-2 rounded">
+          <span
+            class="rounded fw-bold"
+            [ngClass]="{
+              backlogBackgroundColor: goalStatus === 'backlog',
+              archivedBackgroundColor: goalStatus === 'archived',
+              completedBackgroundColor: goalStatus === 'completed',
+              pausedBackgroundColor: goalStatus === 'paused',
+              startedBackgroundColor: goalStatus === 'started'
+            }"
+          >
+            {{ goal?.goalStatus | titlecase }}</span
+          >
         </div>
       </div>
       <div class="row">
         <div class="col-3"><h6>Estimated Time:</h6></div>
-        <div class="col-2">
-          <h6>
+        <div class="col">
+          <h6 class="flex-nowrap">
             {{ goal.duration | formatDuration }}
           </h6>
         </div>
       </div>
       <div class="row">
-        <div class="col-3"><h6>Remaining Time:</h6></div>
-        <div class="col-2">
-          <h6>
+        <div class="col-3">
+          <h6 class="flex-nowrap">Remaining Time:</h6>
+        </div>
+        <div class="col">
+          <h6 class="flex-nowrap">
             {{ goal.timeRemaining | formatDuration }}
           </h6>
         </div>

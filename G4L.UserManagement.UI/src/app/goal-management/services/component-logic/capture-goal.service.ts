@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { AttendanceService } from 'src/app/attendance-register/services/attendance.service';
-import { CaptureGoalsComponent } from '../modals/capture-goals/capture-goals.component';
-import { CreateGoalTaskComponent } from '../modals/create-goal-task/create-goal-task.component';
-import { GoalModel, viewType } from '../models/goal-model';
-import { GoalManagementService } from './goal-management.service';
+import { CaptureGoalsComponent } from '../../modals/capture-goals/capture-goals.component';
+import { CreateGoalTaskComponent } from '../../modals/create-goal-task/create-goal-task.component';
+import { GoalModel, viewType } from '../../models/goal-model';
+import { GoalManagementService } from '../data/goal-management.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class CaptureGoalService {
     private attendanceService: AttendanceService
   ) { }
 
-  openCaptureGoal(attendance?: any) {
+  openCaptureGoalDialog(attendance?: any) {
     this.modalDialog = this.modalService.open(CaptureGoalsComponent, {
       animation: true,
       backdrop: true,

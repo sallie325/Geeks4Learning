@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActiveGoalService } from 'src/app/goal-management/services/active-goal.service';
-import { ViewGoalService } from 'src/app/goal-management/services/view-goal.service';
-import { goalStatusStages } from './models/active-goal-model';
+import { ActiveGoalService } from 'src/app/goal-management/services/component-logic/active-goal.service';
+import { ViewGoalService } from 'src/app/goal-management/services/component-logic/view-goal.service';
+import { goalStageStatus } from './models/active-goal-model';
 
 @Component({
   selector: 'app-active-goal-card',
@@ -9,7 +9,7 @@ import { goalStatusStages } from './models/active-goal-model';
   styleUrls: ['./active-goal-card.component.css']
 })
 export class ActiveGoalCardComponent implements OnInit {
-  activeGoalStatus!: goalStatusStages
+  activeGoalStatus!: goalStageStatus
   remainingTime!: string
 
   constructor(

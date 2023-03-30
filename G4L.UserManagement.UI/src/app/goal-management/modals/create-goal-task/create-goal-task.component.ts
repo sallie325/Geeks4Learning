@@ -32,10 +32,10 @@ export class CreateGoalTaskComponent implements OnInit {
     this.taskFormGroup.markAllAsTouched();
     if(this.taskFormGroup.invalid) return;
 
-    this.closeModal(this.getFormControl('Task').value);
+    this.closeAddTaskModal(this.getFormControl('Task').value);
   }
 
-  closeModal(task?: string): void {
+  closeAddTaskModal(task?: string): void {
     this.taskModalRef.close(task)
   }
 }

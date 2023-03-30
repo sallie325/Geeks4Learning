@@ -24,6 +24,7 @@
   --g4l-paused-state-color: #d1001f;
   --g4l-completed-state-color: #45ac42;
   --g4l-archived-state-color: #6e0280;
+  --g4l-goal-state-opacity: .3;
 }
 
 /* You can add global styles to this file, and also import other style files */

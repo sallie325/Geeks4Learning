@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, Observable, Subscription } from 'rxjs';
-import { activeGoalPopupWindowState } from '../models/active-goal-model';
-import { GoalModel } from '../models/goal-model';
+import { activeGoalPopupWindowState, GoalModel } from '../../models/goal-model';
 import { ViewGoalService } from './view-goal.service';
 
 @Injectable({
@@ -23,7 +22,7 @@ export class ActiveGoalService {
     this.currentGoal = activatingGoal;
   }
 
-  deactivateGoal(): void {
+  deactivateCurrentActiveGoal(): void {
     if (this.$intervalStream) this.$intervalStream.unsubscribe();
     if (this.popupGoalWindowState = "open") this.popupGoalWindowState = "close"
     if (sessionStorage.getItem('activeGoalSession')) sessionStorage.removeItem('activeGoalSession')
@@ -62,7 +61,7 @@ export class ActiveGoalService {
 
   activateGoalCountDown(goal: GoalModel): void {
     // Check if active goal is running and deactivate before creating a new interval instance
-    this.deactivateGoal();
+    this.deactivateCurrentActiveGoal();
 
     // Set the new goal instance
     this.setActiveGoal(goal);
@@ -71,8 +70,10 @@ export class ActiveGoalService {
     const goalDuration = this.getGoalDuration(this.currentGoal.timeRemaining.split(":"));
 
     this.$intervalStream = interval(1000).subscribe(() => {
-      if (goalDuration.getHours() === 0 && goalDuration.getMinutes() === 0 && goalDuration.getSeconds() === 0) {
-        this.deactivateGoal();
+      if (goalDuration.getHours() === 0
+        && goalDuration.getMinutes() === 0
+        && goalDuration.getSeconds() === 0) {
+        this.deactivateCurrentActiveGoal();
         // Open the ADD EXTRA TIME DIALOG!!
         this.viewGoalService.viewSelectedGoal(this.getActiveGoalObject(), true)
         return;
@@ -80,6 +81,8 @@ export class ActiveGoalService {
 
       goalDuration.setSeconds(goalDuration.getSeconds() - 1)
       goal.timeRemaining = this.getTimeFormated(goalDuration);
+      
+      // Emit the current remaining time
       this.countDownTimer.next(goal.timeRemaining)
 
       // Create a Memento for the current timestamp

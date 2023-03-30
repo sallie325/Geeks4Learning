@@ -17,6 +17,8 @@ export type viewType = "create" | "view";
 
 export type goalButtonAction = "start" | "resume" | "complete" | "restore" | "archive" | "pause";
 
+export type activeGoalPopupWindowState = "open" | "close"
+
 export interface GoalTaskModel {
   id?: number;
   title: string;

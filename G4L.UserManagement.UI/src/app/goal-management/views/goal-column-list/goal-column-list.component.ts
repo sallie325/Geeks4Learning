@@ -16,9 +16,6 @@ export class GoalColumnListComponent implements OnInit {
   @Input()
   onDropRef!: any;
 
-  @Input()
-  onViewGoalRef!: any;
-
 	@Input()
 	listID!: goalStatus
 

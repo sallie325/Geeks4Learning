@@ -9,11 +9,11 @@ import { Subscription } from 'rxjs';
 import { archivedState, backlogState, completedState, pausedState, startedState } from '../shared/constants/goal-states';
 import { ToastrMessagesService } from '../shared/utils/toastr-messages.service';
 import { ViewSelectedGoalComponent } from './modals/views/view-selected-goal/view-selected-goal.component';
-import { GoalModel, goalTypes } from './models/goal-model';
-import { ActiveGoalService } from './services/active-goal.service';
-import { CaptureGoalService } from './services/capture-goal.service';
-import { GoalCommentService } from './services/goal-comment.service';
-import { GoalManagementService } from './services/goal-management.service';
+import { goalTypes } from './models/goal-model';
+import { ActiveGoalService } from './services/component-logic/active-goal.service';
+import { CaptureGoalService } from './services/component-logic/capture-goal.service';
+import { GoalCommentService } from './services/component-logic/goal-comment.service';
+import { GoalManagementService } from './services/data/goal-management.service';
 
 @Component({
   selector: 'app-goal-management',
@@ -64,7 +64,7 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
 
                 if (userComment) {
                   // If a user decides to archive a goal directly from [in-progress] state, stop the countdown window
-                  this.activeGoalPopupService.deactivateGoal();
+                  this.activeGoalPopupService.deactivateCurrentActiveGoal();
 
                   // Set the user comment for archiving a goal!
                   event.previousContainer.data[event.previousIndex].comment.push({
@@ -97,7 +97,7 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
 
                   if (userComment) {
                     // If a user decides to archive a goal directly from [in-progress] state, stop the countdown window
-                    this.activeGoalPopupService.deactivateGoal();
+                    this.activeGoalPopupService.deactivateCurrentActiveGoal();
 
                     event.previousContainer.data[event.previousIndex].comment.push({
                       comment: userComment,
@@ -117,7 +117,7 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
                 })
             } else {
               // Deactivate the active session of the currently running goal!!
-              this.activeGoalPopupService.deactivateGoal();
+              this.activeGoalPopupService.deactivateCurrentActiveGoal();
 
               // Changing the goal state
               event.previousContainer.data[event.previousIndex].goalStatus = pausedState;
@@ -151,7 +151,7 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
             break;
           case completedState:
             // If a user decides to archive a goal directly, [Stop the countdown window]
-            this.activeGoalPopupService.deactivateGoal();
+            this.activeGoalPopupService.deactivateCurrentActiveGoal();
 
             // Change Goal State
             event.previousContainer.data[event.previousIndex].goalStatus = completedState;
@@ -192,7 +192,7 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
   }
 
   addNewGoal() {
-    this.captureGoalService.openCaptureGoal();
+    this.captureGoalService.openCaptureGoalDialog();
   }
 
   ngOnDestroy(): void {

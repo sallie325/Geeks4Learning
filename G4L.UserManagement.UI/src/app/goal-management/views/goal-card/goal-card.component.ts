@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { activeGoalPopupWindowState } from '../../models/active-goal-model';
-import { GoalModel } from '../../models/goal-model';
-import { ActiveGoalService } from '../../services/active-goal.service';
-import { ViewGoalService } from '../../services/view-goal.service';
+import { activeGoalPopupWindowState, GoalModel } from '../../models/goal-model';
+import { ActiveGoalService } from '../../services/component-logic/active-goal.service';
+import { ViewGoalService } from '../../services/component-logic/view-goal.service';
 
 @Component({
   selector: 'app-goal-card',
@@ -11,28 +10,7 @@ import { ViewGoalService } from '../../services/view-goal.service';
 })
 export class GoalCardComponent implements OnInit {
   @Input()
-  goalId!: number | undefined;
-
-  @Input()
-  goalTitle!: string;
-
-  @Input()
-  goalDescription!: string;
-
-  @Input()
-  goalDuration!: string;
-  
-  @Input()
-  goalRemainingTime!: string;
-
-  @Input()
-  goalState!: 'backlog' | 'started' | 'paused' | 'completed' | 'archived';
-
-  @Input()
   goal!: GoalModel;
-
-  @Input()
-  onViewGoalRef!: any;
 
   constructor(
     private activeGoalService: ActiveGoalService,

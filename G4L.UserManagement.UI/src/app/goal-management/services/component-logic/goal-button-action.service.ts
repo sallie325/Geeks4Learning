@@ -5,12 +5,12 @@ import { encouragingWords } from 'src/app/shared/constants/encouragement';
 import { archivedState, pausedState } from 'src/app/shared/constants/goal-states';
 import { getTimeFormattedString } from 'src/app/shared/utils/timeFormatting';
 import { ToastrMessagesService } from 'src/app/shared/utils/toastr-messages.service';
-import { AddExtraGoalTimeComponent } from '../modals/add-extra-goal-time/add-extra-goal-time.component';
-import { ViewSelectedGoalComponent } from '../modals/views/view-selected-goal/view-selected-goal.component';
-import { goalButtonAction, GoalModel, goalStatus, goalTypes } from '../models/goal-model';
+import { AddExtraGoalTimeComponent } from '../../modals/add-extra-goal-time/add-extra-goal-time.component';
+import { ViewSelectedGoalComponent } from '../../modals/views/view-selected-goal/view-selected-goal.component';
+import { goalButtonAction, GoalModel, goalTypes, goalStatus } from '../../models/goal-model';
+import { GoalManagementService } from '../data/goal-management.service';
 import { ActiveGoalService } from './active-goal.service';
 import { GoalCommentService } from './goal-comment.service';
-import { GoalManagementService } from './goal-management.service';
 
 @Injectable({
   providedIn: 'root'
@@ -146,7 +146,7 @@ export class GoalButtonActionService {
         // Remove the goal from the previous backlog list
         this.getGoalTypeObjectList().started.splice(index, 1);
 
-        this.activeGoalService.deactivateGoal();
+        this.activeGoalService.deactivateCurrentActiveGoal();
       })
   }
 
@@ -184,7 +184,7 @@ export class GoalButtonActionService {
             // Remove the goal from the previous backlog list
             this.getGoalTypeObjectList().started.splice(index, 1);
 
-            this.activeGoalService.deactivateGoal();
+            this.activeGoalService.deactivateCurrentActiveGoal();
             break;
           case "paused":
             // Get backlog index
@@ -215,7 +215,7 @@ export class GoalButtonActionService {
 
           if (userComment) {
             // If a user decides to archive a goal directly from [in-progress] state, stop the countdown window
-            this.activeGoalService.deactivateGoal();
+            this.activeGoalService.deactivateCurrentActiveGoal();
 
             goal?.comment?.push({
               comment: userComment,
@@ -244,7 +244,7 @@ export class GoalButtonActionService {
 
         if (userComment) {
           // If a user decides to archive a goal directly from [in-progress] state, stop the countdown window
-          this.activeGoalService.deactivateGoal();
+          this.activeGoalService.deactivateCurrentActiveGoal();
 
           // Set the user comment for archiving a goal!
           goal?.comment?.push({
@@ -326,7 +326,7 @@ export class GoalButtonActionService {
         this.getGoalTypeObjectList().started.splice(index, 1);
 
         // Stop the countdown timer
-        this.activeGoalService.deactivateGoal();
+        this.activeGoalService.deactivateCurrentActiveGoal();
 
         // Close the modal!
         this.closeViewGoalModal();
