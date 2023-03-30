@@ -1,24 +1,42 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { getIntegerFromString } from '../utils/timeFormatting';
 
 @Pipe({
   name: 'formatDuration'
 })
 export class FormatDurationPipe implements PipeTransform {
-  getIntegerFromString(timepart: string): number {
-    return parseInt(timepart);
-  }
-
   getTimeFormat(timesplit: Array<string>): string {
-    const [hours, minutes] = timesplit
+    const [hours, minutes, seconds] = timesplit
 
-    if(this.getIntegerFromString(minutes) === 0) return `${this.getIntegerFromString(hours)} hr`
-    if(this.getIntegerFromString(hours) === 0) return `${this.getIntegerFromString(minutes)} min`
-    return `${this.getIntegerFromString(hours)} hr ${this.getIntegerFromString(minutes)} min`
+    let timerFormat = ``
+
+    if (getIntegerFromString(hours) > 0) {
+      timerFormat += `${getIntegerFromString(hours)} hr `
+
+      if (getIntegerFromString(minutes) > 0) {
+        timerFormat += `${getIntegerFromString(minutes)} min `
+
+        if (getIntegerFromString(seconds) > 0) {
+          timerFormat += `${getIntegerFromString(seconds)} sec`
+        }
+      }
+    }
+    else if (getIntegerFromString(minutes) > 0) {
+      timerFormat = `${getIntegerFromString(minutes)} min `
+
+      if (getIntegerFromString(seconds) > 0) {
+        timerFormat += `${getIntegerFromString(seconds)} sec`
+      }
+    }
+    else if (getIntegerFromString(seconds) > 0) {
+      timerFormat = `${getIntegerFromString(seconds)} sec `
+    }
+
+    return timerFormat;
   }
 
   transform(value: string, ...args: unknown[]): unknown {
-    const [goalState, isGoalStarted] = args
-
-    return (goalState === "started" && isGoalStarted === "open") ? value : this.getTimeFormat(value.split(':'));
+    const [type] = args
+    return this.getTimeFormat(value.split(':'));
   }
 }

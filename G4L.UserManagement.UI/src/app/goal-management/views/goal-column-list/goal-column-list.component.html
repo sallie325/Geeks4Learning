@@ -8,13 +8,6 @@
 >
   <app-goal-card
     *ngFor="let goal of goalsList"
-    [goalId]="goal?.id"
-    [goalTitle]="goal.title"
-    [goalDescription]="goal.description"
-    [goalDuration]="goal.duration"
-    [goalRemainingTime]="goal.timeRemaining"
-    [goalState]="listID"
     [goal]="goal"
-    [onViewGoalRef]="onViewGoalRef"
   ></app-goal-card>
 </div>

@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 
 @Component({
@@ -6,23 +7,35 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
   templateUrl: './create-goal-task.component.html',
   styleUrls: ['./create-goal-task.component.css']
 })
-export class CreateGoalTaskComponent implements OnInit, AfterViewInit {
-  public newTask!: string
+export class CreateGoalTaskComponent implements OnInit {
+  taskFormGroup: FormGroup = new FormGroup({
+    Task: new FormControl(null, [Validators.required])
+  })
+
   constructor(private taskModalRef: MdbModalRef<CreateGoalTaskComponent>) { }
 
-  @ViewChild('newTask', { static: true })
-  newTaskElement!: ElementRef
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  getFormControl(name: string): AbstractControl {
+    return this.taskFormGroup.controls[name];
   }
 
-  ngAfterViewInit(): void { }
-
-  addNewTask() {
-    this.closeModal(this.newTaskElement.nativeElement.value);
+  isFormControlInvalid(name: string): boolean {
+    return this.getFormControl(name).invalid;
   }
 
-  closeModal(task?: string) {
+  isFormControlTouched(name: string): boolean {
+    return this.getFormControl(name).touched;
+  }
+
+  addNewTask(): void {
+    this.taskFormGroup.markAllAsTouched();
+    if(this.taskFormGroup.invalid) return;
+
+    this.closeAddTaskModal(this.getFormControl('Task').value);
+  }
+
+  closeAddTaskModal(task?: string): void {
     this.taskModalRef.close(task)
   }
 }

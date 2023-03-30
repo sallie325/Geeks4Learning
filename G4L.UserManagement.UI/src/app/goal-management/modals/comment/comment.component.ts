@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { GoalCommentService } from '../../services/goal-comment.service';
+import { goalStatus } from '../../models/goal-model';
+import { GoalCommentService } from '../../services/component-logic/goal-comment.service';
 
 @Component({
   selector: 'app-comment',
@@ -8,6 +9,8 @@ import { GoalCommentService } from '../../services/goal-comment.service';
   styleUrls: ['./comment.component.css']
 })
 export class CommentComponent implements OnInit {
+  commentType!: goalStatus
+
   formGroup: FormGroup = new FormGroup({
     comment: new FormControl(null, [Validators.required])
   });
@@ -35,10 +38,10 @@ export class CommentComponent implements OnInit {
       return;
     }
 
-    this.closeDialog(this.getFormControl('comment').value)
+    this.closeCommentDialog(this.getFormControl('comment').value)
   }
 
-  closeDialog(userResponse: string | null = null) {
+  closeCommentDialog(userResponse: string | null = null) {
     this.goalCommentService.closeCommentDialog(userResponse)
   }
 }

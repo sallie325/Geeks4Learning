@@ -1,3 +1,3 @@
-type goalStatusStages = "good" | "warning" | "danger"
+type goalStageStatus = "good" | "warning" | "danger"
 
-export { goalStatusStages }
+export { goalStageStatus }
