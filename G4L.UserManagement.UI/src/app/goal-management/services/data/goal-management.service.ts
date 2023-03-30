@@ -51,7 +51,7 @@ export class GoalManagementService {
 
   onSelectUserGoals(user_id: string): Subject<GoalModel> {
     this.http
-      .get<GoalModel[]>(`${this.config.apiUrl}/goal`)
+      .get<GoalModel[]>(`${this.config.apiUrl}/goal/${user_id}`)
       .subscribe((goals: GoalModel[]) => {
         goals.forEach((goal: GoalModel) => {
           this.emitGoal(goal);

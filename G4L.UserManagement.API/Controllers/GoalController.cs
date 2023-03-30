@@ -28,19 +28,7 @@ namespace G4L.UserManagement.API.Controllers
         [Route("{UserId}")]
         public async Task<IActionResult> GetAllUserGoals([FromRoute] Guid UserId)
         {
-            var user = await _userService.GetUserByIdAsync(UserId);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-
-            var allUserGoals = await _goalService.GetUserGoalsAsync(UserId);
-            if (!allUserGoals.Any())
-            {
-                return Ok("No goals present");
-            }
-
-            return Ok(allUserGoals);
+            return Ok(await _goalService.GetUserGoalsAsync(UserId));
         }
 
         [HttpGet]

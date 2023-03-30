@@ -12,7 +12,7 @@ namespace G4L.UserManagement.BL.Interfaces
     public interface IGoalService
     {
         Task<GoalResponse> CreateUserGoalAsync(GoalRequest goalRequest);
-        Task<List<Goal>> GetUserGoalsAsync(Guid UserId);
+        Task<List<GoalResponse>> GetUserGoalsAsync(Guid UserId);
         Task<GoalResponse> UpdateGoal(GoalRequest goalRequest);
         Task<List<GoalResponse>> GetAllGoalsAsync();
     }
