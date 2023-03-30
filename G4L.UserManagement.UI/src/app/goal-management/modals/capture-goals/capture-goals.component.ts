@@ -1,9 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { any } from 'ramda';
-import { AttendanceService } from 'src/app/attendance-register/services/attendance.service';
-import { GoalCommentModel, GoalModel, GoalTaskModel } from '../../models/goal-model';
+import {
+  GoalCommentModel,
+  GoalModel,
+  GoalTaskModel,
+} from '../../models/goal-model';
 import { CaptureGoalService } from '../../services/capture-goal.service';
 import { GoalManagementService } from '../../services/goal-management.service';
 
@@ -12,13 +19,13 @@ import { GoalManagementService } from '../../services/goal-management.service';
   templateUrl: './capture-goals.component.html',
   styleUrls: ['./capture-goals.component.css'],
 })
-export class CaptureGoalsComponent implements OnInit {  
+export class CaptureGoalsComponent implements OnInit {
   attendanceId: any;
 
   formModel: FormGroup = new FormGroup({
     title: new FormControl(null, [Validators.required]),
     duration: new FormControl(null, [Validators.required]),
-    description: new FormControl('')
+    description: new FormControl(''),
   });
 
   currentGoal: GoalModel = {
@@ -33,16 +40,15 @@ export class CaptureGoalsComponent implements OnInit {
     comment: new Array<GoalCommentModel>(),
     tasks: new Array<GoalTaskModel>(),
     attendanceId: String(''),
-    userId: String(''),
   };
 
   constructor(
     private modalRef: MdbModalRef<CaptureGoalsComponent>,
     private goalManagementService: GoalManagementService,
     private captureGoalService: CaptureGoalService
-  ) { }
+  ) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   getFormControl(name: string): AbstractControl {
     return this.formModel.controls[name];
@@ -58,9 +64,9 @@ export class CaptureGoalsComponent implements OnInit {
 
   setGoalValues(title: string, duration: string, description: string): void {
     this.currentGoal.title = title;
-    this.currentGoal.duration = duration.concat(":00");
+    this.currentGoal.duration = duration.concat(':00');
     this.currentGoal.description = description;
-    this.currentGoal.timeRemaining = duration.concat(":00");
+    this.currentGoal.timeRemaining = duration.concat(':00');
   }
 
   close() {
@@ -77,11 +83,14 @@ export class CaptureGoalsComponent implements OnInit {
     if (this.formModel.invalid) return;
 
     // Extracting duration timeparts (hours & minutes)
-    const [hours, minutes] = this.getFormControl('duration').value.split(":")
+    const [hours, minutes] = this.getFormControl('duration').value.split(':');
 
     // Business rule [Goals must have a minumum duration of 25 minutes]
     if (+hours === 0 && +minutes < 25) {
-      this.goalManagementService.showErrorMessage("Create New Goal", "Cannot set a goal with a duration less than 25 minutes")
+      this.goalManagementService.showErrorMessage(
+        'Create New Goal',
+        'Cannot set a goal with a duration less than 25 minutes'
+      );
       return;
     }
 
@@ -89,7 +98,7 @@ export class CaptureGoalsComponent implements OnInit {
       this.getFormControl('title').value,
       this.getFormControl('duration').value,
       this.getFormControl('description').value
-    )
+    );
 
     // console.log(this.currentGoal);
     this.goalManagementService.insertNewGoal(this.currentGoal);

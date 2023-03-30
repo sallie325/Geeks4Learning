@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace G4L.UserManagement.DA.Migrations
 {
-    public partial class initial : Migration
+    public partial class second_migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -142,8 +142,7 @@ namespace G4L.UserManagement.DA.Migrations
                     PauseCount = table.Column<int>(type: "int", nullable: false),
                     ArchiveCount = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AttendenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TimeLeft = table.Column<TimeSpan>(type: "time", nullable: false),
+                    TimeRemaining = table.Column<TimeSpan>(type: "time", nullable: false),
                     AttendanceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -232,10 +231,9 @@ namespace G4L.UserManagement.DA.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GoalId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CommentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GoalStatus = table.Column<int>(type: "int", nullable: false),
+                    GoalId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -247,7 +245,7 @@ namespace G4L.UserManagement.DA.Migrations
                         column: x => x.GoalId,
                         principalTable: "Goals",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -255,10 +253,9 @@ namespace G4L.UserManagement.DA.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsCompleted = table.Column<bool>(type: "bit", nullable: false),
-                    GoalId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Complete = table.Column<bool>(type: "bit", nullable: false),
+                    GoalId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -270,7 +267,7 @@ namespace G4L.UserManagement.DA.Migrations
                         column: x => x.GoalId,
                         principalTable: "Goals",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

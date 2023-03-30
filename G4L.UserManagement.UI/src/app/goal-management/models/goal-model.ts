@@ -15,8 +15,8 @@ export interface GoalTaskModel {
 export interface GoalCommentModel {
   id?: number;
   comment: string;
-  commentType: "backlog" | "archived";
-  goalId?:number;
+  commentType: 'backlog' | 'archived';
+  goalId?: number;
 }
 
 export interface GoalModel {
@@ -30,6 +30,5 @@ export interface GoalModel {
   archiveCount: number;
   goalStatus: goalStatus;
   attendanceId: string;
-  userId: string;
   timeRemaining: string;
 }

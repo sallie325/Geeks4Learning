@@ -139,7 +139,7 @@ namespace G4L.UserManagement.DA.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PausedCount")
+                    b.Property<int>("PauseCount")
                         .HasColumnType("int");
 
                     b.Property<TimeSpan>("TimeRemaining")
@@ -192,20 +192,20 @@ namespace G4L.UserManagement.DA.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Complete")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("GoalId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -423,14 +423,14 @@ namespace G4L.UserManagement.DA.Migrations
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.GoalComment", b =>
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.Goal", null)
-                        .WithMany("Comments")
+                        .WithMany("Comment")
                         .HasForeignKey("GoalId");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.GoalTask", b =>
                 {
                     b.HasOne("G4L.UserManagement.BL.Entities.Goal", null)
-                        .WithMany("GoalTasks")
+                        .WithMany("Tasks")
                         .HasForeignKey("GoalId");
                 });
 

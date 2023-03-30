@@ -70,10 +70,10 @@
       "title": "Do a 5 Minute Walk",
       "description": "Need to refreshment my mind!",
       "duration": "00:07:00",
-      "pausedCount": 1,
-      "goalStatus": "backlog",
+      "pausedCount": 2,
+      "goalStatus": "paused",
       "addedTime": "00:00:00",
-      "timeRemaining": "00:07:00",
+      "timeRemaining": "00:00:00",
       "comment": "Too much work",
       "pauseCount": 0,
       "tasks": []
@@ -202,6 +202,44 @@
         }
       ],
       "id": 12
+    },
+    {
+      "id": 13,
+      "title": "Test goal",
+      "description": "Test goal",
+      "duration": "09:31:00",
+      "pausedCount": 0,
+      "archiveCount": 0,
+      "goalStatus": "backlog",
+      "timeRemaining": "09:31:00",
+      "comment": [],
+      "tasks": [
+        {
+          "title": "Test goal",
+          "complete": false
+        }
+      ],
+      "attendanceId": "",
+      "userId": ""
+    },
+    {
+      "id": 14,
+      "title": "Test goal 132",
+      "description": "Test goal 312",
+      "duration": "09:34:00",
+      "pausedCount": 0,
+      "archiveCount": 0,
+      "goalStatus": "backlog",
+      "timeRemaining": "09:34:00",
+      "comment": [],
+      "tasks": [
+        {
+          "title": "Test goal erer",
+          "complete": false
+        }
+      ],
+      "attendanceId": "",
+      "userId": ""
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 namespace G4L.UserManagement.DA.Migrations
 {
-    public partial class updatedMigrationWithGoalModel : Migration
+    public partial class third_migrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

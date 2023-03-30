@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject } from 'rxjs';
+import { AppConfig } from '../../shared/app-config/app-config.interface';
+import { APP_SERVICE_CONFIG } from '../../shared/app-config/app-config.service';
 import { GoalModel } from '../models/goal-model';
 
 @Injectable({
@@ -11,7 +13,11 @@ export class GoalManagementService {
   private goalSubject!: Subject<GoalModel>;
   private fakeServer: string = 'http://localhost:3000';
 
-  constructor(private http: HttpClient, private toastrService: ToastrService) {
+  constructor(
+    private http: HttpClient,
+    private toastrService: ToastrService,
+    @Inject(APP_SERVICE_CONFIG) private config: AppConfig
+  ) {
     this.goalSubject = new Subject<GoalModel>();
   }
 
@@ -20,25 +26,31 @@ export class GoalManagementService {
   }
 
   insertNewGoal(goal: GoalModel): void {
-    console.log("I am insertNewGoal :" +goal)
-    this.http.post<GoalModel>(`https://localhost:44326/api/GoalsManagement/AddGoal`, goal)
-      .subscribe(newGoal => {
-        this.emitGoal(newGoal)
-      })
+    console.log(JSON.stringify(goal));
+    this.http
+      .post<GoalModel>(`${this.config.apiUrl}/goal/addGoal`, goal)
+      .subscribe((newGoal) => {
+        console.log('I am new goal');
+        console.log(newGoal);
+        this.emitGoal(newGoal);
+      });
   }
 
   updateGoal(goal: GoalModel): Observable<GoalModel> {
-    return this.http.put<GoalModel>(`${this.fakeServer}/goals/${goal?.id}`, goal);
+    return this.http.put<GoalModel>(
+      `${this.fakeServer}/goals/${goal?.id}`,
+      goal
+    );
   }
 
   onGoalEmit(): Subject<GoalModel> {
-    this.http.get<GoalModel[]>(`${this.fakeServer}/goals`).subscribe(
-      (goals: GoalModel[]) => {
+    this.http
+      .get<GoalModel[]>(`${this.fakeServer}/goals`)
+      .subscribe((goals: GoalModel[]) => {
         goals.forEach((goal: GoalModel) => {
-          this.emitGoal(goal)
+          this.emitGoal(goal);
         });
-      }
-    );
+      });
 
     return this.getGoalSubject();
   }
