@@ -8,170 +8,51 @@
       "duration": "02:00:00",
       "pausedCount": 0,
       "archiveCount": 1,
-      "goalStatus": "completed",
-      "timeRemaining": "01:46:49",
-      "comment": [],
-      "tasks": [
-        {
-          "id": 1,
-          "title": "Setup my environment",
-          "complete": true
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "userId": "2fc9460a-04b5-4d13-0e9c-08daf69379ac",
-      "title": "Write IKM Assessment",
-      "description": "Will start with the basis of springboot today",
-      "duration": "01:00:00",
-      "pausedCount": 0,
-      "archiveCount": 1,
       "goalStatus": "archived",
-      "timeRemaining": "01:00:00",
+      "timeRemaining": "02:00:00",
       "comment": [
         {
-          "comment": "I don't feel ready to take this test",
+          "comment": "Archive reason",
           "commentType": "archived",
-          "goalId": 2
+          "goalId": 1
         }
       ],
-      "tasks": [
-        {
-          "id": 1,
-          "title": "Setup my environment",
-          "complete": false
-        },
-        {
-          "id": 2,
-          "title": "Object oriented programming",
-          "complete": false
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "userId": "2fc9460a-04b5-4d13-0e9c-08daf69379ac",
-      "title": "Create GitHub account",
-      "description": "Create a github account where I will save my coding projects",
-      "duration": "00:30:00",
-      "pausedCount": 1,
-      "archiveCount": 0,
-      "goalStatus": "completed",
-      "timeRemaining": "00:27:22",
-      "comment": [],
-      "tasks": [
-        {
-          "id": 1,
-          "title": "Setup my environment",
-          "complete": true
-        },
-        {
-          "id": 2,
-          "title": "Object oriented programming",
-          "complete": true
-        },
-        {
-          "title": "Create a first commit and push it to the repository",
-          "complete": true,
-          "goalId": 3
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "userId": "2fc9460a-04b5-4d13-0e9c-08daf69379ac",
-      "title": "Do a 5 Minute Walk",
-      "description": "Need to refreshment my mind!",
-      "duration": "00:28:00",
-      "pausedCount": 0,
-      "archiveCount": 0,
-      "goalStatus": "archived",
-      "timeRemaining": "00:28:00",
-      "comment": [
-        {
-          "comment": "Your reason",
-          "commentType": "paused",
-          "goalId": 4
-        },
-        {
-          "comment": "Your reason",
-          "commentType": "archived",
-          "goalId": 4
-        }
-      ],
-      "tasks": [
-        {
-          "title": "Get my shoes ready",
-          "complete": false,
-          "goalId": 4
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "userId": "2fc9460a-04b5-4d13-0e9c-08daf69379ac",
-      "title": "Writing Sales Force IKM",
-      "description": "Completing Sales Force IKM Assessment",
-      "duration": "01:00:00",
-      "pausedCount": 5,
-      "archiveCount": 1,
-      "goalStatus": "paused",
-      "timeRemaining": "00:01:24",
-      "comment": [
-        {
-          "comment": "reason",
-          "commentType": "paused",
-          "goalId": 5
-        }
-      ],
-      "tasks": [
-        {
-          "title": "Prepare Triggers",
-          "complete": false,
-          "goalId": 5
-        },
-        {
-          "title": "Prepare Flows",
-          "complete": false,
-          "goalId": 5
-        },
-        {
-          "title": "Prepare using object fields",
-          "complete": false,
-          "goalId": 5
-        },
-        {
-          "title": "Prepare Lightning Web Components",
-          "complete": false,
-          "goalId": 5
-        }
-      ]
+      "tasks": []
     },
     {
       "id": 6,
       "title": "Study Sales-force Api’s",
       "description": "Learn how to make requests to external API using sales force",
-      "duration": "00:20:00",
-      "pausedCount": 1,
-      "archiveCount": 0,
+      "duration": "00:67:00",
+      "pausedCount": 4,
+      "archiveCount": 1,
       "goalStatus": "completed",
-      "timeRemaining": "00:14:57",
+      "timeRemaining": "00:27:52",
       "comment": [
         {
-          "comment": "hbjhbdjdfsh",
+          "comment": "Reason",
           "commentType": "archived",
+          "goalId": 6
+        },
+        {
+          "comment": "Reason",
+          "commentType": "paused",
           "goalId": 6
         }
       ],
       "tasks": [
         {
-          "title": "Learn how to make requests using apex",
+          "title": "Study the material",
           "complete": true,
           "goalId": 6
         },
         {
-          "title": "Code along with the material",
+          "title": "Build a small application",
+          "complete": true,
+          "goalId": 6
+        },
+        {
+          "title": "Link it to my default home page org",
           "complete": true,
           "goalId": 6
         }
@@ -182,20 +63,20 @@
       "id": 7,
       "title": "Java OCA IKM Assessment",
       "description": "Completed Java IKM Assessment",
-      "duration": "01:20:00",
-      "pausedCount": 0,
+      "duration": "01:30:00",
+      "pausedCount": 2,
       "archiveCount": 0,
       "goalStatus": "completed",
-      "timeRemaining": "01:18:09",
+      "timeRemaining": "00:00:00",
       "comment": [],
       "tasks": [
         {
-          "title": "Task 1",
+          "title": "Course Overview",
           "complete": true,
           "goalId": 7
         },
         {
-          "title": "Task 5",
+          "title": "Unit1",
           "complete": true,
           "goalId": 7
         }
@@ -205,168 +86,68 @@
     {
       "title": "Complete the Create goal component functionality",
       "description": "Need to be able to save the newly created goal and ensure that task bindings with the parent create goal for the toggling works!!\n\nI also need to know where the task component is being used in order to determine the correct behaviour of the component",
-      "duration": "01:05:00",
-      "pausedCount": 5,
+      "duration": "01:06:00",
+      "pausedCount": 1,
       "archiveCount": 0,
-      "goalStatus": "paused",
-      "timeRemaining": "00:02:23",
-      "comment": [
-        {
-          "comment": "Have an urgent meeting",
-          "commentType": "paused",
-          "goalId": 8
-        }
-      ],
-      "tasks": [
-        {
-          "id": 1,
-          "title": "Determine the directory where the component fits",
-          "complete": false
-        },
-        {
-          "title": "Open terminal in the directory",
-          "complete": false
-        },
-        {
-          "title": "Run the `ng g c goal-management` command",
-          "complete": false
-        }
-      ],
+      "goalStatus": "started",
+      "timeRemaining": "00:00:00",
+      "comment": [],
+      "tasks": [],
       "userId": "2fc9460a-04b5-4d13-0e9c-08daf69379ac",
       "id": 8
     },
     {
-      "title": "Complete Final Assessment Practical 1",
-      "description": "",
-      "duration": "02:00:00",
-      "pausedCount": 4,
-      "archiveCount": 0,
-      "goalStatus": "paused",
-      "timeRemaining": "01:17:22",
-      "comment": [
-        {
-          "comment": "Reason",
-          "commentType": "paused",
-          "goalId": 12
-        }
-      ],
-      "tasks": [
-        {
-          "title": "Login to chat-gpt",
-          "complete": false
-        },
-        {
-          "title": "Start answering questions",
-          "complete": false
-        }
-      ],
-      "userId": "2fc9460a-04b5-4d13-0e9c-08daf69379ac",
-      "id": 12
-    },
-    {
-      "title": "Attend Sprint Meeting",
-      "description": "The meeting is for presentation preparation",
-      "duration": "02:00:00",
+      "title": "Prepare for presentation",
+      "description": "Getting ready for the Sprint Demo",
+      "duration": "00:36:00",
       "pausedCount": 1,
       "archiveCount": 0,
       "goalStatus": "completed",
-      "timeRemaining": "01:58:47",
+      "timeRemaining": "00:00:00",
       "comment": [],
       "tasks": [
         {
-          "title": "Prepare the system-flow video",
+          "title": "Ensure that everything is in sync",
+          "complete": true
+        },
+        {
+          "title": "Update the github repo",
           "complete": true
         }
       ],
       "userId": "2fc9460a-04b5-4d13-0e9c-08daf69379ac",
-      "id": 13
+      "id": 9
     },
     {
-      "title": "Complete C# Classes",
-      "description": "",
-      "duration": "00:50:00",
-      "pausedCount": 0,
-      "archiveCount": 0,
-      "goalStatus": "completed",
-      "timeRemaining": "00:48:20",
-      "comment": [],
-      "tasks": [
-        {
-          "title": "Task 1",
-          "complete": true
-        },
-        {
-          "title": "Task extra",
-          "complete": true,
-          "goalId": 14
-        }
-      ],
-      "userId": "2fc9460a-04b5-4d13-0e9c-08daf69379ac",
-      "id": 14
-    },
-    {
-      "title": "Goal 2",
-      "description": "Goal description",
-      "duration": "01:00:00",
-      "pausedCount": 0,
-      "archiveCount": 0,
-      "goalStatus": "backlog",
-      "timeRemaining": "01:00:00",
-      "comment": [],
-      "tasks": [
-        {
-          "title": "Task 1",
-          "complete": false
-        },
-        {
-          "title": "Task 2",
-          "complete": false
-        }
-      ],
-      "userId": "2fc9460a-04b5-4d13-0e9c-08daf69379ac",
-      "id": 15
-    },
-    {
-      "title": "Example goal",
+      "title": "Create a Lightning Web Component",
       "description": "",
       "duration": "00:30:00",
-      "pausedCount": 1,
+      "pausedCount": 0,
       "archiveCount": 0,
-      "goalStatus": "started",
-      "timeRemaining": "00:29:39",
+      "goalStatus": "completed",
+      "timeRemaining": "00:01:35",
+      "comment": [],
+      "tasks": [],
+      "userId": "2fc9460a-04b5-4d13-0e9c-08daf69379ac",
+      "id": 10
+    },
+    {
+      "title": "Example Goal",
+      "description": "Goal description",
+      "duration": "00:30:00",
+      "pausedCount": 0,
+      "archiveCount": 0,
+      "goalStatus": "completed",
+      "timeRemaining": "00:00:00",
       "comment": [],
       "tasks": [
         {
-          "title": "Task 3",
+          "title": "Task",
           "complete": true
-        },
-        {
-          "title": "Task 4",
-          "complete": false,
-          "goalId": 16
         }
       ],
       "userId": "2fc9460a-04b5-4d13-0e9c-08daf69379ac",
-      "id": 16
-    },
-    {
-      "title": "Another",
-      "description": "",
-      "duration": "01:00:00",
-      "pausedCount": 0,
-      "archiveCount": 1,
-      "goalStatus": "archived",
-      "timeRemaining": "01:00:00",
-      "comment": [
-        {
-          "comment": "Reason",
-          "commentType": "archived",
-          "goalId": 17
-        }
-      ],
-      "tasks": [],
-      "userId": "2fc9460a-04b5-4d13-0e9c-08daf69379ac",
-      "id": 17
+      "id": 11
     }
   ]
 }

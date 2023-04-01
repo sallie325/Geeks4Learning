@@ -26,6 +26,14 @@ export class GoalManagementService {
     this.goalSubject = new Subject<GoalModel>();
   }
 
+  getGoalSubject(): Subject<GoalModel> {
+    return this.goalSubject;
+  }
+
+  getGoalTypeObjectList(): goalTypes {
+    return this.goalTypeObjectList;
+  }
+
   emitGoal(goal: GoalModel): void {
     this.getGoalSubject().next(goal);
   }
@@ -58,13 +66,5 @@ export class GoalManagementService {
 
   getGoalById(id: any): Observable<GoalModel> {
     return this.http.get<GoalModel>(`${environment.mockServer}/goals/${id}`);
-  }
-
-  getGoalSubject(): Subject<GoalModel> {
-    return this.goalSubject;
-  }
-
-  getGoalTypeObjectList(): goalTypes {
-    return this.goalTypeObjectList;
   }
 }

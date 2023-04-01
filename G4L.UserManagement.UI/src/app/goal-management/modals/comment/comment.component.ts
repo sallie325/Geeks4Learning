@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { goalStatus } from '../../models/goal-model';
-import { GoalCommentService } from '../../services/component-logic/goal-comment.service';
+import { GoalCommentService } from '../../services/logic-handlers/goal-comment.service';
 
 @Component({
   selector: 'app-comment',
@@ -42,6 +42,6 @@ export class CommentComponent implements OnInit {
   }
 
   closeCommentDialog(userResponse: string | null = null) {
-    this.goalCommentService.closeCommentDialog(userResponse)
+    this.goalCommentService.closeUserCommentModal(userResponse)
   }
 }

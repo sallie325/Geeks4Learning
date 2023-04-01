@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GoalModel, goalStatus, viewType } from '../../models/goal-model';
-import { CaptureGoalService } from '../../services/component-logic/capture-goal.service';
-import { GoalButtonActionService } from '../../services/component-logic/goal-button-action.service';
-import { GoalManagementService } from '../../services/data/goal-management.service';
+import { CaptureGoalService } from '../../services/logic-handlers/capture-goal.service';
+import { GoalButtonActionService } from '../../services/logic-handlers/goal-button-action.service';
+import { GoalManagementService } from '../../services/api/goal-management.service';
 
 @Component({
   selector: 'app-tasks',
@@ -53,12 +53,13 @@ export class TasksComponent implements OnInit {
         this.goalManagementService.updateGoal(this.goal)
           .subscribe((updatedGoal: GoalModel) => {
             console.log(updatedGoal)
+            this.goalButtonActionService.calculateTaskCompletion(updatedGoal);
           })
       }
     }
   }
 
-  addMoreTasks(){
+  addMoreTasks() {
     this.captureGoalService.openAddGoalTaskDialog(this.goal, "view");
   }
 }

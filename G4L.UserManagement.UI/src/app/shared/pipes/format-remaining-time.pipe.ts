@@ -2,19 +2,20 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { toNumber } from 'lodash';
 
 @Pipe({
-  name: 'formatDuration'
+  name: 'formatRemainingTime'
 })
-export class FormatDurationPipe implements PipeTransform {
+export class FormatRemainingTimePipe implements PipeTransform {
   getTimeFormat(timesplit: Array<string>): string {
-    const [hours, minutes, _] = timesplit
+    const [hours, minutes, seconds] = timesplit
 
     let timerFormat = ``
 
     if (toNumber(hours) > 0)
-      timerFormat += `${toNumber(hours)} hr `
+      timerFormat += `${toNumber(hours)} hr ${toNumber(minutes)} min `
+    else if (toNumber(minutes) > 0)
+      timerFormat += `${toNumber(minutes)} min `
 
-    if (toNumber(minutes) > 0)
-      timerFormat += `${toNumber(minutes)} min`
+    timerFormat += `${toNumber(seconds)} sec`
 
     return timerFormat;
   }
@@ -22,4 +23,5 @@ export class FormatDurationPipe implements PipeTransform {
   transform(value: string, ...args: unknown[]): unknown {
     return this.getTimeFormat(value.split(':'));
   }
+
 }

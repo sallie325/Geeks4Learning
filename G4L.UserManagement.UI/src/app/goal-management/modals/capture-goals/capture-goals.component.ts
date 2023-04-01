@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { AttendanceService } from 'src/app/attendance-register/services/attendance.service';
-import { ToastrMessagesService } from 'src/app/shared/utils/toastr-messages.service';
+import { ToastrMessagesService } from 'src/app/shared/utils/services/toastr-messages.service';
 import { GoalCommentModel, GoalModel, GoalTaskModel } from '../../models/goal-model';
-import { CaptureGoalService } from '../../services/component-logic/capture-goal.service';
-import { GoalManagementService } from '../../services/data/goal-management.service';
+import { CaptureGoalService } from '../../services/logic-handlers/capture-goal.service';
+import { GoalManagementService } from '../../services/api/goal-management.service';
+import { maxToastrTimeout, minGoalDuration } from 'src/app/shared/constants/goal-boundaries';
 
 @Component({
   selector: 'app-capture-goals',
@@ -83,7 +84,8 @@ export class CaptureGoalsComponent implements OnInit {
     if (+hours === 0 && +minutes < 25) {
       this.toastrMessage
         .showErrorMessage("Create New Goal",
-          "Cannot set a goal with a duration less than 25 minutes")
+          `Cannot set a goal with a duration less than ${minGoalDuration} minutes`,
+          maxToastrTimeout)
       return;
     }
 

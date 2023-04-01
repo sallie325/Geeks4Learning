@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { constants } from 'src/app/shared/global/global.constants';
 import { Router } from '@angular/router';
+import { setSessionStoragePairs } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-login',
@@ -69,16 +70,27 @@ export class LoginComponent implements OnInit {
     this.userService
       .authenticate(this.loginForm.value)
       .subscribe((response: any | undefined) => {
-        // save the token
-        sessionStorage.setItem(constants.token, response?.token);
-        sessionStorage.setItem(constants.username, `${response?.name} ${response?.surname}`);
-        sessionStorage.setItem(constants.role, response?.role);
-        sessionStorage.setItem(constants.time, this.currentDateTime);
-        sessionStorage.setItem("date", this.currentDateTime);
-        sessionStorage.setItem("times", this.captureGoalsTime)
+        setSessionStoragePairs(
+          [
+            constants.token,
+            constants.username,
+            constants.role,
+            constants.time,
+            "date",
+            "times"
+          ],
+          [
+            response?.token,
+            `${response?.name} ${response?.surname}`,
+            response?.role,
+            this.currentDateTime,
+            this.currentDateTime,
+            this.captureGoalsTime
+          ]
+        )
 
         // route to the master layout
-        console.log("I am sessionStorage : "+ sessionStorage)
+        console.log("I am sessionStorage : " + sessionStorage)
         this.router.navigate(['/dashboard']);
       },
         error => {

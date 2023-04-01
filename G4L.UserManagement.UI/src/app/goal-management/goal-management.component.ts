@@ -7,13 +7,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { Subscription } from 'rxjs';
 import { archivedState, backlogState, completedState, pausedState, startedState } from '../shared/constants/goal-states';
-import { ToastrMessagesService } from '../shared/utils/toastr-messages.service';
+import { ToastrMessagesService } from '../shared/utils/services/toastr-messages.service';
 import { ViewSelectedGoalComponent } from './modals/views/view-selected-goal/view-selected-goal.component';
-import { goalTypes } from './models/goal-model';
-import { ActiveGoalService } from './services/component-logic/active-goal.service';
-import { CaptureGoalService } from './services/component-logic/capture-goal.service';
-import { GoalCommentService } from './services/component-logic/goal-comment.service';
-import { GoalManagementService } from './services/data/goal-management.service';
+import { GoalTaskModel, goalTypes } from './models/goal-model';
+import { ActiveGoalService } from './services/logic-handlers/active-goal.service';
+import { CaptureGoalService } from './services/logic-handlers/capture-goal.service';
+import { GoalCommentService } from './services/logic-handlers/goal-comment.service';
+import { GoalManagementService } from './services/api/goal-management.service';
+import { GoalValidationHandlerService } from './services/validations/goal-validation-handler.service';
+import { maxCustomToastrTimeout, maxPauseCount, maxToastrTimeout } from '../shared/constants/goal-boundaries';
+import { getCompletedTasks, getPastTenseFromGoalState, getPresentTenseFromGoalState, getRandomCustomPauseMessage, getRandomCustomSuccessMessage } from './services/helpers/goal-service.helpers';
 
 @Component({
   selector: 'app-goal-management',
@@ -35,7 +38,8 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
     private activeGoalPopupService: ActiveGoalService,
     private captureGoalService: CaptureGoalService,
     private goalCommentService: GoalCommentService,
-    private toastrMessage: ToastrMessagesService
+    private toastrMessageService: ToastrMessagesService,
+    private goalValidationsService: GoalValidationHandlerService
   ) { }
 
   ngOnInit(): void { }
@@ -57,14 +61,16 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
         // Handling Goal Activity Logic
         switch (event.container.id) {
           case archivedState:
-            const onCommentResponse: Subscription = this.goalCommentService.openCommentDialog(archivedState)
+            const userCommentSubscription: Subscription = this.goalCommentService.onCapturedUserComment(archivedState)
               .subscribe((userComment: string | null) => {
                 // Unsubscribing from the observer listener to avoid mulitple emits
-                onCommentResponse.unsubscribe();
+                userCommentSubscription.unsubscribe();
 
                 if (userComment) {
-                  // If a user decides to archive a goal directly from [in-progress] state, stop the countdown window
-                  this.activeGoalPopupService.deactivateCurrentActiveGoal();
+                  if (event.previousContainer.data[event.previousIndex].goalStatus === startedState) {
+                    // If a user decides to archive a goal directly from [in-progress] state, stop the countdown window
+                    this.activeGoalPopupService.deactivateCurrentActiveGoal();
+                  }
 
                   // Set the user comment for archiving a goal!
                   event.previousContainer.data[event.previousIndex].comment.push({
@@ -77,7 +83,7 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
                   event.previousContainer.data[event.previousIndex].goalStatus = archivedState;
                   event.previousContainer.data[event.previousIndex].pausedCount = 0;
                   event.previousContainer.data[event.previousIndex].timeRemaining = event.previousContainer.data[event.previousIndex].duration;
-                  event.previousContainer.data[event.previousIndex]?.tasks?.forEach((element: any) => {
+                  event.previousContainer.data[event.previousIndex]?.tasks?.forEach((element: GoalTaskModel) => {
                     element.complete = false;
                   });
 
@@ -89,11 +95,11 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
           case pausedState:
             // If the [pauseLimit] has been reached!
             if (parseInt(event.previousContainer.data[event.previousIndex].pausedCount) > 0
-              && parseInt(event.previousContainer.data[event.previousIndex].pausedCount) % 3 === 0) {
-              const onCommentResponse: Subscription = this.goalCommentService.openCommentDialog(pausedState)
+              && parseInt(event.previousContainer.data[event.previousIndex].pausedCount) % maxPauseCount === 0) {
+              const userCommentSubscription: Subscription = this.goalCommentService.onCapturedUserComment(pausedState)
                 .subscribe((userComment: string | null) => {
                   // Unsubscribing from the observer listener to avoid mulitple emits
-                  onCommentResponse.unsubscribe();
+                  userCommentSubscription.unsubscribe();
 
                   if (userComment) {
                     // If a user decides to archive a goal directly from [in-progress] state, stop the countdown window
@@ -113,6 +119,11 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
 
                     // Updating goal changes in the database
                     this.updateGoalChanges(event)
+
+                    this.toastrMessageService.showInfoMessage(
+                      "Encouragement",
+                      getRandomCustomPauseMessage(),
+                      maxCustomToastrTimeout)
                   }
                 })
             } else {
@@ -127,16 +138,16 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
 
               // Updating goal changes in the database
               this.updateGoalChanges(event)
+
+              this.toastrMessageService.showInfoMessage(
+                "Encouragement",
+                getRandomCustomPauseMessage(),
+                maxCustomToastrTimeout)
             }
             break;
           case startedState:
-            if (event.container.data.length > 0) {
-              this.toastrMessage.showErrorMessage(
-                'Starting a Goal',
-                `${event.container.data[0].title} is still running`
-              );
-              return;
-            }
+            // Guard condition
+            if (!this.goalValidationsService.canGoalBeStarted(this.getGoalTypeObjectList().started)) return;
 
             // Changing the goal state
             event.previousContainer.data[event.previousIndex].goalStatus = startedState;
@@ -150,6 +161,14 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
             this.updateGoalChanges(event)
             break;
           case completedState:
+            if (event.previousContainer.data[event.previousIndex]?.tasks
+              && event.previousContainer.data[event.previousIndex]?.tasks?.length > 0) {
+              if (!this.goalValidationsService.canCompleteGoal(
+                getCompletedTasks(event.previousContainer.data[event.previousIndex]?.tasks),
+                event.previousContainer.data[event.previousIndex]?.tasks
+              )) return;
+            }
+
             // If a user decides to archive a goal directly, [Stop the countdown window]
             this.activeGoalPopupService.deactivateCurrentActiveGoal();
 
@@ -158,6 +177,13 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
 
             // Updating goal changes in the database
             this.updateGoalChanges(event)
+
+            // Show an encouraging message
+            this.toastrMessageService.showSuccessMessage(
+              "Congradulations",
+              getRandomCustomSuccessMessage(),
+              maxCustomToastrTimeout
+            )
             break;
           case backlogState:
             // Change Goal State
@@ -169,7 +195,11 @@ export class GoalManagementComponent implements OnInit, OnDestroy {
         }
       }
       else {
-        this.toastrMessage.showErrorMessage("Change Goal State", "Invalid goal status change!")
+        this.toastrMessageService.showErrorMessage(
+          "Change Goal State",
+          `Invalid goal operation! You cannot ${getPresentTenseFromGoalState(event.container.id)} a goal that is ${getPastTenseFromGoalState(event.previousContainer.id)}`,
+          maxToastrTimeout
+        )
       }
     }
   };

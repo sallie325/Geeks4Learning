@@ -73,7 +73,7 @@
                       isFormControlTouched('duration') &&
                       isFormControlInvalid('duration')
                   }"
-                  >Estimated time <sup class="text-danger">*</sup></label
+                  >Duration (hh:mm) <sup class="text-danger">*</sup></label
                 >
                 <input
                   type="time"
@@ -81,6 +81,9 @@
                   value="null"
                   formControlName="duration"
                   min="0"
+                  #tooltip="matTooltip"
+                  matTooltip="
+                  Minimum goal time is 25 minutes"
                   [ngClass]="{
                     error:
                       isFormControlTouched('duration') &&

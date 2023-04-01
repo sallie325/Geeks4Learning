@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, Observable, Subscription } from 'rxjs';
 import { activeGoalPopupWindowState, GoalModel } from '../../models/goal-model';
+import { GoalManagementService } from '../api/goal-management.service';
 import { ViewGoalService } from './view-goal.service';
+import { getSessionStorageValue, getTimeFormated, removeSessionStoragePair, setSessionStoragePairs } from 'src/app/shared/utils/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +12,14 @@ export class ActiveGoalService {
   popupGoalWindowState: activeGoalPopupWindowState = "close";
   currentGoal!: GoalModel
   timeRemaining!: string
-  countDownTimer!: BehaviorSubject<string>
+  countDownTimerBehaviourSubject!: BehaviorSubject<string>
   $intervalStream: Subscription | null = null
 
-  constructor(private viewGoalService: ViewGoalService) {
-    this.countDownTimer = new BehaviorSubject<string>("00:00:00");
+  constructor(
+    private viewGoalService: ViewGoalService,
+    private goalManagementApiService: GoalManagementService
+  ) {
+    this.countDownTimerBehaviourSubject = new BehaviorSubject<string>("00:00:00");
   }
 
   setActiveGoal(activatingGoal: GoalModel): void {
@@ -22,10 +27,14 @@ export class ActiveGoalService {
     this.currentGoal = activatingGoal;
   }
 
-  deactivateCurrentActiveGoal(): void {
+  deactivateCurrentActiveGoal(clearSession: boolean = true): void {
     if (this.$intervalStream) this.$intervalStream.unsubscribe();
     if (this.popupGoalWindowState = "open") this.popupGoalWindowState = "close"
-    if (sessionStorage.getItem('activeGoalSession')) sessionStorage.removeItem('activeGoalSession')
+
+    if (clearSession) {
+      if (getSessionStorageValue('activeGoalSession')) removeSessionStoragePair('activeGoalSession')
+      if (getSessionStorageValue('warningShown')) removeSessionStoragePair('warningShown')
+    }
   }
 
   getActiveGoalPopupWindowState(): activeGoalPopupWindowState {
@@ -61,7 +70,7 @@ export class ActiveGoalService {
 
   activateGoalCountDown(goal: GoalModel): void {
     // Check if active goal is running and deactivate before creating a new interval instance
-    this.deactivateCurrentActiveGoal();
+    this.deactivateCurrentActiveGoal(false);
 
     // Set the new goal instance
     this.setActiveGoal(goal);
@@ -73,35 +82,32 @@ export class ActiveGoalService {
       if (goalDuration.getHours() === 0
         && goalDuration.getMinutes() === 0
         && goalDuration.getSeconds() === 0) {
-        this.deactivateCurrentActiveGoal();
-        // Open the ADD EXTRA TIME DIALOG!!
-        this.viewGoalService.viewSelectedGoal(this.getActiveGoalObject(), true)
+        this.goalManagementApiService.updateGoal(goal).subscribe((updatedGoal: GoalModel) => {
+          goal = updatedGoal;
+
+          this.deactivateCurrentActiveGoal(false);
+          // Open the ADD EXTRA TIME DIALOG!!
+          this.viewGoalService.viewSelectedGoal(this.getActiveGoalObject(), true)
+        })
         return;
       }
 
       goalDuration.setSeconds(goalDuration.getSeconds() - 1)
-      goal.timeRemaining = this.getTimeFormated(goalDuration);
-      
+      goal.timeRemaining = getTimeFormated(goalDuration);
+
       // Emit the current remaining time
-      this.countDownTimer.next(goal.timeRemaining)
+      this.countDownTimerBehaviourSubject.next(goal.timeRemaining)
 
       // Create a Memento for the current timestamp
-      sessionStorage.setItem("activeGoalSession", JSON.stringify({
+      setSessionStoragePairs("activeGoalSession", JSON.stringify({
         id: goal.id,
-        timeLeft: goal.timeRemaining
+        timeRemaining: goal.timeRemaining
       }))
     })
   }
 
-  getTimeFormated(dateObject: Date): string {
-    const hours = dateObject.getHours();
-    const minutes = dateObject.getMinutes();
-    const seconds = dateObject.getSeconds();
-
-    return `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
-  }
-
-  getCountDownTimer(): Observable<string> {
-    return this.countDownTimer!;
+  getCountDownTimerBehaviourSubject(): Observable<string> {
+    return this.countDownTimerBehaviourSubject!;
   }
 }
+

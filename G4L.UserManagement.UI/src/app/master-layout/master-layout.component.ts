@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from '../leave-management/services/event.service';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { ToastrService } from 'ngx-toastr';
 import { CaptureGoalsComponent } from '../goal-management/modals/capture-goals/capture-goals.component';
 import { AttendanceService } from '../attendance-register/services/attendance.service';
 import { TokenService } from '../user-management/login/services/token.service';
 import { GoalModel } from '../goal-management/models/goal-model';
 import { backlogState, archivedState, completedState, pausedState, startedState } from '../shared/constants/goal-states';
-import { ActiveGoalService } from '../goal-management/services/component-logic/active-goal.service';
-import { CaptureGoalService } from '../goal-management/services/component-logic/capture-goal.service';
-import { GoalManagementService } from '../goal-management/services/data/goal-management.service';
+import { ActiveGoalService } from '../goal-management/services/logic-handlers/active-goal.service';
+import { CaptureGoalService } from '../goal-management/services/logic-handlers/capture-goal.service';
+import { GoalManagementService } from '../goal-management/services/api/goal-management.service';
+import { getSessionStorageValue } from '../shared/utils/utils';
 
 @Component({
   selector: 'app-master-layout',
@@ -27,7 +27,6 @@ export class MasterLayoutComponent implements OnInit {
   constructor(
     private tokenService: TokenService,
     private attendanceService: AttendanceService,
-    private toastr: ToastrService,
     private eventService: EventService,
     private captureGoalService: CaptureGoalService,
     private goalManagementService: GoalManagementService,
@@ -51,7 +50,7 @@ export class MasterLayoutComponent implements OnInit {
 
   captureGoal() {
     this.testTime = (new Date(Date.now()).getMinutes());
-    const time: string | null = sessionStorage.getItem("times")
+    const time: string | null = getSessionStorageValue("times")
 
     console.log(this.testTime, time)
 
@@ -83,12 +82,13 @@ export class MasterLayoutComponent implements OnInit {
           break;
         case startedState:
           // Restore goal session
-          if (this.goalManagementService.getGoalTypeObjectList().started.length == 0) {
+          if (this.goalManagementService.getGoalTypeObjectList().started.length === 0) {
             // Checking if user has a past session
-            if (sessionStorage.getItem('activeGoalSession')) {
-              const lastActiveGoalSession = JSON.parse(sessionStorage.getItem('activeGoalSession')!)
-              if (goal.id === lastActiveGoalSession.id) goal.timeRemaining = lastActiveGoalSession.timeLeft;
+            if (getSessionStorageValue('activeGoalSession')) {
+              const lastActiveGoalSession = JSON.parse(getSessionStorageValue('activeGoalSession')!)
+              if (goal.id === lastActiveGoalSession.id) goal.timeRemaining = lastActiveGoalSession.timeRemaining;
             }
+
             this.goalManagementService.getGoalTypeObjectList().started.push(goal);
             this.activeGoalPopupService.activateGoalCountDown(this.goalManagementService.getGoalTypeObjectList().started[0])
           }

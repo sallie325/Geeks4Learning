@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { GoalButtonActionService } from '../../services/component-logic/goal-button-action.service';
+import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { GoalModel } from '../../models/goal-model';
 
 @Component({
   selector: 'app-add-extra-goal-time',
@@ -12,9 +13,11 @@ export class AddExtraGoalTimeComponent implements OnInit {
     Time: new FormControl(null, [Validators.required])
   })
 
-  constructor(private goalButtonActionService: GoalButtonActionService) { }
+  constructor(
+    private extraTimeModalReference: MdbModalRef<AddExtraGoalTimeComponent>
+  ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   getFormControl(name: string): AbstractControl {
     return this.extraTimeFormGroup.controls[name];
@@ -33,12 +36,12 @@ export class AddExtraGoalTimeComponent implements OnInit {
 
     if (this.extraTimeFormGroup.invalid) return;
 
-    this.goalButtonActionService.getCloseAddMoreTimeModalRef()
+    this.extraTimeModalReference
       .close(this.getFormControl("Time").value)
   }
 
   closeModal() {
-    this.goalButtonActionService.getCloseAddMoreTimeModalRef()
+    this.extraTimeModalReference
       .close(null)
   }
 }

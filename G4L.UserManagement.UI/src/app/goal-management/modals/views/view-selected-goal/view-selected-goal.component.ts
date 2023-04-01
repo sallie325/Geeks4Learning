@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { toNumber } from 'lodash';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { ActiveGoalService } from 'src/app/goal-management/services/component-logic/active-goal.service';
-import { GoalButtonActionService } from 'src/app/goal-management/services/component-logic/goal-button-action.service';
-import { activeGoalPopupWindowState, goalButtonAction, GoalModel } from '../../../models/goal-model';
+import { GoalManagementService } from 'src/app/goal-management/services/api/goal-management.service';
+import { ActiveGoalService } from 'src/app/goal-management/services/logic-handlers/active-goal.service';
+import { GoalButtonActionService } from 'src/app/goal-management/services/logic-handlers/goal-button-action.service';
+import { ViewGoalService } from 'src/app/goal-management/services/logic-handlers/view-goal.service';
+import { GoalModalHandlerService } from 'src/app/goal-management/services/modals/goal-modal-handler.service';
+import { getTimeFormattedString } from 'src/app/shared/utils/utils';
+import { activeGoalPopupWindowState, goalButtonAction, GoalModel, goalStatus } from '../../../models/goal-model';
+import { AddExtraGoalTimeComponent } from '../../add-extra-goal-time/add-extra-goal-time.component';
 
 @Component({
   selector: 'app-view-selected-goal',
@@ -11,18 +17,21 @@ import { activeGoalPopupWindowState, goalButtonAction, GoalModel } from '../../.
 })
 export class ViewSelectedGoalComponent implements OnInit {
   goal!: GoalModel;
-  goalStatus!: string;
+  allowModalClosure!: boolean;
+  goalStatus!: goalStatus;
   progressState: "danger" | "warning" | "success" | "primary" = 'danger'
+  addTimeModalReference!: MdbModalRef<AddExtraGoalTimeComponent>
 
   constructor(
-    private modalRef: MdbModalRef<ViewSelectedGoalComponent>,
+    private viewGoalService: ViewGoalService,
     private activeGoalService: ActiveGoalService,
-    private goalButtonActonService: GoalButtonActionService
+    private goalButtonActonService: GoalButtonActionService,
+    private mdbModalService: GoalModalHandlerService<any>,
+    private goalManagementApiService: GoalManagementService
   ) { }
 
   ngOnInit(): void {
     this.getGoalColor();
-
     this.goalButtonActonService.calculateTaskCompletion(this.goal);
   }
 
@@ -45,8 +54,8 @@ export class ViewSelectedGoalComponent implements OnInit {
     if (this.goal?.goalStatus) this.goalStatus = this.goal?.goalStatus;
   }
 
-  onCloseModal(): void {
-    this.modalRef.close();
+  closeViewGoalModal(): void {
+    this.viewGoalService.closeViewedGoal();
   }
 
   isGoalStarted(): activeGoalPopupWindowState {
@@ -54,10 +63,41 @@ export class ViewSelectedGoalComponent implements OnInit {
   }
 
   onGoalAction(actionType: goalButtonAction, goal: GoalModel) {
-    this.goalButtonActonService.performButtonAction(actionType, goal, this.modalRef);
+    this.goalButtonActonService.performButtonAction({
+      actionType: actionType,
+      goal: goal,
+      modalReference: this.viewGoalService.getViewedGoalModalReference()
+    });
   }
 
   addMoreTime() {
-    this.goalButtonActonService.addMoreGoalTime(this.goal, this.modalRef)
+    this.mdbModalService.openMdbModal<AddExtraGoalTimeComponent>({
+      component: AddExtraGoalTimeComponent,
+      data: null,
+      ignoreBackdropClick: false,
+      width: 50
+    })
+      .onClose.subscribe((userExtraTime: string | null) => {
+        if (userExtraTime) {
+          const [newHours, newMinutes] = userExtraTime.split(':')
+          const [durHours, durMinutes, durSeconds] = this.goal.duration.split(":");
+          const [tmHours, tmMinutes, tmSeconds] = this.goal.timeRemaining.split(":");;
+
+          this.goal.duration = getTimeFormattedString(toNumber(durHours) + toNumber(newHours),
+            toNumber(durMinutes) + toNumber(newMinutes), toNumber(durSeconds));
+
+          this.goal.timeRemaining = getTimeFormattedString(toNumber(tmHours) + toNumber(newHours),
+            toNumber(tmMinutes) + toNumber(newMinutes), toNumber(tmSeconds));
+
+          // Update goal in the database
+          this.goalManagementApiService.updateGoal(this.goal)
+            .subscribe((response: GoalModel) => {
+              console.log(response)
+
+              this.activeGoalService.activateGoalCountDown(this.goal);
+              this.viewGoalService.closeViewedGoal();
+            })
+        }
+      })
   }
 }

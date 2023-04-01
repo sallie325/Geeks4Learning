@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActiveGoalService } from 'src/app/goal-management/services/component-logic/active-goal.service';
-import { ViewGoalService } from 'src/app/goal-management/services/component-logic/view-goal.service';
+import { toNumber } from 'lodash';
+import { ActiveGoalService } from 'src/app/goal-management/services/logic-handlers/active-goal.service';
+import { ViewGoalService } from 'src/app/goal-management/services/logic-handlers/view-goal.service';
+import { goalDangerTime, goalWarningTime, maxToastrTimeout } from 'src/app/shared/constants/goal-boundaries';
+import { ToastrMessagesService } from 'src/app/shared/utils/services/toastr-messages.service';
+import { getSessionStorageValue, setSessionStoragePairs } from 'src/app/shared/utils/utils';
 import { goalStageStatus } from './models/active-goal-model';
 
 @Component({
@@ -14,23 +18,36 @@ export class ActiveGoalCardComponent implements OnInit {
 
   constructor(
     private activeGoalPopupService: ActiveGoalService,
-    private viewGoalService: ViewGoalService
+    private viewGoalService: ViewGoalService,
+    private toastrMessageService: ToastrMessagesService
   ) { }
 
   ngOnInit(): void {
-    this.activeGoalPopupService.getCountDownTimer()
+    this.activeGoalPopupService.getCountDownTimerBehaviourSubject()
       .subscribe((timeRemaining: string) => {
         this.remainingTime = timeRemaining;
 
-        this.changeCardState(this.remainingTime.split(":"))
+        if (this.activeGoalPopupService.getActiveGoalPopupWindowState() === "open")
+          this.changeCardState(this.remainingTime.split(":"))
       })
   }
 
   changeCardState(timeparts: Array<string>): void {
-    const [_h, minutes, _s] = timeparts
+    const [hours, minutes, _s] = timeparts
 
-    if (+minutes < 1) this.activeGoalStatus = "danger"
-    else if (+minutes < 5) this.activeGoalStatus = "warning"
+    if (toNumber(hours) === 0 && toNumber(minutes) < goalDangerTime) {
+      this.activeGoalStatus = "danger";
+
+      if (!getSessionStorageValue("warningShown")) {
+        setSessionStoragePairs("warningShown", 'true')
+        this.toastrMessageService.showWarningMessage(
+          "Time Limit Warning",
+          `Your time for the ${this.activeGoal()?.title} goal is almost up.`,
+          maxToastrTimeout
+        )
+      }
+    }
+    else if (toNumber(hours) === 0 && toNumber(minutes) < goalWarningTime) this.activeGoalStatus = "warning"
     else this.activeGoalStatus = "good"
   }
 

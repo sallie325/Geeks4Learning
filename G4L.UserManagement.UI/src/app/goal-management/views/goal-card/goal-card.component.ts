@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { activeGoalPopupWindowState, GoalModel } from '../../models/goal-model';
-import { ActiveGoalService } from '../../services/component-logic/active-goal.service';
-import { ViewGoalService } from '../../services/component-logic/view-goal.service';
+import { ActiveGoalService } from '../../services/logic-handlers/active-goal.service';
+import { ViewGoalService } from '../../services/logic-handlers/view-goal.service';
 
 @Component({
   selector: 'app-goal-card',
@@ -39,5 +39,9 @@ export class GoalCardComponent implements OnInit {
 
   onCloseGoal(): void {
     this.viewGoalService.closeViewedGoal()
+  }
+
+  getActiveState(): activeGoalPopupWindowState {
+    return this.activeGoalService.getActiveGoalPopupWindowState()
   }
 }
