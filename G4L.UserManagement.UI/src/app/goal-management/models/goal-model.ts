@@ -13,11 +13,17 @@ export interface goalTypes {
   archived: Array<GoalModel>;
 }
 
-export type viewType = "create" | "view";
+export type viewType = 'create' | 'view';
 
-export type goalButtonAction = "start" | "resume" | "complete" | "restore" | "archive" | "pause";
+export type goalButtonAction =
+  | 'start'
+  | 'resume'
+  | 'complete'
+  | 'restore'
+  | 'archive'
+  | 'pause';
 
-export type activeGoalPopupWindowState = "open" | "close"
+export type activeGoalPopupWindowState = 'open' | 'close';
 
 export interface GoalTaskModel {
   id?: number;
@@ -29,7 +35,7 @@ export interface GoalTaskModel {
 export interface GoalCommentModel {
   id?: number;
   comment: string;
-  commentType: "paused" | "archived";
+  commentType: 'paused' | 'archived';
   goalId?: number;
 }
 
@@ -43,7 +49,6 @@ export interface GoalModel {
   pausedCount: number;
   archiveCount: number;
   goalStatus: goalStatus;
-  attendanceId?: string;
   timeRemaining: string;
   userId: string;
 }

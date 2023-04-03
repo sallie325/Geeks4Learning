@@ -38,6 +38,9 @@ namespace G4L.UserManagement.API.Mappers
 
             CreateMap<OrganizerData, OrganizerResponse>().ReverseMap();
             CreateMap<Attendance_Register,Attendance>().ReverseMap();
+
+            CreateMap<Goal, GoalResponse>().ReverseMap();
+            CreateMap<Goal, GoalRequest>().ReverseMap();
         }
     }
 }

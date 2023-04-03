@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
+  HttpErrorResponse,
   HttpEvent,
+  HttpHandler,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpRequest,
 } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { catchError, Observable, throwError } from 'rxjs';
 import { ServerErrorCodes } from '../global/server-error-codes';
 
 @Injectable()
@@ -16,26 +16,26 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   constructor(private toastr: ToastrService) {}
 
-
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return next.handle(request)
-    .pipe(
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
+    return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorObj: any = {};
         if (error.error instanceof ErrorEvent) {
           errorObj = {
             title: 'Client side error',
-            message: `${error.error.message}`
+            message: `${error.error.message}`,
           };
-        }
-        else {
-          console.log("I am error : ", error.error.message)
+        } else {
+          console.log('I am error : ', error);
           this.exceptionObject = JSON.parse(error.error.message);
 
           errorObj = {
             title: 'Server side error',
             errorCode: this.exceptionObject?.ErrorCode,
-            message: `${this.exceptionObject?.Message}`
+            message: `${this.exceptionObject?.Message}`,
           };
         }
 
@@ -52,6 +52,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 
         return throwError(errorObj);
       })
-    )
+    );
   }
 }

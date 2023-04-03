@@ -4,14 +4,16 @@ using G4L.UserManagement.DA;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace G4L.UserManagement.DA.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230330081034_third_migrations")]
+    partial class third_migrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,6 +157,8 @@ namespace G4L.UserManagement.DA.Migrations
 
                     b.HasIndex("AttendanceId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Goals");
                 });
 
@@ -172,6 +176,9 @@ namespace G4L.UserManagement.DA.Migrations
 
                     b.Property<Guid?>("GoalId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("GoalStatus")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -415,6 +422,14 @@ namespace G4L.UserManagement.DA.Migrations
                     b.HasOne("G4L.UserManagement.BL.Entities.Attendance", null)
                         .WithMany("Goals")
                         .HasForeignKey("AttendanceId");
+
+                    b.HasOne("G4L.UserManagement.BL.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("G4L.UserManagement.BL.Entities.GoalComment", b =>
