@@ -29,15 +29,16 @@ namespace G4L.UserManagement.DA.Services
 
         public async Task<GoalResponse> CreateUserGoalAsync(GoalRequest goalRequest)
         {
-            var getGoalRequestedTitle = GetUserGoalsAsync(goalRequest.UserId).Result.Where(goal =>
-            goal.Title.ToLower().Trim() == goalRequest.Title.ToLower().Trim() && goal.GoalStatus != GoalStatus.completed);
 
-            if (getGoalRequestedTitle.ToList().Count() > 0) {
+            var getGoalRequested = await _goalRepository.QueryAsync(
+                goal => goal.Title.ToLower().Trim() == goalRequest.Title.ToLower().Trim() && goal.GoalStatus != GoalStatus.completed);
+
+            if (getGoalRequested != null) {
                 throw new AppException(JsonConvert.SerializeObject(new ExceptionObject
                 {
                     ErrorCode = ServerErrorCodes.DuplicateGoal.ToString(),
-                    Message = "Goal already exists from " + getGoalRequestedTitle.First().GoalStatus.ToString()
-                }));
+                    Message = "Goal already exists from " + getGoalRequested.GoalStatus.ToString()
+                })) ;
             }
             var goal = _mapper.Map<Goal>(goalRequest);
             await _goalRepository.AddAsync(goal);
@@ -65,17 +66,20 @@ namespace G4L.UserManagement.DA.Services
 
         public async Task<GoalResponse> UpdateGoal(GoalRequest goalRequest)
         {
-            if (GetGoal(goalRequest.Id).Result == null)
+
+            var getGoalToUpdate = await _goalRepository.QueryAsync(goal => goal.Id == goalRequest.Id);
+
+            if (getGoalToUpdate == null)
             {
                 throw new AppException(JsonConvert.SerializeObject(new ExceptionObject
                 {
                     ErrorCode = ServerErrorCodes.GoalNotFound.ToString(),
                     Message = "Goal not found"
-                })) ;
+                }));
             }
-            var goal = _mapper.Map<Goal>(goalRequest);
-            await _goalRepository.UpdateAsync(goal);
-            return _mapper.Map<GoalResponse>(goal);
+            var mapGoalRequestToGoal = _mapper.Map<Goal>(goalRequest);
+            await _goalRepository.UpdateAsync(mapGoalRequestToGoal);
+            return _mapper.Map<GoalResponse>(mapGoalRequestToGoal);
         }
 
         
